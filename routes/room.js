@@ -21,6 +21,7 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
     const type = req.body.type;
     const group = await Room.aggregate([
       { $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
+      //{ $match: { db_name:db_name ,vendor_id:'16',client_id:String(client_id)}}
     ]);    
     //res.json(group);
     console.log(group);
@@ -48,6 +49,46 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
   // });
 });
 
+
+router.post('/fetchRoomByVendor', async function(req, res, next) {
+  ///try {
+ // console.log(req.body);
+    const sub_domain = req.body.sub_domain;
+    const client_id = req.body.client_id;
+    const db_name = req.body.db_name;
+    const vendor_id = req.body.vendor_id;
+    const type = req.body.type;
+    const group = await Room.aggregate([
+      //{ $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
+      { $match: { db_name:db_name ,vendor_id:'16',client_id:String(client_id)}}
+    ]);    
+    //res.json(group);
+    console.log(group);
+    //client_id: client_id,sub_domain: sub_domain ,type: type ,user_id: user_id ,
+    // Room.find({ db_name:db_name ,type:type,user_id:user_id,client_id:client_id}, function (err, products) {
+    //   if (err) return next(err);
+    //   res.json(products);
+    // }); 
+    
+        if(!group){
+            return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
+        }else{
+            return res.status(200).json({"roomData":group,"status":true,"statusCode":200})
+        }
+    // } catch (err) {
+    //     res.status(404)
+    //         .send({
+    //             message: err.message,
+    //             statusCode:404
+    //         });
+    // }
+  // Room.find(function (err, products) {
+  //   if (err) return next(err);
+  //   res.json(products);
+  // });
+});
+
+
 /* GET SINGLE ROOM BY ID */
 router.get('/:id', function(req, res, next) {
   Room.findById(req.params.id, function (err, post) {
@@ -58,10 +99,33 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE ROOM */
 router.post('/', function(req, res, next) {
+  console.log(req.body);
+  console.log("ss");
   Room.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+router.post('/createRoom', async function(req, res, next) {
+  //console.log(req.body);
+  const roomData = await Room.aggregate([
+    { $match: { room_name:req.body.room_name}}
+  ]);   
+  if(roomData.length == 0){
+      Room.create(req.body, function (err, post) {
+        if (err){
+          return res.status(404).json({"roomData":{},"status":false,"statusCode":200,'message':err})
+        } else {
+          return res.status(200).json({"roomData":post,"status":false,"statusCode":200,'message':'created sucessfully!'})
+       
+        }
+         //res.json(post);
+      });
+    
+  }else {
+    return res.status(200).json({"roomData":roomData[0],"status":true,"statusCode":200,'message':'already exist!'})
+  }
 });
 
 /* UPDATE ROOM */

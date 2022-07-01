@@ -2,8 +2,13 @@ var mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 var RoomSchema = new mongoose.Schema({
   room_name: String,
+  room_id:String,
+  order_vendor_id:String,
+  order_id:String,
+  vendor_id:String,
   client_id:String,
-  user_id:String,
+  vendor_user_id:String,
+  order_user_id:String,
   sub_domain:String,
   status:{ type: Boolean, default: 1 },
   type:{ type: String, default: 'general' },
