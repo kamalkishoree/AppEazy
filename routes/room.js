@@ -52,15 +52,22 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
 
 router.post('/fetchRoomByVendor', async function(req, res, next) {
   ///try {
- // console.log(req.body);
+  console.log(req.body.vendor_id);
     const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
     const db_name = req.body.db_name;
     const vendor_id = req.body.vendor_id;
     const type = req.body.type;
+    //var obj = ['16','17'];
+    var v_id = vendor_id.map(function(item) {
+      return String(item);
+    });
+    console.log(sub_domain);
+    console.log(type);
     const group = await Room.aggregate([
+      { $match: { vendor_id:{$in:v_id},db_name:db_name ,client_id:String(client_id),type:type,sub_domain:sub_domain}}
       //{ $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
-      { $match: { db_name:db_name ,vendor_id:'16',client_id:String(client_id)}}
+      //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
     ]);    
     //res.json(group);
     console.log(group);
@@ -88,7 +95,50 @@ router.post('/fetchRoomByVendor', async function(req, res, next) {
   // });
 });
 
-
+router.post('/fetchRoomByUserId', async function(req, res, next) {
+  ///try {
+  //console.log(req.body.vendor_id);
+    const sub_domain = req.body.sub_domain;
+    const client_id = req.body.client_id;
+    const db_name = req.body.db_name;
+    const order_user_id = req.body.order_user_id;
+    const type = req.body.type;
+    //var obj = ['16','17'];
+    // var v_id = vendor_id.map(function(item) {
+    //   return String(item);
+    // });
+    console.log(sub_domain);
+    console.log(type);
+    const group = await Room.aggregate([
+      { $match: { order_user_id:String(order_user_id),db_name:db_name ,client_id:String(client_id),type:type,sub_domain:sub_domain}}
+      //{ $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
+      //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
+    ]);    
+    //res.json(group);
+    console.log(group);
+    //client_id: client_id,sub_domain: sub_domain ,type: type ,user_id: user_id ,
+    // Room.find({ db_name:db_name ,type:type,user_id:user_id,client_id:client_id}, function (err, products) {
+    //   if (err) return next(err);
+    //   res.json(products);
+    // }); 
+    
+        if(!group){
+            return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
+        }else{
+            return res.status(200).json({"roomData":group,"status":true,"statusCode":200})
+        }
+    // } catch (err) {
+    //     res.status(404)
+    //         .send({
+    //             message: err.message,
+    //             statusCode:404
+    //         });
+    // }
+  // Room.find(function (err, products) {
+  //   if (err) return next(err);
+  //   res.json(products);
+  // });
+});
 /* GET SINGLE ROOM BY ID */
 router.get('/:id', function(req, res, next) {
   Room.findById(req.params.id, function (err, post) {
