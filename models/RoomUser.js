@@ -16,6 +16,7 @@ var RoomUserSchema = new mongoose.Schema({
   room_id:{ type: Schema.Types.ObjectId, ref: 'Room' },
   room_name:String,
   user_id:String,
+  username:String,
   status:{ type: Boolean, default: 1 },
   created_date: { type: Date, default: Date.now },
 });
