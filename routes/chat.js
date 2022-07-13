@@ -20,8 +20,8 @@ io.on('connection', function (socket) {
     console.log('User disconnected');
   });
   socket.on('save-message', function (data) {
-    console.log("data1");
-    console.log(data);
+    // console.log("data1");
+    // console.log(data);
     io.emit('new-message', { message: data });
   });
 });
@@ -180,10 +180,12 @@ router.post('/joinRoomByID', async function(req, res, next) {
 
 
 router.post('/sendMessageJoin', async function(req, res, next) { 
-  //console.log(req.body);
+  console.log(req.body);
   const roomData = await Room.aggregate([
     { $match: { _id:ObjectId(req.body.room_id)}}
   ]);   
+  let date_obj = new Date();
+ 
   if(roomData[0]!= undefined && roomData[0]!= null){
       var objectData = req.body;
       var userData;
@@ -192,32 +194,29 @@ router.post('/sendMessageJoin', async function(req, res, next) {
       objectData.vendor_user_id = roomData[0].vendor_user_id;
       objectData.order_user_id = roomData[0].order_user_id;
       objectData.order_vendor_id = roomData[0].order_vendor_id;
+      objectData.auth_user_id = req.body.user_id;
       if(objectData.user_type == 'vendor') {
         objectData.user_id = roomData[0].vendor_id;
       }
 
 
       if(objectData.user_type == 'vendor') {
-        //objectData.display_image = objectData.display_image.original;
+        objectData.display_image = objectData.display_image;
          userData = await RoomUser.aggregate([
           { $match: { room_id:ObjectId(req.body.room_id), vendor_user_id:String(req.body.vendor_user_id)}}
         ]);   
+      } else if(objectData.user_type == 'admin') {
+        objectData.display_image = objectData.display_image;
+         userData = await RoomUser.aggregate([
+          { $match: { room_id:ObjectId(req.body.room_id), email:String(req.body.email)}}
+        ]);  
+      
       } else {
-        objectData.display_image = objectData.display_image.original;
+        objectData.display_image = objectData.display_image;
          userData = await RoomUser.aggregate([
           { $match: { room_id:ObjectId(req.body.room_id), user_id:String(req.body.order_user_id)}}
         ]);  
       }
-      // console.log(objectData);
-      // console.log(userData);
-      // return;
-
-
-
-
-      // const userData = await RoomUser.aggregate([
-      //   { $match: { room_id:ObjectId(req.body.room_id), user_id:objectData.user_id}}
-      // ]);   
       if(userData.length == 0){
           
         RoomUser.create(objectData, function (err, roomPost) {
@@ -236,6 +235,7 @@ router.post('/sendMessageJoin', async function(req, res, next) {
               objectData.to_id = roomPost.vendor_id;
               objectData.from_id = roomPost.order_user_id;
               objectData.from_user_id = req.body.user_id;
+              objectData.auth_user_id = roomPost.auth_user_id;
           
               if(objectData.user_type == 'vendor') {
                 objectData.to_id = roomPost.order_user_id;
@@ -248,18 +248,24 @@ router.post('/sendMessageJoin', async function(req, res, next) {
                 if (err){
                   return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
                 }
+                Room.updateOne({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
+                .then(res => {
+                  console.log(res)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+                //Room.updateOne({ _id:ObjectId(req.body.room_id)}, { $set:{updated_date:date_obj}})
                // console.log(io);
                 //io.emit('save-message', {"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'});
                 //res.json(post);
                 return res.status(200).json({"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'})
               });
-            // }else {
-            //   return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
-            // }
+           
           }
-           //res.json(post);
+         
         });
-        //return res.status(200).json({"roomData":[],"status":false,"statusCode":200,'message':'error!'})
+     
       }else {
         var objectRoomData = req.body;
         objectRoomData.room = req.body.room_id;
@@ -282,24 +288,25 @@ router.post('/sendMessageJoin', async function(req, res, next) {
             objectData.from_id = userData[0].vendor_id;
             objectData.from_user_id = userData[0].vendor_user_id;
           }
-      
-          console.log(objectData);
+         
           Chat.create(objectData, function (err, chatD) {
             if (err){
               return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
             }
-            //res.json(post);
-            //io.emit('save-message', {"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'});
+            Room.updateOne({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        
+            
             return res.status(200).json({"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'})
           });
         // }else {
-        //   return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
-        // }
-          
-
-        //return res.status(200).json({"roomData":[],"status":false,"statusCode":200,'message':'error!'})
+      
       }
-      //objectData.room_name = roomData[0].room_name; 
     
     
   }else {

@@ -14,6 +14,8 @@ var RoomSchema = new mongoose.Schema({
   type:{ type: String, default: 'general' },
   db_name:String,
   created_date: { type: Date, default: Date.now },
+  updated_date: { type: Date, default: Date.now },
+
 });
 
 module.exports = mongoose.model('Room', RoomSchema);

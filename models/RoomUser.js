@@ -17,8 +17,11 @@ var RoomUserSchema = new mongoose.Schema({
   room_name:String,
   user_id:String,
   username:String,
+  phone_num:String,
+  auth_user_id:String,
   status:{ type: Boolean, default: 1 },
   created_date: { type: Date, default: Date.now },
+  updated_date: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('RoomUser', RoomUserSchema);

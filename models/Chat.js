@@ -19,6 +19,8 @@ var ChatSchema = new mongoose.Schema({
   from_user_id: String,
   chat_type: String,
   username:String,
+  phone_num:String,
+  auth_user_id:String,
   created_date: { type: Date, default: Date.now },
 });
 
