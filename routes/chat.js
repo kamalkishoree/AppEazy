@@ -180,7 +180,7 @@ router.post('/joinRoomByID', async function(req, res, next) {
 
 
 router.post('/sendMessageJoin', async function(req, res, next) { 
-  console.log(req.body);
+  //console.log(req.body);
   const roomData = await Room.aggregate([
     { $match: { _id:ObjectId(req.body.room_id)}}
   ]);   
@@ -217,6 +217,7 @@ router.post('/sendMessageJoin', async function(req, res, next) {
           { $match: { room_id:ObjectId(req.body.room_id), user_id:String(req.body.order_user_id)}}
         ]);  
       }
+      var roomDataRes = {};
       if(userData.length == 0){
           
         RoomUser.create(objectData, function (err, roomPost) {
@@ -243,23 +244,29 @@ router.post('/sendMessageJoin', async function(req, res, next) {
                 objectData.from_user_id = roomPost.vendor_user_id;
               }
           
-              console.log(objectData);
-              Chat.create(objectData, function (err, chatD) {
+             // console.log(objectData);
+              Chat.create(objectData, async function (err, chatD) {
                 if (err){
-                  return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
+                  return res.status(404).json({"chatData":{}, 'roomData' :roomDataRes , "status":false,"statusCode":200,'message':'No room found!'})
                 }
-                Room.updateOne({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
-                .then(res => {
-                  console.log(res)
+               
+                await  Room.findOneAndUpdate({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
+                .then(async res => {
+                  console.log('308');
+                  //console.log(res)
+                  roomDataRes = await res;
+                  //console.log('ddd',roomDataRes );
+
                 })
                 .catch(err => {
                   console.log(err)
                 })
+                //console.log(roomDataRes , '261');
                 //Room.updateOne({ _id:ObjectId(req.body.room_id)}, { $set:{updated_date:date_obj}})
                // console.log(io);
                 //io.emit('save-message', {"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'});
                 //res.json(post);
-                return res.status(200).json({"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'})
+                return res.status(200).json({"chatData":chatD,'roomData' :roomDataRes,"status":true,"statusCode":200,'message':'sent!'})
               });
            
           }
@@ -289,20 +296,25 @@ router.post('/sendMessageJoin', async function(req, res, next) {
             objectData.from_user_id = userData[0].vendor_user_id;
           }
          
-          Chat.create(objectData, function (err, chatD) {
+          Chat.create(objectData, async function (err, chatD) {
             if (err){
-              return res.status(404).json({"chatData":{},"status":false,"statusCode":200,'message':'No room found!'})
+              return res.status(404).json({"chatData":{}, 'roomData' :roomDataRes,"status":false,"statusCode":200,'message':'No room found!'})
             }
-            Room.updateOne({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
-            .then(res => {
-              console.log(res)
+           await  Room.findOneAndUpdate({ _id: req.body.room_id}, { $set:{updated_date:new Date()} })
+            .then(async res => {
+              console.log('308');
+              //console.log(res)
+              roomDataRes = await res;
+              //console.log('ddd',roomDataRes );
+
             })
             .catch(err => {
               console.log(err)
             })
-        
+           
+            //console.log(roomDataRes['vendor_to_user'] );
             
-            return res.status(200).json({"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'})
+            return res.status(200).json({"chatData":chatD, 'roomData' :roomDataRes ,"status":true,"statusCode":200,'message':'sent!'})
           });
         // }else {
       
