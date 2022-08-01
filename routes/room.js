@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Room = require('../models/Room.js');
+var app = express();
+
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 /* GET ALL ROOMS */
 router.get('/', function(req, res, next) {
@@ -13,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/fetchRoomByClient', async function(req, res, next) {
   ///try {
- // console.log(req.body);
+ // ////console.log(req.body);
      const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
     const db_name = req.body.db_name;
@@ -24,7 +28,7 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
       //{ $match: { db_name:db_name ,vendor_id:'16',client_id:String(client_id)}}
     ]);    
     //res.json(group);
-    console.log(group);
+    ////console.log(group);
     if(!group){
         return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
     }else{
@@ -41,7 +45,7 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
 
 router.post('/fetchAllRoom', async function(req, res, next) {
   ///try {
-  console.log(req.body);
+  //console.log(req.body);
     const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
     const db_name = req.body.db_name;
@@ -84,7 +88,7 @@ router.post('/fetchAllRoom', async function(req, res, next) {
 
 router.post('/fetchRoomByVendor', async function(req, res, next) {
   ///try {
-  console.log(req.body.vendor_id);
+  ////console.log(req.body.vendor_id);
     const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
     const db_name = req.body.db_name;
@@ -94,8 +98,8 @@ router.post('/fetchRoomByVendor', async function(req, res, next) {
     var v_id = vendor_id.map(function(item) {
       return String(item);
     });
-    console.log(sub_domain);
-    console.log(type);
+    ////console.log(sub_domain);
+    ////console.log(type);
     const group = await Room.aggregate([
       { $match: { vendor_id:{$in:v_id},db_name:db_name ,client_id:String(client_id),type:type}},
       { $lookup:
@@ -124,7 +128,7 @@ router.post('/fetchRoomByVendor', async function(req, res, next) {
       //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
     ]);    
     //res.json(group);
-    console.log(group);
+    ////console.log(group);
     
       if(!group){
           return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
@@ -135,8 +139,8 @@ router.post('/fetchRoomByVendor', async function(req, res, next) {
 });
 
 router.post('/fetchRoomByUserId', async function(req, res, next) {
-  ///try {
-  //console.log(req.body.vendor_id);
+  //try {
+  // console.log(req.body);
     const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
     const db_name = req.body.db_name;
@@ -146,10 +150,10 @@ router.post('/fetchRoomByUserId', async function(req, res, next) {
     // var v_id = vendor_id.map(function(item) {
     //   return String(item);
     // });
-    console.log(sub_domain);
-    console.log(type);
+    ////console.log(sub_domain);
+    ////console.log(type);
     const group = await Room.aggregate([
-      { $match: { order_user_id:String(order_user_id),db_name:db_name ,client_id:String(client_id),type:type}},
+      { $match: { order_user_id:String(order_user_id),db_name:String(db_name) ,client_id:String(client_id),type:String(type)}},
       { $lookup:
         {
           from: 'roomusers',
@@ -176,24 +180,20 @@ router.post('/fetchRoomByUserId', async function(req, res, next) {
       //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
     ]);    
     //res.json(group);
-    console.log(group);
+    ////console.log(group);
     //client_id: client_id,sub_domain: sub_domain ,type: type ,user_id: user_id ,
     // Room.find({ db_name:db_name ,type:type,user_id:user_id,client_id:client_id}, function (err, products) {
     //   if (err) return next(err);
     //   res.json(products);
     // }); 
-    
+    //console.log(group);
         if(!group){
             return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
         }else{
             return res.status(200).json({"roomData":group,"status":true,"statusCode":200})
         }
     // } catch (err) {
-    //     res.status(404)
-    //         .send({
-    //             message: err.message,
-    //             statusCode:404
-    //         });
+    //   return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
     // }
   // Room.find(function (err, products) {
   //   if (err) return next(err);
@@ -210,8 +210,8 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE ROOM */
 router.post('/', function(req, res, next) {
-  console.log(req.body);
-  console.log("ss");
+  ////console.log(req.body);
+  ////console.log("ss");
   Room.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -219,15 +219,18 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/createRoom', async function(req, res, next) {
-  //console.log(req.body);
+  //////console.log(req.body);
   const roomData = await Room.aggregate([
     { $match: { room_name:req.body.room_name}}
   ]);   
   if(roomData.length == 0){
+    ////console.log("here");
       Room.create(req.body, function (err, post) {
         if (err){
           return res.status(404).json({"roomData":{},"status":false,"statusCode":200,'message':err})
         } else {
+          ////console.log("here25262");
+          //io.emit('room-created', {"roomData":post,"status":true,"statusCode":200,'message':'sent!'});
           return res.status(200).json({"roomData":post,"status":false,"statusCode":200,'message':'created sucessfully!'})
        
         }
@@ -253,6 +256,55 @@ router.delete('/:id', function(req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+
+
+router.post('/fetchRoomByUserAgent', async function(req, res, next) {
+  ///try {
+ // console.log(req.body);
+    const sub_domain = req.body.sub_domain;
+    const client_id = req.body.client_id;
+    const db_name = req.body.db_name;
+    const agent_id = req.body.agent_id;
+    const agent_db = req.body.agent_db;
+    const type = req.body.type;
+    const group = await Room.aggregate([
+      { $match: { agent_id:String(agent_id),agent_db:String(agent_db),client_id:String(client_id),type:String(type)}},
+      { $lookup:
+        {
+          from: 'roomusers',
+          localField: '_id',
+          foreignField: 'room_id',
+          as: 'user_Data'
+        }
+      },
+
+      { $lookup:
+        {
+          from: 'chats',
+          localField: '_id',
+          foreignField: 'room',
+          as: 'chat_Data'
+        }
+      },
+      { "$addFields": {
+        "chat_Data": { "$slice": ["$chat_Data", -1] }
+      }},
+   
+    { "$sort": { "updated_date" : -1 } } 
+      //{ $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
+      //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
+    ]);    
+    //res.json(group);
+    ////console.log(group);
+    
+      if(!group){
+          return res.status(404).json({"roomData":{},"status":false,"statusCode":200})
+      }else{
+          return res.status(200).json({"roomData":group,"status":true,"statusCode":200})
+      }
+  
 });
 
 module.exports = router;

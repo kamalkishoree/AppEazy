@@ -10,6 +10,8 @@ var RoomSchema = new mongoose.Schema({
   vendor_user_id:String,
   order_user_id:String,
   sub_domain:String,
+  agent_id:String,
+  agent_db:String,
   status:{ type: Boolean, default: 1 },
   type:{ type: String, default: 'general' },
   db_name:String,

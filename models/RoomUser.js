@@ -6,6 +6,7 @@ var RoomUserSchema = new mongoose.Schema({
   room_id:String,
   order_vendor_id:String,
   order_id:String,
+  agent_id:String,
   vendor_id:String,
   client_id:String,
   vendor_user_id:String,
