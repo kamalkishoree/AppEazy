@@ -15,6 +15,8 @@ var RoomSchema = new mongoose.Schema({
   status:{ type: Boolean, default: 1 },
   type:{ type: String, default: 'general' },
   db_name:String,
+  product_id:String,
+  p2p_id:String,
   created_date: { type: Date, default: Date.now },
   updated_date: { type: Date, default: Date.now },
 

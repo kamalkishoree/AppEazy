@@ -183,6 +183,61 @@ router.post('/fetchRoomByUserId', async function(req, res, next) {
   //   res.json(products);
   // });
 });
+
+router.post('/fetchRoomByUserIdUserToUser', async function(req, res, next) {
+  try {
+  //console.log(req.body);
+    const sub_domain = req.body.sub_domain;
+    const client_id = req.body.client_id;
+    const db_name = req.body.db_name;
+    const order_user_id = req.body.order_user_id;
+    const type = req.body.type;
+    const p2p_id = req.body.p2p_id;
+
+    const group = await Room.aggregate([
+      { $match: { db_name:String(db_name) ,type:String(type), $or: [{ p2p_id: String(p2p_id) }, { order_user_id: String(order_user_id) }]}},
+
+      //{ $match: { order_user_id:String(order_user_id),db_name:String(db_name) ,type:String(type),$or: [ { p2p_id: { $lt: p2p_id } } ]}},
+      //{ $match: { order_user_id:"174",db_name:"salesdemo" ,client_id:'1',type:"agent_to_user"}},
+      { $lookup:
+        {
+          from: 'roomusers',
+          localField: '_id',
+          foreignField: 'room_id',
+          as: 'user_Data'
+        }
+      },
+
+      { $lookup:
+        {
+          from: 'chats',
+          localField: '_id',
+          foreignField: 'room',
+          as: 'chat_Data'
+        }
+      },
+      { "$addFields": {
+        "chat_Data": { "$slice": ["$chat_Data", -1] }
+      }},
+   
+    { "$sort": { "updated_date" : -1 } } 
+      //{ $match: { db_name:db_name ,type:type,user_id: user_id ,client_id:String(client_id)}}
+      //{ $match: { db_name:db_name ,client_id:String(client_id) , vendor_id:{$in:['16']}}}
+    ]);    
+    
+        if(!group){
+            return res.status(200).json({"roomData":{},"status":false,"statusCode":200})
+        }else{
+            return res.status(200).json({"roomData":group,"status":true,"statusCode":200})
+        }
+    } catch (err) {
+      return res.status(200).json({"roomData":{},"status":false,"error":err,"statusCode":200})
+    }
+  // Room.find(function (err, products) {
+  //   if (err) return next(err);
+  //   res.json(products);
+  // });
+});
 /* GET SINGLE ROOM BY ID */
 router.get('/:id', function(req, res, next) {
   Room.findById(req.params.id, function (err, post) {
