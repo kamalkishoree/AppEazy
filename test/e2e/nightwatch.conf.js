@@ -23,7 +23,7 @@ module.exports = {
       selenium_host: 'localhost',
       silent: true,
       globals: {
-        devServerURL: 'https://chat.royoorders.com:' + (process.env.PORT || config.dev.port)
+        devServerURL: '/:' + (process.env.PORT || config.dev.port)
       }
     },
 

@@ -59,7 +59,7 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      axios.post(`https://chat.royoorders.com/api/room`, this.room)
+      axios.post(`/api/room`, this.room)
       .then(response => {
         this.$router.push({
           name: 'RoomList'

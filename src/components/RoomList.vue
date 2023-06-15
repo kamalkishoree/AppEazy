@@ -37,7 +37,7 @@ export default {
     }
   },
   created () {
-    axios.get(`https://chat.royoorders.com/api/room`)
+    axios.get(`/api/room`)
     .then(response => {
       this.rooms = response.data
     })

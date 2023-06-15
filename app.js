@@ -5,8 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var room = require('./routes/room');
-var chat = require('./routes/chat');
+var room = require('./routes/roomRoute');
+var chat = require('./routes/chatRoute');
 var app = express();
 
 var mongoose = require('mongoose');

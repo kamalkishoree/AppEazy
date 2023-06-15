@@ -61,11 +61,11 @@ export default {
       errors: [],
       nickname: this.$route.params.nickname,
       chat: {},
-      socket: io('https://chat.royoorders.com')
+      socket: io('/')
     }
   },
   created () {
-    axios.get(`https://chat.royoorders.com/api/chat/` + this.$route.params.id)
+    axios.get(`/api/chat/` + this.$route.params.id)
     .then(response => {
       this.chats = response.data
     })
@@ -90,7 +90,7 @@ export default {
       evt.preventDefault()
       this.chat.room = this.$route.params.id
       this.chat.nickname = this.$route.params.nickname
-      axios.post(`https://chat.royoorders.com/api/chat`, this.chat)
+      axios.post(`/api/chat`, this.chat)
       .then(response => {
         this.socket.emit('save-message', response.data)
         this.chat.message = ''

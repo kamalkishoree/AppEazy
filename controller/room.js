@@ -8,16 +8,15 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 /* GET ALL ROOMS */
-router.get('/', function(req, res, next) {
-  Room.find(function (err, products) {
-    if (err) return next(err);
-    res.json(products);
-  });
-});
+const getRooms = ((req, res) => {
+      Room.find(function (err, products) {
+        if (err) return next(err);
+        return res.json(products);
+      });
+})
 
-router.post('/fetchRoomByClient', async function(req, res, next) {
+const fetchRoomByClient = (async(req, res) => {
   try {
- // ////console.log(req.body);
       const sub_domain = req.body.sub_domain;
       const client_id = req.body.client_id;
       const db_name = req.body.db_name;
@@ -37,7 +36,7 @@ router.post('/fetchRoomByClient', async function(req, res, next) {
     }
 });
 
-router.post('/fetchAllRoom', async function(req, res, next) {
+const fetchAllRoom = (async(req, res,next) => {
   try {
       const sub_domain = req.body.sub_domain;
       const client_id = req.body.client_id;
@@ -78,11 +77,11 @@ router.post('/fetchAllRoom', async function(req, res, next) {
   } catch (err) {
       return res.status(200).json({"roomData":{},"status":true,"error":err,"statusCode":200})
   }
- 
 });
 
 
-router.post('/fetchRoomByVendor', async function(req, res, next) {
+const fetchRoomByVendor = (async(req, res,next) => {
+
   try {
     const sub_domain = req.body.sub_domain;
     const client_id = req.body.client_id;
@@ -132,7 +131,8 @@ router.post('/fetchRoomByVendor', async function(req, res, next) {
   
 });
 
-router.post('/fetchRoomByUserId', async function(req, res, next) {
+const fetchRoomByUserId = (async(req, res,next) => {
+
   try {
   //console.log(req.body);
     const sub_domain = req.body.sub_domain;
@@ -184,7 +184,8 @@ router.post('/fetchRoomByUserId', async function(req, res, next) {
   // });
 });
 
-router.post('/fetchRoomByUserIdUserToUser', async function(req, res, next) {
+
+const fetchRoomByUserIdUserToUser = (async(req, res,next) => {
   try {
   //console.log(req.body);
     const sub_domain = req.body.sub_domain;
@@ -238,8 +239,40 @@ router.post('/fetchRoomByUserIdUserToUser', async function(req, res, next) {
   //   res.json(products);
   // });
 });
+
+//
+const createRoom = (async(req, res,next) => {
+  console.log("req.body.room_name");
+  console.log(req.body);
+ try {
+   const roomData = await Room.aggregate([
+     { $match: { room_name:req.body.room_name}}
+   ]);   
+   if(roomData.length == 0){
+     ////console.log("here");
+       Room.create(req.body, function (err, post) {
+         if (err){
+           return res.status(200).json({"roomData":{},"status":false,"statusCode":200,'message':err})
+         } else {
+           ////console.log("here25262");
+           //io.emit('room-created', {"roomData":post,"status":true,"statusCode":200,'message':'sent!'});
+           return res.status(200).json({"roomData":post,"status":false,"statusCode":200,'message':'created sucessfully!'})
+       
+         }
+         //res.json(post);
+       });
+     
+   }else {
+     return res.status(200).json({"roomData":roomData[0],"status":true,"statusCode":200,'message':'already exist!'})
+   }
+ } catch (err) {
+   return res.status(200).json({"roomData":{},"status":false,"error":err,"statusCode":200})
+ }
+});
+
 /* GET SINGLE ROOM BY ID */
-router.get('/:id', function(req, res, next) {
+
+const getSingleRoomById = (async(req, res,next) => {
   Room.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -247,44 +280,15 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* SAVE ROOM */
-router.post('/', function(req, res, next) {
+const saveRoom = (async(req, res,next) => {
   Room.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-router.post('/createRoom', async function(req, res, next) {
-   console.log("req.body.room_name");
-   console.log(req.body);
-  try {
-    const roomData = await Room.aggregate([
-      { $match: { room_name:req.body.room_name}}
-    ]);   
-    if(roomData.length == 0){
-      ////console.log("here");
-        Room.create(req.body, function (err, post) {
-          if (err){
-            return res.status(200).json({"roomData":{},"status":false,"statusCode":200,'message':err})
-          } else {
-            ////console.log("here25262");
-            //io.emit('room-created', {"roomData":post,"status":true,"statusCode":200,'message':'sent!'});
-            return res.status(200).json({"roomData":post,"status":false,"statusCode":200,'message':'created sucessfully!'})
-        
-          }
-          //res.json(post);
-        });
-      
-    }else {
-      return res.status(200).json({"roomData":roomData[0],"status":true,"statusCode":200,'message':'already exist!'})
-    }
-  } catch (err) {
-    return res.status(200).json({"roomData":{},"status":false,"error":err,"statusCode":200})
-  }
-});
-
 /* UPDATE ROOM */
-router.put('/:id', function(req, res, next) {
+const updateRoom = (async(req, res,next) => {
   Room.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -292,16 +296,14 @@ router.put('/:id', function(req, res, next) {
 });
 
 /* DELETE ROOM */
-router.delete('/:id', function(req, res, next) {
+const deleteRoom = (async(req, res,next) => {
   Room.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-
-
-router.post('/fetchRoomByUserAgent', async function(req, res, next) {
+const fetchRoomByUserAgent = (async(req, res,next) => {
   try {
     console.log(req.body);
     const sub_domain = req.body.sub_domain;
@@ -351,4 +353,18 @@ router.post('/fetchRoomByUserAgent', async function(req, res, next) {
   
 });
 
-module.exports = router;
+module.exports = {
+  getRooms,
+  fetchRoomByClient,
+  fetchRoomByClient,
+  fetchAllRoom,
+  fetchRoomByVendor,
+  fetchRoomByUserId,
+  fetchRoomByUserIdUserToUser,
+  getSingleRoomById,
+  saveRoom,
+  updateRoom,
+  deleteRoom,
+  fetchRoomByUserAgent,
+  createRoom
+}

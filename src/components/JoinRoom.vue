@@ -43,7 +43,7 @@ export default {
   data () {
     return {
       chat: {},
-      socket: io('https://chat.royoorders.com')
+      socket: io('/')
     }
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
       this.chat.room = this.$route.params.id
       this.chat.message = this.chat.nickname + ' join the room'
       console.log(this.chat)
-      axios.post(`https://chat.royoorders.com/api/chat/joinRoom`, this.chat)
+      axios.post(`/api/chat/joinRoom`, this.chat)
       .then(response => {
         console.log(response);
         console.log("response");

@@ -17,6 +17,7 @@ const {
 } = require('../Helper/helper');
 // Socket IO
 server.listen(8081);
+
 var so = '';
 io.on('connection', function (socket) {
  ////console.log('User connected');
@@ -27,29 +28,23 @@ io.on('connection', function (socket) {
 
   socket.on('joinRoom', (data) => {
     const user = newUser(socket.id, data.email, data.roomId);
-
     socket.join(user.roomId);
-   
     io.to(user.room).emit('roomUsers', {
       room: user.room,
       users:user.room
     });
   });
-
-  
   socket.on('save-message', function (data) {
     io.emit('new-message', { message: data });
     io.emit('new-app-message', { message: data });
     //io.to(data.chatData._id).emit('new-message', { message: data });
   });
-
   socket.on('created', function (data) {
-  
   });
 });
 
 /* GET ALL CHATS */
-router.get('/:roomid', function(req, res, next) {
+const getChatByRoomId = (async(req, res,next) => {
   Chat.find({ room: req.params.roomid }, function (err, products) {
     if (err) return next(err);
     res.json(products);
@@ -57,7 +52,7 @@ router.get('/:roomid', function(req, res, next) {
 });
 
 /* GET SINGLE CHAT BY ID */
-router.get('/:id', function(req, res, next) {
+const getChatById = (async(req, res,next) => {
   Chat.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -65,14 +60,14 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* SAVE CHAT */
-router.post('/', function(req, res, next) {
+const saveChat = (async(req, res,next) => {
   Chat.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-router.post('/sendMessage', async function(req, res, next) {
+const sendMessage = (async(req, res,next) => {
  ////console.log(req.body);
  try{
       var userData;
@@ -125,7 +120,7 @@ router.post('/sendMessage', async function(req, res, next) {
  
 });
 
-router.post('/joinRoom', async function(req, res, next) { 
+const joinRoom = (async(req, res,next) => {
   //console.log(req.body);
   try{
       const roomData = await Room.aggregate([
@@ -155,7 +150,7 @@ router.post('/joinRoom', async function(req, res, next) {
   }
 });
 
-router.post('/joinRoomByID', async function(req, res, next) { 
+const joinRoomByID = (async(req, res,next) => {
   //console.log(req.body);
   try{
       const roomData = await Room.aggregate([
@@ -212,8 +207,7 @@ router.post('/joinRoomByID', async function(req, res, next) {
     }
 });
 
-
-router.post('/sendMessageJoin', async function(req, res, next) { 
+const sendMessageJoin = (async(req, res,next) => {
   console.log(req.body);
  try {
       const roomData = await Room.aggregate([
@@ -402,7 +396,7 @@ router.post('/sendMessageJoin', async function(req, res, next) {
 });
 
 /* UPDATE CHAT */
-router.put('/:id', function(req, res, next) {
+const updateChat = (async(req, res,next) => {
   Chat.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -410,16 +404,15 @@ router.put('/:id', function(req, res, next) {
 });
 
 /* DELETE CHAT */
-router.delete('/:id', function(req, res, next) {
+const deleteChat = (async(req, res,next) => {
   Chat.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-
-
-router.get('/getRoomUser/:roomId', async function(req, res, next) { 
+/*  FETCH ROOM USER BY ROOM ID */
+const getRoomUserByRoomId = (async(req, res,next) => {
   //console.log(req.body);
   try{ 
       const roomData = await RoomUser.aggregate([
@@ -437,4 +430,16 @@ router.get('/getRoomUser/:roomId', async function(req, res, next) {
     }
   
 });
-module.exports = router;
+
+module.exports = {
+  getChatByRoomId,
+  getChatById,
+  saveChat,
+  sendMessage,
+  joinRoom,
+  updateChat,
+  deleteChat,
+  getRoomUserByRoomId,
+  joinRoomByID,
+  sendMessageJoin
+};
