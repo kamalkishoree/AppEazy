@@ -17,6 +17,9 @@ var RoomSchema = new mongoose.Schema({
   db_name:String,
   product_id:String,
   p2p_id:String,
+  vendor_name:String,
+  product_name:String,
+  product_price:String,
   created_date: { type: Date, default: Date.now },
   updated_date: { type: Date, default: Date.now },
 
