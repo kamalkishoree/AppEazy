@@ -11,7 +11,7 @@ var app = express();
 
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost:27017/mevn-chat', { useNewUrlParser: true, promiseLibrary: require('bluebird') })
+mongoose.connect('mongodb://devchatuser:kjenbci43f0943ujfoi4309fu43j@localhost:27017/mevn-chat', { useNewUrlParser: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
