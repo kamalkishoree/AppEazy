@@ -8,7 +8,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 /* GET ALL ROOMS */
-const getRooms = ((req, res) => {
+const getRooms = ((req, res,next) => {
       Room.find(function (err, products) {
         if (err) return next(err);
         return res.json(products);

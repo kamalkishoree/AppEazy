@@ -24,9 +24,11 @@ var ChatSchema = new mongoose.Schema({
   agent_id:String,
   user: { type: Schema.Types.ObjectId },
   created_date: { type: Date, default: Date.now },
-  isMedia: {type: Boolean, default: false},
+  is_media: {type: Boolean, default: false},
   mediaUrl: {type: String, default: null},
-  thumbnail: {type: String, default: null},
+  thumbnailUrl: {type: String, default: null},
+  mediaType: {type: String, default: null},
+
 });
 
 module.exports = mongoose.model('Chat', ChatSchema);
