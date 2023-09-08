@@ -295,6 +295,22 @@ const updateRoom = (async(req, res,next) => {
   });
 });
 
+/* UPDATE ROOM */
+const raiseAnIssue = (async(req, res,next) => {
+
+    await  Room.findOneAndUpdate({ _id: req.params.id}, { $set:{isRaiseIssue:req.body.isRaiseIssue} })
+    .then(async res => {
+        res.json({status:true});
+
+    })
+    .catch(err => {
+      res.json({status:true});  
+    })
+});
+
+
+
+
 /* DELETE ROOM */
 const deleteRoom = (async(req, res,next) => {
   Room.findByIdAndRemove(req.params.id, req.body, function (err, post) {
@@ -366,5 +382,6 @@ module.exports = {
   updateRoom,
   deleteRoom,
   fetchRoomByUserAgent,
-  createRoom
+  createRoom,
+  raiseAnIssue
 }

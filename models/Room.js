@@ -20,6 +20,7 @@ var RoomSchema = new mongoose.Schema({
   vendor_name:String,
   product_name:String,
   product_price:String,
+  isRaiseIssue:{ type: Boolean, default: 0 },
   created_date: { type: Date, default: Date.now },
   updated_date: { type: Date, default: Date.now },
 

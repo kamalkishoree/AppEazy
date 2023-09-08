@@ -13,7 +13,8 @@ const  {
     saveRoom,
     updateRoom,
     deleteRoom,
-    fetchRoomByUserAgent
+    fetchRoomByUserAgent,
+    raiseAnIssue
 } = require('../controller/room')
 
 
@@ -29,6 +30,9 @@ router.post('/', saveRoom);
 router.put('/:id', updateRoom);
 router.delete('/:id', deleteRoom);
 router.post('/fetchRoomByUserAgent',fetchRoomByUserAgent)
+router.put('/raiseanissue/:id',raiseAnIssue)
+
+
 
 
 module.exports = router
