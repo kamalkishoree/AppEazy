@@ -1,4 +1,35 @@
+
+var express = require('express');
+
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+//console.log(io);
+server.listen(8081);
 const users = [];
+
+
+io.on('connection', function (socket) {
+console.log(socket.handshake.query);
+socket.on('joinRoom', (data) => {
+    const user = newUser(socket.id, data.email, data.roomId);
+    socket.join(user.roomId);
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users:user.room
+    });
+  });
+  socket.on('save-message', function (data) {
+    io.emit('new-message', { message: data });
+    io.emit('new-app-message', { message: data });
+    //io.to(data.chatData._id).emit('new-message', { message: data });
+  });
+});
+
+function getIO() {
+  //console.log(io);
+  return io;
+}
 
 // Join user to chat
 function newUser(id, email, room) {
@@ -29,6 +60,7 @@ function getIndividualRoomUsers(room) {
 }
 
 module.exports = {
+  getIO,
   newUser,
   getActiveUser,
   exitRoom,

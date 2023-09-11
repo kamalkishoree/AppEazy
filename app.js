@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var room = require('./routes/roomRoute');
 var chat = require('./routes/chatRoute');
+var UserLocation = require('./routes/userRoute');
+
 var app = express();
 
 var mongoose = require('mongoose');
@@ -22,12 +24,15 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/rooms', express.static(path.join(__dirname, 'dist')));
 app.use('/api/room', room);
 app.use('/api/chat', chat);
-
+app.use('/api/agent', UserLocation);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// var server = require('http').createServer(app);
+// global.ioSocket = require('socket.io')(server);
+// server.listen(8081);
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

@@ -1,47 +1,19 @@
 var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
 var {ObjectId} = require('mongodb');
 
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 var Chat = require('../models/Chat.js');
 var RoomUser = require('../models/RoomUser.js');
 var Room = require('../models/Room.js');
 const {
-  getActiveUser,
-  exitRoom,
-  newUser,
-  getIndividualRoomUsers
+  getIO
 } = require('../Helper/helper');
+const sokio = getIO();
 // Socket IO
-server.listen(8081);
+//server.listen(8081);
 
-var so = '';
-io.on('connection', function (socket) {
- ////console.log('User connected');
-  so = socket;
-  socket.on('disconnect', function() {
-   ////console.log('User disconnected');
-  });
 
-  socket.on('joinRoom', (data) => {
-    const user = newUser(socket.id, data.email, data.roomId);
-    socket.join(user.roomId);
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users:user.room
-    });
-  });
-  socket.on('save-message', function (data) {
-    io.emit('new-message', { message: data });
-    io.emit('new-app-message', { message: data });
-    //io.to(data.chatData._id).emit('new-message', { message: data });
-  });
-  socket.on('created', function (data) {
-  });
-});
 
 /* GET ALL CHATS */
 const getChatByRoomId = (async(req, res,next) => {
@@ -269,7 +241,7 @@ const sendMessageJoin = (async(req, res,next) => {
               } else {
               
                 //if(userData.length > 0){
-                  //io.emit('room-created', {'roomData' :roomPost,"status":true,"statusCode":200,'message':'sent!'});
+                  //sokio.emit('room-created', {'roomData' :roomPost,"status":true,"statusCode":200,'message':'sent!'});
                 
                   objectData.room = roomPost.room_id;
                   objectData.room_name = roomPost.room_name;
@@ -307,7 +279,7 @@ const sendMessageJoin = (async(req, res,next) => {
                         }},
                       ]);   
                     //console.log('here');
-                      io.emit('room-created', {'roomData' :roomData1,"status":true,"statusCode":200,'message':'sent!'});
+                      sokio.emit('room-created', {'roomData' :roomData1,"status":true,"statusCode":200,'message':'sent!'});
                     } 
                     if (err){
                       return res.status(200).json({"chatData":{}, 'roomData' :roomDataRes , "status":false,"statusCode":200,'message':'No room found!'})
@@ -328,7 +300,7 @@ const sendMessageJoin = (async(req, res,next) => {
                     //console.log(roomDataRes , '261');
                     //Room.updateOne({ _id:ObjectId(req.body.room_id)}, { $set:{updated_date:date_obj}})
                   //////console.log(io);
-                    //io.emit('save-message', {"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'});
+                    //sokio.emit('save-message', {"chatData":chatD,"status":true,"statusCode":200,'message':'sent!'});
                     //res.json(post);
                     return res.status(200).json({"chatData":chatD,'roomData' :roomDataRes,'new':true,"status":true,"statusCode":200,'message':'sent!'})
                   });
@@ -378,7 +350,7 @@ const sendMessageJoin = (async(req, res,next) => {
               
                 //console.log(roomDataRes['vendor_to_user'] );
               ////console.log('fff');
-                //io.emit('room-created', {"roomData":roomDataRes,"status":true,"statusCode":200,'message':'sent!'});
+                //sokio.emit('room-created', {"roomData":roomDataRes,"status":true,"statusCode":200,'message':'sent!'});
 
                 return res.status(200).json({"chatData":chatD, 'new':true,'roomData' :roomDataRes ,"status":true,"statusCode":200,'message':'sent!'})
               });
