@@ -5,35 +5,63 @@ const {
   getIO
 } = require('../Helper/helper');
 
+getIO().on('connection', function (socket) {
+  //console.log(socket);
+    socket.on('save-user-location', function (data) {
+      //console.log(data);
+      req = {
+        body:data
+      };
+      return saveAgentLocation(req);
+    });
+  });
 
 const saveAgentLocation = async (req, res, next) => {
-  const objectData = {
-    agent_id: req.body.agent_id,
-    short_code: req.body.short_code,
-    lat: req.body.lat,
-    lng: req.body.lng,
-    order_id: req.body.order_id,
-    status: req.body.status,
-  };
-
-  try {
+   try {
+    const objectData = {
+      agent_id: req.body.agent_id,
+      short_code: req.body.short_code,
+      lat: req.body.lat,
+      lng: req.body.lng,
+      order_id: req.body.order_id,
+      status: req.body.status??'running',
+    };
     const locD = await UserLocation.create(objectData);
     getIO().emit(`agent-location-${locD.agent_id}`, locD);
-
-    res.status(200).json({
-      data: locD,
-      status: true,
-      statusCode: 200,
-      message: 'Location saved successfully',
-    });
+    if(res){
+      res.status(200).json({
+        data: locD,
+        status: true,
+        statusCode: 200,
+        message: 'Location saved successfully',
+      });
+    } else{
+      return  {
+        data: locD,
+        status: true,
+        statusCode: 200,
+        message: 'Location saved successfully',
+      };
+    }
+   
   } catch (err) {
     console.error(err);
-    res.status(500).json({
-      data: {},
-      status: false,
-      statusCode: 500,
-      message: 'Internal server error',
-    });
+    if(res){
+      res.status(500).json({
+        data: {},
+        status: false,
+        statusCode: 500,
+        message: 'Internal server error',
+      });
+    } else{
+      return  {
+        data: {},
+        status: false,
+        statusCode: 500,
+        message: 'Internal server error',
+      };
+    }
+    
   }
 };
 

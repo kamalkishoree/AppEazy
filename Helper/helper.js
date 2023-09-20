@@ -8,9 +8,8 @@ var io = require('socket.io')(server);
 server.listen(8081);
 const users = [];
 
-
 io.on('connection', function (socket) {
-console.log(socket.handshake.query);
+//console.log(socket);
 socket.on('joinRoom', (data) => {
     const user = newUser(socket.id, data.email, data.roomId);
     socket.join(user.roomId);
@@ -24,6 +23,7 @@ socket.on('joinRoom', (data) => {
     io.emit('new-app-message', { message: data });
     //io.to(data.chatData._id).emit('new-message', { message: data });
   });
+
 });
 
 function getIO() {

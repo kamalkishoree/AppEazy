@@ -25,6 +25,8 @@ app.use('/rooms', express.static(path.join(__dirname, 'dist')));
 app.use('/api/room', room);
 app.use('/api/chat', chat);
 app.use('/api/agent', UserLocation);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
