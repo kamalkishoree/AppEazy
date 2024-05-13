@@ -11,24 +11,24 @@ class CreateOrderWaitTimeLogsTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('order_wait_time_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id');
-            $table->string('wait_time');
-            $table->float('amount');
-            $table->timestamps();
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('order_wait_time_logs', function (Blueprint $table) {
+    //         $table->id();
+    //         $table->foreignId('order_id');
+    //         $table->string('wait_time');
+    //         $table->float('amount');
+    //         $table->timestamps();
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('order_wait_time_logs');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('order_wait_time_logs');
+    // }
 }

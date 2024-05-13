@@ -17,7 +17,7 @@ class FormAttributeController extends Controller
         $attribute_id =  $request->has('attribute_id') ?  $request->attribute_id :0;
         $attribute = [];
         $returnHTML = view('attributes.add-attribute')->with(['for'=>$for])->render();
-        
+
         if($attribute_id !=0){
             $attribute = $this->getAttributeForm($request,$attribute_id);
             $returnHTML = view('attributes.edit-attribute')->with(['for'=>$for,'attribute'=>$attribute])->render();
@@ -28,8 +28,8 @@ class FormAttributeController extends Controller
 
     public function store(Request $request)
     {
-    
-      
+
+
         $variant = FormAttribute::where('id',@$request->attribute_id)->first() ?? new FormAttribute();
         $variant->title = (!empty($request->title[0])) ? $request->title[0] : '';
         $variant->type = $request->type;
@@ -51,7 +51,7 @@ class FormAttributeController extends Controller
             foreach ($request->hexacode as $key => $value) {
                 $opt_id = ($request->opt_id && isset($request->opt_id[0]) && isset($request->opt_id[0][$key] ) ) ? @$request->opt_id[0][$key] : '';
 
-               
+
                 $varOpt = FormAttributeOption::where(['attribute_id'=> $variant->id,'id'=>$opt_id  ])->first() ??  new FormAttributeOption();
                 $varOpt->title = @$request->opt_color[0][$key];
                 $varOpt->attribute_id = $variant->id;
@@ -73,24 +73,90 @@ class FormAttributeController extends Controller
             $msg = __( 'Driver Reviwes Question added successfully!');
         }
         return redirect()->back()->with('success',$msg);
-        
+
     }
 
     public function delete($domain = '', $id){
         try{
             FormAttribute::where('id', $id)->update(['status'=>2]);
-            return response()->json([
-                'status'=>'success',
-                'message' => __('Deleted successfully!'),
-                'data' => []
-            ]);
+            return redirect()->back()->with('success', 'Attribute updated successfully!');
+
         } catch (Exception $e) {
+
             return response()->json([
                 'status'=>'error',
                 'message' => $e->getCode(),
                 'data' => []
             ]);
         }
-        
+
     }
+
+    public function edit($domain = '',$id)
+    {
+        try{
+
+            $attribute = FormAttribute::find($id);
+            if (!$attribute) {
+                return response()->json([
+                'success' => false,
+                'message' => 'Attribute not found.'
+                ], 404);
+            }
+        $submitUrl = route('attribute.update', $id);
+
+        $returnHTML = view('attributes.edit-attribute')->with(['attribute'=>$attribute])->render();
+        return response()->json(array('success' => true, 'html'=>$returnHTML, 'submitUrl' => $submitUrl));
+
+        }catch(\exception $e){
+            return response()->json(["Error"=>$e->getMessage()]);
+        }
+}
+
+
+    public function update(Request $request,$domain='', $id){
+    try {
+        $attribute = FormAttribute::find($id);
+        if ($attribute) {
+            $attribute->title = $request->title[0];
+
+            if ($request->option_ids) {
+                $existingOptionIDs = $request->option_ids;
+                FormAttributeOption::where('attribute_id', $attribute->id)
+                    ->whereNotIn('id', $existingOptionIDs)
+                    ->delete();
+
+                foreach ($request->option_ids as $key => $optionID) {
+                    $optTitle = $request->opt_color[0][$key];
+                    $optHexacode = $request->hexacode[$key];
+
+                    $varOpt = FormAttributeOption::find($optionID) ?? new FormAttributeOption();
+                    $varOpt->title = $optTitle;
+                    $varOpt->hexacode = $optHexacode;
+                    $varOpt->attribute_id = $attribute->id;
+                    $varOpt->save();
+
+
+                }
+            }
+
+            $attribute->save();
+            $msg = __( 'Attribute updated successfully!');
+            return redirect()->back()->with('success',$msg);
+        }
+        else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Attribute not found'
+            ], 404);
+        }
+        } catch (Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error updating attribute: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+
 }

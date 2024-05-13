@@ -51,7 +51,7 @@ $imgproxyurl = 'https://imgproxy.royodispatch.com/insecure/fill/90/90/sm/0/plain
         float: right;
         margin: 5px 0 10px 15px;
     }
-  
+
     div#agents-datatable_filter {
         padding-top: 5px;
     }
@@ -77,7 +77,7 @@ $imgproxyurl = 'https://imgproxy.royodispatch.com/insecure/fill/90/90/sm/0/plain
     select#agent_name_id {
         width: 135px;
     }
-   
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
@@ -232,10 +232,10 @@ $imgproxyurl = 'https://imgproxy.royodispatch.com/insecure/fill/90/90/sm/0/plain
                             @if(!empty($preference->create_batch_hours) && $preference->create_batch_hours > 0)
                             <a href="{{route('batch.list')}}"><button type="button" class="btn btn-info" >All Batches</button></a>
                             @endif
-                            
+
                             <div class="col-md-6 assign-toggle assign-show">
-                                <button type="button" class="btn btn-info assign_agent" data-toggle="modal" data-target="#add-assgin-agent-model" data-backdrop="static" data-keyboard="false">{{__("Assign")}}</button> 
-                                <button type="button" class="btn btn-info assign_date" data-toggle="modal" data-target="#add-assgin-date-model" data-backdrop="static" data-keyboard="false">{{__("Change Date")}}/{{__("Time")}}</button> 
+                                <button type="button" class="btn btn-info assign_agent" data-toggle="modal" data-target="#add-assgin-agent-model" data-backdrop="static" data-keyboard="false">{{__("Assign")}}</button>
+                                <button type="button" class="btn btn-info assign_date" data-toggle="modal" data-target="#add-assgin-date-model" data-backdrop="static" data-keyboard="false">{{__("Change Date")}}/{{__("Time")}}</button>
                             </div>
                         </div>
                         <input type="hidden" id="routes-listing-status" value="unassigned">

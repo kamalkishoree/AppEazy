@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-            
+
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::label('title', __('Type'),['class' => 'control-label']) !!}
                     <select class="form-control selectize-select dropDownTypeAttr"  name="type" dataFor="add">
-                        @if(isset($for) && ($for ==2)) 
+                        @if(isset($for) && ($for ==2))
                          <option value="5">{{ __("Checkbox") }}</option>
                         @else
                             <option value="1">{{ __("DropDown") }}</option>
@@ -17,7 +17,7 @@
                             <option value="6">{{ __("Image") }}</option>
                             <option value="7">{{ __("Date") }}</option>
                         @endif
-                        
+
                     </select>
                     <span class="invalid-feedback" role="alert">
                         <strong></strong>
@@ -33,12 +33,12 @@
             <div class="col-md-12" style="overflow-x: auto;">
 
                 <table class="table table-borderless table-responsive al_table_responsive_data" id="banner-datatable" >
-                   
+
                     <tr>
                                 <td >
                                     {!! Form::hidden('language_id[]', 1) !!}
                                     {!! Form::text('title[]', $attribute->title, ['class' => 'form-control']) !!}
-                                
+
                                 </td>
                 </table>
             </div>
@@ -52,7 +52,7 @@
                 <table class="table table-borderless table-responsive al_table_responsive_data optionTableEditAttribute" id="banner-datatable">
                     <tr class="trForClone">
                         <th class="hexacodeClass-add" style="display:none;">{{ __("Color Code") }}</th>
-                        
+
                         <th></th>
                         <th></th>
                     </tr>
@@ -62,18 +62,18 @@
                         <td style="min-width: 200px; display:none;" class="hexacodeClass-add col-md-6">
                             <input type="text" name="hexacode[]" class="form-control hexa-colorpicker" value="cccccc" id="add-hexa-colorpicker-1">
                         </td>
-                      
+
                         <td>
-                           
+
                             <input type="hidden" name="opt_id[0][]" value="{{ $option->id }}" >
                             <input type="text" name="opt_color[0][]" class="form-control attr-text-box" value="{{ $option->title }}" required>
-                               
-                          
+
+
                         </td>
-                       
+
                         <td class="lasttd">
                             @if($key!=0)
-                            <a href="javascript:void(0);" class="action-icon deleteCurRow"> <i class="mdi mdi-delete"></i></a>
+                            <a href="javascript:void(0);" class="action-icon deleteCurRow" data-delete_attr_id="{{$option->id}}"> <i class="mdi mdi-delete"></i></a>
                             @endif
                         </td>
                         @endforeach

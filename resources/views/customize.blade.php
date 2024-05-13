@@ -392,7 +392,7 @@ getAdditionalPreference(['pickup_type',
                             </div>
                             <div class="row variant-row">
                                 <div class="col-md-12">
-                                    
+
                                     <div class="table-responsive outer-box">
                                         <table class="table table-centered table-nowrap table-striped" id="varient-datatable">
                                             <thead>
@@ -403,7 +403,7 @@ getAdditionalPreference(['pickup_type',
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+
                                                 @if(!empty($attributes))
                                                 @foreach($attributes as $key => $variant)
 
@@ -412,8 +412,9 @@ getAdditionalPreference(['pickup_type',
                                                             <td>
                                                                 <a class="editAttributeBtn" dataid="{{$variant->id}}" href="javascript:void(0);">{{$variant->title}}</a>
                                                             </td>
-                                                           
+
                                                             <td>
+
                                                                 @foreach($variant->option as $key => $value)
                                                                 <label style="margin-bottom: 3px;">
                                                                     @if(isset($variant) && !empty($variant->type) && $variant->type == 2)
@@ -430,9 +431,9 @@ getAdditionalPreference(['pickup_type',
                                                                 <a class="action-icon deleteAttribute" dataid="{{$variant->id}}" href="javascript:void(0);">
                                                                     <i class="mdi mdi-delete"></i>
                                                                 </a>
-                                                                <form action="{{route('attribute.delete', $variant->id)}}" method="POST" style="display: none;" id="attrDeleteForm{{$variant->id}}">
+                                                                <form action="{{route('attribute.delete', $variant->id)}}" method="get" style="display: none;" id="attrDeleteForm{{$variant->id}}">
                                                                     @csrf
-                                                                    @method('DELETE')
+
                                                                     <button type="submit" class="action-icon btn btn-primary-outline" dataid="{{$variant->id}}" onclick="return confirm('Are you sure? You want to delete the attribute.')"> <i class="mdi mdi-delete"></i></button>
                                                                 </form>
                                                                 @endif
@@ -451,6 +452,7 @@ getAdditionalPreference(['pickup_type',
                 </div>
             </div>
         </div>
+
 	<form method="POST" action="{{route('task.proof')}}">
 		@csrf
 		<div class="row">
@@ -971,8 +973,8 @@ getAdditionalPreference(['pickup_type',
                                 </tbody>
                             </table>
                         </div> --}}
-                    
-					
+
+
 					</div>
 				</div>
 			</div>
@@ -1002,9 +1004,36 @@ getAdditionalPreference(['pickup_type',
         </div>
     </div>
 </div>
+
+{{-- edit attribute modal --}}
+
+<div id="editAttributemodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header border-bottom">
+                <h4 class="modal-title">{{ __("Edit Attribute") }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="outter-loader d-none"><div class="css-loader"></div></div>
+            <form id="editAttributeForm" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body" id="editAttributeBox">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info waves-effect waves-light editAttributeSubmit">{{ __("Submit") }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
     $(document).ready(function() {
@@ -1063,7 +1092,6 @@ getAdditionalPreference(['pickup_type',
 
      // Attribute script
      $(".addAttributbtn").click(function(e) {
-        console.log('click function called');
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -1093,6 +1121,106 @@ getAdditionalPreference(['pickup_type',
         });
 
     });
+
+        $('.editAttributeBtn').on('click', function(e) {
+            console.log("edit");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+
+        var did = $(this).attr('dataid');
+        console.log(did);
+        $.ajax({
+            url: "{{url('attribute/edit')}}" + '/' + did ,
+            type: "get",
+            data: '',
+            dataType: 'json',
+            beforeSend: function() {
+                $(".loader_box").show();
+            },
+            success: function(data) {
+                console.log('AJAX successful');
+                $('#editAttributemodal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                $('#editAttributeForm #editAttributeBox').html(data.html);
+                $('.dropify').dropify();
+                $('.selectize-select').selectize();
+                $("#editAttributeForm .hexa-colorpicker").each(function() {
+                    var ids = $(this).attr('id');
+                    try {
+                        var picker = new jscolor('#' + ids, options);
+                    } catch (err) {
+                        console.log(err.message);
+                    }
+                });
+                document.getElementById('editAttributeForm').action = data.submitUrl;
+            },
+            error: function(data) {
+                console.log('AJAX error', data);
+            },
+            complete: function() {
+                $('.loader_box').hide();
+            }
+        });
+    });
+
+    $(document).on('click', '.deleteAttribute', function() {
+        var did = $(this).attr('dataid');
+        Swal.fire({
+            title: "{{__('Are you sure?')}}",
+            text:"{{__('You want to delete this attribute.')}}",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+            if(result.value)
+            {
+                $('#attrDeleteForm' + did).submit();
+            }
+        });
+        return false;
+});
+
+$("#editAttributemodal").on('click', '.deleteCurRow', function() {
+    var delete_attr_id = $(this).data('delete_attr_id');
+    var closet_tr = $(this).closest('tr');
+
+    if( delete_attr_id != 'undefined' && delete_attr_id != undefined ) {
+        $.ajax({
+            type: "POST",
+            url : "{{url('attribute/delete')}}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "id": delete_attr_id
+            },
+            beforeSend: function() {
+                $(".editAttributeSubmit").attr("disabled", true);
+            },
+            success: function (response) {
+
+                if(response.success) {
+                    closet_tr.remove();
+                } else {
+                    $('.delete_options').removeClass('d-none');
+                }
+            },
+            error: function(error) {
+                $('.delete_options').removeClass('d-none');
+            },
+            complete: function() {
+                $(".editAttributeSubmit").attr("disabled", false);
+            }
+        });
+    }
+});
+
+    //END
 
     $(document).on('click', '.addOptionRow-attribute-edit', function(e) {
         var d = new Date();
