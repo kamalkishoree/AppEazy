@@ -443,7 +443,6 @@
                                                             </div>
                                                             
                                                         </div>
-
                                                         <div class="alContactOther col-6">
                                                             <div class="row">
                                                                 <div class="col-6 alRightBorder">
@@ -581,11 +580,12 @@
                                                             <h6 class="choose_warehouse text-center text-primary" style="text-decoration: underline; cursor: pointer;" data-id="1">Choose Warehouse</h6>
                                                             @endif
                                                         </div>
-
+                                                        
                                                         <div class="alContactOther col-6">
                                                             <div class="row">
                                                                 <div class="col-6 alRightBorder">
-                                                                    <h6>Contact Details</h6>
+                                                                    <h6>Contact Details1</h6>
+                                                                    <span class="span1 email-error-message"></span>
                                                                     <div class="row">
                                                                         <div class="form-group mb-1 col-12">{!!
                                                                             Form::text('address_email[]', null, ['class' =>
@@ -595,7 +595,7 @@
                                                                             Form::text('address_phone_number[]', null, ['class' =>
                                                                             'form-control address phone_number
                                                                             address_phone_number','placeholder' => __('Phone
-                                                                            Number'),'id'=>'addHeader1-address_phone_number ']) !!}
+                                                                            Number'),'id'=>'addHeader1-address_phone_number']) !!}
 <!--                                                                             <input type="hidden" name="dialCode" id="dialCode" value="{{getCountryPhoneCode()}}"> -->
                                                                         </div>
                                                                     </div>
