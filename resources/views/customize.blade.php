@@ -1220,7 +1220,6 @@ $("#editAttributemodal").on('click', '.deleteCurRow', function() {
     }
 });
 
-    //END
 
     $(document).on('click', '.addOptionRow-attribute-edit', function(e) {
         var d = new Date();

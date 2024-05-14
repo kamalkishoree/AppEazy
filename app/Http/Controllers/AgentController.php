@@ -421,7 +421,9 @@ class AgentController extends Controller
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
+                'min:3',
+                'regex:/^[^\d]+(?:\s[^\d]+)*$/',
             ],
             'type' => [
                 'required'
@@ -458,6 +460,14 @@ class AgentController extends Controller
         $validator = $this->validator($request->all())
             ->validate();
         $getFileName = null;
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
 
         $newtag = explode(",", $request->tags);
         $tag_id = [];
@@ -996,13 +1006,13 @@ class AgentController extends Controller
         $vehicle_type = $request->has('vehicle_type') ? $request->vehicle_type : '' ;
         $drivers = Agent::orderby('name', 'asc')->select('id', 'name', 'phone_number')
                     ->where('is_approved', 1);
-      
+
             if ($search) {
                 $drivers =    $drivers->where('name', 'like', '%' . $search . '%');
-            } 
+            }
             if ($vehicle_type) {
-                $drivers =    $drivers->whereIn('vehicle_type_id', $vehicle_type);   
-            } 
+                $drivers =    $drivers->whereIn('vehicle_type_id', $vehicle_type);
+            }
             $drivers =    $drivers->get();
             $response = array();
             foreach ($drivers as $driver) {
@@ -1013,7 +1023,7 @@ class AgentController extends Controller
             }
 
             return response()->json($response);
-        
+
     }
 
     protected function sendSms2($to, $body)
