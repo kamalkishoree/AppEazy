@@ -1,4 +1,5 @@
 <div class="left-side-menu">
+
         <div class="logo-box d-none d-lg-block">
             <a href="{{route('client.index')}}" class="logo logo-dark text-center">
                 <span class="logo-sm">
@@ -8,18 +9,18 @@
                 <span class="logo-lg">
                     <img src="{{asset('assets/images/logo-dark.png')}}"alt="" height="20">
                     <!-- <span class="logo-lg-text-light">U</span>
-                    $urlImg = \Storage::disk('s3')->url('assets/client_00000125/agents5fc76c71abdb3.png/A9B2zHkr5thbcyTKHivaYm4kNYrSXOiov6USdFpV.png'); 
+                    $urlImg = \Storage::disk('s3')->url('assets/client_00000125/agents5fc76c71abdb3.png/A9B2zHkr5thbcyTKHivaYm4kNYrSXOiov6USdFpV.png');
                     -->
                 </span>
             </a>
 
             @php
-                
+
              $urlImg = asset('assets/images/logo-dark.png');
              //$image = \Phumbor::url($urlImg)->fitIn(90,50);
 
             @endphp
-    
+
             <a href="{{route('client.index')}}" class="logo logo-light text-center">
                 <span class="logo-sm">
                     <img src="{{$urlImg}}"alt="" height="30" style="padding-top: 4px;">
@@ -96,7 +97,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
                 <li>
                     <a href="{{route('client.index')}}">
                         <i data-feather="users"></i>

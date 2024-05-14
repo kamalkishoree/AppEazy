@@ -56,6 +56,7 @@ span.nodatafound {font-size: 120% !important;border: 1px solid #FC0;background: 
                         </div>
                         @endif
                         <div class="input-group">
+
                             <input type="text" class="form-control form-control-light" id="range-datepicker" value="{{ $setWeekDate }}" placeholder="">
                             <span class="input-group-text bg-primary border-primary text-white">
                                 <i class="mdi mdi-calendar-range font-13"></i>
