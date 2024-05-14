@@ -74,7 +74,7 @@ div#DataTables_Table_0_filter label input {
                             <div class="col-md-6">
                                 <label for="">Select Driver</label>
                                 {{Form::select('agent_id', ['' => 'Please Select '.__(getAgentNomenclature())] + $agentList, '', array('class' => 'form-control', 'id' => 'agent_id' ))}}
-                                
+
                             </div>
                         </div>
                     </form>
@@ -100,7 +100,7 @@ div#DataTables_Table_0_filter label input {
                 </div>
                 <div class="col-md-2 d-flex align-items-center mt-3">
                 <div class="text-center">
-                    <form action="{{route('driver-accounting.export')}}" id ="driver_export" method="post"> 
+                    <form action="{{route('driver-accounting.export')}}" id ="driver_export" method="post">
                     @csrf
                     <input type="hidden" name="status_type" id="status_type" />
                     <input type="hidden" name="driver_id" id="driver_id" />
@@ -110,29 +110,29 @@ div#DataTables_Table_0_filter label input {
                     <i class="mdi mdi-plus-circle mr-1"></i> {{ __('Export') }}
                 </button>
                     </div>
-                </div>    
+                </div>
                 <div class="col-md-2 d-flex align-items-center mt-3">
                     <div class="text-center outter_bx">
-                        <p class="h4">Total Commision : <span class="total_commission"></span></p>                        
+                        <p class="h4">Total Commision : <span class="total_commission"></span></p>
                     </div>
                 </div>
                 <div class="col-md-2  mt-3">
-                    <form action="{{ route('pay-to-agent') }}" method="post"> 
+                    <form action="{{ route('pay-to-agent') }}" method="post">
                         @csrf
                         <input type="hidden" name="agent_payouts_ids" id="agent_payouts_ids" />
                         <button class="btn btn-info btn-block pay-to-driver d-none" id="pay-to-driver" type="submit">Pay</button>
                     </form>
                 </div>
             </div>
-            
 
-            
+
+
             {{-- Filter form end --}}
 
-            
+
         </div>
 
-        
+
     </div>
 
     <div class="text-sm-left">
@@ -151,12 +151,12 @@ div#DataTables_Table_0_filter label input {
         @endif
     </div>
     <!-- end page title -->
-    
-    
+
+
 
     <div class="row">
         {{-- Auto payout --}}
-        
+
         <input type="hidden" id="routes-listing-status" value="settlement">
         {{-- Table start --}}
         <div class="table-responsive mt-4">
@@ -187,7 +187,7 @@ div#DataTables_Table_0_filter label input {
                 <tbody>
                 </tbody>
             </table>
-            
+
         </div>
         {{-- Table End --}}
     </div>
@@ -213,7 +213,7 @@ $(document).ready(function(){
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
     hash = hashes[0].split('=');
     console.log(hash[1]);
-    
+
     if( hash[1] == undefined ) {
         var status = "{{ $status }}";
         $('#routes-listing-status').val(status);
@@ -230,7 +230,11 @@ $(document).ready(function(){
         mode : 'range',
         // minDate: "today",
         onClose: function(selectedDates, dateStr, instance) {
-            initializeAgentListing();
+            if (selectedDates.length === 2 && selectedDates[0].getTime() === selectedDates[1].getTime()) {
+                alert('Please select a date range.');
+            } else {
+                initializeAgentListing();
+            }
         }
     });
 
@@ -303,8 +307,10 @@ function initializeAgentListing(){
             // action: function ( e, dt, node, config ) {
             //     window.location.href = "{{ route('task.export') }}";
             // }
-            
+
         }],
+
+
         ajax: {
             url: "{{route('driver-datatable')}}",
             headers: {
@@ -329,7 +335,7 @@ function dataTableColumn(){
                 $('.total_commission').text(full.agent_sum);
             }
             return '<input type="checkbox" name="agent_payouts_id[]" class="form-control agent_payouts_id" value="'+full.agent_payouts_id+'">';
-                                
+
         }},
         {data: 'order_number', name: 'order_number', orderable: false, searchable: false },
         {data: 'delivery_boy_id', name: 'delivery_boy_id', orderable: false, searchable: false},
@@ -365,7 +371,7 @@ function markChecked(checkBox) {
     checkBox.each(function(){
         idsArray.push($(this).val());
     });
-    
+
     $("#agent_payouts_ids").val(idsArray.join(","));
 }
 
@@ -395,5 +401,6 @@ $('#driver_export_btn').on('click',function(){
     $('#status_type').val(status_type);
     document.getElementById("driver_export").submit();
 });
+
 </script>
 @endsection

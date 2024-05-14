@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class DriverAccountingController extends BaseController
 {
     use ApiResponser,GlobalFunction,DriverExportTrait;
-   
+
     public function index(Request $request) {
         // $geoagents = $this->getGeoBasedAgentsData('6', '0', '', '30-03-2023', '100','113');
         // pr($geoagents);
@@ -43,11 +43,11 @@ class DriverAccountingController extends BaseController
      * @return JSON
      */
     public function driverList(Request $request) {
-        
+
         $agents = Agent::select('id', 'name');
         if( (strlen($request->term) > 0)) {
             $agents = $agents->where('name', 'like', '%' .$request->term.'%')->select('id', 'name');
-        } 
+        }
         $agents = $agents->get();
         return response()->json($agents);
     }
@@ -56,7 +56,7 @@ class DriverAccountingController extends BaseController
      * @return JSON
      */
     public function driverDatatable(Request $request) {
-        
+
         $data = $request->all();
         $user = Auth::user();
         $userid = $user->id;
@@ -66,7 +66,7 @@ class DriverAccountingController extends BaseController
             $orders = $orders->whereHas('agent.team.permissionToManager', function($q) use ($userid){
             $q->where('sub_admin_id', $userid);
         });}
-        
+
         if($type == 'statement') {
             $orders = $orders->whereHas('getAgentPayout' , function($query) use($type) {
                 $query->where('status', 1);
@@ -74,17 +74,18 @@ class DriverAccountingController extends BaseController
         }
         $orders = $orders->where('status', 'completed');
 
-        
+
         if (!empty($request->date_filter)) {
-            
+
             $date_filter = $request->date_filter;
             if($date_filter){
-                
+
                 $date_explode = explode('to', $date_filter);
                 $from_date =  trim($date_explode[0]);
-                $end_date = trim($date_explode[1]);
-                
+                $end_date = trim($date_explode[1]) ;
+                $end_date = date('Y-m-d 23:59:59', strtotime($end_date));
                 $orders->whereBetween('order_time', [$from_date, $end_date]);
+
             }
         }
 
@@ -99,7 +100,7 @@ class DriverAccountingController extends BaseController
         // Log::info($driver_cost);
         return Datatables::of($orders)
                 ->editColumn('id', function ($orders) {
-                    return '';    
+                    return '';
                 })
                 ->editColumn('order_number', function ($orders) {
                     return $orders->id ?? null;
@@ -160,11 +161,11 @@ class DriverAccountingController extends BaseController
                 })
                 ->filter(function ($instance) use ($request) {
                     if (!empty($request->get('search'))) {
-                       
+
                         $search = $request->get('search');
                         $instance->where(function($query) use($search){
                             $query
-                            
+
                             ->orWhereHas('agent', function($q) use($search){
                                 $q->where('name', 'Like', '%'.$search.'%')
                                 ->orWhere('phone_number', 'Like', '%'.$search.'%');
@@ -187,19 +188,19 @@ class DriverAccountingController extends BaseController
      */
     public function agentPayoutRequestComplete(Request $request, $domain = ''){
         try{
-            
+
             $agent_payouts_ids  = explode(',', $request->agent_payouts_ids);
-            
+
             if( !empty($agent_payouts_ids) ) {
                 foreach($agent_payouts_ids as $key => $value) {
-                    
+
                     if( !empty($value) ) {
-                        
+
                         # Payout to agent
                         $user = Auth::user();
                         $id = $value;
-                        
-                    
+
+
                         $payout = AgentPayout::with(['payoutBankDetails'=> function($q){
                             $q->where('status', 1);
                         }])->where('id', $id)->first();
@@ -210,15 +211,15 @@ class DriverAccountingController extends BaseController
                         $request->request->add(['amount' => $payout->amount]);
                         $request->request->add(['payout_id' => $id]);
                         $request->request->add(['payout_option_id' => $payout_option_id]);
-                        
+
                         $agent = Agent::where('id', $payout->agent_id)->where('is_approved', 1)->first();
                         if(!$agent){
                             return Redirect()->back()->with('error', __('This '.getAgentNomenclature().' is not approved!'));
                         }
-                        
+
                         $agent_account = $payout->payoutBankDetails->first() ? $payout->payoutBankDetails->first()->beneficiary_account_number : '';
                         $agent_id = $agent->id;
-                        
+
 
                         $available_funds = agentEarningManager::getAgentEarning($payout->agent_id, 1);
 
@@ -267,8 +268,8 @@ class DriverAccountingController extends BaseController
                                 $wallet->forceWithdrawFloat($debit_amount, $meta);
                             }
                         }
-                        
-                        
+
+
                     }
                 }
                 return Redirect()->back()->with('success', __('Payout has been completed successfully'));
