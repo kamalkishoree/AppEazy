@@ -249,6 +249,7 @@ color: var(--theme-deafult);position: relative;left: -24px;font-weight: 600;bord
             <div class="nb-spinner-order"></div>
     </div>
         <div class="tab-pane fade past-order show active position-relative h-100" id="pending_orders" role="tabpanel" aria-labelledby="pending_order-tab">
+
             <div id="pending_orders_row" class="row">
                 {!! $OrderFilterData['html'] !!}
             </div>

@@ -71,7 +71,7 @@
                                             </li>
                                         @endif
                                     </ul>
-
+                                    
                                     <a href="{{ $vendor['vendor_detail_url'] }}" class="row">
                                         @if ($order['scheduled_date_time'] || $order['luxury_option_name'] != '')
                                             <div class="col-sm-12">
