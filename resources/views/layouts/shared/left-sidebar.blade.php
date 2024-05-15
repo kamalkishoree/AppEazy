@@ -2,7 +2,8 @@
     $getAdditionalPreference = getAdditionalPreference(['is_seller_module','is_gift_card','is_marg_enable','is_vendor_marg_configuration','is_car_rental_enable']);
 @endphp
 <div class="left-side-menu">
-    <div class="logo-box   d-lg-block">
+    <div class="logo-box m-hide d-lg-block" style="height: auto">
+
         @php
             $urlImg = URL::to('/').'/assets/images/users/user-1.jpg';
             $clientData = \App\Models\Client::select('id', 'logo','dark_logo','socket_url')->first();
@@ -63,7 +64,7 @@
             </div>
             <p class="text-muted">Admin Head</p>
         </div>
-        
+
         <div id="sidebar-menu">
             <?php
             $allowed = [];
@@ -75,8 +76,8 @@
                 array_push($allowed, '99999');
             }
             ?>
-            
-            <ul id="side-menu"> 
+
+            <ul id="side-menu">
                  @if(Auth::user()->is_admin || Auth::user()->is_superadmin )
                 <li>
                     <a class="menu-title pl-1" href="#">
@@ -151,8 +152,8 @@
                                             if (auth()->user()->is_admin) {
                                                 $query->where('user_id', auth()->user()->id);
                                             }
-                                        })->count(); 
-                                    @endphp 
+                                        })->count();
+                                    @endphp
                                         {{-- <span>{{getNomenclatureName('Vendors', true)}}</span> --}}
                                         <span>{{ __('Marg Failed Orders') }} {{ $vendor_orders_count ? '('. $vendor_orders_count .')' : '' }}</span>
                                     </a>
@@ -210,7 +211,7 @@
                                             @endif
                                             @if(@auth()->user()->can('accounting-vendors') || Auth::user()->is_superadmin == 1)
                                                 <li>
-                                                  
+
                                                     <a href="{{route('account.vendor')}}">{{ __($VendorsTrans) }}</a>
                                                 </li>
                                             @endif
@@ -238,7 +239,7 @@
                                 </li>
                             @endif
 
-                          
+
 
                             @if(@auth()->user()->can('subscription-customer-view') || @auth()->user()->can('subscription-vendor-view') || Auth::user()->is_superadmin == 1)
                             {{-- @if(count(array_intersect($subscription_permissions, $allowed)) || Auth::user()->is_superadmin == 1) --}}
@@ -347,7 +348,7 @@
                         <span>{{ __('SETTINGS') }}</span>
                     </a>
                     <ul class="nav-second-level p-0 mx-2">
-                       
+
                         @if(@auth()->user()->can('setting-profile-view') || Auth::user()->is_superadmin == 1)
                         <li>  <a href="{{route('client.profile')}}">
                                     <span class="icon-profile"></span>
@@ -355,7 +356,7 @@
                                 </a>
                             </li>
                             @endif
-                       
+
                         @if(@auth()->user()->can('setting-customize-view') || Auth::user()->is_superadmin == 1)
                             <li>
                                 <a href="{{route('configure.customize')}}">
@@ -459,8 +460,8 @@
 
                         @if(@auth()->user()->can('delivery-option-view') || Auth::user()->is_superadmin == 1)
                             @if($client_preference_detail->business_type != 'taxi')
-                            
-                            
+
+
                                 <li>
                                     <a href="#delivery" data-toggle="collapse">
                                         <span class="icon-payment-option_s aldelivery">
@@ -471,7 +472,7 @@
                                     <div class="collapse" id="delivery">
                                         <ul class="nav-second-level">
 
-                                
+
                                     <li>
                                             <a href="{{route('deliveryoption.index')}}">
                                                 <span> {{ __('Delivery Options') }} </span>
@@ -492,7 +493,7 @@
                         @endif
 
                         @if(Auth::user()->is_superadmin == 1)
-                            <li>  
+                            <li>
                                 <a href="{{route('roles')}}">
                                     <i class="icon-profile"></i>
                                     <span>{{ __("Manage Roles") }}</span>
@@ -500,13 +501,13 @@
                             </li>
                         @endif
                         @if(Auth::user()->is_superadmin == 1)
-                            <li>  
+                            <li>
                                 <a href="{{route('manageCache')}}">
                                     <i class="icon-profile"></i>
                                     <span>{{ __("Cache Control") }}</span>
                                     </a>
                             </li>
-                            <li class="d-none">  
+                            <li class="d-none">
                                 <a href="{{route('manage.attribute')}}">
                                     <i class="icon-profile"></i>
                                     <span>{{ __("Manage Attributes") }}</span>
@@ -514,26 +515,26 @@
                             </li>
                         @endif
                         @if($getAdditionalPreference['is_car_rental_enable']==1)
-                        <li>  
+                        <li>
                             <a href="{{route('rental.protection')}}">
                                 <i class="icon-profile"></i>
                                 <span>{{ __("Rental Protection") }}</span>
                             </a>
                         </li>
-                        <li>  
+                        <li>
                             <a href="{{route('booking.option')}}">
                                 <i class="icon-profile"></i>
                                 <span>{{ __("Booking Option") }}</span>
                             </a>
                         </li>
-                        <li>  
+                        <li>
                             <a href="{{route('destinations')}}">
                                 <i class="icon-profile"></i>
                                 <span>{{ __("Destination") }}</span>
                             </a>
                         </li>
                         @endif
-                        
+
                         {{-- @if(Auth::user()->is_superadmin == 1)
                             <li>
                                 <a href="{{route('verifyoption.index')}}">
@@ -642,7 +643,7 @@
                             <span>{{ __("EXTRA") }}</span>
                         </a>
                         <ul class="nav-second-level p-0 mx-2">
-                            
+
                             @if( Auth::user()->is_superadmin == 1 && @$getAdditionalPreference['is_gift_card']==1)
                             <li>
                                 <a href="{{route('giftCart.index')}}">
