@@ -24,7 +24,7 @@ class LoyaltyController extends Controller{
             $query->orWhere(function ($q2) {
                 $q2->whereIn('payment_option_id', [1,38]);
             });
-        }); 
+        });
         if (Auth::user()->is_superadmin == 0) {
             $total_loyalty_spent = $total_loyalty_spent->whereHas('vendors.vendor.permissionToUser', function ($query) {
                 $query->where('user_id', Auth::user()->id);
@@ -75,7 +75,7 @@ class LoyaltyController extends Controller{
             $query->orWhere(function ($q2) {
                 $q2->whereIn('payment_option_id', [1,38]);
             });
-        }); 
+        });
         if (Auth::user()->is_superadmin == 0) {
             $orders_query = $orders_query->whereHas('vendors.vendor.permissionToUser', function ($query) {
                 $query->where('user_id', Auth::user()->id);
@@ -86,6 +86,8 @@ class LoyaltyController extends Controller{
             $date_date_filter = explode(' to ', $request->get('date_filter'));
             $to_date = (!empty($date_date_filter[1]))?$date_date_filter[1]:$date_date_filter[0];
             $from_date = $date_date_filter[0];
+            $from_date =Carbon::parse($from_date,$timezone)->setTimezone('UTC');
+            $to_date= Carbon::parse($to_date,$timezone)->setTimezone('UTC')->addDays(1);
             $orders_query->between($from_date." 00:00:00", $to_date." 23:59:59");
         }
         if (!empty($request->get('payment_option'))) {
@@ -138,7 +140,7 @@ class LoyaltyController extends Controller{
                 }
             })->make(true);
     }
-    public function export() {
-        return Excel::download(new OrderLoyaltyExport, 'loyality.xlsx');
+    public function export(Request $request) {
+        return Excel::download(new OrderLoyaltyExport($request), 'loyality.xlsx');
     }
 }
