@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\OrderTax;
 use App\Models\LoyaltyCard;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use App\Models\TaxCategory;
 use Illuminate\Http\Request;
 use App\Models\PaymentOption;
@@ -20,13 +20,13 @@ class TaxController extends Controller{
     public function index(Request $request){
         $tax_category_options = TaxCategory::get();
 
-        // total_tax_collected 
+        // total_tax_collected
         $total_tax_collected = Order::orderBy('id','desc')->where(function ($query){
             $query->where('payment_status', 1)->whereNotIn('payment_option_id', [1,38]);
             $query->orWhere(function ($q2) {
                 $q2->whereIn('payment_option_id', [1,38]);
             });
-        }); 
+        });
         if (Auth::user()->is_superadmin == 0) {
             $total_tax_collected = $total_tax_collected->whereHas('vendors.vendor.permissionToUser', function ($query) {
                 $query->where('user_id', Auth::user()->id);
@@ -71,7 +71,7 @@ class TaxController extends Controller{
         }
         if (!empty($request->get('tax_type_filter'))) {
             $tax_type_filter = $request->get('tax_type_filter');
-            $orders_query->whereHas('taxes', function($q) use($tax_type_filter){ 
+            $orders_query->whereHas('taxes', function($q) use($tax_type_filter){
                 if($tax_type_filter){
                     $q->where('tax_category_id', $tax_type_filter);
                 }
@@ -80,7 +80,7 @@ class TaxController extends Controller{
         if (!empty($request->get('payment_option'))) {
             $orders_query->where('payment_option_id',$request->get('payment_option'));
         }
-        $orders = $orders_query->orderBy('id', 'desc'); 
+        $orders = $orders_query->orderBy('id', 'desc');
         return Datatables::of($orders)
         ->addColumn('payable_amount', function($orders) {
             return decimal_format($orders->payable_amount);
@@ -91,7 +91,7 @@ class TaxController extends Controller{
             }else{
                 return 0;
             }
-            
+
         })
         ->addColumn('payment_method', function($orders) {
             return $orders->paymentOption ? $orders->paymentOption->title : '';
@@ -124,7 +124,7 @@ class TaxController extends Controller{
         })->make(true);
     }
 
-    public function export() {
-        return Excel::download(new OrderVendorTaxExport, 'tax.xlsx');
+    public function export(Request $request) {
+        return Excel::download(new OrderVendorTaxExport($request), 'tax.xlsx');
     }
 }

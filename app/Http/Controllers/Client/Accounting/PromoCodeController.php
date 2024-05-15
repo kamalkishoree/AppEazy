@@ -101,7 +101,7 @@ class PromoCodeController extends Controller{
             if (!empty($request->get('status_filter'))) {
                 $status_filter = $request->get('status_filter');
                 $vendor_orders_query = $vendor_orders_query->where('order_status_option_id', $status_filter);
-               
+
             }
             $vendor_orders = $vendor_orders_query->orderBy('id', 'desc');
             return Datatables::of($vendor_orders)
@@ -177,7 +177,7 @@ class PromoCodeController extends Controller{
 
         }
     }
-    public function export() {
-        return Excel::download(new OrderPromoCodeExport, 'promocode.xlsx');
+    public function export(Request $request) {
+        return Excel::download(new OrderPromoCodeExport($request), 'promocode.xlsx');
     }
 }

@@ -53,12 +53,13 @@
                     <div class="top-input position-absoluteal">
                         <div class="row">
                             <div class="col-md-12">
+                                <form  action="{{route('account.tax.export')}}" id="export-form" method="GET" >
                                 <div class="row">
                                     <div class="col-sm-3 mb-1">
-                                        <input type="text" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
+                                        <input type="text" name="date_range" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" id="tax_type_select_box">
+                                        <select class="form-control al_box_height" id="tax_type_select_box" name="tax_category_option">
                                             <option value="">{{ __("Select Tax Type") }}</option>
                                             @foreach($tax_category_options as $tax_category_option)
                                                 <option value="{{$tax_category_option->id}}">{{$tax_category_option->title}}</option>
@@ -66,7 +67,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" id="payment_option_select_box">
+                                        <select class="form-control al_box_height" id="payment_option_select_box" name="payment_option">
                                             <option value="">{{ __("Select Payment Method") }}</option>
                                             @foreach($payment_options as $payment_option)
                                                 <option value="{{$payment_option->id}}">{{$payment_option->title}}</option>
@@ -153,7 +154,8 @@
                             className:'btn btn-success waves-effect waves-light',
                             text: '<span class="btn-label"><i class="mdi mdi-export-variant"></i></span>{{__("Export CSV")}}',
                             action: function ( e, dt, node, config ) {
-                                window.location.href = "{{ route('account.tax.export') }}";
+                                // window.location.href = "{{ route('account.tax.export') }}";
+                                $('#export-form').trigger('submit');
                             }
                         },
                         {
