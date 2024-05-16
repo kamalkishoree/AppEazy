@@ -136,7 +136,7 @@
                     <div class="row border-bottom">
                         <div class="col-6">
                             <div class="single_cart_heading">
-                                <h3>{{ __('Shopping Cart') }} </h3>
+                                <h3>{{ __('Shopping Cart ') }} </h3>
                             </div>
                         </div>
                         <div class="col-6">
@@ -261,8 +261,8 @@
                         {{-- Product Detail Loop --}}
 
                         <div id="tbody_{{ $product->vendor->id }}">
- 
-                            
+
+
                             @foreach ($product->vendor_products as $vendor_product)
                                 <div class="row al align-items-md-center vendor_products_tr alFourTemplateCartPage" id="tr_vendor_products_{{ $vendor_product->id }}">
                                     <div class="col-3 col-md-2">
@@ -312,7 +312,7 @@
 
                                             @php
 
-                                        
+
                                             @endphp
                                                 <div class="col-6 col-md-2 mb-1 mb-md-0 order-md-2 p-0">
                                                     <div class="items-price">
@@ -329,22 +329,22 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        
+
                                             @if (!empty(@$vendor_product->quantity_price))
                                                 <div class="col-6 col-md-2 text-left order-md-4">
                                                     @if ($serviceType == 'p2p')
-                                                  
+
                                                         @php
 
-                                                     
+
                                                             $additionalPrice = 0;
                                                             if ($vendor_product->pvariant->incremental_price_per_min > 0) {
                                                                 $additionalPrice = ($vendor_product->additional_increments_hrs_min/(60*24)) * $vendor_product->quantity_price;
                                                             }
                                                             $price = $vendor_product->pvariant->price;
 
-                                                          
-                                                         
+
+
                                                             if(@$vendor_product->days  <= 7){
                                                                 $price = $vendor_product->pvariant->price;
                                                             }elseif(@$vendor_product->days >= 7 && @$vendor_product->days < 30){
@@ -352,9 +352,9 @@
                                                             }else{
                                                                 $price = $vendor_product->pvariant->month_price;
                                                             }
- 
-                                                            
-                                                         
+
+
+
                                                         @endphp
 
                                                         <div class="items-price">
@@ -426,7 +426,7 @@
                                                             $class = 'validate_prescription';
                                                         }
                                                     @endphp
-                                                    
+
                                                     @if ($vendor_product->product->pharmacy_check == 1)
                                                         <button type="button"
                                                             class="float-left btn btn-solid prescription_btn mt-2 {{$class}}"
@@ -479,7 +479,7 @@
                                                     </div>
 
                                                     @if ($cart_details->pharmacy_check == 1)
-                                                    
+
                                                         @if ($vendor_product->product->pharmacy_check == 1)
                                                             <button type="button"
                                                                 class="float-left btn btn-solid prescription_btn mt-2"
@@ -512,7 +512,7 @@
                                             </div>
 
                                         </div>
-                                        
+
                                         @if($serviceType == 'rental')
                                             <hr class="my-2">
                                             <div class="row align-items-md-center alRentalStartDate">
@@ -535,7 +535,7 @@
                                                 @endif
                                             </div>
                                         @endif
-                                        
+
                                         @if (count($vendor_product->addon) != 0)
                                             <hr class="my-2">
                                             <div class="row align-items-md-center add_head">
@@ -615,9 +615,9 @@
 
 
                                         {{-- Home Service Schedual code Start at down --}}
-                                       
+
                                         @if (
-                                            ($cart_details->closed_store_order_scheduled == 1 || $client_preference_detail->off_scheduling_at_cart != 1) 
+                                            ($cart_details->closed_store_order_scheduled == 1 || $client_preference_detail->off_scheduling_at_cart != 1)
                                             && ((in_array($serviceType, ['appointment', 'on_demand'])  )
                                             && ( ($vendor_product->product->mode_of_service == 'schedule') || ($is_service_product_price_from_dispatch_forOnDemand ==1))
                                          ))
@@ -630,17 +630,17 @@
                                                             <p class="text-dark">{{ __('Scheduled Slot') }} :</p>
                                                              @if($is_service_product_price_from_dispatch_forOnDemand ==1)
                                                                 <p class="m-0 mx-2">{{ $vendor_product->selected_dispatcher_time   }}  </p>
-                                                                
+
                                                                 <p class="m-0" > {{$vendor_product->schedule_slot_name}}</p>
-                                                               
+
                                                             @endif
                                                         </div>
-                                                        
+
                                                         @if($is_service_product_price_from_dispatch_forOnDemand !=1)
                                                             <div class="col-4 vendor_slot_cart">
                                                                 <input type="hidden" class="custom-control-input vendor_product_schedule_datetime check"
                                                                     id="tasknow" name="task_type" value='schedule'>
-                                                                  
+
                                                                         @if ($product->slotsCnt != 0)
                                                                             <input type="date"
                                                                                 class="form-control vendor_schedule_datetime"
@@ -689,9 +689,9 @@
                                                                                     data-cart_product_id="{{ $vendor_product->id }}">
                                                                             @endif
                                                                         @endif
-                                                                     
+
                                                             </div>
-                                                        @endif  
+                                                        @endif
                                                     </div>
                                                 @else
                                                     {{-- Dispatch sloat shot --}}
@@ -765,17 +765,20 @@
 
                             {{-- End Product Detail Loop --}}
                             {{-- @php
-                //dd($product->is_promo_code_available);
+                //;
                 @endphp
                 --}}
                             <div class="row my-2">
                                 @if (!$cart_details->guest_user)
                                     <div class="col-lg-6">
-                                        @if ($product->is_promo_code_available > 0)
+
+                                        {{-- {{dd($product->coupon)}} --}}
+                                        @if ($product->is_promo_code_available > 0 || $product->is_promo_code_available == 0 )
                                             <div class="coupon_box w-100 d-flex align-content-center">
                                                 <img class="blur-up lazyload"
                                                     data-src="{{ asset('assets/images/discount_icon.svg') }}">
                                                 <label class="mb-0 ml-2">
+
                                                     @if ($product->coupon && $product->coupon->promo )
                                                         {{  @$product->coupon->promo->name ?? '' }}
                                                     @else
@@ -937,7 +940,7 @@
                                         </div>
                                     @endif
 
-              
+
                                     <div class="row">
                                         {{-- @if ($cart_details->vendorCnt > 1) --}}
                                         <div class="col-5 text-lg-right">
@@ -1143,7 +1146,7 @@
                                             id="specific_instructions"
                                             value="{{ $cart_details->specific_instructions ?? '' }}"
                                             name="specific_instructions">
-                                             {{-- @if($getAdditionalPreference['is_file_cart_instructions']) 
+                                             {{-- @if($getAdditionalPreference['is_file_cart_instructions'])
                                                 <div class="Instructions_file">
                                                         <label>{{ __('Instructions file') }}</label>
                                                         <div class="instructions_image">
@@ -1319,7 +1322,7 @@
                                             @else
                                                 {{ Session::get('currencySymbol') }}
                                             @endif
-                                           
+
                                             <span
                                                 id="total_taxable_amount">{{ $additionalPreference['is_token_currency_enable'] ? getInToken(decimal_format($cart_details->total_taxable_amount + $other_taxes)) : decimal_format($cart_details->total_taxable_amount + $other_taxes) }}</span>
                                         </b>
@@ -1504,7 +1507,7 @@
 
                                 <div class="col-6 text-right">
 
-                                  
+
                                     @if ($client_preference_detail->auto_implement_5_percent_tip == 1)
                                         @if (decimal_format($cart_details->wallet_amount_used) > 0)
                                             <p class="total_amt m-0" id="cart_total_payable_amount"
@@ -1657,10 +1660,10 @@
                             $product->vendor->order_min_amount > 0 &&
                             $product->product_total_amount + $product->vendor->fixed_fee_amount < $product->vendor->order_min_amount
                         ))
-                        @if($cart_details->is_recurring_booking != 1 && $serviceType != 'rental') 
+                        @if($cart_details->is_recurring_booking != 1 && $serviceType != 'rental')
                               @include('frontend.cart.scheduleSlot')
                         @endif
-                         
+
                             <div class="col-sm-6 col-lg-12 mt-2 text-sm-right cart-checkout_btn">
                                 @if (isset($ageVerify->status) && $ageVerify->status == 1)
                                     {{-- <button id="verify_your_age" class="btn btn-solid " type="button" >{{__('Verify Your Age')}}</button> --}}
@@ -1685,7 +1688,7 @@
                                     }
                                 @endphp
                                 @if ($additionalPreference['is_token_currency_enable'] == 1)
-                               
+
                                     @if ($cart_details->wallet_amount_used > 0)
                                         @if ($cart_error_message == '')
                                             <button id="order_placed_btn" class="btn btn-solid d-none" type="button"

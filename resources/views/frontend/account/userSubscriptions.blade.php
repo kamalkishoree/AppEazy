@@ -65,11 +65,13 @@ ul li {margin: 0 0 10px;color: #6c757d;}
                 <div class="dashboard-right">
                     <div class="dashboard">
                         <div class="page-title">
-                            <h2>{{ __('My Subscriptions') }}</h2>
+                            <h2>{{ __('My Subscriptions ') }}</h2>
                         </div>
 
                         <div class="row">
+
                             @if(!empty($subscription))
+
                             <div class="col-12 mb-4">
                                 <div class="card subscript-box">
                                     @if( (empty($subscription->cancelled_at)) || (!empty($subscription->cancelled_at)) && ($subscription->cancelled_at >= $now))
@@ -141,46 +143,51 @@ ul li {margin: 0 0 10px;color: #6c757d;}
 							<div class="col-md-12 mb-4">
 								<div class="card subscript-box">
 								<h3>User Subscriptions</h3>
+
 								<div class="row">
-                                    @if($subscription_plans_user->isNotEmpty())
-                                        @foreach($subscription_plans_user as $plan)
-                                        <div class="col-md-3 col-sm-6 mb-3 mb-md-2">
-                                            <div class="pricingtable">
-                                                <div class="gold-icon position-relative">
-                                                    <img src="{{ $plan->image['proxy_url'].'100/100'.$plan->image['image_path'] }}">
-                                                    <div class="pricingtable-header position-absolute">
-                                                        <div class="price-value"> <b>{{ Session::get('currencySymbol') . ($plan->price * $clientCurrency->doller_compare) }}</b> <span class="month">{{ $plan->frequency }}</span> </div>
+
+                                    @if($showSubscriptionPlane->every_sign_up)
+                                        @if($subscription_plans_user->isNotEmpty())
+                                            @foreach($subscription_plans_user as $plan)
+                                            <div class="col-md-3 col-sm-6 mb-3 mb-md-2">
+                                                <div class="pricingtable">
+                                                    <div class="gold-icon position-relative">
+                                                        <img src="{{ $plan->image['proxy_url'].'100/100'.$plan->image['image_path'] }}">
+                                                        <div class="pricingtable-header position-absolute">
+                                                            <div class="price-value"> <b>{{ Session::get('currencySymbol') . ($plan->price * $clientCurrency->doller_compare) }}</b> <span class="month">{{ $plan->frequency }}</span> </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="p-2">
-                                                <h3 class="heading mt-0 mb-2"><b>{{ __($plan->title) }}</b></h3>
-                                                <div class="pricing-content">
-                                                    <p>{{ __($plan->description) }}</p>
+                                                <div class="p-2">
+                                                    <h3 class="heading mt-0 mb-2"><b>{{ __($plan->title) }}</b></h3>
+                                                    <div class="pricing-content">
+                                                        <p>{{ __($plan->description) }}</p>
+                                                    </div>
+                                                    <ul class="mb-3">
+                                                        @foreach($plan->features as $feature)
+                                                            <li><i class="fa fa-check"></i> {{ __($feature->feature->title) }}</li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
-                                                <ul class="mb-3">
-                                                    @foreach($plan->features as $feature)
-                                                        <li><i class="fa fa-check"></i> {{ __($feature->feature->title) }}</li>
-                                                    @endforeach
-                                                </ul>
+                                                <div class="pricingtable-purchase">
+                                                    @if( (isset($subscription->plan->id)) && ($plan->id == $subscription->plan->id) )
+                                                        <button class="btn btn-solid black-btn disabled w-100">{{ __('Subscribed') }}</button>
+                                                    @else
+                                                        <button class="btn btn-solid w-100 subscribe_btn" data-id="{{ $plan->slug }}">{{ __('Subscribe') }}</button>
+                                                    @endif
+                                                </div>
                                             </div>
-                                            <div class="pricingtable-purchase">
-                                                @if( (isset($subscription->plan->id)) && ($plan->id == $subscription->plan->id) )
-                                                    <button class="btn btn-solid black-btn disabled w-100">{{ __('Subscribed') }}</button>
-                                                @else
-                                                    <button class="btn btn-solid w-100 subscribe_btn" data-id="{{ $plan->slug }}">{{ __('Subscribe') }}</button>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    @else
-                                    	<h5>No User subscription found</h5>
+                                            @endforeach
+                                        @else
+                                            <h5>No User subscription found</h5>
+                                        @endif
                                     @endif
+
                                     </div>
 								</div>
                            </div>
-                            
-                           	@php 
+
+                           	@php
                            	$subscription_plans_meal = clone $subscription_plans;
                            	$subscription_plans_meal = $subscription_plans_meal->where('type_id', '=' ,2)->get();
                            	@endphp
