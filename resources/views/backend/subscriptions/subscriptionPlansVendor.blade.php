@@ -142,7 +142,7 @@
                                                                 <img src="{{$plan->image['proxy_url'].'40/40'.$plan->image['image_path']}}" class="rounded-circle" alt="{{$plan->slug}}" >
                                                             </td>
                                                             <td><a href="javascript:void(0)" class="editSubscriptionPlanBtn" data-id="{{$plan->slug}}">{{$plan->title}}</a></td>
-                                                            <td>{{$plan->Description}}</td>
+                                                            <td>{{$plan->description}}</td>
                                                             <td>{{ isset($clientCurrency->currency)?$clientCurrency->currency->symbol:'$' }}{{decimal_format($plan->price)}}</td>
                                                             <td>{{__($plan->features)}}</td>
                                                             <td>{{__(ucfirst($plan->frequency))}}</td>
