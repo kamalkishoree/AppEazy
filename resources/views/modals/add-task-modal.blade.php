@@ -184,19 +184,20 @@
 
                     <div class="row drivers hidealloction">
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label>{{__(getAgentNomenclature()."s")}}</label> {!!
-                                Form::text('searchDriver', null, ['class' => 'form-control',
-                                'placeholder' => __('Search '.getAgentNomenclature()), 'id' =>
-                                'searchDriver']) !!} <input type="hidden" id='agentid' name="agent" readonly> {{-- <select
-									class="form-control selectpicker" name="agent"
-									id="driverselect"> @foreach ($agents as $item) @php
-									$checkAgentActive = ($item->is_available == 1) ? '
-									('.__('Online').')' : ' ('.__('Offline').')'; @endphp
-									<option value="{{ $item->id }}">{{ ucfirst($item->name) .
-										$checkAgentActive }}</option> @endforeach
-                                </select> --}}
-                            </div>
+                        <div class="form-group">
+                        <label>{{__(getAgentNomenclature()."s")}}</label>
+                        <input type="hidden" id='agentid' name="agent" readonly>
+                        <select class="form-control selectpicker" name="agent" id="driverselect">
+                            <option value="" selected disabled>{{ __('Select '.getAgentNomenclature()) }}</option> <!-- Added default disabled option -->
+                            @foreach ($agents as $item)
+                                @php
+                                    $checkAgentActive = ($item->is_available == 1) ? ' ('.__('Online').')' : ' ('.__('Offline').')';
+                                @endphp
+                                <option value="{{ $item->id }}">{{ ucfirst($item->name) . $checkAgentActive }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                         </div>
                     </div>
                 </div>
@@ -443,7 +444,6 @@
                                                             </div>
                                                             
                                                         </div>
-
                                                         <div class="alContactOther col-6">
                                                             <div class="row">
                                                                 <div class="col-6 alRightBorder">
@@ -581,11 +581,12 @@
                                                             <h6 class="choose_warehouse text-center text-primary" style="text-decoration: underline; cursor: pointer;" data-id="1">Choose Warehouse</h6>
                                                             @endif
                                                         </div>
-
+                                                        
                                                         <div class="alContactOther col-6">
                                                             <div class="row">
                                                                 <div class="col-6 alRightBorder">
                                                                     <h6>Contact Details</h6>
+                                                                    <span class="span1 email-error-message"></span>
                                                                     <div class="row">
                                                                         <div class="form-group mb-1 col-12">{!!
                                                                             Form::text('address_email[]', null, ['class' =>
@@ -595,7 +596,7 @@
                                                                             Form::text('address_phone_number[]', null, ['class' =>
                                                                             'form-control address phone_number
                                                                             address_phone_number','placeholder' => __('Phone
-                                                                            Number'),'id'=>'addHeader1-address_phone_number ']) !!}
+                                                                            Number'),'id'=>'addHeader1-address_phone_number']) !!}
 <!--                                                                             <input type="hidden" name="dialCode" id="dialCode" value="{{getCountryPhoneCode()}}"> -->
                                                                         </div>
                                                                     </div>

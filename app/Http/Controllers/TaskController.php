@@ -727,10 +727,8 @@ class TaskController extends BaseController
 
             $settime = ($request->task_type == "schedule") ? $request->schedule_time : Carbon::now()->toDateTimeString();
             $notification_time = ($request->task_type == "schedule") ? Carbon::parse($settime . $auth->timezone ?? 'UTC')->tz('UTC') : Carbon::now()->toDateTimeString();
-
             // here order save code is started
-
-            $agent_id = $request->allocation_type === 'm' ? $request->agent : null;
+            $agent_id = ($request->allocation_type === 'm' || $request->allocation_type === 'a') ? ($request->agent ? $request->agent : @$request->agent_tag[0]) : null;
 
             $order = [
                 'order_number' => generateOrderNo(),
@@ -1684,7 +1682,7 @@ class TaskController extends BaseController
 
         $settime = isset($request->schedule_time) ? $request->schedule_time : Carbon::now()->toDateTimeString();
         $notification_time = Carbon::parse($settime . $auth->timezone ?? 'UTC')->tz('UTC');
-        $agent_id = $request->allocation_type === 'm' ? $request->agent : null;
+        $agent_id = ($request->allocation_type == 'm' || $request->allocation_type == 'a') ? $request->agent : null;
 
         $order = [
             'order_number' => generateOrderNo(),
@@ -1713,7 +1711,6 @@ class TaskController extends BaseController
             'freelancer_commission_fixed' => $pricingRule->freelancer_commission_fixed,
             'unique_id' => $unique_order_id
         ];
-
         $orders = Order::create($order);
 
         // here is task save code is started
@@ -3048,7 +3045,7 @@ class TaskController extends BaseController
                 $customer = Customer::where('id', $request->ids)->first();
             }
             $assign = 'unassigned';
-            if ($request->allocation_type == 'm') {
+            if ($request->allocation_type == 'm' || $request->allocation_type === 'a') {
                 $assign = 'assigned';
             }
             if ($task_id->status == 'completed') {

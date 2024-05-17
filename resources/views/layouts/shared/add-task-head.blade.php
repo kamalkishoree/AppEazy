@@ -959,25 +959,52 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
         $(".tagspan").hide();
         $(".tagspan2").hide();
         $(".searchspan").hide();
+        $(".email-error-message").hide();
 
         var cus_id = $('#cusid').val();
         var name = $('#name_new').val();
-        var email = $('#email_new').val();
-        var phone_no = $('#phone_new').val();
+        var email = $('#email').val();
+        var phone_no = $('#phone_number').val();
 
-        if (cus_id == '') {
-            if (name != '' && email != '' && phone_no != '') {
-                $(".searchspan").hide();
-            } else {  err = 1;
-                $(".searchspan").show();
-                return false;
-            }
-        }else{
+    if (cus_id == '') {
+        if (name == '' || email == '' || phone_no == '') {
+            err = 1;
+            $(".searchspan").text('All fields are required'); // Set the error message
+            $(".searchspan").show(); // Show the error message
+            return false;
+        } else if (!/^[a-zA-Z]+$/.test(name)) {
+            err = 1;
+            $(".searchspan").text('Name must contain only alphabetic characters'); 
+            $(".searchspan").show(); // Show the error message
+            return false;
+        }
+        else if (!isValidEmail(email)) {
+            err = 1;
+            $(".searchspan").text('Invalid email'); // Set the error message for invalid email format
+            $(".searchspan").show(); // Show the error message
+            return false;
+        } else if (isNaN(phone_no.trim())) {
+            err = 1;
+            $(".searchspan").text('Phone number must be numeric'); 
+            $(".searchspan").show(); // Show the error message
+            return false;
+        }else if (phone_no.trim().length < 5 || phone_no.trim().length > 15) {
+            err = 1;
+            $(".searchspan").text('invalid phone number length'); 
+            $(".searchspan").show(); // Show the error message
+            return false;
+        } 
+        else {  
             $(".searchspan").hide();
         }
+    }else{
+        $(".searchspan").hide();
+    }
+
         var s_name = $("input[name='short_name[]']").val();
         var s_address = $("input[name='address[]']").val();
         var warehouse_id = $("select[name='warehouse_id[]']").val();
+        var post = $('#addHeader1-postcode').val();
         if(warehouse_id){
             err = 0;
             $(".addspan").hide();
@@ -986,7 +1013,17 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
             err = 1;
             $(".addspan").show();
             return false;
-        }
+        }else if (s_address.length < 5 || s_address.length > 200) {
+        err = 1;
+        $(".addspan").text('Address must be between ' + 5 + ' and ' + 200 + ' characters'); // Set the error message for address length
+        $(".addspan").show(); // Show the error message
+        return false;
+        } else if (post.trim().length < 5 || post.trim().length > 10) {
+            err = 1;
+            $(".addspan").text('Postal code length must be between 5 and 10 characters'); 
+            $(".addspan").show(); // Show the error message
+            return false;
+        } 
         
         $(".selecttype").each(function(){
             var taskselect              = $(this).val();
@@ -1036,6 +1073,35 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
         var auto    = $("#rediodiv input[type='radio']:checked");
         autoval     = auto.val();
 
+         // New validation for email and phone number fields
+    var emailVal = $('#addHeader1-address_email').val();
+    var phoneVal = $('#addHeader1-address_phone_number').val();
+
+    if (emailVal == '' || phoneVal == '') {
+        err = 1;
+        $(".email-error-message").text('Fields are required'); // Set the error message
+        $(".email-error-message").show(); // Show the error message
+        return false;
+    } else if (!isValidEmail(emailVal)) {
+        err = 1;
+        $(".email-error-message").text('Invalid email'); // Set the error message for invalid email format
+        $(".email-error-message").show(); // Show the error message
+        return false;
+    } else if (isNaN(phoneVal.trim())) {
+            err = 1;
+            $(".email-error-message").text('Phone number must be numeric'); 
+            $(".email-error-message").show(); // Show the error message
+            return false;
+        }else if (phoneVal.trim().length < 5 || phoneVal.trim().length > 15) {
+            err = 1;
+            $(".email-error-message").text('invalid phone number length'); 
+            $(".email-error-message").show(); // Show the error message
+            return false;
+        } 
+    else{
+        $(".email-error-message").hide();
+    }
+
             if( err == 0){
                 $('.submitTaskHeaderLoader').css('display', 'inline-block');
                 $('.submitTaskHeader').addClass("inactiveLink");
@@ -1045,7 +1111,11 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
             }
     });
 
-
+    function isValidEmail(email) {
+    // Regular expression for email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+    }
 
     function TaskSubmit(data, method, url, modals) {
     $.ajax({
