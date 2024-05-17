@@ -181,8 +181,7 @@ class PromoCodeController extends Controller
         } catch (Exception $e) {
         }
     }
-    public function export()
-    {
-        return Excel::download(new OrderPromoCodeExport, 'promocode.xlsx');
+    public function export(Request $request) {
+        return Excel::download(new OrderPromoCodeExport($request), 'promocode.xlsx');
     }
 }

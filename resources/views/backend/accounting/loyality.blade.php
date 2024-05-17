@@ -79,12 +79,13 @@
                     <div class="top-input position-absoluteal">
                         <div class="row">
                             <div class="col-md-12">
+                                <form  action="{{route('account.loyalty.export')}}" id="export-form" method="GET" >
                                 <div class="row">
                                     <div class="col-sm-3 mb-1">
-                                        <input type="text" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
+                                        <input type="text" name="date_range" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" id="loyalty_select_box">
+                                        <select class="form-control al_box_height" id="loyalty_select_box" name="loyalty_membership">
                                             <option value="">{{ __('Select') }} {{$LoyaltyCards}}</option>
                                             @foreach($loyalty_card_details as $loyalty_card_detail)
                                                 <option value="{{$loyalty_card_detail->id}}">{{$loyalty_card_detail->name}}</option>
@@ -92,7 +93,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" id="payment_option_select_box">
+                                        <select class="form-control al_box_height" id="payment_option_select_box" name="payment_option">
                                             <option value="">{{ __('Select Payment Option') }}</option>
                                             @foreach($payment_options as $payment_option)
                                                 <option value="{{$payment_option->id}}">{{$payment_option->title}}</option>
@@ -105,6 +106,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -181,7 +183,7 @@
                             className:'btn btn-success waves-effect waves-light',
                             text: '<span class="btn-label"><i class="mdi mdi-export-variant"></i></span>{{__("Export CSV")}}',
                             action: function ( e, dt, node, config ) {
-                                window.location.href = "{{ route('account.loyalty.export') }}";
+                                $('#export-form').trigger('submit');
                             }
                         },
                             {

@@ -3,10 +3,15 @@
 @endphp
 <div class="left-side-menu">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div class="logo-box m-hide d-lg-block" style = "height : auto" > 
 =======
     <div class="logo-box   d-lg-block" style="height: auto">
 >>>>>>> super_easy_anuj
+=======
+    <div class="logo-box m-hide d-lg-block" style="height: auto">
+
+>>>>>>> deevanshi/order_panel_issues
         @php
             $urlImg = URL::to('/').'/assets/images/users/user-1.jpg';
             $clientData = \App\Models\Client::select('id', 'logo','dark_logo','socket_url')->first();
