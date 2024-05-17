@@ -20,7 +20,7 @@ use App\Http\Controllers\Client\ShippoController;
 use App\Http\Controllers\{DunzoController, AhoyController, ShiprocketController};
 use App\Models\{AddonSet, BookingOption, Cart, CartAddon, CartProduct, CartCoupon, CartDeliveryFee, Nomenclature, NomenclatureTranslation, User, Product, ClientCurrency, ClientLanguage, CartProductPrescription, ProductVariantSet, Country, UserAddress, Client, ClientPreference, Vendor, Order, OrderProduct, OrderProductAddon, OrderProductPrescription, VendorOrderStatus, OrderVendor, PaymentOption, OrderTax, LuxuryOption, UserWishlist, SubscriptionInvoicesUser, LoyaltyCard, CategoryKycDocuments, VendorDineinCategory, VendorDineinTable, VendorDineinCategoryTranslation, VendorDineinTableTranslation, VendorSlot, ProductFaq, CaregoryKycDoc, CartBookingOption, CartRentalProtection, VerificationOption, VendorSlotDate, TaxRate, Page, WebStylingOption, ProductDeliveryFeeByRole, ProductRentalProtection, RentalProtection};
 use Http\Message\Cookie;
-
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class CartController extends FrontController
 {
@@ -2072,11 +2072,14 @@ class CartController extends FrontController
         $curId = Session::get('customerCurrency');
         $langId = Session::get('customerLanguage');
         $client_timezone = DB::table('clients')->first('timezone');
+
         $timezone = $client_timezone->timezone ?? ($user ?  ($user->timezone ?? 'Asia/Kolkata') : 'Asia/Kolkata');
         $address_id = 0;
         $schedule_datetime_del = '';
         if ($user) {
+
             $cart = Cart::where('status', '0')->where('user_id', $user->id);
+
             if ($getAdditionalPreference['is_gift_card'] == 1) {
 
                 $cart =  $cart->select('id', 'is_gift', 'item_count', 'schedule_type', 'scheduled_date_time', 'schedule_pickup', 'schedule_dropoff', 'scheduled_slot', 'shipping_delivery_type', 'gift_card_id', 'order_id', 'address_id')->with('giftCard');
@@ -2087,13 +2090,14 @@ class CartController extends FrontController
 
             $cart = $cart->with(['coupon.promo', 'editingOrder'])->first();
 
-
             // pr($cart->toArray());
             $wishListCount =  UserWishlist::where('user_id', $user->id)->count('id');
         } else {
             $cart = Cart::select('id', 'is_gift', 'item_count', 'schedule_type', 'scheduled_date_time', 'schedule_pickup', 'schedule_dropoff', 'scheduled_slot', 'shipping_delivery_type', 'order_id', 'address_id')->with(['coupon.promo', 'editingOrder'])->where('status', '0')->where('unique_identifier', session()->get('_token'))->first();
         }
+
         if ($cart && !empty($cart)) {
+
             $cart_product_removed =    CartProduct::where('cart_id', $cart->id)->whereHas('product', function ($q) {
                 $q->whereIn('is_live', [0, 2]);
             })->pluck('id');
@@ -2106,18 +2110,7 @@ class CartController extends FrontController
                 }
             }
         }
-        if ($cart && !empty($cart)) {
-            $cart_product_removed =    CartProduct::where('cart_id', $cart->id)->whereHas('product', function ($q) {
-                $q->whereIn('is_live', [0, 2]);
-            })->pluck('id');
 
-            if (count($cart_product_removed)) {
-                CartProduct::whereIn('id', $cart_product_removed)->delete();
-                if (CartProduct::where('cart_id', $cart->id)->count() == 0) {
-                    Cart::find($cart->id)->delete();
-                }
-            }
-        }
         $address_id = $request->has("address_id") ? $request->address_id : (@$cart->address_id ?? '');
 
         if (isset($address_id) && !empty($address_id)) {
@@ -2128,6 +2121,7 @@ class CartController extends FrontController
         }
 
         if (isset($cart->editingOrder) && !empty($cart->editingOrder)) {
+
             $schedule_date_delivery_edit = Carbon::parse($cart->editingOrder->scheduled_date_time)->timezone($timezone)->format('Y-m-d H:i:s');
             $schedule_slots_edit = $cart->editingOrder->scheduled_slot;
             $editlimit_datetime = Carbon::now()->toDateTimeString();
@@ -2142,6 +2136,7 @@ class CartController extends FrontController
                 $error_message = __("You can not edit this order. Either order is in processed or in processing. Please discard order editing.");
             }
         } else {
+
             $schedule_date_delivery_edit = '';
             $schedule_slots_edit = '';
             $error_message = '';
@@ -2149,14 +2144,20 @@ class CartController extends FrontController
 
 
 
+
+
         if (isset($request->schedule_date_delivery) && !empty($request->schedule_date_delivery)) {
+
             $schedule_datetime_del = Carbon::parse($request->schedule_date_delivery)->format('Y-m-d H:i:s');
         } else {
+
             $schedule_datetime_del = Carbon::now()->timezone($timezone)->format('Y-m-d H:i:s');
         }
 
 
+
         if ($cart) {
+
             //$cart_details = $this->getCartsNew($cart, $address_id, $request->code, $schedule_datetime_del);
             //v2 trait
             $obj = [
@@ -2216,6 +2217,8 @@ class CartController extends FrontController
             } else {
 
 
+                // FacadesLog::info($cart_details);
+                // dd($cart_details);
                 $mycartView = view('frontend.cart-page')->with(['cart_details' => (($cart_details) ? json_decode($cart_details) : []), 'nomenclatureProductOrderForm' => $nomenclatureProductOrderForm, 'getAdditionalPreference' => $getAdditionalPreference, 'edit_order_schedule_datetime' => $schedule_date_delivery_edit, 'schedule_slots_edit' => $schedule_slots_edit, 'cart_error_message' => $error_message])->render();
             }
         }

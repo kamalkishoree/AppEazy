@@ -3745,6 +3745,7 @@ function checkIfInCart(v_p) {
 function cartHeader(address_id = null) {
     $(".shopping-cart").html("");
     $(".spinner-box").show();
+    console.log("yaha tk chal rha h");
     OrderStorage.setStorageSingle("cartData", []);
     OrderStorage.setStorageSingle("cartProductCount", 0);
     OrderStorage.setStorageSingle("LongTermServiceAdded", "");
@@ -3793,7 +3794,6 @@ function cartHeader(address_id = null) {
                 //return true;
                 var cart_details = response.cart_details;
 
-                console.log(cart_details);
                 var client_preference_detail =
                     response.client_preference_detail;
                 var is_token_enable = response.is_token_enable;

@@ -772,7 +772,7 @@
                                 @if (!$cart_details->guest_user)
                                     <div class="col-lg-6">
 
-                                        {{-- {{dd($product->coupon)}} --}}
+                                        
                                         @if ($product->is_promo_code_available > 0 || $product->is_promo_code_available == 0 )
                                             <div class="coupon_box w-100 d-flex align-content-center">
                                                 <img class="blur-up lazyload"
