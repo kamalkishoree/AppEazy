@@ -20,7 +20,6 @@ class OrderVendorTaxExport implements FromCollection,WithHeadings,WithMapping{
     public function __construct($request)
     {
         $this->data = (object)$request->input();
-        // dd($this->data);
     }
     public function collection()
     {
@@ -47,8 +46,6 @@ class OrderVendorTaxExport implements FromCollection,WithHeadings,WithMapping{
             $date = explode(' to ',$this->data->date_range);
             $dateF = $date[0];
             $dateT = !empty($date[1]) ?$date[1]: $date[0];
-            $dateF = Carbon::parse($dateF, $timezone)->setTimezone('UTC');
-            $dateT = Carbon::parse($dateT, $timezone)->setTimezone('UTC')->addDays(1);
             $vendor_orders = $vendor_orders->whereBetween('created_at',[$dateF." 00:00:00", $dateT." 23:59:59"]);
         }
 
@@ -64,8 +61,6 @@ class OrderVendorTaxExport implements FromCollection,WithHeadings,WithMapping{
                 $query->where('tax_category_id', $tax_category_option);
             });
         }
-
-
 
         return $vendor_orders;
     }

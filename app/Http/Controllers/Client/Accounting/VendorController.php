@@ -20,7 +20,7 @@ class VendorController extends Controller{
     public function index(Request $request){
         return view('backend.accounting.vendor')->with($this->getOrderVendorCalculations($request,true));
     }
-    
+
     public function getOrderVendorCalculations(Request $request,$flag = false){
         $from_date = "";
         $to_date = "";
@@ -46,14 +46,14 @@ class VendorController extends Controller{
             $data['total_delivery_fees'] = decimal_format($vendors->where('order_status_option_id', '!=', 3)->sum('delivery_fee'));
             $admin_commission_percentage_amount =  decimal_format($vendors->where('order_status_option_id', '!=', 3)->sum('admin_commission_percentage_amount'));
             $admin_commission_fixed_amount =  decimal_format($vendors->where('order_status_option_id', '!=', 3)->sum('admin_commission_fixed_amount'));
-            $data['total_admin_commissions'] = $admin_commission_fixed_amount + $admin_commission_percentage_amount;           
+            $data['total_admin_commissions'] = $admin_commission_fixed_amount + $admin_commission_percentage_amount;
         if($flag){
             return $data;
         }
         return response()->json(['data' => $data]);
     }
-    
-    
+
+
     public function getVendors($request){
         $from_date = "";
         $to_date = "";
@@ -67,17 +67,18 @@ class VendorController extends Controller{
                 $query->between($from_date." 00:00:00", $to_date." 23:59:59");
             }
         }])->where('status', '!=', '2')->where('is_seller', 0)->orderBy('id', 'desc');
-        
+
         if (Auth::user()->is_superadmin == 0) {
             $vendors = $vendors->whereHas('permissionToUser', function ($query) {
                 $query->where('user_id', Auth::user()->id);
             });
         }
         return $vendors;
-        
+
     }
 
     public function filter(Request $request){
+
         // $month_number = '';
         // $month_picker_filter = $request->month_picker_filter;
         // if($month_picker_filter){
