@@ -2,6 +2,7 @@
     var CSRF_TOKEN = $("input[name=_token]").val();
     $('.addUserModal').click(function(){
         $('#user-modal').modal({
+
             //backdrop: 'static',
             keyboard: false
         });
@@ -19,7 +20,7 @@
        var url = $(this).attr('data-url');
        window.location.href = url;
     });
-   
+
 
     function submitImportUserForm() {
         var form = document.getElementById('save_imported_customer');

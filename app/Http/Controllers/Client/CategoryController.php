@@ -75,7 +75,7 @@ class CategoryController extends BaseController
         $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')
             ->where('is_active', 1)
             ->orderBy('is_primary', 'desc')->get();
-        $addon_sets = AddonSet::with('option')->orderBy('id', 'desc')->get();
+        $addon_sets = AddonSet::with('option')->where('status',"!=",2)->orderBy('id', 'desc')->get();
         $clientCurrency = ClientCurrency::select('currency_id')->where('is_primary', 1)->with('currency')->first();
         return view('backend.catalog.index')->with(['clientCurrency' => $clientCurrency, 'categories' => $categories, 'addon_sets' => $addon_sets ,'html' => $tree,  'languages' => $langs, 'variants' => $variants, 'brands' => $brands, 'build' => $build, 'tags'=>$tags,'facilties'=>$facilties,'client_languages'=>$langs, 'attributes'=>$attributes]);
     }

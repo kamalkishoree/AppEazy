@@ -73,12 +73,13 @@
                    <div class="top-input position-absoluteal">
                         <div class="row">
                             <div class="col-md-12">
+                                <form  action="{{route('account.promo-code.export')}}" id="export-form" method="GET" >
                                 <div class="row">
                                     <div class="col-sm-3 mb-1">
-                                        <input type="text" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
+                                        <input type="text" name="date_range" id="range-datepicker" class="form-control al_box_height flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" id="order_status_option_select_box">
+                                        <select class="form-control al_box_height" id="order_status_option_select_box" name="order_status">
                                             <option value="">{{ __("Select Order Status") }}</option>
                                             @forelse($order_status_options as $order_status_option)
                                                 <option value="{{$order_status_option->id}}">{{$order_status_option->title}}</option>
@@ -87,7 +88,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control al_box_height" name="" id="promo_code_option_select_box">
+                                        <select class="form-control al_box_height" name="promo_code_option" id="promo_code_option_select_box">
                                             <option value="">{{ __("Select Coupon Code") }}</option>
                                             @forelse($promo_code_options as $promo_code_option)
                                                 <option value="{{$promo_code_option->coupon_id}}">{{$promo_code_option->coupon_code}}</option>
@@ -174,7 +175,8 @@
                     className:'btn btn-success waves-effect waves-light',
                     text: '<span class="btn-label"><i class="mdi mdi-export-variant"></i></span>{{__("Export CSV")}}',
                     action: function ( e, dt, node, config ) {
-                        window.location.href = "{{ route('account.promo-code.export') }}";
+                       //window.location.href = "{{ route('account.promo-code.export') }}";
+                       $('#export-form').trigger('submit');
                     }
                 },
                             {
