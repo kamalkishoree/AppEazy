@@ -1259,7 +1259,6 @@ class TaskController extends BaseController
                         $header['client'][0] = $client->database_name;
                     }
                     $ordersId = Order::where('sync_order_id',$request->order_id)->value('id');
-                    \Log::info('Notification send successfully');
                     $this->addRosterNotification($ordersId,$header);
             }else{
                 \Log::info('Notification send by Lumen');
@@ -1509,9 +1508,6 @@ class TaskController extends BaseController
                 'no_seats_for_pooling' => isset($request->no_seats_for_pooling) ? $request->no_seats_for_pooling : 0,
                 'is_cab_pooling' => isset($request->is_cab_pooling) ? $request->is_cab_pooling : 0,
             ];
-            \Log::info('data');
-             \Log::info($order);
-        
 
             if (checkColumnExists('orders', 'rejectable_order')) {
                 $order['rejectable_order'] = isset($request->rejectable_order) ? $request->rejectable_order : 0;
@@ -1891,7 +1887,7 @@ class TaskController extends BaseController
             }
             //Commit Transaction befor send notification
             DB::commit();
- 
+
 
             if(@$client->is_lumen_enabled)
             {
@@ -1920,7 +1916,7 @@ class TaskController extends BaseController
                         $this->batchWise($geo, $notification_time, $agent_id, $orders->id, $customer, $pickup_location, $taskcount, $header, $allocation, $orders->is_cab_pooling, $agent_tags, $is_order_updated, $is_one_push_booking);
                 }
             }
-          
+
             $dispatch_traking_url = $client_url . '/order/tracking/' . $auth->code . '/' . $orders->unique_id;
             return response()->json([
                 'message' => __('Task Added Successfully'),
@@ -2586,7 +2582,6 @@ class TaskController extends BaseController
 
     public function SendToAll($geo, $notification_time, $agent_id, $orders_id, $customer, $finalLocation, $taskcount, $header, $allocation, $is_cab_pooling, $agent_tag = '', $is_order_updated, $is_one_push_booking = 0,$particular_driver_id = 0)
     {
-        \Log::info($geo);
         $allcation_type    = 'AR';
         $date              = \Carbon\Carbon::today();
         $auth              = Client::where('database_name', $header['client'][0])->with(['getAllocation', 'getPreference'])->first();
@@ -3154,6 +3149,7 @@ class TaskController extends BaseController
             'message' => __('success')
         ], 200);
     }
+
     public function getDeliveryFeeRental(Request $request)
     {
         $latitude = [];
@@ -3171,15 +3167,15 @@ class TaskController extends BaseController
 
         $timezone = $tz->timezone_name($client_timezone);
 
-        
+
         // get geoid based on customer location
 
-       
+
         $agent_tags = (isset($request->agent_tag) && !empty($request->agent_tag)) ? $request->agent_tag : '';
 
 
         $pricingRule = PricingRule::where('is_default', 1)->first();
-        
+
 
         $paid_duration = $pricingRule->base_duration;
         $paid_distance = $pricingRule->base_distance;
@@ -3188,7 +3184,7 @@ class TaskController extends BaseController
 
 
          $total         = $pricingRule->base_price + ($paid_distance * $pricingRule->distance_fee) + ($paid_duration * $pricingRule->duration_price);
-        
+
 
 
 
