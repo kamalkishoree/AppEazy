@@ -143,6 +143,16 @@ export default function Settings({route, navigation}) {
               label: 'Amharic',
               value: 'am',
             },
+            {
+              id: 16,
+              label: 'Tigrinya',
+              value: 'tig',
+            },
+            {
+              id: 17,
+              label: 'Oron',
+              value: 'oro',
+            },
           ],
     selectedLangauge: defaultLanguage?.label
       ? defaultLanguage

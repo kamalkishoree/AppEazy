@@ -21,6 +21,8 @@ import ger from './ger';
 import tel from './tel';
 import ta from './ta';
 import am from './am';
+import tig from './tig';
+import oro from './oro';
 
 const arbicFile = () => {
   return ar;
@@ -46,6 +48,8 @@ let strings = new LocalizedStrings({
   tel:tel,
   ta:ta,
   am:am,
+  tig:tig,
+  oro:oro,
 });
 export const changeLaguage = languageKey => {
   strings.setLanguage(languageKey);

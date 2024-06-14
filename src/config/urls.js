@@ -1,5 +1,4 @@
 //SuperAPP 
-// export const API_BASE_URL='https://superapp.rdstaging.com/'
 export const API_BASE_URL='https://dispatch.super-eazy.com/'
 
 
