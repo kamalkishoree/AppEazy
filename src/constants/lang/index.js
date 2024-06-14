@@ -17,6 +17,8 @@ import vi from './vi';
 import zh from './zh';
 import bn from './bn';
 import am from './am';
+import tig from './tig';
+import oro from './oro';
 
 import {appIds} from '../../utils/constants/DynamicAppKeys';
 import ar_baytukom from './ar_baytukom';
@@ -86,7 +88,9 @@ let strings = new LocalizedStrings({
   swa: swa,
   bn:bn,
   he: heb,
-  am:am
+  am:am,
+  tig:tig,
+  oro:oro
 });
 export const changeLaguage = (languageKey) => {
   strings.setLanguage(languageKey);

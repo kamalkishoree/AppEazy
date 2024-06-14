@@ -1,7 +1,6 @@
 export const SOCKET_URL = 'https://chat.royoorders.com';
 
-// export const API_BASE_URL = 'https://api.royoorders.com/api/v1';
-export const API_BASE_URL = 'https://superapp.rostaging.com/api/v1';
+export const API_BASE_URL = 'https://super-eazy.com/api/v1';
 
 
 // export const API_BASE_URL = 'https://bimol.in/api/v1';
