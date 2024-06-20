@@ -41,7 +41,7 @@
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="row h-100">
                         <div class="col-12">
-                            <form method="POST" action="{{ route('configure.update', Auth::user()->code) }}">
+                            <form method="POST" action="{{ route('configure.update', Auth::user()->code) }}" >
                                 @csrf
                                 <!-- Hyperlocal start -->
                                 <div class="card-box h-100">
@@ -1146,7 +1146,7 @@
         </div>
         <div class="col-lg-6 mb-3">
             <!-- Firebase Notification Configuration start -->
-            <form method="POST" action="{{ route('configure.update', Auth::user()->code) }}" class="h-100">
+            <form method="POST" action="{{ route('configure.update', Auth::user()->code) }}" class="h-100" enctype="multipart/form-data">
                 @csrf
                 <div class="card-box h-100 h-100">
                     <div class="d-flex align-items-center justify-content-between mb-2">
@@ -1222,6 +1222,27 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="col-md-6">
+
+                    <div class="form-group mb-2">
+
+                        <label for="firebase_account_json_file">{{ __('Firebase Service Account Json File') }}</label>
+
+                        <input type="file" accept="json"  name="firebase_account_json_file" data-plugins="dropify"/>
+
+                        @if ($errors->has('firebase_account_json_file'))
+
+                            <span class="text-danger" role="alert">
+
+                                <strong>{{ $errors->first('firebase_account_json_file') }}</strong>
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+</div>
                         <div class="col-md-6">
                             <div class="form-group mb-2">
                                 <label for="fcm_storage_bucket">{{ __('Storage Bucket') }}</label>
