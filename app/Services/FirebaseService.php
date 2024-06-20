@@ -484,9 +484,12 @@ class FirebaseService
 
             // return json_decode($response->getBody(), true);
 
-        } catch (RequestException $e) {
+        } catch (\Exception $e) {
 
             // Handle the error appropriately
+ 
+            \Log::info('error');
+            \Log::info($e->getMessage());
 
             return ['error' => $e->getMessage()];
 
