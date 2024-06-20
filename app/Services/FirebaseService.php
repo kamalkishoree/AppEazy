@@ -134,6 +134,8 @@ class FirebaseService
 
         $accessToken = getFcmOauthToken();
 
+        \Log::info('accessToken');
+        \Log::info($accessToken);
         if (!$accessToken) {
 
             return ['error' => 'Unable to fetch access token'];
