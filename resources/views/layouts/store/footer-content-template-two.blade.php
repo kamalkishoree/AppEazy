@@ -50,7 +50,7 @@ if(session()->has('applocale')){
                                     @if(isset($page->primary->type_of_form) && ($page->primary->type_of_form == 2))
                                     @if(isset($last_mile_common_set) && $last_mile_common_set != false)
                                     <li>
-                                        <a href="{{route('extrapage',['slug' => $page->slug])}}">
+                                        <a href="{{route('extrapage',['slug' => @$page->slug])}}">
                                             @if(isset($page->translations) && $page->translations->first()->title != null)
                                             {{ $page->translations->first()->title ?? ''}}
                                             @else
