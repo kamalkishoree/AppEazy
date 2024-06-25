@@ -54,6 +54,7 @@ export function initApp(
           ? data?.languages.map((x) => {
             return {
               id: x?.language?.id,
+              name: x?.language?.name,
               label: x?.language?.nativeName || x?.language?.name,
               value: x?.language?.nativeName || x?.language?.name,
               sort_code: x?.language?.sort_code,

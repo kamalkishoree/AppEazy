@@ -177,7 +177,7 @@ export default function EcomLangCurrency({ route, navigation }) {
                         color: isDarkMode ? colors.white : colors.black,
                         textTransform: 'uppercase',
                         marginBottom: moderateScaleVertical(4)
-                    }} >{item?.sort_code}</Text>
+                    }} >{item?.name}</Text>
                     <Text style={{
                         ...commonStyles.mediumFont12,
                         color: isDarkMode ? colors.white : colors.blackOpacity70,
