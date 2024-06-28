@@ -9,7 +9,7 @@ const appIds = {
  
   superApp: Platform.select({
     ios: 'com.superapp.royoorder',
-    android: 'com.superapp.royoorder',
+    android: 'com.superapp.order',
   }),
  
 };

@@ -49,7 +49,6 @@ export function initApp(
             };
           })
           : {};
-
         const languages = !!data?.languages
           ? data?.languages.map((x) => {
             return {
@@ -61,6 +60,7 @@ export function initApp(
             };
           })
           : {};
+      
 
 
         let fontSizeData = {};
@@ -157,6 +157,7 @@ export function initApp(
         //Set Language
         if (reload) {
           setItem('setPrimaryLanguage', languagesData);
+          console.log('setPrimaryLanguage', languagesData);
           setLanguage(languagesData);
           // refreshScreen(languagesData?.primary_language?.sort_code);
         } else {
