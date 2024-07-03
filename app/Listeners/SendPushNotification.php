@@ -54,7 +54,7 @@ class SendPushNotification
             ];
             Config::set("database.connections.$schemaName", $default);
             config(["database.connections.mysql.database" => $schemaName]);
-            $this->getData();
+            // $this->getData();
             DB::disconnect($schemaName);
         } catch (Exception $ex) {
             return $ex->getMessage();

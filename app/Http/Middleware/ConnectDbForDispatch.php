@@ -18,7 +18,6 @@ class ConnectDbForDispatch
      */
     public function handle($request, Closure $next)
     {
-       
         $database_name = $database = 'royodelivery_db';
         $header = $request->header();
         
