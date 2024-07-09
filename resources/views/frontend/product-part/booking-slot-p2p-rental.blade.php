@@ -140,7 +140,9 @@
        default_currency = "{{Session::get('currencySymbol')}}";
        default_step = timeConvertCal('{{$product->additional_increments}}','{{$product->additional_increments_min}}');
         product_availability = JSON.parse(<?php echo json_encode($productAvailability ?? ''); ?>);
-        console.log(product_availability[0]);
+        console.log("fff",product_availability[0]);
+        console.log("moment",moment(product_availability[0]));
+        console.log("gg",moment(product_availability[product_availability.length-1]),)
        min_dur_hrs = '{{ $product->minimum_duration }}';
        min_dur_min = '{{ $product->minimum_duration_min }}';
        additional_base_hr = '{{$product->additional_increments}}';
@@ -249,12 +251,12 @@
                   format: 'M/DD/YY hh:mm A'
             },
             timePicker: false,
-            startDate: moment(product_availability[0]),
-            endDate: moment().add(min_dur_hrs,'hours').add(min_dur_min,'minutes'),
+            startDate: moment(),  // Start date set to today
+            endDate: moment().add(1, 'month'),  // End date set to one month later
             //minDate:new Date(),
             //"alwaysShowCalendars": true,
-            "minDate": moment(product_availability[0]),
-            "maxDate": moment(product_availability[product_availability.length-1]),
+            "minDate": moment(),
+            "maxDate":moment().add(12, 'month'),
             autoApply: true,
             autoUpdateInput: false,
             isInvalidDate: function(date) {
