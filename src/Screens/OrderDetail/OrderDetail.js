@@ -93,6 +93,7 @@ import { enableFreeze } from "react-native-screens";
 import ScreenLoader from "./ScreenLoader";
 import BrowseMenuButton from "../../Components/BrowseMenuButton";
 import HorizontalLine from "../../Components/HorizontalLine";
+import QRCode from 'react-native-qrcode-svg';
 
 enableFreeze(true);
 
@@ -2769,6 +2770,19 @@ export default function OrderDetail({ navigation, route }) {
                 : colors.blackOpacity86,
             }}
           />
+         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+         <Text style={{fontSize: textScale(14),
+              marginBottom: moderateScaleVertical(12),
+              color: isDarkMode
+                ? MyDarkTheme.colors.text
+                : colors.blackOpacity86,}}>Invoice</Text>
+          <QRCode value={JSON.stringify({
+                  id: userData?.id,
+                    })}
+                  ecl="H"
+                  size={moderateScale(width - 300)}/>
+         </View>
+          
           {console.log(appData, "tippppppppp")}
           {console.log(appData?.profile?.preferences?.tip_after_order, "tippppppppp2222")}
           {!!(
