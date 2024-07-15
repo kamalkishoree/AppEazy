@@ -104,7 +104,7 @@ function GiftCardDataTable(){
                     return "<img src='" + full.image_url + "' class='rounded-circle' alt='" + full.id + "' >";
                 }
             },
-            { data: 'name',
+            { data: 'title',
             orderable: false },
             { data: 'amount',
             orderable: false },

@@ -103,6 +103,7 @@ form#giftCard_payment_form input.form-control {
                                                         <span class="plan-price">{{ Session::get('currencySymbol') . ($active_giftcard->giftCard->amount * $clientCurrency->doller_compare) }}</span>
                                                     </div>
                                                     <p>{{ $active_giftcard->giftCard->short_desc }}</p>
+                                                    <p>Code : {{ $active_giftcard->gift_card_code }}</p>
                                                    
                                                 </div>
 
