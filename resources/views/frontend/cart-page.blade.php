@@ -928,14 +928,15 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if (@$product->vendor->service_charge_amount > 0)
+                                    @if ($cart_details->total_service_fee > 0 && $price_bifurcation != 1)
                                         <div class="row">
                                             <div class="col-5 text-lg-right">
                                                 <label class="m-0 radio">{{ __('Service Fee') }} :</label>
                                             </div>
                                             <div class="col-7 text-right">
-                                                <p class="total_amt m-0">{{ Session::get('currencySymbol') }}
-                                                    {{ decimal_format($product->vendor->service_charge_amount) }}</p>
+                                                <p class="total_amt m-0"> @if ($additionalPreference['is_token_currency_enable'])
+                                                {!! "<i class='fa fa-money' aria-hidden='true'></i> " !!}{{ getInToken(decimal_format($cart_details->total_service_fee)) }}@else{{ Session::get('currencySymbol') . decimal_format($cart_details->total_service_fee) }}
+                                            @endif</p>
                                             </div>
                                         </div>
                                     @endif
@@ -955,7 +956,7 @@
                                                 @if ($additionalPreference['is_token_currency_enable'])
                                                     {!! "<i class='fa fa-money' aria-hidden='true'></i> " !!}{{ getInToken(decimal_format($product->product_total_amount + $product->vendor->fixed_fee_amount)) }}
                                                     @else
-                                                    {{ Session::get('currencySymbol') . decimal_format($cart_details->sub_total + $product->vendor->fixed_fee_amount - $product->bid_vendor_discount ?? 0) }}
+                                                    {{ Session::get('currencySymbol') }}. {{ $additionalPreference['is_token_currency_enable'] ? getInToken(decimal_format($cart_details->gross_amount)) : decimal_format($cart_details->gross_amount - $cart_details->bid_total_discount) }}
                                                 @endif
                                             </p>
                                         </div>
