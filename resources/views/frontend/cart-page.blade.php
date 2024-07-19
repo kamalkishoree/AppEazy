@@ -136,7 +136,7 @@
                     <div class="row border-bottom">
                         <div class="col-6">
                             <div class="single_cart_heading">
-                                <h3>{{ __('Shopping Cart ') }} </h3>
+                                <h3>{{ __('Shopping Cart') }} </h3>
                             </div>
                         </div>
                         <div class="col-6">
@@ -168,7 +168,7 @@
                             </div>
                         @endif
                         <div class="col-md-4 col text-center">
-                            <span>Total</span>
+                            <span>{{ __('Total') }}</span>
                         </div>
 
                     </div>

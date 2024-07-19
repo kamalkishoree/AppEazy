@@ -3745,7 +3745,10 @@ function checkIfInCart(v_p) {
 function cartHeader(address_id = null) {
     $(".shopping-cart").html("");
     $(".spinner-box").show();
+    console.log(cart_product_url);
+
     console.log("yaha tk chal rha h");
+
     OrderStorage.setStorageSingle("cartData", []);
     OrderStorage.setStorageSingle("cartProductCount", 0);
     OrderStorage.setStorageSingle("LongTermServiceAdded", "");
@@ -3761,6 +3764,8 @@ function cartHeader(address_id = null) {
         dataType: "json",
         url: cart_product_url,
         success: function (response) {
+            console.log(cart_product_url);
+
             if (response.status == "success") {
                 if (response.wishListCount > 0) {
                     $(".wishListCount").removeClass("fa-heart-o");

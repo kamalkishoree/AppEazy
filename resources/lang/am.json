@@ -787,7 +787,7 @@
     "Total Admin Commissions":"ጠቅላላ የማስታወቂያ ኮሚሽኖች ፡፡",
     "Total Amount":"ጠቅላላ መጠን።",
     "Total Cash To Be Collected":"ጠቅላላ ጥሬ ገንዘብ ለመሰብሰብ። ",
-    "Total Delivery Fees":"ጠቅላላ የመላኪያ ክፍያዎች።",
+    "Total Delivery Fee":"ጠቅላላ የመላኪያ ክፍያዎች።",
     "Total Limit":"ጠቅላላ ወሰን።",
     "Total Order Value":"ጠቅላላ የትእዛዝ እሴት። ",
     "Total Orders":"ጠቅላላ ትዕዛዞች። ",
@@ -883,7 +883,6 @@
     "Weekly":"በየሳምንቱ።",
     "Weight Unit":"የክብደት ክፍል። ",
     "Weight":"ክብደት። ",
-    "Wishlist":"የተመልካች ዝርዝር።",
     "Yearly":"በየዓመቱ ፡፡ ",
     "You Might Be Interested In":"ምናልባት እርስዎ ፍላጎት ሊሆኑ ይችላሉ ",
     "You have earned":"አግኝተዋል። ",
@@ -986,8 +985,17 @@
     "Avg. Customer Review":"አማካኝ የደንበኛ ግምገማ",
     "Newest Arrivals":"በጣም አዲስ የመጡ",
     "PRICE DETAILS" : "የዋጋ ዝርዝሮች",
-    "You can only buy products for single vendor. Do you want to remove all your cart products to continue ?":"ለአንድ ነጠላ ሻጭ ምርቶችን ብቻ መግዛት ይችላሉ።. ለመቀጠል ሁሉንም የካርት ምርቶችዎን ማስወገድ ይፈልጋሉ?"
- }
+    "You can only buy products for single vendor. Do you want to remove all your cart products to continue ?":"ለአንድ ነጠላ ሻጭ ምርቶችን ብቻ መግዛት ይችላሉ።. ለመቀጠል ሁሉንም የካርት ምርቶችዎን ማስወገድ ይፈልጋሉ?",
+    "Order Summary" :  "የትዕዛዝ ማጠቃለያ",
+    "open gift Card" :"የስጦታ ጋሪን ይክፈቱ",
+    "Items": "እቃዎች",
+    "Service Fee" : "የአገልግሎት ክፍያ",
+    "Scheduled Slot" : "የታቀደ ማስገቢያ",
+    "Do you want to add any instructions?" : "ማንኛውንም መመሪያ ማከል ይፈልጋሉ?",
+    "Does this include a gift?":"ማንኛውንም መመሪያ ማከል ይፈልጋሉ?",
+    "Cart" :"ጋሪ",
+    "Wishlist":"የምኞት ዝርዝር"
+}
  
  
  
