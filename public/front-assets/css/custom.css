@@ -2037,7 +2037,18 @@ h4#driver_name {
 
 .dark .inner_spacing h3,
 .dark .page-title h3 {
-    color: #eaedef
+    color: #000000
+}
+
+.dark .inner_spacing p,
+.dark .page-title p {
+    color: #000000
+}
+
+
+.dark .inner_spacing:hover h3,
+.dark .page-title h3:hover {
+    color: #f3f3f3;
 }
 
 .dark .inner_spacing h4,
@@ -8858,6 +8869,9 @@ body .status_box label {
             text-overflow: ellipsis;
             padding-right: 0
         }
+
+
+
 
         .al_template_two_content .common-product-box:hover img,
         .al_template_two_content .product-box:hover img,
