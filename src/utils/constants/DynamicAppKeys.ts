@@ -8,7 +8,7 @@ const shortCodes = {
 const appIds = {
  
   superApp: Platform.select({
-    ios: 'com.superapp.royoorder',
+    ios: 'com.superapp.order',
     android: 'com.superapp.order',
   }),
  

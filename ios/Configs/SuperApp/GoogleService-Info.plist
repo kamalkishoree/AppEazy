@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>184245572610-f6o54gnt4v6qtffn4sim6ch726dpvc3v.apps.googleusercontent.com</string>
+	<string>548655838473-nd4l38hck6rppck33orup5fcebju7813.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.184245572610-f6o54gnt4v6qtffn4sim6ch726dpvc3v</string>
+	<string>com.googleusercontent.apps.548655838473-nd4l38hck6rppck33orup5fcebju7813</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>184245572610-93q8o4385ifgtbohqj06uk3gtlueifum.apps.googleusercontent.com</string>
+	<string>548655838473-92518vegfi7g3uu6rah4fkcs2toe6b8e.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDBn-szkKdXMrGSY5_p9nQUKeX2Xns3ySs</string>
+	<string>AIzaSyDhf3PADTjHqk21j_yssBYZPHFPxUhGwXc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>184245572610</string>
+	<string>548655838473</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.superapp.royoorder</string>
+	<string>com.superapp.order</string>
 	<key>PROJECT_ID</key>
-	<string>superapp-order</string>
+	<string>super-eazy-426010</string>
 	<key>STORAGE_BUCKET</key>
-	<string>superapp-order.appspot.com</string>
+	<string>super-eazy-426010.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:184245572610:ios:b351cca730c77709bd831b</string>
+	<string>1:548655838473:ios:6cfc188e4ac712a8c04fd8</string>
 </dict>
 </plist>
