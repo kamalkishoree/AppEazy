@@ -374,7 +374,7 @@ export default function Login({ navigation, route }) {
                 color={colors.black}
                 borderColor={colors.themeColor}
                 callingCodeTextStyle={styles.callingCodeTextStyle}
-                maxLength={getBundleId()==appIds.superApp ? 9 : 15}
+                maxLength={getBundleId()==appIds.superApp ? 10 : 15}
               // color={isDarkMode ? MyDarkTheme.colors.text : null}
               />
             </View>

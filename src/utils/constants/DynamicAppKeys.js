@@ -7,7 +7,7 @@ const shortCodes = {
 
 const appIds = {
   superApp: Platform.select({
-    ios: 'com.superApp.royodispatcher',
+    ios: 'com.superapp.driver',
     android: 'com.superapp.driver',
   }),
 };
