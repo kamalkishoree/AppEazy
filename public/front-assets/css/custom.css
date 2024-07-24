@@ -19012,3 +19012,6 @@ section#alTaxiBookingWrapper .address-form .pool_radio_controls.text-center labe
     }
 }
 
+.dark .header-dropdown .onhover-dropdown .onhover-show-div li a{
+    color:white !important;
+}

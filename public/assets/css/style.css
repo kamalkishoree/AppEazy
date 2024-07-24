@@ -1609,8 +1609,12 @@ div#diff-box input:checked + label.different_cta::after {
     line-height: 21.6px;
 }
 body.al_body_template_one .category-list li a, .top-header .header-dropdown .onhover-dropdown .onhover-show-div li a{
-    color:#333 !important;
+    color:#919191 !important;
 }
+
+
+
+
 .pass-detail {
     margin: 20px 0px 0px 0px;
     border-radius: 5px;

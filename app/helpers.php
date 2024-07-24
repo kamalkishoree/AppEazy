@@ -1687,9 +1687,7 @@ if (!function_exists('getServiceTypesCategory')) {
                 $service_types = ['p2p'];
             } */
             $types =  $types->whereIn('service_type', $service_types);
-           
             $types_id = $types->pluck('id')->toArray();
-           
             return $types_id ;
         } catch (\Throwable $th) {
            return [];

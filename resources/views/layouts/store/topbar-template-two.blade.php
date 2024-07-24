@@ -99,7 +99,15 @@ $pages = \App\Models\Page::with(['translations' => function($q) {$q->where('lang
                         @endif
                         @if(count($languageList) > 1)
                         <li class="onhover-dropdown change-language slected-language">
-                            <a href="javascript:void(0)">{{ $applocale }}
+                            @php
+                            $header_lang = $applocale;
+                            if($applocale)
+                            {
+                                $header_lang = \App\Models\Language::where('sort_code',$applocale)->first();
+
+                            }
+                            @endphp
+                            <a href="javascript:void(0)">{{ $header_lang->name }}
                             <span class="icon-ic_lang align-middle"></span>
                             <span class="language ml-1 align-middle">{{ __('language') }}</span>
                             </a>

@@ -222,7 +222,6 @@ class CategoryController extends FrontController{
             $child->translation_name = ($child->translationLatest) ? $child->translationLatest->name : $child->slug;
         }
         $service_type = $category->type->service_type ?? "";
-
         if( (isset($preferences->is_hyperlocal)) && ($preferences->is_hyperlocal == 1) && (isset($category->type_id)) && !in_array($category->type_id,[4,5]) ){
             $latitude = Session::get('latitude');
             $longitude = Session::get('longitude');
@@ -272,7 +271,7 @@ class CategoryController extends FrontController{
         }
 
         $navCategories = $this->categoryNav($langId);
-
+     
         if(isset($vendors)){
             $vendorIds = $vendors;
         }else{
@@ -306,6 +305,8 @@ class CategoryController extends FrontController{
                  //   pr($variantSets);
         $redirect_to = $category->type->redirect_to;
 
+      
+        
         $listData = $this->listData($langId, $category->id, $redirect_to,$vendorIds,false);
 
         $maxPrice = DB::select("SELECT MAX(product_variants.price) as max_price FROM product_variants INNER JOIN products ON products.id = product_variants.product_id WHERE product_variants.status = 1 AND products.is_live = 1 AND products.category_id = ?", [$category->id])[0]->max_price;
@@ -385,7 +386,12 @@ class CategoryController extends FrontController{
             }
             $clientCurrency = ClientCurrency::where('currency_id', $curId)->first();
             return view('frontend.ondemand.index')->with(['maxPrice'=>$maxPrice,'clientCurrency' => $clientCurrency,'time_slots' =>  $cartDataGet['time_slots'], 'period' =>  $cartDataGet['period'] ,'cartData' => $cartDataGet['cartData'], 'addresses' => $cartDataGet['addresses'], 'countries' => $cartDataGet['countries'], 'subscription_features' => $cartDataGet['subscription_features'], 'guest_user'=>$cartDataGet['guest_user'],'listData' => $listData, 'category' => $category,'navCategories' => $navCategories]);
-        }else{
+        }
+        elseif($service_type == 'car_rental')
+        {
+          return view('frontend.yacht.car-rental')->with([ 'service'=>'','pick_drop_time'=>'','pickup_time' =>'','drop_time'=>'','maxPrice'=>$maxPrice,'listData' => $listData, 'category' => $category, 'navCategories' => $navCategories, 'newProducts' => $newProducts, 'variantSets' => $variantSets, 'productAttributes'=> $productAttributes]);
+        }
+        else{
 
             if($page == 'laundry' || $service_type == 'rental_service')
                 $page = 'product';
