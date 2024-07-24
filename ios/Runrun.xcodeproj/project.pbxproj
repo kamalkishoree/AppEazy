@@ -11,7 +11,6 @@
 		18154677298B9C2900348072 /* SuperApp(Production).xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18154673298B9C1900348072 /* SuperApp(Production).xcconfig */; };
 		18154678298B9C2900348072 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18154674298B9C1E00348072 /* Images.xcassets */; };
 		18154679298B9C2900348072 /* SuperApp(Development).xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18154675298B9C2300348072 /* SuperApp(Development).xcconfig */; };
-		18213D89298B932F009E8661 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		18213D8A298B932F009E8661 /* Royo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F4679626A7F27500D378D5 /* Royo.swift */; };
 		18213D8B298B932F009E8661 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		18213D8F298B932F009E8661 /* Eina02-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8455CA3826DFBC2200C27F72 /* Eina02-Regular.ttf */; };
@@ -36,7 +35,8 @@
 		18213DA5298B932F009E8661 /* Metropolis-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8496BC0526F1B860001AAB4C /* Metropolis-Regular.otf */; };
 		18213DA7298B932F009E8661 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 846DA7912681E47100CC5BA2 /* SFProText-Bold.ttf */; };
 		18213DA8298B932F009E8661 /* Eina02-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8455CA3726DFBC2200C27F72 /* Eina02-SemiBold.ttf */; };
-		72CCD387BA72D578BEE67BEC /* libPods-available_pods-SuperApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFDB5BD4DE255222D7F358D /* libPods-available_pods-SuperApp.a */; };
+		3D1EB4A8A93EB8B97FDD5E99 /* libPods-available_pods-SuperApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8A7FB1C61ABC8BF44C8109 /* libPods-available_pods-SuperApp.a */; };
+		602AC34C2C50BBA700FF50F5 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 602AC34B2C50BBA700FF50F5 /* AppDelegate.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,7 +162,7 @@
 		18F43BBC29DD8895001032A3 /* DropOff copy 2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DropOff copy 2-Info.plist"; path = "/Users/cbl-mac-059/Desktop/RoyoOrder/ios/DropOff copy 2-Info.plist"; sourceTree = "<absolute>"; };
 		18F585DE29D5440E00EB6633 /* Bakaramoh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bakaramoh.entitlements; sourceTree = "<group>"; };
 		18F585DF29D5447400EB6633 /* VamVam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VamVam.entitlements; sourceTree = "<group>"; };
-		5AFDB5BD4DE255222D7F358D /* libPods-available_pods-SuperApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-available_pods-SuperApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		602AC34B2C50BBA700FF50F5 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Runrun/AppDelegate.mm; sourceTree = "<group>"; };
 		76804BEC269C14AB007926EE /* Runrun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Runrun.entitlements; path = Runrun/Runrun.entitlements; sourceTree = "<group>"; };
 		76804BF6269C157F007926EE /* Tranzit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tranzit.entitlements; sourceTree = "<group>"; };
 		76804BF7269C15CB007926EE /* Hmoobhub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hmoobhub.entitlements; sourceTree = "<group>"; };
@@ -480,12 +480,13 @@
 		98C03ED228648AAB005B62E0 /* AbbeRides.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbbeRides.entitlements; sourceTree = "<group>"; };
 		98C91B1C286985A600D633D8 /* Sadia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sadia.entitlements; sourceTree = "<group>"; };
 		98D86E112865E9F700C42B5B /* TMGShops.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TMGShops.entitlements; sourceTree = "<group>"; };
-		AC8DE94FBB317742C5CCFEBB /* Pods-available_pods-SuperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-available_pods-SuperApp.debug.xcconfig"; path = "Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp.debug.xcconfig"; sourceTree = "<group>"; };
-		DA399D2BB118FB02C5E9B783 /* Pods-available_pods-SuperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-available_pods-SuperApp.release.xcconfig"; path = "Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp.release.xcconfig"; sourceTree = "<group>"; };
+		AA8A7FB1C61ABC8BF44C8109 /* libPods-available_pods-SuperApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-available_pods-SuperApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDE35382D05BDA9535AEC246 /* Pods-available_pods-SuperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-available_pods-SuperApp.debug.xcconfig"; path = "Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp.debug.xcconfig"; sourceTree = "<group>"; };
 		EC1C009C283FBAE3004291D1 /* BusTaMove.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BusTaMove.entitlements; sourceTree = "<group>"; };
 		ECA1A1EE283F5C9200081F88 /* BlueBundles.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlueBundles.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F3A89CB9240F0E52B451536E /* Pods-available_pods-SuperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-available_pods-SuperApp.release.xcconfig"; path = "Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp.release.xcconfig"; sourceTree = "<group>"; };
 		F40CCF1529C1EDC400475603 /* Ineeda.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ineeda.entitlements; sourceTree = "<group>"; };
 		F40ED0CA29C20CCE00ADA13F /* EmiRates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmiRates.entitlements; sourceTree = "<group>"; };
 		F412F8B829C06BE30087DB97 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -528,7 +529,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72CCD387BA72D578BEE67BEC /* libPods-available_pods-SuperApp.a in Frameworks */,
+				3D1EB4A8A93EB8B97FDD5E99 /* libPods-available_pods-SuperApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,8 +591,8 @@
 		293CCC036299F75712B8E1E3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AC8DE94FBB317742C5CCFEBB /* Pods-available_pods-SuperApp.debug.xcconfig */,
-				DA399D2BB118FB02C5E9B783 /* Pods-available_pods-SuperApp.release.xcconfig */,
+				CDE35382D05BDA9535AEC246 /* Pods-available_pods-SuperApp.debug.xcconfig */,
+				F3A89CB9240F0E52B451536E /* Pods-available_pods-SuperApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -606,7 +607,7 @@
 				84EA41CC26393E950078E919 /* libRNGoogleSignin.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				5AFDB5BD4DE255222D7F358D /* libPods-available_pods-SuperApp.a */,
+				AA8A7FB1C61ABC8BF44C8109 /* libPods-available_pods-SuperApp.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -628,6 +629,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				602AC34B2C50BBA700FF50F5 /* AppDelegate.mm */,
 				8482A3602B99C2310075D3F5 /* SuperApp.entitlements */,
 				1843184129DEAA9000B01C7A /* JapaConnect.entitlements */,
 				1843184029DEAA7500B01C7A /* Preamada.entitlements */,
@@ -1144,15 +1146,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18213DAD298B932F009E8661 /* Build configuration list for PBXNativeTarget "SuperApp" */;
 			buildPhases = (
-				E934CD4A0113E1DDE7472E5A /* [CP] Check Pods Manifest.lock */,
+				269F8DE35F5ECFB382E093F3 /* [CP] Check Pods Manifest.lock */,
 				18213D87298B932F009E8661 /* Start Packager */,
 				18213D88298B932F009E8661 /* Sources */,
 				18213D8C298B932F009E8661 /* Frameworks */,
 				18213D8E298B932F009E8661 /* Resources */,
 				18213DA9298B932F009E8661 /* Bundle React Native code and images */,
 				18213DAA298B932F009E8661 /* ShellScript */,
-				7E8A178D8A9B9D04EC84C3E7 /* [CP] Embed Pods Frameworks */,
-				76152532CA37B82FFCCCD5CF /* [CP] Copy Pods Resources */,
+				DFF04096AA2FC5CAFF9C8ABB /* [CP] Embed Pods Frameworks */,
+				E682718CA7015BBE08E5D0FF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1279,41 +1281,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks.sh\"\n";
 		};
-		76152532CA37B82FFCCCD5CF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7E8A178D8A9B9D04EC84C3E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E934CD4A0113E1DDE7472E5A /* [CP] Check Pods Manifest.lock */ = {
+		269F8DE35F5ECFB382E093F3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1335,6 +1303,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DFF04096AA2FC5CAFF9C8ABB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E682718CA7015BBE08E5D0FF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-available_pods-SuperApp/Pods-available_pods-SuperApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1342,7 +1344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18213D89298B932F009E8661 /* AppDelegate.m in Sources */,
+				602AC34C2C50BBA700FF50F5 /* AppDelegate.mm in Sources */,
 				18213D8A298B932F009E8661 /* Royo.swift in Sources */,
 				18213D8B298B932F009E8661 /* main.m in Sources */,
 			);
@@ -1433,8 +1435,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1459,6 +1462,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				CXX = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -1479,15 +1483,20 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Runrun/Plists/$(PROJECT_PLIST).plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)  ";
 				OTHER_SWIFT_FLAGS = "";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -1495,8 +1504,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1521,6 +1531,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CXX = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -1534,14 +1545,19 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Runrun/Plists/$(PROJECT_PLIST).plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)  ";
 				OTHER_SWIFT_FLAGS = "";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

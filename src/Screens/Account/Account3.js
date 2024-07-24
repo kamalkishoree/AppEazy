@@ -16,7 +16,7 @@ import { useDarkMode } from 'react-native-dynamic';
 import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
-import SunmiV2Printer from 'react-native-sunmi-v2-printer';
+// import SunmiV2Printer from 'react-native-sunmi-v2-printer';
 import { useSelector } from 'react-redux';
 import Header from '../../Components/Header';
 import ListItemHorizontal from '../../Components/ListItemHorizontalWithImage';
@@ -672,7 +672,7 @@ export default function Account3({ navigation }) {
             />
           ) : null}
 
-          {!!userData?.auth_token &&
+          {/* {!!userData?.auth_token &&
             Platform.OS === 'android' &&
             SunmiV2Printer.hasPrinter &&
             __DEV__ &&
@@ -712,7 +712,7 @@ export default function Account3({ navigation }) {
               // iconRight={imagePath.goRight}
               // rightIconStyle={{tintColor: colors.textGreyLight}}
               />
-            ))}
+            ))} */}
 
           {/* {!!userData?.auth_token && (
           <ListItemHorizontal

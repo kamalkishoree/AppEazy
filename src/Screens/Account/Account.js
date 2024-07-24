@@ -29,7 +29,7 @@ import {MyDarkTheme} from '../../styles/theme';
 import {appIds} from '../../utils/constants/DynamicAppKeys';
 import {showError} from '../../utils/helperFunctions';
 import stylesFun from './styles';
-import SunmiV2Printer from 'react-native-sunmi-v2-printer';
+// import SunmiV2Printer from 'react-native-sunmi-v2-printer';
 
 export default function Account({navigation}) {
   const [state, setState] = useState({
@@ -429,7 +429,7 @@ export default function Account({navigation}) {
           rightIconStyle={{tintColor: colors.textGreyLight}}
         />
 
-        {  getBundleId() != appIds.appi && !!userData?.auth_token &&
+        {/* {  getBundleId() != appIds.appi && !!userData?.auth_token &&
           Platform.OS === 'android' &&
           SunmiV2Printer.hasPrinter &&
             __DEV__ &&
@@ -465,7 +465,7 @@ export default function Account({navigation}) {
               iconRight={imagePath.goRight}
               rightIconStyle={{tintColor: colors.textGreyLight}}
             />
-          ))}
+          ))} */}
 
         {!!userData?.auth_token &&
           !!appMainData?.is_admin &&
