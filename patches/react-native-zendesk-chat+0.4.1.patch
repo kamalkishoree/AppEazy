@@ -1,6 +1,3 @@
-diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/46f969335731af56d52157389e07fa59/results.bin b/node_modules/react-native-zendesk-chat/android/build/.transforms/46f969335731af56d52157389e07fa59/results.bin
-new file mode 100644
-index 0000000..e69de29
 diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/c575d980e1f5a5d65307c00d0cd24136.bin b/node_modules/react-native-zendesk-chat/android/build/.transforms/c575d980e1f5a5d65307c00d0cd24136.bin
 new file mode 100644
 index 0000000..0d259dd
@@ -10,18 +7,8 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/c575d980e1f5a5d65307c00d0cd24136/classes/classes.dex b/node_modules/react-native-zendesk-chat/android/build/.transforms/c575d980e1f5a5d65307c00d0cd24136/classes/classes.dex
 new file mode 100644
-index 0000000..e69de29
-diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/results.bin b/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/results.bin
-new file mode 100644
-index 0000000..0d259dd
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/results.bin
-@@ -0,0 +1 @@
-+o/classes
-diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/transformed/classes/classes.dex b/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/transformed/classes/classes.dex
-new file mode 100644
-index 0000000..3f1d7f1
-Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/.transforms/c99c954d6269b85f72cd18472c6cf26f/transformed/classes/classes.dex differ
+index 0000000..eae2ac9
+Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/.transforms/c575d980e1f5a5d65307c00d0cd24136/classes/classes.dex differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/ebbcfb5e12b9a864d00a264173db812c.bin b/node_modules/react-native-zendesk-chat/android/build/.transforms/ebbcfb5e12b9a864d00a264173db812c.bin
 new file mode 100644
 index 0000000..0d259dd
@@ -31,7 +18,8 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/react-native-zendesk-chat/android/build/.transforms/ebbcfb5e12b9a864d00a264173db812c/classes/classes.dex b/node_modules/react-native-zendesk-chat/android/build/.transforms/ebbcfb5e12b9a864d00a264173db812c/classes/classes.dex
 new file mode 100644
-index 0000000..e69de29
+index 0000000..fa8f542
+Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/.transforms/ebbcfb5e12b9a864d00a264173db812c/classes/classes.dex differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/generated/source/buildConfig/debug/com/taskrabbit/zendesk/BuildConfig.java b/node_modules/react-native-zendesk-chat/android/build/generated/source/buildConfig/debug/com/taskrabbit/zendesk/BuildConfig.java
 new file mode 100644
 index 0000000..1e76f88
@@ -66,7 +54,7 @@ index 0000000..81caa27
 +}
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
 new file mode 100644
-index 0000000..8f5790e
+index 0000000..29eab1e
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
 @@ -0,0 +1,16 @@
@@ -76,7 +64,7 @@ index 0000000..8f5790e
 +
 +    <uses-sdk
 +        android:minSdkVersion="21"
-+        android:targetSdkVersion="33" />
++        android:targetSdkVersion="30" />
 +
 +    <application>
 +    ...
@@ -112,24 +100,17 @@ index 0000000..20dbd92
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml
 new file mode 100644
-index 0000000..8f5790e
+index 0000000..7cc150e
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,9 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 +    package="com.taskrabbit.zendesk" >
 +
 +    <uses-sdk
 +        android:minSdkVersion="21"
-+        android:targetSdkVersion="33" />
-+
-+    <application>
-+    ...
-+        <activity
-+            android:name="zendesk.messaging.MessagingActivity"
-+            android:theme="@style/ZendeskTheme" />
-+    </application>
++        android:targetSdkVersion="30" />
 +
 +</manifest>
 \ No newline at end of file
@@ -190,26 +171,26 @@ index 0000000..9e26dfe
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..a11d4bb
+index 0000000..06ccffe
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/release/classes.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/release/classes.jar
 new file mode 100644
-index 0000000..09d322a
+index 0000000..51b9ddd
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_library_classes_jar/release/classes.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/debug/R.jar
 new file mode 100644
-index 0000000..8ed7e5c
+index 0000000..df236e7
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/release/R.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/release/R.jar
 new file mode 100644
-index 0000000..8ed7e5c
+index 0000000..0a70c1f
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_r_class_jar/release/R.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/debug/R.txt
 new file mode 100644
-index 0000000..7aa5f39
+index 0000000..f899261
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/debug/R.txt
-@@ -0,0 +1,4270 @@
+@@ -0,0 +1,4246 @@
 +int anim abc_fade_in 0x0
 +int anim abc_fade_out 0x0
 +int anim abc_grow_fade_in_from_bottom 0x0
@@ -329,11 +310,6 @@ index 0000000..7aa5f39
 +int attr autoSizePresetSizes 0x0
 +int attr autoSizeStepGranularity 0x0
 +int attr autoSizeTextType 0x0
-+int attr autofillInlineSuggestionChip 0x0
-+int attr autofillInlineSuggestionEndIconStyle 0x0
-+int attr autofillInlineSuggestionStartIconStyle 0x0
-+int attr autofillInlineSuggestionSubtitle 0x0
-+int attr autofillInlineSuggestionTitle 0x0
 +int attr background 0x0
 +int attr backgroundColor 0x0
 +int attr backgroundImage 0x0
@@ -623,7 +599,6 @@ index 0000000..7aa5f39
 +int attr indeterminateProgressStyle 0x0
 +int attr initialActivityCount 0x0
 +int attr insetForeground 0x0
-+int attr isAutofillInlineSuggestionTheme 0x0
 +int attr isLightTheme 0x0
 +int attr isMaterialTheme 0x0
 +int attr itemBackground 0x0
@@ -1330,7 +1305,6 @@ index 0000000..7aa5f39
 +int dimen abc_text_size_title_material_toolbar 0x0
 +int dimen action_bar_size 0x0
 +int dimen appcompat_dialog_background_inset 0x0
-+int dimen autofill_inline_suggestion_icon_size 0x0
 +int dimen belvedere_bottom_sheet_elevation 0x0
 +int dimen belvedere_bottom_sheet_height 0x0
 +int dimen belvedere_dummy_edit_text_size 0x0
@@ -1756,7 +1730,6 @@ index 0000000..7aa5f39
 +int drawable abc_textfield_search_default_mtrl_alpha 0x0
 +int drawable abc_textfield_search_material 0x0
 +int drawable abc_vector_test 0x0
-+int drawable autofill_inline_suggestion_chip_background 0x0
 +int drawable avd_hide_password 0x0
 +int drawable avd_show_password 0x0
 +int drawable belvedere_fam_icon_add 0x0
@@ -1923,10 +1896,6 @@ index 0000000..7aa5f39
 +int id attachments_indicator_counter 0x0
 +int id attachments_indicator_icon 0x0
 +int id auto 0x0
-+int id autofill_inline_suggestion_end_icon 0x0
-+int id autofill_inline_suggestion_start_icon 0x0
-+int id autofill_inline_suggestion_subtitle 0x0
-+int id autofill_inline_suggestion_title 0x0
 +int id baseline 0x0
 +int id belvedere_dialog_listview 0x0
 +int id belvedere_dialog_row_image 0x0
@@ -2310,7 +2279,6 @@ index 0000000..7aa5f39
 +int layout abc_search_view 0x0
 +int layout abc_select_dialog_material 0x0
 +int layout abc_tooltip 0x0
-+int layout autofill_inline_suggestion 0x0
 +int layout belvedere_dialog 0x0
 +int layout belvedere_dialog_row 0x0
 +int layout belvedere_floating_action_menu 0x0
@@ -2491,6 +2459,7 @@ index 0000000..7aa5f39
 +int string belvedere_stream_item_unselect_image_desc 0x0
 +int string belvedere_toolbar_desc_collapse 0x0
 +int string bottom_sheet_behavior 0x0
++int string button_description 0x0
 +int string catalyst_change_bundle_location 0x0
 +int string catalyst_copy_button 0x0
 +int string catalyst_debug 0x0
@@ -2498,9 +2467,9 @@ index 0000000..7aa5f39
 +int string catalyst_debug_chrome_stop 0x0
 +int string catalyst_debug_connecting 0x0
 +int string catalyst_debug_error 0x0
-+int string catalyst_debug_open 0x0
++int string catalyst_debug_nuclide 0x0
++int string catalyst_debug_nuclide_error 0x0
 +int string catalyst_debug_stop 0x0
-+int string catalyst_devtools_open 0x0
 +int string catalyst_dismiss_button 0x0
 +int string catalyst_heap_capture 0x0
 +int string catalyst_hot_reloading 0x0
@@ -2508,9 +2477,7 @@ index 0000000..7aa5f39
 +int string catalyst_hot_reloading_auto_enable 0x0
 +int string catalyst_hot_reloading_stop 0x0
 +int string catalyst_inspector 0x0
-+int string catalyst_inspector_stop 0x0
 +int string catalyst_loading_from_url 0x0
-+int string catalyst_open_flipper_error 0x0
 +int string catalyst_perf_monitor 0x0
 +int string catalyst_perf_monitor_stop 0x0
 +int string catalyst_reload 0x0
@@ -2587,6 +2554,7 @@ index 0000000..7aa5f39
 +int string radiogroup_description 0x0
 +int string rn_tab_description 0x0
 +int string scrollbar_description 0x0
++int string search_description 0x0
 +int string search_menu_title 0x0
 +int string spinbutton_description 0x0
 +int string state_busy_description 0x0
@@ -2595,7 +2563,6 @@ index 0000000..7aa5f39
 +int string state_mixed_description 0x0
 +int string state_off_description 0x0
 +int string state_on_description 0x0
-+int string state_unselected_description 0x0
 +int string status_bar_notification_info_overflow 0x0
 +int string summary_description 0x0
 +int string tablist_description 0x0
@@ -2910,6 +2877,8 @@ index 0000000..7aa5f39
 +int style CardView 0x0
 +int style CardView_Dark 0x0
 +int style CardView_Light 0x0
++int style ClockTimePickerDialog 0x0
++int style ClockTimePickerStyle 0x0
 +int style DialogAnimationFade 0x0
 +int style DialogAnimationSlide 0x0
 +int style EmptyTheme 0x0
@@ -2977,6 +2946,8 @@ index 0000000..7aa5f39
 +int style ShapeAppearance_MaterialComponents_Tooltip 0x0
 +int style SpinnerDatePickerDialog 0x0
 +int style SpinnerDatePickerStyle 0x0
++int style SpinnerTimePickerDialog 0x0
++int style SpinnerTimePickerStyle 0x0
 +int style TestStyleWithLineHeight 0x0
 +int style TestStyleWithLineHeightAppearance 0x0
 +int style TestStyleWithThemeLineHeightAttribute 0x0
@@ -3141,7 +3112,6 @@ index 0000000..7aa5f39
 +int style Theme_AppCompat_Light_Dialog_MinWidth 0x0
 +int style Theme_AppCompat_Light_NoActionBar 0x0
 +int style Theme_AppCompat_NoActionBar 0x0
-+int style Theme_AutofillInlineSuggestion 0x0
 +int style Theme_Catalyst 0x0
 +int style Theme_Catalyst_LogBox 0x0
 +int style Theme_Catalyst_RedBox 0x0
@@ -3278,12 +3248,6 @@ index 0000000..7aa5f39
 +int style Widget_AppCompat_TextView_SpinnerItem 0x0
 +int style Widget_AppCompat_Toolbar 0x0
 +int style Widget_AppCompat_Toolbar_Button_Navigation 0x0
-+int style Widget_Autofill 0x0
-+int style Widget_Autofill_InlineSuggestionChip 0x0
-+int style Widget_Autofill_InlineSuggestionEndIconStyle 0x0
-+int style Widget_Autofill_InlineSuggestionStartIconStyle 0x0
-+int style Widget_Autofill_InlineSuggestionSubtitle 0x0
-+int style Widget_Autofill_InlineSuggestionTitle 0x0
 +int style Widget_Compat_NotificationActionContainer 0x0
 +int style Widget_Compat_NotificationActionText 0x0
 +int style Widget_Design_AppBarLayout 0x0
@@ -3666,13 +3630,6 @@ index 0000000..7aa5f39
 +int styleable AppCompatTheme_windowMinWidthMajor 122
 +int styleable AppCompatTheme_windowMinWidthMinor 123
 +int styleable AppCompatTheme_windowNoTitle 124
-+int[] styleable Autofill_InlineSuggestion { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionChip 0
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionEndIconStyle 1
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionStartIconStyle 2
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionSubtitle 3
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionTitle 4
-+int styleable Autofill_InlineSuggestion_isAutofillInlineSuggestionTheme 5
 +int[] styleable AvatarView { 0x0, 0x0, 0x0, 0x0 }
 +int styleable AvatarView_colorPalette 0
 +int styleable AvatarView_outlineColor 1
@@ -4482,10 +4439,10 @@ index 0000000..7aa5f39
 +int xml standalone_badge_offset 0x0
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/release/R.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/release/R.txt
 new file mode 100644
-index 0000000..7aa5f39
+index 0000000..4bbc3c6
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/compile_symbol_list/release/R.txt
-@@ -0,0 +1,4270 @@
+@@ -0,0 +1,4242 @@
 +int anim abc_fade_in 0x0
 +int anim abc_fade_out 0x0
 +int anim abc_grow_fade_in_from_bottom 0x0
@@ -4605,11 +4562,6 @@ index 0000000..7aa5f39
 +int attr autoSizePresetSizes 0x0
 +int attr autoSizeStepGranularity 0x0
 +int attr autoSizeTextType 0x0
-+int attr autofillInlineSuggestionChip 0x0
-+int attr autofillInlineSuggestionEndIconStyle 0x0
-+int attr autofillInlineSuggestionStartIconStyle 0x0
-+int attr autofillInlineSuggestionSubtitle 0x0
-+int attr autofillInlineSuggestionTitle 0x0
 +int attr background 0x0
 +int attr backgroundColor 0x0
 +int attr backgroundImage 0x0
@@ -4899,7 +4851,6 @@ index 0000000..7aa5f39
 +int attr indeterminateProgressStyle 0x0
 +int attr initialActivityCount 0x0
 +int attr insetForeground 0x0
-+int attr isAutofillInlineSuggestionTheme 0x0
 +int attr isLightTheme 0x0
 +int attr isMaterialTheme 0x0
 +int attr itemBackground 0x0
@@ -5320,9 +5271,6 @@ index 0000000..7aa5f39
 +int color catalyst_logbox_background 0x0
 +int color catalyst_redbox_background 0x0
 +int color checkbox_themeable_attribute_color 0x0
-+int color colorAccent 0x0
-+int color colorPrimary 0x0
-+int color colorPrimaryDark 0x0
 +int color design_bottom_navigation_shadow_color 0x0
 +int color design_box_stroke_color 0x0
 +int color design_dark_default_color_background 0x0
@@ -5606,7 +5554,6 @@ index 0000000..7aa5f39
 +int dimen abc_text_size_title_material_toolbar 0x0
 +int dimen action_bar_size 0x0
 +int dimen appcompat_dialog_background_inset 0x0
-+int dimen autofill_inline_suggestion_icon_size 0x0
 +int dimen belvedere_bottom_sheet_elevation 0x0
 +int dimen belvedere_bottom_sheet_height 0x0
 +int dimen belvedere_dummy_edit_text_size 0x0
@@ -6032,7 +5979,6 @@ index 0000000..7aa5f39
 +int drawable abc_textfield_search_default_mtrl_alpha 0x0
 +int drawable abc_textfield_search_material 0x0
 +int drawable abc_vector_test 0x0
-+int drawable autofill_inline_suggestion_chip_background 0x0
 +int drawable avd_hide_password 0x0
 +int drawable avd_show_password 0x0
 +int drawable belvedere_fam_icon_add 0x0
@@ -6199,10 +6145,6 @@ index 0000000..7aa5f39
 +int id attachments_indicator_counter 0x0
 +int id attachments_indicator_icon 0x0
 +int id auto 0x0
-+int id autofill_inline_suggestion_end_icon 0x0
-+int id autofill_inline_suggestion_start_icon 0x0
-+int id autofill_inline_suggestion_subtitle 0x0
-+int id autofill_inline_suggestion_title 0x0
 +int id baseline 0x0
 +int id belvedere_dialog_listview 0x0
 +int id belvedere_dialog_row_image 0x0
@@ -6586,7 +6528,6 @@ index 0000000..7aa5f39
 +int layout abc_search_view 0x0
 +int layout abc_select_dialog_material 0x0
 +int layout abc_tooltip 0x0
-+int layout autofill_inline_suggestion 0x0
 +int layout belvedere_dialog 0x0
 +int layout belvedere_dialog_row 0x0
 +int layout belvedere_floating_action_menu 0x0
@@ -6767,6 +6708,7 @@ index 0000000..7aa5f39
 +int string belvedere_stream_item_unselect_image_desc 0x0
 +int string belvedere_toolbar_desc_collapse 0x0
 +int string bottom_sheet_behavior 0x0
++int string button_description 0x0
 +int string catalyst_change_bundle_location 0x0
 +int string catalyst_copy_button 0x0
 +int string catalyst_debug 0x0
@@ -6774,9 +6716,9 @@ index 0000000..7aa5f39
 +int string catalyst_debug_chrome_stop 0x0
 +int string catalyst_debug_connecting 0x0
 +int string catalyst_debug_error 0x0
-+int string catalyst_debug_open 0x0
++int string catalyst_debug_nuclide 0x0
++int string catalyst_debug_nuclide_error 0x0
 +int string catalyst_debug_stop 0x0
-+int string catalyst_devtools_open 0x0
 +int string catalyst_dismiss_button 0x0
 +int string catalyst_heap_capture 0x0
 +int string catalyst_hot_reloading 0x0
@@ -6784,9 +6726,7 @@ index 0000000..7aa5f39
 +int string catalyst_hot_reloading_auto_enable 0x0
 +int string catalyst_hot_reloading_stop 0x0
 +int string catalyst_inspector 0x0
-+int string catalyst_inspector_stop 0x0
 +int string catalyst_loading_from_url 0x0
-+int string catalyst_open_flipper_error 0x0
 +int string catalyst_perf_monitor 0x0
 +int string catalyst_perf_monitor_stop 0x0
 +int string catalyst_reload 0x0
@@ -6863,6 +6803,7 @@ index 0000000..7aa5f39
 +int string radiogroup_description 0x0
 +int string rn_tab_description 0x0
 +int string scrollbar_description 0x0
++int string search_description 0x0
 +int string search_menu_title 0x0
 +int string spinbutton_description 0x0
 +int string state_busy_description 0x0
@@ -6871,7 +6812,6 @@ index 0000000..7aa5f39
 +int string state_mixed_description 0x0
 +int string state_off_description 0x0
 +int string state_on_description 0x0
-+int string state_unselected_description 0x0
 +int string status_bar_notification_info_overflow 0x0
 +int string summary_description 0x0
 +int string tablist_description 0x0
@@ -7186,6 +7126,8 @@ index 0000000..7aa5f39
 +int style CardView 0x0
 +int style CardView_Dark 0x0
 +int style CardView_Light 0x0
++int style ClockTimePickerDialog 0x0
++int style ClockTimePickerStyle 0x0
 +int style DialogAnimationFade 0x0
 +int style DialogAnimationSlide 0x0
 +int style EmptyTheme 0x0
@@ -7253,6 +7195,8 @@ index 0000000..7aa5f39
 +int style ShapeAppearance_MaterialComponents_Tooltip 0x0
 +int style SpinnerDatePickerDialog 0x0
 +int style SpinnerDatePickerStyle 0x0
++int style SpinnerTimePickerDialog 0x0
++int style SpinnerTimePickerStyle 0x0
 +int style TestStyleWithLineHeight 0x0
 +int style TestStyleWithLineHeightAppearance 0x0
 +int style TestStyleWithThemeLineHeightAttribute 0x0
@@ -7417,7 +7361,6 @@ index 0000000..7aa5f39
 +int style Theme_AppCompat_Light_Dialog_MinWidth 0x0
 +int style Theme_AppCompat_Light_NoActionBar 0x0
 +int style Theme_AppCompat_NoActionBar 0x0
-+int style Theme_AutofillInlineSuggestion 0x0
 +int style Theme_Catalyst 0x0
 +int style Theme_Catalyst_LogBox 0x0
 +int style Theme_Catalyst_RedBox 0x0
@@ -7554,12 +7497,6 @@ index 0000000..7aa5f39
 +int style Widget_AppCompat_TextView_SpinnerItem 0x0
 +int style Widget_AppCompat_Toolbar 0x0
 +int style Widget_AppCompat_Toolbar_Button_Navigation 0x0
-+int style Widget_Autofill 0x0
-+int style Widget_Autofill_InlineSuggestionChip 0x0
-+int style Widget_Autofill_InlineSuggestionEndIconStyle 0x0
-+int style Widget_Autofill_InlineSuggestionStartIconStyle 0x0
-+int style Widget_Autofill_InlineSuggestionSubtitle 0x0
-+int style Widget_Autofill_InlineSuggestionTitle 0x0
 +int style Widget_Compat_NotificationActionContainer 0x0
 +int style Widget_Compat_NotificationActionText 0x0
 +int style Widget_Design_AppBarLayout 0x0
@@ -7684,7 +7621,6 @@ index 0000000..7aa5f39
 +int style ZendeskSdkTheme_Light_Dialog_Retry_Text 0x0
 +int style ZendeskSdkTheme_Light_InputBox 0x0
 +int style ZendeskSdkTheme_PopupMenu 0x0
-+int style ZendeskTheme 0x0
 +int style _BelvedereDialogListRow 0x0
 +int style _BelvedereDialogListView 0x0
 +int style _BelvedereListRowIcon 0x0
@@ -7942,13 +7878,6 @@ index 0000000..7aa5f39
 +int styleable AppCompatTheme_windowMinWidthMajor 122
 +int styleable AppCompatTheme_windowMinWidthMinor 123
 +int styleable AppCompatTheme_windowNoTitle 124
-+int[] styleable Autofill_InlineSuggestion { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionChip 0
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionEndIconStyle 1
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionStartIconStyle 2
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionSubtitle 3
-+int styleable Autofill_InlineSuggestion_autofillInlineSuggestionTitle 4
-+int styleable Autofill_InlineSuggestion_isAutofillInlineSuggestionTheme 5
 +int[] styleable AvatarView { 0x0, 0x0, 0x0, 0x0 }
 +int styleable AvatarView_colorPalette 0
 +int styleable AvatarView_outlineColor 1
@@ -8758,112 +8687,61 @@ index 0000000..7aa5f39
 +int xml standalone_badge_offset 0x0
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
 new file mode 100644
-index 0000000..12a5737
+index 0000000..4a4495b
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/debug/jniLibs"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/debug/jniLibs"/></dataSet></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
 new file mode 100644
-index 0000000..ddb5270
+index 0000000..06a18a2
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/debug/shaders"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/debug/shaders"/></dataSet></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml
 new file mode 100644
-index 0000000..98e942f
+index 0000000..610b60a
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/jniLibs"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/release/jniLibs"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/jniLibs"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/release/jniLibs"/></dataSet></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml
 new file mode 100644
-index 0000000..9805c98
+index 0000000..74d88d9
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/shaders"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/release/shaders"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/shaders"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/release/shaders"/></dataSet></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugAssets/merger.xml
 new file mode 100644
-index 0000000..dd4786b
+index 0000000..755c259
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugAssets/merger.xml
 @@ -0,0 +1,2 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/assets"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/intermediates/shader_assets/debug/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/debug/assets"/></dataSet></merger>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/assets"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/intermediates/shader_assets/debug/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/debug/assets"/></dataSet></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
 new file mode 100644
-index 0000000..1bb1b4d
+index 0000000..a4787e8
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Mon May 01 19:03:03 IST 2023
++#Mon Mar 07 16:49:40 IST 2022
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml
-new file mode 100644
-index 0000000..6f1b29b
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml
-@@ -0,0 +1,13 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<resources>
-+    <color name="colorAccent">#243647</color>
-+    <color name="colorPrimary">#243647</color>
-+    <color name="colorPrimaryDark">#243647</color>
-+    <style name="ZendeskTheme" parent="Theme.AppCompat.Light.NoActionBar">
-+
-+        <item name="colorPrimary">@color/colorPrimary</item>
-+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-+        <item name="colorAccent">@color/colorAccent</item>
-+
-+    </style>
-+</resources>
-\ No newline at end of file
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml
-new file mode 100644
-index 0000000..29efdbc
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml
-@@ -0,0 +1,8 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/debug"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res"><file path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res/values/colors.xml" qualifiers=""><color name="colorPrimary">#243647</color><color name="colorPrimaryDark">#243647</color><color name="colorAccent">#243647</color></file><file path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml" qualifiers=""><style name="ZendeskTheme" parent="Theme.AppCompat.Light.NoActionBar">
-+
-+        <item name="colorPrimary">@color/colorPrimary</item>
-+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-+        <item name="colorAccent">@color/colorAccent</item>
-+
-+    </style></file></source><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/debug"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/debug/res"/></dataSet><mergedItems/></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
-new file mode 100644
-index 0000000..94e633c
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
-@@ -0,0 +1,2 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/assets"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/intermediates/shader_assets/release/out"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/release/assets"/></dataSet></merger>
-\ No newline at end of file
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties
-new file mode 100644
-index 0000000..4e471f5
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties
-@@ -0,0 +1 @@
-+#Mon May 01 18:34:28 IST 2023
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merged.dir/values/values.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merged.dir/values/values.xml
 new file mode 100644
 index 0000000..906a637
 --- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merged.dir/values/values.xml
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml
 @@ -0,0 +1,13 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<resources>
@@ -8879,20 +8757,45 @@ index 0000000..906a637
 +    </style>
 +</resources>
 \ No newline at end of file
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml
+diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml
 new file mode 100644
-index 0000000..3edd0b5
+index 0000000..aa775f5
 --- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageDebugResources/merger.xml
 @@ -0,0 +1,8 @@
 +<?xml version="1.0" encoding="utf-8"?>
-+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/release"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res"><file path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res/values/colors.xml" qualifiers=""><color name="colorPrimary">#243647</color><color name="colorPrimaryDark">#243647</color><color name="colorAccent">#243647</color></file><file path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml" qualifiers=""><style name="ZendeskTheme" parent="Theme.MaterialComponents.Light">
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/debug"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res"><file path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res/values/colors.xml" qualifiers=""><color name="colorPrimary">#243647</color><color name="colorPrimaryDark">#243647</color><color name="colorAccent">#243647</color></file><file path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml" qualifiers=""><style name="ZendeskTheme" parent="Theme.MaterialComponents.Light">
 +
 +        <item name="colorPrimary">@color/colorPrimary</item>
 +        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 +        <item name="colorAccent">@color/colorAccent</item>
 +
-+    </style></file></source><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/release"/><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release" generated-set="release$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/release/res"/></dataSet><mergedItems/></merger>
++    </style></file></source><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/debug"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/debug/res"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
+new file mode 100644
+index 0000000..68056f3
+--- /dev/null
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/assets"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/intermediates/shader_assets/release/out"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/release/assets"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties
+new file mode 100644
+index 0000000..dcc07c1
+--- /dev/null
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Tue Feb 22 11:47:29 IST 2022
+diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml
+new file mode 100644
+index 0000000..c5c8efa
+--- /dev/null
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/incremental/packageReleaseResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/release"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/res"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/rs/release"/><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release" generated-set="release$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/release/res"/></dataSet><mergedItems/></merger>
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/BuildConfig.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/BuildConfig.class
 new file mode 100644
@@ -8900,19 +8803,19 @@ index 0000000..adf9437
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/BuildConfig.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class
 new file mode 100644
-index 0000000..0935409
+index 0000000..69d0c2b
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class
 new file mode 100644
-index 0000000..a465aee
+index 0000000..4b10abe
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class
 new file mode 100644
-index 0000000..7806e62
+index 0000000..d527a0c
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class
 new file mode 100644
-index 0000000..6bc63d2
+index 0000000..25e99f2
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatPackage.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/debug/classes/com/taskrabbit/zendesk/RNZendeskChatPackage.class
 new file mode 100644
@@ -8924,19 +8827,19 @@ index 0000000..26d2af6
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/BuildConfig.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class
 new file mode 100644
-index 0000000..0935409
+index 0000000..69d0c2b
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$1.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class
 new file mode 100644
-index 0000000..a465aee
+index 0000000..4b10abe
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$2.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class
 new file mode 100644
-index 0000000..7806e62
+index 0000000..d527a0c
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule$3.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class
 new file mode 100644
-index 0000000..6bc63d2
+index 0000000..25e99f2
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatModule.class differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatPackage.class b/node_modules/react-native-zendesk-chat/android/build/intermediates/javac/release/classes/com/taskrabbit/zendesk/RNZendeskChatPackage.class
 new file mode 100644
@@ -8956,19 +8859,15 @@ index 0000000..303080d
 +style ZendeskTheme
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/local_only_symbol_list/release/R-def.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/local_only_symbol_list/release/R-def.txt
 new file mode 100644
-index 0000000..303080d
+index 0000000..78ac5b8
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/local_only_symbol_list/release/R-def.txt
-@@ -0,0 +1,6 @@
+@@ -0,0 +1,2 @@
 +R_DEF: Internal format may change without notice
 +local
-+color colorAccent
-+color colorPrimary
-+color colorPrimaryDark
-+style ZendeskTheme
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
 new file mode 100644
-index 0000000..7997f0f
+index 0000000..fa6603f
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
 @@ -0,0 +1,22 @@
@@ -8978,53 +8877,42 @@ index 0000000..7997f0f
 +4
 +5    <uses-sdk
 +6        android:minSdkVersion="21"
-+6-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+7        android:targetSdkVersion="33" />
-+7-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++6-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++7        android:targetSdkVersion="30" />
++7-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +8
 +9    <application>
-+9-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
++9-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
 +10    ...
 +11        <activity
-+11-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
++11-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
 +12            android:name="zendesk.messaging.MessagingActivity"
-+12-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
++12-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
 +13            android:theme="@style/ZendeskTheme" />
-+13-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
++13-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
 +14    </application>
 +15
 +16</manifest>
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt
 new file mode 100644
-index 0000000..7997f0f
+index 0000000..1802cca
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,11 @@
 +1<?xml version="1.0" encoding="utf-8"?>
 +2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 +3    package="com.taskrabbit.zendesk" >
 +4
 +5    <uses-sdk
 +6        android:minSdkVersion="21"
-+6-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+7        android:targetSdkVersion="33" />
-+7-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++6-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++7        android:targetSdkVersion="30" />
++7-->/Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +8
-+9    <application>
-+9-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
-+10    ...
-+11        <activity
-+11-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
-+12            android:name="zendesk.messaging.MessagingActivity"
-+12-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
-+13            android:theme="@style/ZendeskTheme" />
-+13-->/Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
-+14    </application>
-+15
-+16</manifest>
++9</manifest>
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
 new file mode 100644
-index 0000000..8f5790e
+index 0000000..29eab1e
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
 @@ -0,0 +1,16 @@
@@ -9034,7 +8922,7 @@ index 0000000..8f5790e
 +
 +    <uses-sdk
 +        android:minSdkVersion="21"
-+        android:targetSdkVersion="33" />
++        android:targetSdkVersion="30" />
 +
 +    <application>
 +    ...
@@ -9047,24 +8935,17 @@ index 0000000..8f5790e
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/release/AndroidManifest.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/release/AndroidManifest.xml
 new file mode 100644
-index 0000000..8f5790e
+index 0000000..7cc150e
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/merged_manifest/release/AndroidManifest.xml
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,9 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 +    package="com.taskrabbit.zendesk" >
 +
 +    <uses-sdk
 +        android:minSdkVersion="21"
-+        android:targetSdkVersion="33" />
-+
-+    <application>
-+    ...
-+        <activity
-+            android:name="zendesk.messaging.MessagingActivity"
-+            android:theme="@style/ZendeskTheme" />
-+    </application>
++        android:targetSdkVersion="30" />
 +
 +</manifest>
 \ No newline at end of file
@@ -9132,29 +9013,9 @@ index 0000000..7c18ea3
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/debug/values/values.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/debug/values/values.xml
 new file mode 100644
-index 0000000..6f1b29b
---- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/debug/values/values.xml
-@@ -0,0 +1,13 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<resources>
-+    <color name="colorAccent">#243647</color>
-+    <color name="colorPrimary">#243647</color>
-+    <color name="colorPrimaryDark">#243647</color>
-+    <style name="ZendeskTheme" parent="Theme.AppCompat.Light.NoActionBar">
-+
-+        <item name="colorPrimary">@color/colorPrimary</item>
-+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-+        <item name="colorAccent">@color/colorAccent</item>
-+
-+    </style>
-+</resources>
-\ No newline at end of file
-diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/release/values/values.xml b/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/release/values/values.xml
-new file mode 100644
 index 0000000..906a637
 --- /dev/null
-+++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/release/values/values.xml
++++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/packaged_res/debug/values/values.xml
 @@ -0,0 +1,13 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<resources>
@@ -9172,18 +9033,18 @@ index 0000000..906a637
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..d8ba1e3
+index 0000000..c87af28
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/release/classes.jar b/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/release/classes.jar
 new file mode 100644
-index 0000000..8955537
+index 0000000..0b50046
 Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/intermediates/runtime_library_classes_jar/release/classes.jar differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 new file mode 100644
-index 0000000..c27be48
+index 0000000..4bd384d
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
-@@ -0,0 +1,3314 @@
+@@ -0,0 +1,3296 @@
 +com.taskrabbit.zendesk
 +anim abc_fade_in
 +anim abc_fade_out
@@ -9304,11 +9165,6 @@ index 0000000..c27be48
 +attr autoSizePresetSizes
 +attr autoSizeStepGranularity
 +attr autoSizeTextType
-+attr autofillInlineSuggestionChip
-+attr autofillInlineSuggestionEndIconStyle
-+attr autofillInlineSuggestionStartIconStyle
-+attr autofillInlineSuggestionSubtitle
-+attr autofillInlineSuggestionTitle
 +attr background
 +attr backgroundColor
 +attr backgroundImage
@@ -9598,7 +9454,6 @@ index 0000000..c27be48
 +attr indeterminateProgressStyle
 +attr initialActivityCount
 +attr insetForeground
-+attr isAutofillInlineSuggestionTheme
 +attr isLightTheme
 +attr isMaterialTheme
 +attr itemBackground
@@ -10305,7 +10160,6 @@ index 0000000..c27be48
 +dimen abc_text_size_title_material_toolbar
 +dimen action_bar_size
 +dimen appcompat_dialog_background_inset
-+dimen autofill_inline_suggestion_icon_size
 +dimen belvedere_bottom_sheet_elevation
 +dimen belvedere_bottom_sheet_height
 +dimen belvedere_dummy_edit_text_size
@@ -10731,7 +10585,6 @@ index 0000000..c27be48
 +drawable abc_textfield_search_default_mtrl_alpha
 +drawable abc_textfield_search_material
 +drawable abc_vector_test
-+drawable autofill_inline_suggestion_chip_background
 +drawable avd_hide_password
 +drawable avd_show_password
 +drawable belvedere_fam_icon_add
@@ -10898,10 +10751,6 @@ index 0000000..c27be48
 +id attachments_indicator_counter
 +id attachments_indicator_icon
 +id auto
-+id autofill_inline_suggestion_end_icon
-+id autofill_inline_suggestion_start_icon
-+id autofill_inline_suggestion_subtitle
-+id autofill_inline_suggestion_title
 +id baseline
 +id belvedere_dialog_listview
 +id belvedere_dialog_row_image
@@ -11285,7 +11134,6 @@ index 0000000..c27be48
 +layout abc_search_view
 +layout abc_select_dialog_material
 +layout abc_tooltip
-+layout autofill_inline_suggestion
 +layout belvedere_dialog
 +layout belvedere_dialog_row
 +layout belvedere_floating_action_menu
@@ -11466,6 +11314,7 @@ index 0000000..c27be48
 +string belvedere_stream_item_unselect_image_desc
 +string belvedere_toolbar_desc_collapse
 +string bottom_sheet_behavior
++string button_description
 +string catalyst_change_bundle_location
 +string catalyst_copy_button
 +string catalyst_debug
@@ -11473,9 +11322,9 @@ index 0000000..c27be48
 +string catalyst_debug_chrome_stop
 +string catalyst_debug_connecting
 +string catalyst_debug_error
-+string catalyst_debug_open
++string catalyst_debug_nuclide
++string catalyst_debug_nuclide_error
 +string catalyst_debug_stop
-+string catalyst_devtools_open
 +string catalyst_dismiss_button
 +string catalyst_heap_capture
 +string catalyst_hot_reloading
@@ -11483,9 +11332,7 @@ index 0000000..c27be48
 +string catalyst_hot_reloading_auto_enable
 +string catalyst_hot_reloading_stop
 +string catalyst_inspector
-+string catalyst_inspector_stop
 +string catalyst_loading_from_url
-+string catalyst_open_flipper_error
 +string catalyst_perf_monitor
 +string catalyst_perf_monitor_stop
 +string catalyst_reload
@@ -11562,6 +11409,7 @@ index 0000000..c27be48
 +string radiogroup_description
 +string rn_tab_description
 +string scrollbar_description
++string search_description
 +string search_menu_title
 +string spinbutton_description
 +string state_busy_description
@@ -11570,7 +11418,6 @@ index 0000000..c27be48
 +string state_mixed_description
 +string state_off_description
 +string state_on_description
-+string state_unselected_description
 +string status_bar_notification_info_overflow
 +string summary_description
 +string tablist_description
@@ -11885,6 +11732,8 @@ index 0000000..c27be48
 +style CardView
 +style CardView_Dark
 +style CardView_Light
++style ClockTimePickerDialog
++style ClockTimePickerStyle
 +style DialogAnimationFade
 +style DialogAnimationSlide
 +style EmptyTheme
@@ -11952,6 +11801,8 @@ index 0000000..c27be48
 +style ShapeAppearance_MaterialComponents_Tooltip
 +style SpinnerDatePickerDialog
 +style SpinnerDatePickerStyle
++style SpinnerTimePickerDialog
++style SpinnerTimePickerStyle
 +style TestStyleWithLineHeight
 +style TestStyleWithLineHeightAppearance
 +style TestStyleWithThemeLineHeightAttribute
@@ -12116,7 +11967,6 @@ index 0000000..c27be48
 +style Theme_AppCompat_Light_Dialog_MinWidth
 +style Theme_AppCompat_Light_NoActionBar
 +style Theme_AppCompat_NoActionBar
-+style Theme_AutofillInlineSuggestion
 +style Theme_Catalyst
 +style Theme_Catalyst_LogBox
 +style Theme_Catalyst_RedBox
@@ -12253,12 +12103,6 @@ index 0000000..c27be48
 +style Widget_AppCompat_TextView_SpinnerItem
 +style Widget_AppCompat_Toolbar
 +style Widget_AppCompat_Toolbar_Button_Navigation
-+style Widget_Autofill
-+style Widget_Autofill_InlineSuggestionChip
-+style Widget_Autofill_InlineSuggestionEndIconStyle
-+style Widget_Autofill_InlineSuggestionStartIconStyle
-+style Widget_Autofill_InlineSuggestionSubtitle
-+style Widget_Autofill_InlineSuggestionTitle
 +style Widget_Compat_NotificationActionContainer
 +style Widget_Compat_NotificationActionText
 +style Widget_Design_AppBarLayout
@@ -12407,7 +12251,6 @@ index 0000000..c27be48
 +styleable AppCompatTextHelper android_drawableBottom android_drawableEnd android_drawableLeft android_drawableRight android_drawableStart android_drawableTop android_textAppearance
 +styleable AppCompatTextView android_textAppearance autoSizeMaxTextSize autoSizeMinTextSize autoSizePresetSizes autoSizeStepGranularity autoSizeTextType drawableBottomCompat drawableEndCompat drawableLeftCompat drawableRightCompat drawableStartCompat drawableTint drawableTintMode drawableTopCompat firstBaselineToTopHeight fontFamily fontVariationSettings lastBaselineToBottomHeight lineHeight textAllCaps textLocale
 +styleable AppCompatTheme actionBarDivider actionBarItemBackground actionBarPopupTheme actionBarSize actionBarSplitStyle actionBarStyle actionBarTabBarStyle actionBarTabStyle actionBarTabTextStyle actionBarTheme actionBarWidgetTheme actionButtonStyle actionDropDownStyle actionMenuTextAppearance actionMenuTextColor actionModeBackground actionModeCloseButtonStyle actionModeCloseDrawable actionModeCopyDrawable actionModeCutDrawable actionModeFindDrawable actionModePasteDrawable actionModePopupWindowStyle actionModeSelectAllDrawable actionModeShareDrawable actionModeSplitBackground actionModeStyle actionModeWebSearchDrawable actionOverflowButtonStyle actionOverflowMenuStyle activityChooserViewStyle alertDialogButtonGroupStyle alertDialogCenterButtons alertDialogStyle alertDialogTheme android_windowAnimationStyle android_windowIsFloating autoCompleteTextViewStyle borderlessButtonStyle buttonBarButtonStyle buttonBarNegativeButtonStyle buttonBarNeutralButtonStyle buttonBarPositiveButtonStyle buttonBarStyle buttonStyle buttonStyleSmall checkboxStyle checkedTextViewStyle colorAccent colorBackgroundFloating colorButtonNormal colorControlActivated colorControlHighlight colorControlNormal colorError colorPrimary colorPrimaryDark colorSwitchThumbNormal controlBackground dialogCornerRadius dialogPreferredPadding dialogTheme dividerHorizontal dividerVertical dropDownListViewStyle dropdownListPreferredItemHeight editTextBackground editTextColor editTextStyle homeAsUpIndicator imageButtonStyle listChoiceBackgroundIndicator listChoiceIndicatorMultipleAnimated listChoiceIndicatorSingleAnimated listDividerAlertDialog listMenuViewStyle listPopupWindowStyle listPreferredItemHeight listPreferredItemHeightLarge listPreferredItemHeightSmall listPreferredItemPaddingEnd listPreferredItemPaddingLeft listPreferredItemPaddingRight listPreferredItemPaddingStart panelBackground panelMenuListTheme panelMenuListWidth popupMenuStyle popupWindowStyle radioButtonStyle ratingBarStyle ratingBarStyleIndicator ratingBarStyleSmall searchViewStyle seekBarStyle selectableItemBackground selectableItemBackgroundBorderless spinnerDropDownItemStyle spinnerStyle switchStyle textAppearanceLargePopupMenu textAppearanceListItem textAppearanceListItemSecondary textAppearanceListItemSmall textAppearancePopupMenuHeader textAppearanceSearchResultSubtitle textAppearanceSearchResultTitle textAppearanceSmallPopupMenu textColorAlertDialogListItem textColorSearchUrl toolbarNavigationButtonStyle toolbarStyle tooltipForegroundColor tooltipFrameBackground viewInflaterClass windowActionBar windowActionBarOverlay windowActionModeOverlay windowFixedHeightMajor windowFixedHeightMinor windowFixedWidthMajor windowFixedWidthMinor windowMinWidthMajor windowMinWidthMinor windowNoTitle
-+styleable Autofill_InlineSuggestion autofillInlineSuggestionChip autofillInlineSuggestionEndIconStyle autofillInlineSuggestionStartIconStyle autofillInlineSuggestionSubtitle autofillInlineSuggestionTitle isAutofillInlineSuggestionTheme
 +styleable AvatarView colorPalette outlineColor outlineSize textColor
 +styleable Badge backgroundColor badgeGravity badgeTextColor horizontalOffset maxCharacterCount number verticalOffset
 +styleable BottomAppBar backgroundTint elevation fabAlignmentMode fabAnimationMode fabCradleMargin fabCradleRoundedCornerRadius fabCradleVerticalOffset hideOnScroll paddingBottomSystemWindowInsets paddingLeftSystemWindowInsets paddingRightSystemWindowInsets
@@ -12500,10 +12343,10 @@ index 0000000..c27be48
 +xml standalone_badge_offset
 diff --git a/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt b/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt
 new file mode 100644
-index 0000000..c27be48
+index 0000000..df0292c
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt
-@@ -0,0 +1,3314 @@
+@@ -0,0 +1,3292 @@
 +com.taskrabbit.zendesk
 +anim abc_fade_in
 +anim abc_fade_out
@@ -12624,11 +12467,6 @@ index 0000000..c27be48
 +attr autoSizePresetSizes
 +attr autoSizeStepGranularity
 +attr autoSizeTextType
-+attr autofillInlineSuggestionChip
-+attr autofillInlineSuggestionEndIconStyle
-+attr autofillInlineSuggestionStartIconStyle
-+attr autofillInlineSuggestionSubtitle
-+attr autofillInlineSuggestionTitle
 +attr background
 +attr backgroundColor
 +attr backgroundImage
@@ -12918,7 +12756,6 @@ index 0000000..c27be48
 +attr indeterminateProgressStyle
 +attr initialActivityCount
 +attr insetForeground
-+attr isAutofillInlineSuggestionTheme
 +attr isLightTheme
 +attr isMaterialTheme
 +attr itemBackground
@@ -13339,9 +13176,6 @@ index 0000000..c27be48
 +color catalyst_logbox_background
 +color catalyst_redbox_background
 +color checkbox_themeable_attribute_color
-+color colorAccent
-+color colorPrimary
-+color colorPrimaryDark
 +color design_bottom_navigation_shadow_color
 +color design_box_stroke_color
 +color design_dark_default_color_background
@@ -13625,7 +13459,6 @@ index 0000000..c27be48
 +dimen abc_text_size_title_material_toolbar
 +dimen action_bar_size
 +dimen appcompat_dialog_background_inset
-+dimen autofill_inline_suggestion_icon_size
 +dimen belvedere_bottom_sheet_elevation
 +dimen belvedere_bottom_sheet_height
 +dimen belvedere_dummy_edit_text_size
@@ -14051,7 +13884,6 @@ index 0000000..c27be48
 +drawable abc_textfield_search_default_mtrl_alpha
 +drawable abc_textfield_search_material
 +drawable abc_vector_test
-+drawable autofill_inline_suggestion_chip_background
 +drawable avd_hide_password
 +drawable avd_show_password
 +drawable belvedere_fam_icon_add
@@ -14218,10 +14050,6 @@ index 0000000..c27be48
 +id attachments_indicator_counter
 +id attachments_indicator_icon
 +id auto
-+id autofill_inline_suggestion_end_icon
-+id autofill_inline_suggestion_start_icon
-+id autofill_inline_suggestion_subtitle
-+id autofill_inline_suggestion_title
 +id baseline
 +id belvedere_dialog_listview
 +id belvedere_dialog_row_image
@@ -14605,7 +14433,6 @@ index 0000000..c27be48
 +layout abc_search_view
 +layout abc_select_dialog_material
 +layout abc_tooltip
-+layout autofill_inline_suggestion
 +layout belvedere_dialog
 +layout belvedere_dialog_row
 +layout belvedere_floating_action_menu
@@ -14786,6 +14613,7 @@ index 0000000..c27be48
 +string belvedere_stream_item_unselect_image_desc
 +string belvedere_toolbar_desc_collapse
 +string bottom_sheet_behavior
++string button_description
 +string catalyst_change_bundle_location
 +string catalyst_copy_button
 +string catalyst_debug
@@ -14793,9 +14621,9 @@ index 0000000..c27be48
 +string catalyst_debug_chrome_stop
 +string catalyst_debug_connecting
 +string catalyst_debug_error
-+string catalyst_debug_open
++string catalyst_debug_nuclide
++string catalyst_debug_nuclide_error
 +string catalyst_debug_stop
-+string catalyst_devtools_open
 +string catalyst_dismiss_button
 +string catalyst_heap_capture
 +string catalyst_hot_reloading
@@ -14803,9 +14631,7 @@ index 0000000..c27be48
 +string catalyst_hot_reloading_auto_enable
 +string catalyst_hot_reloading_stop
 +string catalyst_inspector
-+string catalyst_inspector_stop
 +string catalyst_loading_from_url
-+string catalyst_open_flipper_error
 +string catalyst_perf_monitor
 +string catalyst_perf_monitor_stop
 +string catalyst_reload
@@ -14882,6 +14708,7 @@ index 0000000..c27be48
 +string radiogroup_description
 +string rn_tab_description
 +string scrollbar_description
++string search_description
 +string search_menu_title
 +string spinbutton_description
 +string state_busy_description
@@ -14890,7 +14717,6 @@ index 0000000..c27be48
 +string state_mixed_description
 +string state_off_description
 +string state_on_description
-+string state_unselected_description
 +string status_bar_notification_info_overflow
 +string summary_description
 +string tablist_description
@@ -15205,6 +15031,8 @@ index 0000000..c27be48
 +style CardView
 +style CardView_Dark
 +style CardView_Light
++style ClockTimePickerDialog
++style ClockTimePickerStyle
 +style DialogAnimationFade
 +style DialogAnimationSlide
 +style EmptyTheme
@@ -15272,6 +15100,8 @@ index 0000000..c27be48
 +style ShapeAppearance_MaterialComponents_Tooltip
 +style SpinnerDatePickerDialog
 +style SpinnerDatePickerStyle
++style SpinnerTimePickerDialog
++style SpinnerTimePickerStyle
 +style TestStyleWithLineHeight
 +style TestStyleWithLineHeightAppearance
 +style TestStyleWithThemeLineHeightAttribute
@@ -15436,7 +15266,6 @@ index 0000000..c27be48
 +style Theme_AppCompat_Light_Dialog_MinWidth
 +style Theme_AppCompat_Light_NoActionBar
 +style Theme_AppCompat_NoActionBar
-+style Theme_AutofillInlineSuggestion
 +style Theme_Catalyst
 +style Theme_Catalyst_LogBox
 +style Theme_Catalyst_RedBox
@@ -15573,12 +15402,6 @@ index 0000000..c27be48
 +style Widget_AppCompat_TextView_SpinnerItem
 +style Widget_AppCompat_Toolbar
 +style Widget_AppCompat_Toolbar_Button_Navigation
-+style Widget_Autofill
-+style Widget_Autofill_InlineSuggestionChip
-+style Widget_Autofill_InlineSuggestionEndIconStyle
-+style Widget_Autofill_InlineSuggestionStartIconStyle
-+style Widget_Autofill_InlineSuggestionSubtitle
-+style Widget_Autofill_InlineSuggestionTitle
 +style Widget_Compat_NotificationActionContainer
 +style Widget_Compat_NotificationActionText
 +style Widget_Design_AppBarLayout
@@ -15703,7 +15526,6 @@ index 0000000..c27be48
 +style ZendeskSdkTheme_Light_Dialog_Retry_Text
 +style ZendeskSdkTheme_Light_InputBox
 +style ZendeskSdkTheme_PopupMenu
-+style ZendeskTheme
 +style _BelvedereDialogListRow
 +style _BelvedereDialogListView
 +style _BelvedereListRowIcon
@@ -15727,7 +15549,6 @@ index 0000000..c27be48
 +styleable AppCompatTextHelper android_drawableBottom android_drawableEnd android_drawableLeft android_drawableRight android_drawableStart android_drawableTop android_textAppearance
 +styleable AppCompatTextView android_textAppearance autoSizeMaxTextSize autoSizeMinTextSize autoSizePresetSizes autoSizeStepGranularity autoSizeTextType drawableBottomCompat drawableEndCompat drawableLeftCompat drawableRightCompat drawableStartCompat drawableTint drawableTintMode drawableTopCompat firstBaselineToTopHeight fontFamily fontVariationSettings lastBaselineToBottomHeight lineHeight textAllCaps textLocale
 +styleable AppCompatTheme actionBarDivider actionBarItemBackground actionBarPopupTheme actionBarSize actionBarSplitStyle actionBarStyle actionBarTabBarStyle actionBarTabStyle actionBarTabTextStyle actionBarTheme actionBarWidgetTheme actionButtonStyle actionDropDownStyle actionMenuTextAppearance actionMenuTextColor actionModeBackground actionModeCloseButtonStyle actionModeCloseDrawable actionModeCopyDrawable actionModeCutDrawable actionModeFindDrawable actionModePasteDrawable actionModePopupWindowStyle actionModeSelectAllDrawable actionModeShareDrawable actionModeSplitBackground actionModeStyle actionModeWebSearchDrawable actionOverflowButtonStyle actionOverflowMenuStyle activityChooserViewStyle alertDialogButtonGroupStyle alertDialogCenterButtons alertDialogStyle alertDialogTheme android_windowAnimationStyle android_windowIsFloating autoCompleteTextViewStyle borderlessButtonStyle buttonBarButtonStyle buttonBarNegativeButtonStyle buttonBarNeutralButtonStyle buttonBarPositiveButtonStyle buttonBarStyle buttonStyle buttonStyleSmall checkboxStyle checkedTextViewStyle colorAccent colorBackgroundFloating colorButtonNormal colorControlActivated colorControlHighlight colorControlNormal colorError colorPrimary colorPrimaryDark colorSwitchThumbNormal controlBackground dialogCornerRadius dialogPreferredPadding dialogTheme dividerHorizontal dividerVertical dropDownListViewStyle dropdownListPreferredItemHeight editTextBackground editTextColor editTextStyle homeAsUpIndicator imageButtonStyle listChoiceBackgroundIndicator listChoiceIndicatorMultipleAnimated listChoiceIndicatorSingleAnimated listDividerAlertDialog listMenuViewStyle listPopupWindowStyle listPreferredItemHeight listPreferredItemHeightLarge listPreferredItemHeightSmall listPreferredItemPaddingEnd listPreferredItemPaddingLeft listPreferredItemPaddingRight listPreferredItemPaddingStart panelBackground panelMenuListTheme panelMenuListWidth popupMenuStyle popupWindowStyle radioButtonStyle ratingBarStyle ratingBarStyleIndicator ratingBarStyleSmall searchViewStyle seekBarStyle selectableItemBackground selectableItemBackgroundBorderless spinnerDropDownItemStyle spinnerStyle switchStyle textAppearanceLargePopupMenu textAppearanceListItem textAppearanceListItemSecondary textAppearanceListItemSmall textAppearancePopupMenuHeader textAppearanceSearchResultSubtitle textAppearanceSearchResultTitle textAppearanceSmallPopupMenu textColorAlertDialogListItem textColorSearchUrl toolbarNavigationButtonStyle toolbarStyle tooltipForegroundColor tooltipFrameBackground viewInflaterClass windowActionBar windowActionBarOverlay windowActionModeOverlay windowFixedHeightMajor windowFixedHeightMinor windowFixedWidthMajor windowFixedWidthMinor windowMinWidthMajor windowMinWidthMinor windowNoTitle
-+styleable Autofill_InlineSuggestion autofillInlineSuggestionChip autofillInlineSuggestionEndIconStyle autofillInlineSuggestionStartIconStyle autofillInlineSuggestionSubtitle autofillInlineSuggestionTitle isAutofillInlineSuggestionTheme
 +styleable AvatarView colorPalette outlineColor outlineSize textColor
 +styleable Badge backgroundColor badgeGravity badgeTextColor horizontalOffset maxCharacterCount number verticalOffset
 +styleable BottomAppBar backgroundTint elevation fabAlignmentMode fabAnimationMode fabCradleMargin fabCradleRoundedCornerRadius fabCradleVerticalOffset hideOnScroll paddingBottomSystemWindowInsets paddingLeftSystemWindowInsets paddingRightSystemWindowInsets
@@ -15820,86 +15641,74 @@ index 0000000..c27be48
 +xml standalone_badge_offset
 diff --git a/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-debug-report.txt
 new file mode 100644
-index 0000000..d0f1925
+index 0000000..ea52373
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-debug-report.txt
 @@ -0,0 +1,33 @@
 +-- Merging decision tree log ---
 +manifest
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
++ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
 +	package
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:70-102
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:70-102
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	xmlns:android
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:11-69
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:11-69
 +application
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
++ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
 +activity#zendesk.messaging.MessagingActivity
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
++ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
 +	android:theme
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
 +	android:name
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
 +uses-sdk
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	android:targetSdkVersion
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	android:minSdkVersion
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 diff --git a/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-release-report.txt b/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-release-report.txt
 new file mode 100644
-index 0000000..d0f1925
+index 0000000..b666e49
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/build/outputs/logs/manifest-merger-release-report.txt
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,25 @@
 +-- Merging decision tree log ---
 +manifest
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-10:12
++ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-3:12
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-3:12
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:1-3:12
 +	package
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:70-102
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:70-102
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	xmlns:android
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:11-69
-+application
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:4:1-8:15
-+activity#zendesk.messaging.MessagingActivity
-+ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:5-7:47
-+	android:theme
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:7:9-44
-+	android:name
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:6:15-65
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml:2:11-69
 +uses-sdk
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	android:targetSdkVersion
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 +	android:minSdkVersion
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		ADDED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-+		INJECTED from /Users/pavansharma/Desktop/workspace/Office/RoyoDispatch/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
-diff --git a/node_modules/react-native-zendesk-chat/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-zendesk-chat/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
-new file mode 100644
-index 0000000..47f1318
-Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		ADDED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/admin/Desktop/ReactNativeProjects/AzureDevopsinroyo/royoorder/node_modules/react-native-zendesk-chat/android/src/main/AndroidManifest.xml
 diff --git a/node_modules/react-native-zendesk-chat/android/build/tmp/compileDebugJavaWithJavac/source-classes-mapping.txt b/node_modules/react-native-zendesk-chat/android/build/tmp/compileDebugJavaWithJavac/source-classes-mapping.txt
 new file mode 100644
 index 0000000..6ea7d35
@@ -15915,10 +15724,6 @@ index 0000000..6ea7d35
 + com.taskrabbit.zendesk.RNZendeskChatModule$3
 +com/taskrabbit/zendesk/RNZendeskChatPackage.java
 + com.taskrabbit.zendesk.RNZendeskChatPackage
-diff --git a/node_modules/react-native-zendesk-chat/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-zendesk-chat/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin
-new file mode 100644
-index 0000000..a30d958
-Binary files /dev/null and b/node_modules/react-native-zendesk-chat/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin differ
 diff --git a/node_modules/react-native-zendesk-chat/android/build/tmp/compileReleaseJavaWithJavac/source-classes-mapping.txt b/node_modules/react-native-zendesk-chat/android/build/tmp/compileReleaseJavaWithJavac/source-classes-mapping.txt
 new file mode 100644
 index 0000000..6ea7d35
@@ -15964,14 +15769,14 @@ index 0000000..6c63195
 \ No newline at end of file
 diff --git a/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml b/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml
 new file mode 100644
-index 0000000..572f60a
+index 0000000..f106a49
 --- /dev/null
 +++ b/node_modules/react-native-zendesk-chat/android/src/main/res/values/styles.xml
 @@ -0,0 +1,12 @@
 +<resources>
 +
 +    <!-- Base application theme. -->
-+    <style name="ZendeskTheme" parent="Theme.AppCompat.Light.NoActionBar">
++    <style name="ZendeskTheme" parent="Theme.MaterialComponents.Light">
 +
 +        <item name="colorPrimary">@color/colorPrimary</item>
 +        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

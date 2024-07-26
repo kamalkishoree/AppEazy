@@ -16,10 +16,10 @@ import strings from '../../constants/lang';
 import navigationStrings from '../../navigation/navigationStrings';
 import actions from '../../redux/actions';
 // import store from '../../redux/store';
-import FaceSDK, {
-  Enum,
-  FaceCaptureResponse, Image as FaceImage, MatchFacesRequest, MatchFacesResponse
-} from '@regulaforensics/react-native-face-api-beta';
+// import FaceSDK, {
+//   Enum,
+//   FaceCaptureResponse, Image as FaceImage, MatchFacesRequest, MatchFacesResponse
+// } from '@regulaforensics/react-native-face-api-beta';
 import { cloneDeep, isEmpty } from 'lodash';
 import moment from 'moment';
 import { getBundleId } from 'react-native-device-info';
@@ -51,9 +51,9 @@ import {
 import stylesFunc from './styles';
 navigator.geolocation = require('react-native-geolocation-service');
 
-var image1 = new FaceImage();
-var image2 = new FaceImage();
-var request = new MatchFacesRequest();
+// var image1 = new FaceImage();
+// var image2 = new FaceImage();
+// var request = new MatchFacesRequest();
 
 const window = Dimensions.get('window');
 let pressedItem = {};

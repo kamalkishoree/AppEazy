@@ -12,7 +12,7 @@ import fontFamily from '../../styles/fontFamily'
 import { moderateScale, moderateScaleVertical } from '../../styles/responsiveSize'
 import ZendeskChat from '../../library/react-native-zendesk-chat';
 import strings from '../../constants/lang'
-import BackgroundGeolocation from '@hariks789/react-native-background-geolocation';
+// import BackgroundGeolocation from '@hariks789/react-native-background-geolocation';
 import actions from '../../redux/actions'
 import { showError, showSuccess } from '../../utils/helperFunctions'
 import { removerUserData } from '../../redux/actions/auth'
@@ -79,7 +79,7 @@ export default function Account({
                 onPress: () => {
                     console.log('progress');
                     logout();
-                    BackgroundGeolocation.removeAllListeners();
+                    // BackgroundGeolocation.removeAllListeners();
                     // navigation.toggleDrawer();
                 },
             },

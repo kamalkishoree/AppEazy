@@ -1,7 +1,6 @@
 import { debounce, get, isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Alert,
   BackHandler,
   FlatList,
   Image,
@@ -39,27 +38,22 @@ import {
   moderateScaleVertical,
   width,
 } from '../../styles/responsiveSize';
-import {
-  getCurrentLocation,
-  showError,
-  showSuccess,
-} from '../../utils/helperFunctions';
-import { requestUserPermission } from '../../utils/notificationServices';
+import {showError, showSuccess} from '../../utils/helperFunctions';
+import {requestUserPermission} from '../../utils/notificationServices';
 
-import styles from './styles';
-navigator.geolocation = require('react-native-geolocation-service');
-// import BackgroundService from 'react-native-background-actions';
-import socketServices from '../../utils/scoketService';
-// import BackgroundTimer from 'react-native-background-timer';
-import BackgroundGeolocation from '@hariks789/react-native-background-geolocation';
+
+import Geolocation from '@react-native-community/geolocation';
+import BidAcceptRejectCard from '../../Components/BidAcceptRejectCard';
 import generateBoxShadowStyle from '../../Components/generateBoxShadowStyle';
 import GradientButton from '../../Components/GradientButton';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import BidAcceptRejectCard from '../../Components/BidAcceptRejectCard';
 import PoolingSuggestionCard from '../../Components/PoolingSuggestionCard';
-import { appIds } from '../../utils/constants/DynamicAppKeys';
-import { colorArray } from '../../utils/constants/ConstantValues';
-import { chekLocationPermission } from '../../utils/permissions';
+import {colorArray} from '../../utils/constants/ConstantValues';
+import {appIds} from '../../utils/constants/DynamicAppKeys';
+import {chekLocationPermission} from '../../utils/permissions';
+import socketServices from '../../utils/scoketService';
+import styles from './styles';
+navigator.geolocation = require('react-native-geolocation-service');
 
 var finalAllTasks = [];
 var finaltodayTasks = [];
@@ -186,108 +180,6 @@ export default function DashBoard({ route, navigation }) {
     return () => backHandler.remove();
   }, []);
 
-  useEffect(() => {
-    if (isEnabled) {
-      BackgroundGeolocation.on('location', location => {
-        let headingAngle = location?.bearing || 0.0;
-        let lat = location?.latitude || 0;
-        let long = location.longitude || 0;
-        ref.current = orderCallbackUrl;
-        fetchgentLogs(lat, long, headingAngle);
-        console.log(lat, long, headingAngle, 'at, long, headingAngle=>');
-      });
-
-      BackgroundGeolocation.on('error', error => {
-        console.log('[ERROR] BackgroundGeolocation error:', error);
-      });
-
-      BackgroundGeolocation.on('authorization', status => {
-        console.log(
-          '[INFO] BackgroundGeolocation authorization status: ' + status,
-        );
-        if (status !== BackgroundGeolocation.AUTHORIZED) {
-          // we need to set delay or otherwise alert may not be shown
-          setTimeout(
-            () =>
-              Alert.alert(
-                'App requires location tracking permission',
-                'Would you like to open app settings?',
-                [
-                  {
-                    text: 'Yes',
-                    onPress: () => BackgroundGeolocation.showAppSettings(),
-                  },
-                  {
-                    text: 'No',
-                    onPress: () => console.log('No Pressed'),
-                    style: 'cancel',
-                  },
-                ],
-              ),
-            1000,
-          );
-        }
-      });
-
-      BackgroundGeolocation.on('background', () => {
-        console.log('[INFO] App is in background');
-      });
-
-      BackgroundGeolocation.on('foreground', () => {
-        console.log('[INFO] App is in foreground');
-      });
-
-      BackgroundGeolocation.on('abort_requested', () => {
-        console.log('[INFO] Server responded with 285 Updates Not Required');
-      });
-
-      BackgroundGeolocation.on('http_authorization', () => {
-        console.log('[INFO] App needs to authorize the http requests');
-      });
-
-      BackgroundGeolocation.checkStatus(status => {
-        console.log(status, 'status.isRunning');
-        if (!status.isRunning) {
-          BackgroundGeolocation.start(); //triggers start on start event
-        }
-      });
-
-      BackgroundGeolocation.configure({
-        activityType: 'Fitness',
-        desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-        stationaryRadius: 10,
-        distanceFilter: 10,
-        debug: false,
-        startOnBoot: false,
-        stopOnTerminate: true,
-        notificationTitle: 'Location Tracking',
-        notificationText: `Tracking driver's location in background.`,
-        locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-        interval: 10000,
-        fastestInterval: 10000,
-        activitiesInterval: 10000,
-        stopOnStillActivity: false,
-        pauseLocationUpdates: false,
-        url: '',
-        httpHeaders: {
-          'X-FOO': 'bar',
-        },
-        // customize post properties
-        postTemplate: {
-          lat: '@latitude',
-          lon: '@longitude',
-          foo: 'bar', // you can also add your own properties
-        },
-      });
-    } else {
-      BackgroundGeolocation.removeAllListeners();
-    }
-
-    return () => {
-      BackgroundGeolocation.removeAllListeners();
-    };
-  }, [orderCallbackUrl, setOrderCallbackUrl, ref, isEnabled]);
-
   useFocusEffect(
     React.useCallback(() => {
       if (isCabPooling) {
@@ -339,6 +231,30 @@ export default function DashBoard({ route, navigation }) {
       }
     }, [isCabPooling]),
   );
+  useEffect(() => {
+
+    chekLocationPermission()
+    .then(result => {
+      const watchId = Geolocation.watchPosition(
+        position => {
+          const {latitude, longitude,heading} = position.coords;
+          updateState({latitude: latitude, longitude: longitude});
+          console.log(position.coords, 'position.coords in location');
+          fetchgentLogs(latitude, longitude, heading);
+        },
+        error => console.error(error,'error in location'),
+        {
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 1000,
+          distanceFilter: clientInfo?.distance_in_meter||50,
+        },
+      );
+  
+      return () => Geolocation.clearWatch(watchId);
+    })
+    .catch(error => console.log('error while accessing location', error));
+  }, []);
 
   const fetchgentLogs = async (lat, lng, heading_) => {
     if (userData?.access_token) {
@@ -372,15 +288,15 @@ export default function DashBoard({ route, navigation }) {
           //       res?.data?.user?.client_preference
           //         ?.customer_support_application_id
           //   )
-              actions?.setZendeskKeys({
-                keys: {
-                  application_id:
-                    res?.data?.user?.client_preference
-                      ?.customer_support_application_id,
-                  account_key:
-                    res?.data?.user?.client_preference?.customer_support_key,
-                },
-              });
+          actions?.setZendeskKeys({
+            keys: {
+              application_id:
+                res?.data?.user?.client_preference
+                  ?.customer_support_application_id,
+              account_key:
+                res?.data?.user?.client_preference?.customer_support_key,
+            },
+          });
             
           // }
 
@@ -406,7 +322,7 @@ export default function DashBoard({ route, navigation }) {
       } else {
         getAllPoolingSuggestions();
       }
-    }, [selectedOption]),
+    }, [selectedOption, notificationData]),
   );
 
   useEffect(() => {
@@ -417,7 +333,7 @@ export default function DashBoard({ route, navigation }) {
         getAllPoolingSuggestions();
       }
     }
-  }, [isLoading, isRefreshing]);
+  }, [isLoading, isRefreshing, notificationData]);
 
   useEffect(() => {
     if (refreshHomeData) {
@@ -427,7 +343,7 @@ export default function DashBoard({ route, navigation }) {
         getAllPoolingSuggestions();
       }
     }
-  }, [refreshHomeData]);
+  }, [refreshHomeData, notificationData]);
 
   useEffect(() => {
     (async () => {
@@ -751,7 +667,7 @@ export default function DashBoard({ route, navigation }) {
             <TaskListCard
               data={obj}
               index={index}
-              // _onPressTaskDetails={() => _onPressTaskDetails(item)}
+              _onPressTaskDetails={() => _onPressTaskDetails(item)}
             />
           );
         })}
@@ -804,16 +720,16 @@ export default function DashBoard({ route, navigation }) {
             selectedOption == 2
               ? allPoolingingSuggestions?.length
               : selectedOption
-                ? allTasks?.length
-                : todaysTasks?.length
+              ? allTasks?.length
+              : todaysTasks?.length
           ) ? (
             <FlatList
               data={
                 selectedOption == 2
                   ? allPoolingingSuggestions
                   : selectedOption
-                    ? finalAllTasks
-                    : finaltodayTasks
+                  ? finalAllTasks
+                  : finaltodayTasks
               }
               renderItem={
                 selectedOption != 2 ? renderTaskList : renderPoolingSuggestions
@@ -827,8 +743,8 @@ export default function DashBoard({ route, navigation }) {
                 backgroundColor: !!(selectedOption == 1 && !allTasks.length)
                   ? colors.backGround
                   : !!(selectedOption == 0 && !todaysTasks.length)
-                    ? colors.backGround
-                    : colors.white,
+                  ? colors.backGround
+                  : colors.white,
               }}
               contentContainerStyle={{
                 flexGrow: 1,
@@ -850,8 +766,8 @@ export default function DashBoard({ route, navigation }) {
                     selectedOption == 2
                       ? 'No Pooling Suggestions Yet'
                       : getBundleId() == appIds.tdc
-                        ? strings.NOTRIP
-                        : strings.NOTASK
+                      ? strings.NOTRIP
+                      : strings.NOTASK
                   }
                   subMessage={
                     selectedOption == 2
@@ -869,8 +785,8 @@ export default function DashBoard({ route, navigation }) {
                 selectedOption == 2
                   ? 'No Pooling Suggestions Yet'
                   : getBundleId() == appIds.tdc
-                    ? strings.NOTRIP
-                    : strings.NOTASK
+                  ? strings.NOTRIP
+                  : strings.NOTASK
               }
               subMessage={
                 selectedOption == 2
@@ -1199,8 +1115,8 @@ export default function DashBoard({ route, navigation }) {
         enablePanDownToClose={false}
         enableHandlePanningGesture={false}
         enableContentPanningGesture={false}
-      // onChange={_connectRajorPayBottomSheet}
-      // handleComponent={_handleComponent}
+        // onChange={_connectRajorPayBottomSheet}
+        // handleComponent={_handleComponent}
       >
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -1308,14 +1224,37 @@ export default function DashBoard({ route, navigation }) {
             options={options}
             initial={selectedOption}
             onPress={value => updateContent(value)}
-          // textInputStyle={{ width: moderateScale(width - 40) }}
+            // textInputStyle={{ width: moderateScale(width - 40) }}
           />
         ) : (
           <View style={{ height: 35 }} />
         )}
       </View>
 
-      <View style={{ flex: 1 }}>{renderComponents()}</View>
+      <View style={{flex: 1}}>
+        {renderComponents()}
+        {Platform.OS == 'ios' && (
+          <TouchableOpacity
+            onPress={currentLocation}
+            style={{
+              position: 'absolute',
+              top: moderateScale(10),
+              right: moderateScale(20),
+              backgroundColor: colors.blackOpacity10,
+              padding: moderateScale(4),
+              borderRadius: moderateScale(8),
+            }}>
+            <Image
+              style={{
+                tintColor: colors.black,
+                width: moderateScale(20),
+                height: moderateScale(20),
+              }}
+              source={imagePath.currentLocation}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </WrapperContainer>
   );
 }
