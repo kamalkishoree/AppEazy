@@ -314,7 +314,7 @@ $serviceType = Session::get('serviceType');
                     <div class="text">
                         <div class="">
                             <span class="d-none">
-                                <input type="checkbox" name="checked_cart_product" class="checked-cart-product" id="checked_cart_product" value="{{$vendorProduct->id}}" {{ $vendorProduct->is_cart_checked ? 'checked' : '' }}>
+                                <input type="checkbox" name="checked_cart_product" class="checked-cart-product" id="checked_cart_product" value="{{$vendorProduct->id}}" {{ @$vendorProduct->is_cart_checked ? 'checked' : '' }}>
                                 <input type="hidden" name="without_category_kyc" value="{{ $cart_details->without_category_kyc }}">
                                 {!! $cart_details->left_section !!}
                             </span>

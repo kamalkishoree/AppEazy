@@ -557,8 +557,6 @@ class UserhomeController extends FrontController
                 ->orderBy('parent_id', 'asc')->get();
             }
             
-
-            
             $view_page ="home-template-one";
             if (isset($set_template)  && $set_template->template_id == 1){
                 // $view_page = 'home-template-one';
@@ -588,10 +586,10 @@ class UserhomeController extends FrontController
             }
 
             elseif(isset($set_template) && $set_template->template_id == 10)
-{
-            $view_page = "yacht.index";
-       
-}
+                {
+                            $view_page = "yacht.index";
+                    
+                }
 
             $is_service_product_price_from_dispatch_forOnDemand = 0;
           
