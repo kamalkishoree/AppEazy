@@ -7,7 +7,6 @@
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/css/azul.css')}}" rel="stylesheet" type="text/css" />
-
 <link rel="stylesheet" href="{{asset('assets/css/intlTelInput.css')}}">
 @section('content')
 @php

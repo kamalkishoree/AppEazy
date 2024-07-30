@@ -419,6 +419,10 @@
                                         <label class="m-0">{{ __('Total Payable') }}</label>
                                         <span>{{ Session::get('currencySymbol') }}{{ decimal_format($order->payable_amount - $order->total_discount_calculate * $clientCurrency->doller_compare) }}</span>
                                     </li>
+                                    <li class="grand_total d-flex align-items-center justify-content-between">
+                                    {{createStringQR( 'Order Number :' .$order->order_number,$size=200);}}
+                                    </li>
+
                                     {{-- mohit sir branch code added by sohail --}}
                                     @if (@$order->advance_amount > 0)
                                         <li class="grand_total d-flex align-items-center justify-content-between">

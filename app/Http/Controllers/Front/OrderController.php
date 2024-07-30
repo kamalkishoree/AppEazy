@@ -1929,15 +1929,11 @@ class OrderController extends FrontController
             // check gift card
 
             if($additionalPreferences->is_gift_card ==1){
-
-
                 if(isset($cart->giftCard) && !empty($cart->giftCard)){
 
                     $giftcard = UserGiftCard::with('giftCard')->whereHas('giftCard',function ($query) use ($nowDate){
                         return  $query->whereDate('expiry_date', '>=', $nowDate);
                     })->where(['is_used'=>'0','gift_card_code'=>$cart->user_gift_code])->first();
-
-
                     if($giftcard){
                         $UserGiftCardId = $giftcard->id;
                         $giftCardTotalAmount = $cart->giftCard->amount;
@@ -2015,6 +2011,10 @@ class OrderController extends FrontController
             }
             /* Uodating client other details in order object */
             $order->payment_option_id = $request->payment_option_id;
+
+
+
+
             $order->total_other_taxes = $request->other_taxes_string;
             $order->comment_for_pickup_driver = $cart->comment_for_pickup_driver ?? null;
             $order->comment_for_dropoff_driver = $cart->comment_for_dropoff_driver ?? null;
@@ -2030,7 +2030,6 @@ class OrderController extends FrontController
             $order->pick_drop_order_number = $request->pick_drop_order_number ?? null;
             /* Save initial details of order */
             $order->payable_amount = $request->total_amount;
-
             $order->save();
 
 

@@ -24,6 +24,7 @@ use Google\Auth\Credentials\ServiceAccountCredentials;
 use Illuminate\Support\Facades\Storage;
 
 use App\Services\FirebaseService;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 if (!function_exists('getFcmOauthToken')) {
 
@@ -2423,6 +2424,22 @@ if (!function_exists('recurringCalculationFunction')) {
                 return true;
             }
             return false;
+        }
+    }
+
+    if (!function_exists('createStringQR')) {
+        function createStringQR($string,$size = 0){
+
+            if($size != 0)
+            {
+                return QrCode::size($size)->generate(
+                    $string
+                );
+            }
+
+            return QrCode::generate(
+                $string
+            );
         }
     }
 }

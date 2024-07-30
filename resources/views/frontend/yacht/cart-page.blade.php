@@ -363,22 +363,7 @@ $serviceType = Session::get('serviceType');
                             <div class="seleed_date">
                                 <span>{{$difference}} Day(s)</span>
                             </div>
-                            <div class="end_time inner_item">
-                                <h6>End :<span>{{date('H:i',strtotime($vendorProduct->end_date_time))}}</span></h6>
-                                <h6>{{date('d M y',strtotime($vendorProduct->end_date_time))}}</h6>
-                            </div>
-                        </div>
-                    @elseif($serviceType == 'yacht')
-                        <div class="d-flex justify-content-between align-items-center">
-                                <h6>{{$variantData->vset[0]->option_data->title}}</h6>
-                                <h6>{{Session::get('currencySymbol')}}{{$variantData->price}}</h6>
-                        </div>
-                    @endif
-                    <ul>
-                        <img src="/yacht-images/6.png">
-                        <li><img src="/yacht-images/4.png" alt=""><span>{{$cart_details->vendor_detail->vendor_address->address ?? ""}}</span> Pickup</li>
-                        <li><img src="/yacht-images/5.png" alt=""><span>{{$cart_details->vendor_detail->vendor_address->address ?? ""}} </span>DROP</li>
-                    </ul>
+                            
                 </div>
                 <div class="rental_item">
                     <div class="rentalcharges rental-box">

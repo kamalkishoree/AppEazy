@@ -372,18 +372,17 @@
                                                             }
                                                         @endphp
                                                         <div class="items-price">
-                                                            @if ($additionalPreference['is_token_currency_enable'])
-                                                                {!! "<i class='fa fa-money' aria-hidden='true'></i> " !!}{{ getInToken(decimal_format((@$vendor_product->quantity_price) + $additionalPrice)) }}
-                                                            @else
-                                                                {{ Session::get('currencySymbol') . decimal_format((@$vendor_product->quantity_price) + $additionalPrice) }}
-                                                            @endif
+
                                                         </div>
                                                     @else
                                                         <div class="items-price">
+                                                            <!---Here is Cart Price kamal---->
                                                             @if ($additionalPreference['is_token_currency_enable'])
                                                                 {!! "<i class='fa fa-money' aria-hidden='true'></i> " !!}{{ getInToken(decimal_format(@$vendor_product->quantity_price)) }}
                                                             @else
-                                                                {{ Session::get('currencySymbol') . decimal_format(@$vendor_product->quantity_price) }}
+
+                                                            <!-- {{$cart_details->totalQuantity}} -->
+                                                                {{ Session::get('currencySymbol') . decimal_format(@($vendor_product->quantity_price )) }}
                                                             @endif
                                                         </div>
                                                     @endif

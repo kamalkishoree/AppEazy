@@ -557,6 +557,8 @@ class UserhomeController extends FrontController
                 ->orderBy('parent_id', 'asc')->get();
             }
             
+
+            
             $view_page ="home-template-one";
             if (isset($set_template)  && $set_template->template_id == 1){
                 // $view_page = 'home-template-one';
@@ -586,10 +588,9 @@ class UserhomeController extends FrontController
             }
 
             elseif(isset($set_template) && $set_template->template_id == 10)
-                {
-                            $view_page = "yacht.index";
-                    
-                }
+            {
+                $view_page = "yacht.car-rental";
+            }
 
             $is_service_product_price_from_dispatch_forOnDemand = 0;
           
@@ -764,7 +765,7 @@ class UserhomeController extends FrontController
         }
         $trendingVendors = [];
         if (in_array('trending_vendors', $enable_layout)) {  # if enable trending_vendors section in 
-            $now = Carbon::now()->toDateTimeString();
+            $now = carbon::now()->toDateTimeString();
             $trending_vendors = SubscriptionInvoicesVendor::whereHas('features', function ($query) {
                 $query->where(['subscription_invoice_features_vendor.feature_id' => 1]);
             })
