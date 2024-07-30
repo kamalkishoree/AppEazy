@@ -360,12 +360,12 @@ export default function Wallet({ navigation }) {
     return (
       <View style={styles.addMoneyCon}>
         <TouchableOpacity onPress={goToAddMoney} style={styles.addMoneybtn}>
-          <Text style={{ ...styles.addMoneyText, letterSpacing: 1 }}>
+          <Text style={{ ...styles.addMoneyText, letterSpacing: 1 , color: MyDarkTheme.colors.text }}>
             {strings.ADD_MONEY}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onTransferFunds} style={styles.addMoneybtn}>
-          <Text style={{ ...styles.addMoneyText, letterSpacing: 1 }}>
+          <Text style={{ ...styles.addMoneyText, letterSpacing: 1,  color: MyDarkTheme.colors.text}}>
             {strings.TRANSFER_FUNDS}
           </Text>
         </TouchableOpacity>
