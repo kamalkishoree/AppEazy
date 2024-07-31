@@ -369,6 +369,15 @@ input[type=number]::-webkit-outer-spin-button {
                                     <h5 class="m-0" id="pool_5">{{ __('Booking') }}</h5>
                                 </label>
                             </div>
+
+                            <div class="item">
+                            <input type="radio" class="pool_radio is_cab_pooling_radio" id="cab_pooling" name="is_cab_pooling_radio"
+                                value="1">
+                            <label class="pool_label mb-0  my-2" for="cab_pooling" id="label_cab_pooling">
+                                <h5 class="m-0" id="pool_5">{{ __('Pooling') }}</h5>
+                            </label>
+                            </div>
+
                             @endif
 
                             @if($is_bid_ride_enable == 1)
