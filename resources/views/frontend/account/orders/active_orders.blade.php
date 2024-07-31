@@ -366,11 +366,14 @@
                                                                                                     $subtotal_order_price += $product_subtotal_amount;
                                                                                                     
                                                                                                 @endphp
-                                                                                                <span>{{$additionalPreference["is_token_currency_enable"] ? getInToken(decimal_format($product_subtotal_amount
+                                                                                                <!-- <span>{{$additionalPreference["is_token_currency_enable"] ? getInToken(decimal_format($product_subtotal_amount
                                                                                                     *
                                                                                                     $clientCurrency->doller_compare)) : Session::get('currencySymbol').decimal_format($product_subtotal_amount
                                                                                                     *
-                                                                                                    $clientCurrency->doller_compare)}}</span>
+                                                                                                    $clientCurrency->doller_compare)}}</span> -->
+
+                                                                                                    <span>{{ $additionalPreference["is_token_currency_enable"] ? getInToken(decimal_format($order->payable_amount)) : Session::get('currencySymbol') .decimal_format($order->payable_amount)}}
+
                                                                                             </li>
 
                                                                                         </ul>
