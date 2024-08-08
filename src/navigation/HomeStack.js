@@ -59,7 +59,8 @@ import {
   Wishlist2,
   EcomOrderAgain,
   ProductPowerConumption,
-  Category
+  Category,
+  GiftCard
 } from '../Screens';
 import AddVehicleDetails from '../Screens/AddVehicleDetails/AddVehicleDetails';
 import BidingDriversList from '../Screens/TaxiApp/BidingDriversList/BidingDriversList';
@@ -274,6 +275,10 @@ export default function () {
       <Stack.Screen
         name={navigationStrings.SUBSCRIPTION}
         component={Subscriptions2}
+      />
+      <Stack.Screen
+        name={navigationStrings.GIFTCARD}
+        component={GiftCard}
       />
       <Stack.Screen
         name={navigationStrings.SUBCATEGORY_VENDORS}

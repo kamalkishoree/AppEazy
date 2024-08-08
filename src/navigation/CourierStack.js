@@ -10,6 +10,7 @@ import {
   Offers,
   MyOrders,
   VerifyAccount,
+  GiftOffers,
 } from '../Screens';
 import VerifyAccountSecond from '../Screens/VerifyAccountSecond/VerifyAccount';
 import navigationStrings from './navigationStrings';
@@ -66,6 +67,11 @@ export default function (Stack) {
         name={navigationStrings.OFFERS}
         component={Offers}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={navigationStrings.GIFTOFFERS}
+        component={GiftOffers}
+        options={{ animationEnabled: false }}
       />
       <Stack.Screen
         name={navigationStrings.VERIFY_ACCOUNT_COURIER}

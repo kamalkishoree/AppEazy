@@ -400,11 +400,13 @@ export default function VendorRevenue({navigation, route}) {
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor:
-                      selectedTimeOption && selectedTimeOption?.id == i.id
+                    (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
                         ? themeColors?.primary_color
+                        :  (selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ?
+                        colors.backgroundGreyC
                         : getColorCodeWithOpactiyNumber(
                             themeColors.primary_color.substr(1),
-                            20,
+                            60,
                           ),
                     borderColor: themeColors.primary_color,
                     borderWidth:
@@ -417,10 +419,13 @@ export default function VendorRevenue({navigation, route}) {
                   <Text
                     style={{
                       fontFamily: fontFamily.medium,
-                      color:
-                        selectedTimeOption && selectedTimeOption?.id == i.id
-                          ? colors.white
-                          : themeColors.primary_color,
+                      // color:
+                      //   selectedTimeOption && selectedTimeOption?.id == i.id
+                      //     ? colors.white
+                      //     : themeColors.primary_color,
+                          color: (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
+                            ? colors.white : ( selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ?  colors.black  
+                            : colors.white,
                     }}>
                     {i.title}
                   </Text>

@@ -67,7 +67,8 @@ import {
   EcomAccount,
   EcomLangCurrency,
   DeveloperMode,
-  P2pOndemandProductDetail
+  P2pOndemandProductDetail,
+  GiftCard
 } from '../Screens';
 
 import navigationStrings from './navigationStrings';
@@ -235,6 +236,10 @@ export default function ({ navigation }) {
       <Stack.Screen
         name={navigationStrings.SUBSCRIPTION}
         component={Subscriptions2}
+      />
+        <Stack.Screen
+        name={navigationStrings.GIFTCARD}
+        component={GiftCard}
       />
       <Stack.Screen name={navigationStrings.LOYALTY} component={Loyalty2} />
       <Stack.Screen

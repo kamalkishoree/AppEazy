@@ -10,6 +10,9 @@ import { StartPrinting } from './src/Screens/PrinterConnection/PrinteFunc';
 import actions from './src/redux/actions';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
+import NativeDevSettings from 'react-native/Libraries/NativeModules/specs/NativeDevSettings';
+
+    // NativeDevSettings.setIsDebuggingRemotely(true);
 
 
 // Register background handler

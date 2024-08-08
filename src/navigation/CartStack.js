@@ -11,6 +11,7 @@ import {
   Conekta,
   Easebuzz,
   FPX,
+  GiftOffers,
   //Pyament Screens
   Mobbex,
   Mpaisa,
@@ -93,6 +94,11 @@ export default function () {
       <Stack.Screen
         name={navigationStrings.OFFERS}
         component={Offers}
+        options={{ animationEnabled: false }}
+      />
+        <Stack.Screen
+        name={navigationStrings.GIFTOFFERS}
+        component={GiftOffers}
         options={{ animationEnabled: false }}
       />
 

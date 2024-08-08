@@ -209,3 +209,5 @@ export {default as P2pOndemandPostCategory} from './P2pOnDemnadBid/P2pOndemandPo
 export {default as Account7} from './Account/Account7';
 export {default as DeveloperMode} from './DeveloperMode/DeveloperMode';
 export {default as ProductPowerConumption} from './ProductPowerConumption/ProductPowerConumption';
+export {default as GiftCard} from './GiftCard/GiftCard';
+export {default as GiftOffers} from './Offers/GiftOffers';

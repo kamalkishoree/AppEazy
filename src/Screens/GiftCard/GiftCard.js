@@ -61,8 +61,10 @@ import useInterval from '../../utils/useInterval';
 import axios from 'axios';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import moment from 'moment';
+import GiftCardComp from '../../Components/GiftCardComp';
+import BorderTextInput from '../../Components/BorderTextInput';
 
-export default function Subscriptions2({ navigation, route }) {
+export default function GiftCard({ navigation, route }) {
   //   console.log(route, 'route>>>');
   const paramData = route?.params;
   const theme = useSelector((state) => state?.initBoot?.themeColor);
@@ -73,6 +75,7 @@ export default function Subscriptions2({ navigation, route }) {
   const [responseTimer, setResponseTimer] = useState(420)
   const isDarkMode = toggleTheme ? darkthemeusingDevice : theme;
   const [isReloadPage, setIsReloadPage] = useState(false);
+  const [selectedGiftcard, setSelectedGiftcard] = useState(null);
   const [state, setState] = useState({
     isLoading: false,
     isLoadingB: false,
@@ -115,7 +118,7 @@ export default function Subscriptions2({ navigation, route }) {
   } = state;
   //update your state
   const updateState = (data) => setState((state) => ({ ...state, ...data }));
-  // console.log(selectedPlan, selectedPaymentMethod, currentSubscription, 'selectedPlanselectedPlan')
+  console.log(selectedPlan, selectedPaymentMethod, currentSubscription, 'selectedPlanselectedPlan')
   //Redux Store Data
   const { appData, themeColors, appStyle, currencies, languages } = useSelector(
     (state) => state?.initBoot || {},
@@ -126,6 +129,12 @@ export default function Subscriptions2({ navigation, route }) {
   const [cardNumber, setCardNUmber] = useState()
   const [cvc, setCvc] = useState()
   const [expiryDate, setExpiryDate] = useState()
+  const [gitCardUserDetils, setGitCardUserDetils] = useState([
+    {title:'Name', value:'', id:1},
+    {title:'Mobile', value:'', id:2},
+    {title:'E-mail', value:'', id:3},
+    {title:'Address', value:'', id:4},
+  ])
   const { additional_preferences, digit_after_decimal } =
     appData?.profile?.preferences || {};
   const { preferences } = appData?.profile;
@@ -154,12 +163,6 @@ export default function Subscriptions2({ navigation, route }) {
     }, [isFocused]),
   );
 
-  // useEffect(() => {
-  //   updateState({isLoadingB: true});
-  //   getAllSubscriptions();
-  //   console.log(explosion, 'explosion');
-  // }, [ isReloadPage,]);
-
   useEffect(() => {
     if (
       preferences &&
@@ -172,18 +175,6 @@ export default function Subscriptions2({ navigation, route }) {
       });
     }
   }, []);
-
-  
-  // useEffect(() => {
-  //   async function initialize() {
-  //     await initStripe({
-  //       publishableKey: preferences?.stripe_publishable_key,
-  //     });
-  //   }
-  //   initialize().catch(err =>{
-  //     console.log((err, "initerrrrrr"));
-  //   });
-  // }, [cardInfo]);
 
 
   // useEffect(() => {
@@ -326,7 +317,7 @@ export default function Subscriptions2({ navigation, route }) {
   //Get list of all payment method
   const getAllSubscriptions = (showSuccess) => {
     actions
-      .getAllSubscriptions(
+      .getAllGiftCards(
         {},
         {
           code: appData?.profile?.code,
@@ -335,14 +326,14 @@ export default function Subscriptions2({ navigation, route }) {
         },
       )
       .then((res) => {
-        console.log('getAllSubscriptionsFunction');
-        console.log('getAllSubscriptionsFunction', res);
+        console.log('getAllSubscriptionsFunction <<>><<<<<');
+        console.log('getAllSubscriptionsFunction<<<<<<<>>>>>>>>>', res);
         updateState({
           isLoadingB: false,
           isLoading: false,
           isRefreshing: false,
-          allSubscriptions: res?.data?.all_plans,
-          currentSubscription: res?.data?.subscription,
+          allSubscriptions: res?.data?.allGiftCard,
+          currentSubscription: res?.data?.UserActiveGiftCard,
         });
       })
       .catch(errorMethod);
@@ -351,7 +342,7 @@ export default function Subscriptions2({ navigation, route }) {
   //Subscribe for specific plan
   const selectSpecificSubscriptionPlan = (item) => {
     console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
-    updateState({ isLoading: true, planPrice: item?.price });
+    updateState({ isLoading: true, planPrice: item?.price, isModalVisibleForPayment: true, selectedGiftcard: item });
     actions
       .selectSpecificSubscriptionPlan(
         `/${item?.slug}`,
@@ -450,15 +441,25 @@ export default function Subscriptions2({ navigation, route }) {
               marginTop: currentSubscription ? moderateScale(40) : null,
               marginBottom: moderateScale(20),
             }}>
-            
-            <Text style={{...styles.subscriptionTitle,color:isDarkMode?colors.white:colors.blackC}}>
+
+            <Text style={{ ...styles.subscriptionTitle, color: isDarkMode ? colors.white : colors.blackC }}>
               {currentSubscription
                 ? strings.OTHERSUBSCRIPTION
-                : strings.ALLSUBSCRIPTION}
+                : " All Gift Cards"}
             </Text>
           </View>
         )}
-        <SubscriptionComponent2
+
+        {!!(index == 1) && (
+          <View
+            style={{
+              marginTop: currentSubscription ? moderateScale(40) : null,
+              marginBottom: moderateScale(20),
+              height: moderateScaleVertical(20)
+            }}>
+          </View>
+        )}
+        <GiftCardComp
           data={item}
           clientCurrency={clientCurrency}
           onPress={(item) => selectSpecificSubscriptionPlan(item)}
@@ -563,6 +564,12 @@ export default function Subscriptions2({ navigation, route }) {
     isAccept(!accept)
   }
 
+  const onChangeUserGiftText = (text, item) =>{
+    let cloneArr = [...gitCardUserDetils]
+   let selctedItemIndex =  cloneArr.findIndex(i=> i?.id == item?.id)
+    cloneArr[selctedItemIndex].value = text
+    setGitCardUserDetils(cloneArr)
+  }
 
   const renderSavedCardList = ({ item, index }) => {
     const expDate = item?.expiration
@@ -649,7 +656,6 @@ export default function Subscriptions2({ navigation, route }) {
     console.log(item, selectedPaymentMethod, 'itemmmmmmmmmmmmm')
     return (
       <>
-    
         <TouchableOpacity onPress={() => _selectPaymentMethod(item)}>
           <View
             style={{
@@ -686,32 +692,7 @@ export default function Subscriptions2({ navigation, route }) {
           selectedPaymentMethod?.id == item?.id &&
           selectedPaymentMethod?.id == 4 && (
             <View>
-               <CardField
-                postalCodeEnabled={false}
-                placeholder={{
-                  number: '4242 4242 4242 4242',
-                }}
-                cardStyle={{
-                  backgroundColor: '#FFFFFF',
-                  textColor: '#000000',
-                }}
-                style={{
-                  width: '100%',
-                  height: 50,
-                  marginVertical: 10,
-                }}
-                onCardChange={(cardDetails) => {
-                  // console.log('cardDetails', cardDetails);
-                  _onChangeStripeData(cardDetails);
-                }}
-                onFocus={(focusedField) => {
-                  console.log('focusField', focusedField);
-                }}
-                onBlur={() => {
-                  Keyboard.dismiss();
-                }}
-              />
-              {/* <CardField
+              <CardField
                 postalCodeEnabled={false}
                 placeholder={{
                   number: '4242 4242 ',
@@ -732,13 +713,13 @@ export default function Subscriptions2({ navigation, route }) {
                 onBlur={() => {
                   Keyboard.dismiss();
                 }}
-              /> */}
+              />
             </View>
           )}
 
         {!!(
           selectedPaymentMethod &&
-          selectedPaymentMethod?.id == item?.id &&
+          selectedPaymentMethod?.id == item.id &&
           // selectedPaymentMethod?.off_site == 1 &&
           (selectedPaymentMethod?.id === 49 || selectedPaymentMethod?.id === 50 || selectedPaymentMethod?.id === 53)
         ) && (
@@ -849,7 +830,7 @@ export default function Subscriptions2({ navigation, route }) {
           )}
         {!!(
           selectedPaymentMethod &&
-          selectedPaymentMethod?.id == item?.id &&
+          selectedPaymentMethod?.id == item.id &&
           selectedPaymentMethod?.id === 17
         ) && (
             <CheckoutPaymentView
@@ -893,7 +874,6 @@ export default function Subscriptions2({ navigation, route }) {
               }}
             />
           )}
-     
       </>
     );
   };
@@ -918,9 +898,6 @@ export default function Subscriptions2({ navigation, route }) {
   const modalMainContent = () => {
     return (
       <>
-        <StripeProvider
-        publishableKey={preferences?.stripe_publishable_key}
-        merchantIdentifier="merchant.identifier">
         <View
           style={{
             justifyContent: 'center',
@@ -944,8 +921,26 @@ export default function Subscriptions2({ navigation, route }) {
             paddingHorizontal: moderateScale(20),
             marginVertical: moderateScale(10),
           }}>
-          <Text style={styles.title}>{strings.FEATURED_INCLUDED}</Text>
+          {/* <Text style={styles.title}>{strings.FEATURED_INCLUDED}</Text> */}
 
+          {/* <View
+            style={{
+              flexDirection: 'row',
+              //   marginHorizontal: moderateScale(10),
+              marginTop: moderateScale(10),
+              alignItems: 'center',
+            }}>
+            <Image source={imagePath.tick2} />
+            <Text
+              style={[
+                styles.title2,
+                { marginLeft: moderateScale(10) },
+              ]}>{`${selectedPlan?.features[0]}`}</Text>
+          </View> */}
+          <Text style={styles.title}>{`Send Gift Card`}</Text>
+           { gitCardUserDetils.map((item )=>{
+            return <BorderTextInput key={item?.id} value={item?.value} onChangeText={(text)=>onChangeUserGiftText(text, item)} placeholder={item?.title}/>
+           })}
           <View
             style={{
               flexDirection: 'row',
@@ -998,7 +993,6 @@ export default function Subscriptions2({ navigation, route }) {
             />
           </View>
         </View>
-    </StripeProvider>
       </>
     );
   };
@@ -1134,7 +1128,7 @@ export default function Subscriptions2({ navigation, route }) {
       })
   }
   const payAmount = () => {
-  
+    updateState({ isModalVisibleForPayment: false });
     if (!!selectedPaymentMethod) {
       if (selectedPaymentMethod?.id == 4) {
         console.log(selectedPaymentMethod?.id, 'selectedPaymentMethod?.id>>');
@@ -1268,8 +1262,8 @@ export default function Subscriptions2({ navigation, route }) {
         ) {
           console.log('generate payment url', res.data);
           let sendingData = {
-            id: selectedPaymentMethod?.id,
-            title: selectedPaymentMethod?.title,
+            id: selectedPaymentMethod.id,
+            title: selectedPaymentMethod.title,
             screenName: navigationStrings.SUBSCRIPTION,
             paymentUrl: res.data || res?.payment_link || res?.redirect_url,
             action: 'subscription',
@@ -1299,15 +1293,13 @@ export default function Subscriptions2({ navigation, route }) {
       await createPaymentMethod({
         paymentMethodType: 'Card',
         token: res2,
-        card: {...cardInfo,
-         countryCode:"IN"},
+        card: cardInfo,
         billing_details: {
           name: 'Jenny Rosen',
         },
       })
         .then((res) => {
           // updateState({isLoadingB: false});
-          updateState({ isModalVisibleForPayment: false });
           console.log('_createPaymentMethod res', res);
           if (res && res?.error && res?.error?.message) {
             showError(res?.error?.message);
@@ -1366,7 +1358,6 @@ export default function Subscriptions2({ navigation, route }) {
                             isLoading: false,
                             isRefreshing: false,
                           });
-                          showSuccess(res?.message || '');
                           // navigation.navigate(navigationStrings.WALLET);
                         }
                       })
@@ -1389,7 +1380,7 @@ export default function Subscriptions2({ navigation, route }) {
   //Offline payments
   const _offineLinePayment = async () => {
     console.log(cardInfo, 'cardInfocardInfocardInfo+++++++');
-// return
+
     if (cardInfo) {
       //  updateState({isModalVisibleForPayment: false});
 
@@ -1651,7 +1642,7 @@ export default function Subscriptions2({ navigation, route }) {
               ? imagePath.icBackb
               : imagePath.back
         }
-        centerTitle={strings.SUBSCRIPTION}
+        centerTitle={"Gift Cards"}
         textStyle={{ fontSize: textScale(14) }}
       />
       <StripeProvider
@@ -1665,7 +1656,7 @@ export default function Subscriptions2({ navigation, route }) {
           <FlatList
             data={(!isLoadingB && allSubscriptions) || []}
             renderItem={renderProduct}
-            ListHeaderComponent={listHeaderComponent()}
+            // ListHeaderComponent={listHeaderComponent()}
             keyExtractor={(item, index) => String(index)}
             keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
@@ -1673,6 +1664,7 @@ export default function Subscriptions2({ navigation, route }) {
             refreshing={isRefreshing}
             //   getItemLayout={getItemLayout}
             // style={{flex:1}}
+            numColumns={2}
             contentContainerStyle={{ flexGrow: 1 }}
             initialNumToRender={12}
             maxToRenderPerBatch={10}

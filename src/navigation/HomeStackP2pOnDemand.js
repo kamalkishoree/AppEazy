@@ -46,7 +46,8 @@ import {
   P2pOndemandProductDetail,
   AddVehicleDetails,
   P2pOndemandProducts,
-  ChatScreen
+  ChatScreen,
+  GiftCard
 } from '../Screens';
 
 import { verticalAnimation } from '../utils/utils';
@@ -225,6 +226,10 @@ export default function () {
       <Stack.Screen
         name={navigationStrings.SUBSCRIPTION}
         component={Subscriptions2}
+      />
+      <Stack.Screen
+        name={navigationStrings.GIFTCARD}
+        component={GiftCard}
       />
       <Stack.Screen
         name={navigationStrings.SUBCATEGORY_VENDORS}

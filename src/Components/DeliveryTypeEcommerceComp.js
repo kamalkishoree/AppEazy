@@ -130,7 +130,7 @@ function DeliveryTypeComp({
           key={index}
           style={{
             ...styles.tabItemView,
-            borderColor: dineInType == item?.type ? themeColors?.primary_color : colors.borderStroke,
+            borderColor: (dineInType == item?.type && !isDarkMode) ? themeColors?.primary_color : (dineInType == item?.type && !isDarkMode)? colors.blackOpacity66 : colors.borderStroke,
             borderRadius: moderateScale(60),
             borderWidth: 1,
             paddingHorizontal: moderateScale(16),
@@ -144,7 +144,7 @@ function DeliveryTypeComp({
             style={{
               ...styles.tabItemTxt,
               color:
-                dineInType == item?.type ? themeColors.primary_color
+                (dineInType == item?.type )? colors.white 
                   : colors.black,
             }}>
             {item?.name}

@@ -845,3 +845,7 @@ export const UPLOAD_FILE_S3 = getApiUrl(
 );
 export const POWER_CONSUMPTION_CALCULATOR = getApiUrl('/power-consumption-calculator')
 export const GET_APPLIANCES = getApiUrl('/appliances')
+export const GET_ALL_GIFT_CARDS = getApiUrl('/giftCard/list')
+export const SELECT_GIFT_CARD = getApiUrl('/giftCard/index')
+export const APPLY_GIFT_CARD = getApiUrl('/giftCard/apply')
+export const REMOVE_GIFT_CARD = getApiUrl('/giftCard/remove')

@@ -33,6 +33,8 @@ import {
   USER_REGISTRATION_DOCUMENT,
   GET_USER_PROFILE,
   DELETE_ACCOUNT,
+  GET_ALL_GIFT_CARDS,
+  SELECT_GIFT_CARD,
 } from '../../config/urls';
 import {apiGet, apiPost, clearAppleUser, clearUserData, setUserData} from '../../utils/utils';
 import store from '../store';
@@ -489,3 +491,34 @@ export const deleteAccount = (data, headers = {}) => {
       });
   });
 };
+
+// gift cards
+//get all subscriptions
+export function getAllGiftCards(data = {}, headers = {}) {
+  return new Promise((resolve, reject) => {
+    apiGet(GET_ALL_GIFT_CARDS, data, headers)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+//Select specific subscription
+export function selectSpecificGiftCard(
+  query = '',
+  data = {},
+  headers = {},
+) {
+  return new Promise((resolve, reject) => {
+    apiGet(SELECT_GIFT_CARD + query, data, headers)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

@@ -183,4 +183,6 @@ export default {
   DEVELOPER_MODE: 'DeveloeprMode',
   PRODUCT_POWER_CONSUMPTION: 'ProductPowerConumption',
   LIVESS: 'Livees',
+  GIFTCARD:'GiftCard',
+  GIFTOFFERS: 'Giftoffers',
 };

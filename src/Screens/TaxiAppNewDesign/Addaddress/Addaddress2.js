@@ -322,7 +322,7 @@ export default function Addaddress({ navigation, route }) {
               textStyle={{ textTransform: "none", fontSize: textScale(16) }}
               onPress={saveAddressAndRedirect}
               marginTop={moderateScaleVertical(10)}
-              marginBottom={moderateScaleVertical(30)}
+              marginBottom={moderateScaleVertical(10)}
               btnText={strings.DONE}
             />
           </View>
@@ -1400,7 +1400,7 @@ export default function Addaddress({ navigation, route }) {
             <View
               style={{
                 marginTop: "auto",
-                marginBottom: moderateScaleVertical(50),
+                // marginBottom: moderateScaleVertical(50),
               }}
             >
               {renderbtn()}

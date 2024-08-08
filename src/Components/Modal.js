@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import imagePath from '../constants/imagePath';
 import colors from '../styles/colors';
@@ -50,6 +50,7 @@ const ModalView = ({
           paddingTop: moderateScaleVertical(30),
           ...mainViewStyle,
         }}>
+          <ScrollView>
         {/* //Header */}
         {topCustomComponent ? (
           topCustomComponent()
@@ -69,6 +70,7 @@ const ModalView = ({
 
         {/* bottom content */}
         <>{modalBottomContent()}</>
+        </ScrollView>
       </View>
     </Modal>
   );

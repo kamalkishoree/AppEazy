@@ -1,5 +1,6 @@
 import {
   ADD_PRESCRIPTIONS,
+  APPLY_GIFT_CARD,
   CANCELPAYTABURL,
   CART_ITEM_CHECKED,
   CART_PRODUCT_SCHEDULE,
@@ -23,6 +24,7 @@ import {
   PAYTABURL,
   PLACE_ORDER,
   REMOVE_CART_PRODUCTS,
+  REMOVE_GIFT_CARD,
   REMOVE_PROMO_CODE,
   SAVED_CARD_LIST,
   SCHEDULE_ORDER,
@@ -565,3 +567,29 @@ export function mtnGateway(data = {}, headers = {}) {
   return apiPost(MTNGATEWAY, data, headers);
 
 }
+
+//Remove Promo code
+
+export const removeGiftCard = (data, headers = {}) => {
+  return new Promise((resolve, reject) => {
+    apiPost(REMOVE_GIFT_CARD, data, headers)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export const applyGiftCard = (data, headers = {}) => {
+  return new Promise((resolve, reject) => {
+    apiPost(APPLY_GIFT_CARD, data, headers)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

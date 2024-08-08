@@ -113,7 +113,7 @@ export default function DashBoardHeaderEcommerce({
       : profileInfo?.logo?.image_path,
     '200/400',
   );
-
+console.log(imageURI,"imageURI>>>>>");
   const onPressWishList = () => {
     if (!!userData?.auth_token) {
       navigation.navigate(navigationStrings.WISHLIST)

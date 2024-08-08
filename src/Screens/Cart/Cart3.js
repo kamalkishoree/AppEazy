@@ -100,6 +100,7 @@ import Footer from './parts/Footer';
 import useInterval from '../../utils/useInterval';
 import axios from 'axios';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import GiftCardAvailableSection from './parts/GiftCardAvailableSection';
 enableFreeze(true);
 
 
@@ -734,6 +735,15 @@ function Cart({ navigation, route }) {
     })();
   };
 
+  //Get list of all Giftoffers
+  const _getAllGiftOffers = (vendor, cartData) => {
+    moveToNewScreen(navigationStrings.GIFTOFFERS, {
+      vendor: vendor,
+      cartId: cartData?.id,
+    })();
+  };
+
+
   useEffect(() => {
     if (paramsData?.transactionId && !!checkCartItem?.data) {
       _directOrderPlace();
@@ -750,6 +760,31 @@ function Cart({ navigation, route }) {
 
     actions
       .removePromoCode(data, {
+        code: appData?.profile?.code,
+        currency: currencies?.primary_currency?.id,
+        language: languages?.primary_language?.id,
+        systemuser: DeviceInfo.getUniqueId(),
+      })
+      .then((res) => {
+        if (res) {
+          showSuccess(res?.message || res?.error);
+          getCartDetail();
+        } else {
+          updateState({ isLoadingB: false });
+        }
+      })
+      .catch(errorMethod);
+  };
+
+  const _removeGiftCard = (item, cartData) => {
+    // updateState({ isLoadingB: true });
+    let data = {};
+    data['vendor_id'] = item?.vendor_id;
+    data['cart_id'] = cartData?.id;
+    data['coupon_id'] = cartData?.user_gift_code;
+
+    actions
+      .removeGiftCard(data, {
         code: appData?.profile?.code,
         currency: currencies?.primary_currency?.id,
         language: languages?.primary_language?.id,
@@ -2686,6 +2721,8 @@ function Cart({ navigation, route }) {
 
           {/* offerview */}
           <PromoCodeAvailableSection themeColors={themeColors} item={item} styles={styles} cartData={cartData} _removeCoupon={_removeCoupon} _getAllOffers={_getAllOffers} />
+
+          <GiftCardAvailableSection themeColors={themeColors} item={item} styles={styles} cartData={cartData} _removeCoupon={_removeGiftCard} _getAllOffers={_getAllGiftOffers} />
 
 
 
