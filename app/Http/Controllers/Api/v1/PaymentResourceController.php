@@ -26,6 +26,7 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Front\WalletController;
 use App\Http\Controllers\Front\UserSubscriptionController;
 use App\Models\{User, UserVendor, Cart, CartAddon, CartCoupon, CartProduct, CartProductPrescription, CartDeliveryFee, Client, ClientPreference, Order, OrderProduct, OrderProductAddon, OrderProductPrescription, VendorOrderStatus, OrderVendor, OrderTax, SavedCards, SubscriptionPlansUser};
+use Illuminate\Support\Facades\Log;
 
 class PaymentResourceController extends BaseController
 {
@@ -34,6 +35,7 @@ class PaymentResourceController extends BaseController
     // For Stripe - To get Payment Intent
     public function createPaymentIntent(Request $request)
     {
+        Log::info('createPaymentIntent inside');
         $stripe_creds = PaymentOption::select('credentials', 'test_mode')->where('code', 'stripe')->where('status', 1)->first();
         $creds_arr = json_decode($stripe_creds->credentials);
         $api_key = (isset($creds_arr->api_key)) ? $creds_arr->api_key : '';
@@ -98,8 +100,8 @@ class PaymentResourceController extends BaseController
             $customer_id = $savedPaymentMethod->customer_id ?? $customer_id;
             $postdata = array(
                 'payment_method'       => $savedPaymentMethod->card_id ?? $request->payment_method_id,
-                'amount'               => $request->amount * 100,
-                'currency'             => $this->currency,
+                'amount'               => $request->amount *100,
+                'currency'             => 'USD',
                 'confirmation_method'  => 'automatic',
                 'confirm'              => true,
                 'customer'             => $customer_id,
@@ -174,8 +176,11 @@ class PaymentResourceController extends BaseController
             $postdata['description'] = 'Subscription Checkout';
             $postdata['metadata']['subscription_id'] = $request->subscription_slug;
         }
+        $postdata['return_url']  = 'https://super-eazy.com/';
 
+        Log::info($postdata);
         $intent = \Stripe\PaymentIntent::create($postdata);
+        Log::info(['intent' =>$intent]);
 
         return $intent;
     }
@@ -217,6 +222,7 @@ class PaymentResourceController extends BaseController
 
             $result = $this->checkStripeReturnDataFrom3DAuth($request, $parameters);
             return $result;
+            
 
         }else{
             return response()->json('error', __('Sorry, We cannot procees your payment.'));

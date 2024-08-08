@@ -27,6 +27,9 @@
 </style>
 @endsection
 @section('content')
+
+@if($vendor_type !="car_rental")
+
 <!-- Shimmer Efferct Start -->
 <section class="section-b-space_  p-0 ratio_asos banner_shimmer">
 	<div class="container-fulid shimmer_effect  main_shimer topBar">
@@ -913,6 +916,17 @@
 </div><!-- age-restriction end -->
 
 <!-- footer code in layouts.store/footercontent-template-two -->
+@endif
+
+
+@if($vendor_type=="car_rental")
+   @include('frontend.yacht.rental');
+@endif
+
+
+
+
+
 @section('home-page')
 {{-- <script type="text/javascript" src="{{asset('front-assets/js/homepage-three.js')}}"></script> --}}
 <script type="text/javascript" src="{{asset('assets/js/template/commonFunction.js')}}"></script>
