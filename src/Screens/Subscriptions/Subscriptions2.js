@@ -1360,7 +1360,8 @@ export default function Subscriptions2({ navigation, route }) {
                           'confirmPaymentIntentStripe api reponse',
                         );
                         if (res) {
-                          getAllSubscriptions(true);
+                          buySubscription(res2)
+                          // getAllSubscriptions(true);
                           updateState({
                             isLoadingB: false,
                             isLoading: false,
@@ -1385,6 +1386,46 @@ export default function Subscriptions2({ navigation, route }) {
         .catch(errorMethod);
     }
   };
+
+  const buySubscription = (token) => {
+    console.log(token,"tokentokentoken>>>>");
+    if (token) {
+            updateState({isLoading: true});
+            let selectedMethod = selectedPaymentMethod.title.toLowerCase();
+            actions
+              .purchaseSubscriptionPlan(
+                `/${selectedPlan?.slug}`,
+                {
+                  payment_option_id: selectedPaymentMethod?.id,
+                  transaction_id: token,
+                  // amount: selectedPlan?.id,
+                },
+                {
+                  code: appData?.profile?.code,
+                  currency: currencies?.primary_currency?.id,
+                  language: languages?.primary_language?.id,
+                },
+              )
+              .then((res) => {
+                getAllSubscriptions(true);
+                updateState({
+                  isLoadingB: false,
+                  isLoading: false,
+                  isRefreshing: false,
+                });
+              })
+              .catch(errorMethod);
+          } else {
+            if (res && res?.error) {
+              updateState({
+                isLoadingB: false,
+                isLoading: false,
+                isRefreshing: false,
+              });
+              showError(res?.error?.message);
+            }
+          }
+  }
 
   //Offline payments
   const _offineLinePayment = async () => {

@@ -115,6 +115,7 @@ function DeliveryTypeComp({
 
   const renderItem = useCallback(
     ({ item, index }) => {
+      console.log(item,"itemitem>>>>>>");
       return (
         <TouchableOpacity
           activeOpacity={1}
@@ -176,10 +177,8 @@ function DeliveryTypeComp({
         horizontal
         showsHorizontalScrollIndicator={false}
         data={tabs}
-        initialScrollIndex={tabs.findIndex(
-          (item) => item?.type == dineInType,
-        )}
-        onScrollToIndexFailed={(val) => console.log('indexed failed')}
+        // initialScrollIndex={tabs.findIndex((item) => item?.type == dineInType)}
+          // onScrollToIndexFailed={(val) => console.log('indexed failed')}
         renderItem={renderItem}
         keyExtractor={awesomeChildListKeyExtractor}
         ListFooterComponent={() => (

@@ -35,6 +35,7 @@ import {
   DELETE_ACCOUNT,
   GET_ALL_GIFT_CARDS,
   SELECT_GIFT_CARD,
+  BUY_GIFT_CARD,
 } from '../../config/urls';
 import {apiGet, apiPost, clearAppleUser, clearUserData, setUserData} from '../../utils/utils';
 import store from '../store';
@@ -493,7 +494,7 @@ export const deleteAccount = (data, headers = {}) => {
 };
 
 // gift cards
-//get all subscriptions
+//get all giftcards
 export function getAllGiftCards(data = {}, headers = {}) {
   return new Promise((resolve, reject) => {
     apiGet(GET_ALL_GIFT_CARDS, data, headers)
@@ -506,7 +507,7 @@ export function getAllGiftCards(data = {}, headers = {}) {
   });
 }
 
-//Select specific subscription
+//Select specific giftCard
 export function selectSpecificGiftCard(
   query = '',
   data = {},
@@ -514,6 +515,20 @@ export function selectSpecificGiftCard(
 ) {
   return new Promise((resolve, reject) => {
     apiGet(SELECT_GIFT_CARD + query, data, headers)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
+//buy  subscription plan
+export function buyGiftCard(query = '', data = {}, headers = {}) {
+  return new Promise((resolve, reject) => {
+    apiPost(BUY_GIFT_CARD + query, data, headers)
       .then((res) => {
         resolve(res);
       })

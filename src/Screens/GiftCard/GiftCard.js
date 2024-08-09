@@ -342,10 +342,12 @@ export default function GiftCard({ navigation, route }) {
   //Subscribe for specific plan
   const selectSpecificSubscriptionPlan = (item) => {
     console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
-    updateState({ isLoading: true, planPrice: item?.price, isModalVisibleForPayment: true, selectedGiftcard: item });
+    updateState({ isLoading: true, planPrice: item?.price, 
+      isModalVisibleForPayment: true,});
+      setSelectedGiftcard(item)
     actions
-      .selectSpecificSubscriptionPlan(
-        `/${item?.slug}`,
+      .selectSpecificGiftCard(
+        `?gift_card_id=${item?.id}`,
         {},
         {
           code: appData?.profile?.code,
@@ -360,9 +362,9 @@ export default function GiftCard({ navigation, route }) {
             isLoadingB: false,
             isLoading: false,
             isModalVisibleForPayment: true,
-            selectedPlan: res?.data?.sub_plan,
-            paymentOptions: res?.data?.payment_options
-              ? res?.data?.payment_options
+            selectedPlan: res?.GiftCard,
+            paymentOptions: res?.payment_options
+              ? res?.payment_options
               : [],
             selectedPaymentMethod: null,
             selectedSavedListCardNumber: null
@@ -496,7 +498,7 @@ export default function GiftCard({ navigation, route }) {
           justifyContent: 'space-between',
           paddingHorizontal: moderateScale(20),
         }}>
-        <Text style={styles.subscription2}>{strings.SUBSCRIPTION2}</Text>
+        <Text style={styles.subscription2}>{"Gift Card"}</Text>
         <TouchableOpacity
           onPress={() => updateState({ isModalVisibleForPayment: false, selectedPaymentMethod: null, selectedSavedListCardNumber: null })}>
           <Image source={imagePath.cross} />
@@ -887,7 +889,7 @@ export default function GiftCard({ navigation, route }) {
         borderRadius={moderateScale(5)}
         containerStyle={{
           marginHorizontal: moderateScale(10),
-          width: paymentOptions.length ? width / 3 : width - 60,
+          width: paymentOptions?.length ? width / 3 : width - 60,
         }}
         btnText={strings.CANCEL}
       />
@@ -949,11 +951,11 @@ export default function GiftCard({ navigation, route }) {
               alignItems: 'center',
             }}>
             <Image source={imagePath.tick2} />
-            <Text
+            {/* <Text
               style={[
                 styles.title2,
                 { marginLeft: moderateScale(10) },
-              ]}>{`${selectedPlan?.features[0]}`}</Text>
+              ]}>{`${selectedPlan?.features[0]}`}</Text> */}
           </View>
         </View>
 
@@ -1013,8 +1015,9 @@ export default function GiftCard({ navigation, route }) {
           payment_option_id: data?.payment_option_id,
           transaction_id: res?.transactionReference,
           amount: data?.total_payable_amount,
-          action: 'subscription',
-          subscription_id: selectedPlan?.slug,
+          action: 'giftcard',
+          // subscription_id: selectedPlan?.slug,
+          giftcard_id: selectedPlan?.id,
         };
 
         console.log(apiData, 'apiData');
@@ -1127,8 +1130,75 @@ export default function GiftCard({ navigation, route }) {
         showError(err?.message)
       })
   }
+  
+
+  const onPayBtn = (item) => {
+    console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
+    updateState({ isLoading: true, planPrice: item?.price, isModalVisibleForPayment: true, selectedGiftcard: item });
+    
+    let arrayModified = gitCardUserDetils.map(detail => {
+      return { [detail.title]: detail.value };
+    });
+  
+    // let apidata = {
+    //   gift_card_id: selectedGiftcard?.id, 
+    //   senderData: arrayModified
+    // };
+  
+    // If you need to use FormData
+    let formData = new FormData();
+    formData.append('gift_card_id', selectedGiftcard?.id);
+    formData.append('senderData', JSON.stringify(arrayModified)); // If backend expects a JSON string
+    
+    actions
+      .buyGiftCard(
+        '', 
+        formData, // Use formData if backend requires it, otherwise use apidata
+        {
+          code: appData?.profile?.code,
+          currency: currencies?.primary_currency?.id,
+          language: languages?.primary_language?.id,
+        },
+      )
+      .then((res) => {
+        console.log('selectSpecificSubscriptionPlan data', res);
+        if (res && res.status === 'Success') {
+          updateState({
+            isLoadingB: false,
+            isLoading: false,
+            isModalVisibleForPayment: true,
+            selectedPlan: res?.data?.sub_plan,
+            paymentOptions: res?.payment_options || [],
+            selectedPaymentMethod: null,
+            selectedSavedListCardNumber: null,
+          });
+  
+          if (res?.data?.payment_options?.length) {
+            res.data.payment_options.forEach((option) => {
+              if (option?.id === 50) {
+                getSavedCardList();
+              }
+            });
+          }
+  
+          setYear("");
+          setDate("");
+          setCardNumber("");
+          setCvc('');
+          setExpiryDate("");
+        } else {
+          showError(res?.message);
+          updateState({
+            isLoadingB: false,
+            isLoading: false,
+          });
+        }
+      })
+      .catch(errorMethod);
+  };
+  
   const payAmount = () => {
-    updateState({ isModalVisibleForPayment: false });
+    // updateState({ isModalVisibleForPayment: false });
     if (!!selectedPaymentMethod) {
       if (selectedPaymentMethod?.id == 4) {
         console.log(selectedPaymentMethod?.id, 'selectedPaymentMethod?.id>>');
@@ -1174,6 +1244,7 @@ export default function GiftCard({ navigation, route }) {
       alert(strings.PLEASE_SELECT_PAYMENT_METHOD);
     }
   };
+
   const _paymentWithPlugnPayMethods = () => {
     updateState({ isLoading: true })
     let selectedMethod = selectedPaymentMethod.code;
@@ -1304,17 +1375,19 @@ export default function GiftCard({ navigation, route }) {
           if (res && res?.error && res?.error?.message) {
             showError(res?.error?.message);
             updateState({ isLoading: false });
+            updateState({ isModalVisibleForPayment: false });
           } else {
-            console.log(res, 'success_createPaymentMethod ');
+            console.log(res, 'success_createPaymentMethod ', selectedPlan);
             actions
               .getStripePaymentIntent(
                 // `?amount=${amount}&payment_method_id=${res?.paymentMethod?.id}`,
                 {
                   payment_option_id: selectedPaymentMethod?.id,
-                  amount: selectedPlan?.price,
+                  amount: selectedPlan?.price || selectedPlan?.amount,
                   payment_method_id: res?.paymentMethod?.id,
-                  action: 'subscription',
-                  subscription_slug: selectedPlan?.slug,
+                  action: 'giftcard',
+                  // subscription_slug: selectedPlan?.slug,
+                  gift_card_id: selectedPlan?.id,
                 },
                 {
                   code: appData?.profile?.code,
@@ -1335,10 +1408,11 @@ export default function GiftCard({ navigation, route }) {
                       .confirmPaymentIntentStripe(
                         {
                           payment_option_id: selectedPaymentMethod?.id,
-                          action: 'subscription',
-                          amount: selectedPlan?.price,
+                          action: 'giftcard',
+                          amount: selectedPlan?.price || selectedPlan?.amount ,
                           payment_intent_id: paymentIntent?.id,
-                          subscription_slug: selectedPlan?.slug,
+                          // subscription_slug: selectedPlan?.id,
+                          gift_card_id: selectedPlan?.id,
                         },
                         {
                           code: appData?.profile?.code,
@@ -1349,10 +1423,11 @@ export default function GiftCard({ navigation, route }) {
                       .then((res) => {
                         console.log(
                           res,
-                          'confirmPaymentIntentStripe api reponse',
+                          'confirmPaymentIntentStripe api reponse>>>>>',
                         );
                         if (res) {
-                          getAllSubscriptions(true);
+                          // getAllSubscriptions(true);
+                          buySubscription(res2)
                           updateState({
                             isLoadingB: false,
                             isLoading: false,
@@ -1361,7 +1436,10 @@ export default function GiftCard({ navigation, route }) {
                           // navigation.navigate(navigationStrings.WALLET);
                         }
                       })
-                      .catch(errorMethod);
+                      .catch(err => {
+                        console.log(err,"jsdfkjsdbfkjsdf>>>>");
+                        errorMethod(err)
+                      });
                   } else {
                     console.log(error, 'error');
                     showError(error?.message || 'payment failed');
@@ -1376,6 +1454,47 @@ export default function GiftCard({ navigation, route }) {
         .catch(errorMethod);
     }
   };
+
+  const buySubscription = (token) => {
+    console.log(token,"tokentokentoken>>>>");
+    if (token) {
+            updateState({isLoading: true});
+            let selectedMethod = selectedPaymentMethod.title.toLowerCase();
+            actions
+              .buyGiftCard(
+                `/${selectedPlan?.id}`,
+                {
+                  payment_option_id: selectedPaymentMethod?.id,
+                  transaction_id: token,
+                  // amount: selectedPlan?.id,
+                },
+                {
+                  code: appData?.profile?.code,
+                  currency: currencies?.primary_currency?.id,
+                  language: languages?.primary_language?.id,
+                },
+              )
+              .then((res) => {
+                getAllSubscriptions(true);
+                updateState({
+                  isLoadingB: false,
+                  isLoading: false,
+                  isRefreshing: false,
+                });
+              })
+              .catch(errorMethod);
+          } else {
+            if (res && res?.error) {
+              updateState({
+                isLoadingB: false,
+                isLoading: false,
+                isRefreshing: false,
+              });
+              showError(res?.error?.message);
+            }
+          }
+  }
+
 
   //Offline payments
   const _offineLinePayment = async () => {
@@ -1480,6 +1599,9 @@ export default function GiftCard({ navigation, route }) {
       .catch((error) => { console.log(error, "errorororoor>>>") });
   };
 
+
+
+
   const modalBottomContent = () => {
     return (
       <>
@@ -1500,13 +1622,13 @@ export default function GiftCard({ navigation, route }) {
               borderRadius={moderateScale(5)}
               containerStyle={{
                 marginHorizontal: moderateScale(10),
-                width: paymentOptions.length
+                width: paymentOptions?.length
                   ? width / 3
                   : width - moderateScale(100),
               }}
               btnText={strings.CANCEL}
             />
-            {paymentOptions.length ? (
+            {paymentOptions?.length ? (
               <GradientButton
                 colorsArray={[
                   themeColors.primary_color,
@@ -1514,6 +1636,7 @@ export default function GiftCard({ navigation, route }) {
                 ]}
                 textStyle={styles.textStyle}
                 onPress={payAmount}
+                // onPress={onPayBtn}
                 borderRadius={moderateScale(5)}
                 containerStyle={{
                   marginHorizontal: moderateScale(10),
