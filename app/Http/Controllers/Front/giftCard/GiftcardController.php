@@ -144,7 +144,7 @@ class GiftcardController extends FrontController
      */
     public function purchaseGiftCard(Request $request, $domain = '', $gift_card_id = '')
     {
-       
+        \Log::info(json_encode($request->all()));
         if( (isset($request->user_id)) && (!empty($request->user_id)) ){
             $user = User::find($request->user_id);
         }else{
@@ -188,7 +188,7 @@ class GiftcardController extends FrontController
                 $payment->save();
             }
             
-            $message = __('Your Gift Card has been activated successfully.');
+            $message = __('Your Gift Card has been purchased successfully.');
             Session::put('success', $message);
             return $this->successResponse('', $message);
             

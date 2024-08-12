@@ -47,8 +47,10 @@ trait StripeTrait
         $this->API_KEY = $api_key;
     }
 
-    public function paymentInit(Request $request, $domain = '')
+    public function paymentInit(Request $request, $domain = '',$gift_card=false )
     {
+      
+
         $user = Auth::user();
         $primaryCurrency = ClientCurrency::where('is_primary', '=', 1)->first();
         $this->currency = (isset($primaryCurrency->currency->iso_code)) ? $primaryCurrency->currency->iso_code : 'USD';
@@ -62,6 +64,7 @@ trait StripeTrait
 
         $total_amount = $this->getDollarCompareAmount($json_obj->amount);
 
+       
         $parameters = [
             'total_amount'      => $total_amount,
             'payment_option_id' => $json_obj->payment_option_id,
@@ -71,8 +74,12 @@ trait StripeTrait
 
             $secret_key = stripePaymentCredentials()->secret_key;
             $stripe = new \Stripe\StripeClient($secret_key);
-
+                if($domain == '')
+                {
+                    $domain ="super-eazy.com";
+                }
             $webhook_url = 'https://'.$domain.'/payment/webhook/stripe';
+
 
             $webhook_exists = false;
             $endpoints = $stripe->webhookEndpoints->all();
@@ -82,6 +89,7 @@ trait StripeTrait
                     break;
                 }
             }
+
             if (!$webhook_exists) {
                 $res = $stripe->webhookEndpoints->create([
                     'url' => $webhook_url,
@@ -92,10 +100,10 @@ trait StripeTrait
                     ]
                 ]);
             }
-            
+
             if (!isset($json_obj->payment_intent_id)) {
                 #  Create the Customer if not exists
-
+               
                 $savedPaymentMethod = SavedCards::where('user_id', $user->id)->where('card_id', $request->payment_method_id)->orderBy('id', 'DESC')->first();
                 if (!$savedPaymentMethod) { //not exists
                     $user = Auth::user();
@@ -109,11 +117,17 @@ trait StripeTrait
                             'phone_number' => $user->phone_number
                         ]
                     ));
+
+                   
+                    pr($request->token);
+
                     $customer_id = $customerResponse['id'];
                     $card = $stripe->customers->createSource(
                         $customer_id,
                         ['source' => $request->token]
                     );
+                    pr($customerResponse);
+
                     if ($customer_id) {
                         $saved_card = new SavedCards();
                         $saved_card->user_id = $user->id;
@@ -145,7 +159,6 @@ trait StripeTrait
                     ]
                 ];
 
-
                 switch ($json_obj->action) {
                     case 'cart':
                         $parameters['order_number'] = $json_obj->order_number;
@@ -170,6 +183,7 @@ trait StripeTrait
                         $postdata['metadata']['subscription_id'] = $json_obj->subscription_id;
                         break;
                     case 'giftCard':
+                        die('1111');
                         $parameters['gift_card_id'] = $json_obj->gift_card_id;
                         $postdata['description'] = 'giftCard Checkout';
                         $parameters['gift_card_id'] = $json_obj->gift_card_id;
@@ -200,8 +214,16 @@ trait StripeTrait
                         $postdata['metadata']['order_number'] = $order_number;
                         break;
                 }
+                if($gift_card)
+                {
+                    die('ssss');
+                    $postdata['return_url']  = 'https://super-eazy.com';
 
+                }
                 $intent = $stripe->paymentIntents->create($postdata);
+
+
+                pr($intent);
                 $order = Order::where('order_number', $json_obj->order_number)->first();
                 $order->payment_intent_id = $intent->id;
                 $order->save();
@@ -213,7 +235,13 @@ trait StripeTrait
                 $intent->confirm();
             }
 
-            $this->generateResponse($intent, $parameters);
+            $result =  $this->generateResponse($intent, $parameters);
+
+            if($gift_card)
+            {
+                 return $intent;
+            }
+
         } catch (\Stripe\Exception\ApiErrorException $e) {
             # Display error on client
             echo json_encode([
@@ -236,7 +264,7 @@ trait StripeTrait
             # The payment didn’t need any additional actions and completed!
             # Handle post-payment fulfillment
             // $result = $this->checkStripeReturnDataFrom3DAuth($intent, $parameters);
-
+            return $intent;
             echo json_encode([
                 "success" => true,
                 'payment_intent_client_secret' => $intent->client_secret

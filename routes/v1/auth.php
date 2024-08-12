@@ -306,6 +306,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['ApiLocalization']], function (
             Route::get('list', 'Api\v1\GiftcardController@getGiftCard');
             Route::post('apply', 'Api\v1\GiftcardController@postVerifyGiftCardCode');
             Route::post('remove', 'Api\v1\GiftcardController@RemoveGiftCardCode');
+            Route::get('select', 'Api\v1\GiftcardController@selectgiftCard');
+            Route::post('buy/{id}', 'Api\v1\GiftcardController@purchaseGiftCard');
         });
         Route::group(['prefix' => 'influencer'], function () {
             Route::get('refer-earn', 'Api\v1\InfluencerController@index');

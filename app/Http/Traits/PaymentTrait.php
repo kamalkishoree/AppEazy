@@ -13,7 +13,14 @@ trait PaymentTrait{
         {
             $paymentOptions = ['stripe', 'dpo','azul', 'stripe_fpx', 'paystack','yoco', 'paylink', 'razorpay','simplify','square','ozow','pagarme', 'checkout','authorize_net','kongapay','ccavenue', 'cashfree','viva_wallet','easebuzz','vnpay','paytab','mvodafone','flutterwave','easypaisa','braintree','payphone','windcave','paytech','windcave','stripe_oxxo', 'mycash','stripe_ideal','userede','openpay','khalti','mtn_momo','plugnpay','nmi','yappy','skip_cash','data_trans','pesapal','powertrans','obo','livee','mpesasafari','totalpay'];
 
-        }elseif($type=='wallet')
+        }
+        elseif($type=='GiftCard')
+        {
+            $paymentOptions = ['stripe'];
+
+        }
+        
+        elseif($type=='wallet')
         {
             $paymentOptions = ['paypal','azul', 'paystack', 'payfast', 'stripe', 'stripe_fpx', 'yoco', 'paylink','razorpay','simplify','square','pagarme','checkout','authorize_net','kongapay','ccavenue', 'cashfree','toyyibpay','easebuzz','vnpay','paytab','flutterwave','mvodafone','windcave','payphone','stripe_oxxo','stripe_ideal','viva_wallet', 'mycash', 'dpo','openpay','userede','upay','conekta','telr','khalti','plugnpay','nmi','yappy','skip_cash','data_trans','mtn_momo','pesapal','obo','livee','mpesasafari','totalpay'];
 

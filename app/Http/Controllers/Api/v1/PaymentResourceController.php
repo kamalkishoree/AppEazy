@@ -176,6 +176,12 @@ class PaymentResourceController extends BaseController
             $postdata['description'] = 'Subscription Checkout';
             $postdata['metadata']['subscription_id'] = $request->subscription_slug;
         }
+
+        elseif($payment_form == 'giftcard'){
+            $postdata['description'] = 'giftcard Checkout';
+            $postdata['metadata']['giftcard'] = $request->gift_card_id;
+        }
+
         $postdata['return_url']  = 'https://super-eazy.com/';
 
         Log::info($postdata);
@@ -197,15 +203,19 @@ class PaymentResourceController extends BaseController
          $intent = \Stripe\PaymentIntent::retrieve(
            $request->payment_intent_id
         );
-
+      Log::info(['$intent'=>$intent]);
         if($intent->status == 'succeeded'){
+            Log::info(['successs']);
+
             // PAyment intent is already confirmed by SDK in FROntEnd
             $amount            = $request->amount;
             $address_id        = ($request->has('address_id')) ? $request->address_id : "";
             $order_number      = ($request->has('order_number')) ? $request->order_number : "";
             $payment_form      = ($request->has('action')) ? $request->action : "";
             $payment_option_id = ($request->has('payment_option_id')) ? $request->payment_option_id : "4";
-            $subscription_slug = ($request->has('subscription_slug')) ? $request->subscription_slug : "";
+           
+            $gift_card_id = ($request->has('gift_card_id')) ? @$request->gift_card_id : "";
+            $subscription_slug = ($request->has('subscription_slug')) ? @$request->subscription_slug : "";
             $tip_amount        = ($request->has('tip_amount')) ? $request->tip_amount : "";
             
 
@@ -217,7 +227,8 @@ class PaymentResourceController extends BaseController
                 'order_number'      => $order_number,
                 'payment_form'      => $payment_form,
                 'subscription_slug' => $subscription_slug,
-                'tip_amount'        => $tip_amount
+                'tip_amount'        => $tip_amount,
+                "gift_card_id" =>     $gift_card_id
             ];
 
             $result = $this->checkStripeReturnDataFrom3DAuth($request, $parameters);
@@ -241,6 +252,7 @@ class PaymentResourceController extends BaseController
             $transactionId = $parameters['transaction_id'];
             $subscription_slug = $parameters['subscription_slug'];
             $tip_amount = $parameters['tip_amount'];
+            $gift_card_id = $parameters['gift_card_id'];
 
             $returnUrl = '';
 
@@ -321,6 +333,15 @@ class PaymentResourceController extends BaseController
                 // return $result;
                 return $this->successResponse('', __('Your subscription has been activated successfully.'), 200);
             }
+
+            elseif($payment_form == 'giftcard'){
+                // $request->request->add(['payment_option_id' => $parameters['payment_option_id'], 'amount' => $amount, 'transaction_id' => $transactionId]);
+                // $subscriptionController = new UserSubscriptionController();
+                // $result = $subscriptionController->purchaseSubscriptionPlan($request, '' ,$subscription_slug);
+                // return $result;
+                return $this->successResponse('', __('Your giftcard has been activated successfully.'), 200);
+            }
+
             return $returnUrl;
          
         } catch (\Exception $ex) {
