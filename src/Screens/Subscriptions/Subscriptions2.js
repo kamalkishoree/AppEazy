@@ -1310,6 +1310,7 @@ export default function Subscriptions2({ navigation, route }) {
           updateState({ isModalVisibleForPayment: false });
           console.log('_createPaymentMethod res', res);
           if (res && res?.error && res?.error?.message) {
+            updateState({ isModalVisibleForPayment: false });
             showError(res?.error?.message);
             updateState({ isLoading: false });
           } else {

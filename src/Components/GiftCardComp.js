@@ -28,6 +28,8 @@ import {
 } from '../utils/helperFunctions';
 import GradientButton from './GradientButton';
 import FastImage from 'react-native-fast-image';
+import Clipboard from '@react-native-community/clipboard';
+import Toast from 'react-native-simple-toast';
 const GiftCardComp = ({
     data = {},
     onPress = () => { },
@@ -43,6 +45,7 @@ const GiftCardComp = ({
     cancelSubscription = () => { },
     subscriptionData,
     allSubscriptions = [],
+    isCurrentGiftCart =false
 }) => {
     const theme = useSelector((state) => state?.initBoot?.themeColor);
 
@@ -339,7 +342,7 @@ const GiftCardComp = ({
     //         )}
     //     </TouchableOpacity>
     //   );
-
+console.log(data,"data>>>>>>");
     return (
         <View style={{ width: moderateScale(width / 2.2), padding: 10, 
         // backgroundColor: 'red' 
@@ -388,7 +391,14 @@ const GiftCardComp = ({
                 </Text>
 
             </View>
-            <GradientButton onPress={() => onPress(data)} btnStyle={{ height: moderateScaleVertical(30) }} btnText={"buy"} />
+          
+            <GradientButton 
+            onPress={isCurrentGiftCart ? () => {
+                Clipboard.setString(`${ data?.gift_card_code ?  data?.gift_card_code : ''}`);
+                Toast.show(strings.COPIED);
+              }:()=> onPress(data)}
+            btnStyle={{ height: moderateScaleVertical(30) }} 
+            btnText={isCurrentGiftCart ? data?.gift_card_code :"buy"} />
         </View>
     )
 };

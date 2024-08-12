@@ -63,6 +63,7 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import moment from 'moment';
 import GiftCardComp from '../../Components/GiftCardComp';
 import BorderTextInput from '../../Components/BorderTextInput';
+import validations from '../../utils/validations';
 
 export default function GiftCard({ navigation, route }) {
   //   console.log(route, 'route>>>');
@@ -118,7 +119,7 @@ export default function GiftCard({ navigation, route }) {
   } = state;
   //update your state
   const updateState = (data) => setState((state) => ({ ...state, ...data }));
-  console.log(selectedPlan, selectedPaymentMethod, currentSubscription, 'selectedPlanselectedPlan')
+  // console.log(selectedPlan, selectedPaymentMethod, currentSubscription, 'selectedPlanselectedPlan')
   //Redux Store Data
   const { appData, themeColors, appStyle, currencies, languages } = useSelector(
     (state) => state?.initBoot || {},
@@ -129,11 +130,12 @@ export default function GiftCard({ navigation, route }) {
   const [cardNumber, setCardNUmber] = useState()
   const [cvc, setCvc] = useState()
   const [expiryDate, setExpiryDate] = useState()
+  const [isDeliverable, setIsDeliverable] = useState(false)
   const [gitCardUserDetils, setGitCardUserDetils] = useState([
-    {title:'Name', value:'', id:1},
-    {title:'Mobile', value:'', id:2},
-    {title:'E-mail', value:'', id:3},
-    {title:'Address', value:'', id:4},
+    { title: 'Name', value: '', id: 1, slug: "name" },
+    { title: 'Mobile', value: '', id: 2, slug: "mobile" },
+    { title: 'E-mail', value: '', id: 3, slug: "email" },
+    { title: 'Address', value: '', id: 4, slug: "address" },
   ])
   const { additional_preferences, digit_after_decimal } =
     appData?.profile?.preferences || {};
@@ -342,9 +344,11 @@ export default function GiftCard({ navigation, route }) {
   //Subscribe for specific plan
   const selectSpecificSubscriptionPlan = (item) => {
     console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
-    updateState({ isLoading: true, planPrice: item?.price, 
-      isModalVisibleForPayment: true,});
-      setSelectedGiftcard(item)
+    updateState({
+      isLoading: true, planPrice: item?.price,
+      isModalVisibleForPayment: true,
+    });
+    setSelectedGiftcard(item)
     actions
       .selectSpecificGiftCard(
         `?gift_card_id=${item?.id}`,
@@ -429,7 +433,7 @@ export default function GiftCard({ navigation, route }) {
     }
   };
 
-  const renderProduct = ({ item, index }) => {
+  const renderProduct = ({ item, index, isCurrent=false }) => {
     // const {isSelectItem} = state;
     // if (item?.id == currentSubscription?.subscription_id) {
     //   return null;
@@ -445,9 +449,7 @@ export default function GiftCard({ navigation, route }) {
             }}>
 
             <Text style={{ ...styles.subscriptionTitle, color: isDarkMode ? colors.white : colors.blackC }}>
-              {currentSubscription
-                ? strings.OTHERSUBSCRIPTION
-                : " All Gift Cards"}
+              { " All Gift Cards"}
             </Text>
           </View>
         )}
@@ -462,7 +464,7 @@ export default function GiftCard({ navigation, route }) {
           </View>
         )}
         <GiftCardComp
-          data={item}
+          data={item?.gift_card ? item?.gift_card : item}
           clientCurrency={clientCurrency}
           onPress={(item) => selectSpecificSubscriptionPlan(item)}
           payNowUpcoming={() =>
@@ -471,6 +473,47 @@ export default function GiftCard({ navigation, route }) {
           subscriptionData={currentSubscription}
           currentSubscription={item?.id == currentSubscription?.subscription_id}
           cancelSubscription={() => cancelSubscription(item)}
+        />
+      </View>
+    );
+  };
+
+  const renderProduct2 = ({ item, index}) => {
+    return (
+      <View>
+        {!!(index == 0) && (
+          <View
+            style={{
+              marginTop: currentSubscription ? moderateScale(40) : null,
+              marginBottom: moderateScale(20),
+            }}>
+
+            <Text style={{ ...styles.subscriptionTitle, color: isDarkMode ? colors.white : colors.blackC }}>
+              {"My Gift Cards"}
+            </Text>
+          </View>
+        )}
+
+        {!!(index == 1) && (
+          <View
+            style={{
+              marginTop: currentSubscription ? moderateScale(40) : null,
+              marginBottom: moderateScale(20),
+              height: moderateScaleVertical(20)
+            }}>
+          </View>
+        )}
+        <GiftCardComp
+          data={item?.gift_card ?{...item, ...item?.gift_card }: item}
+          clientCurrency={clientCurrency}
+          onPress={(item) => selectSpecificSubscriptionPlan(item)}
+          payNowUpcoming={() =>
+            selectSpecificSubscriptionPlan(currentSubscription?.plan)
+          }
+          subscriptionData={currentSubscription}
+          currentSubscription={item?.id == currentSubscription?.subscription_id}
+          cancelSubscription={() => cancelSubscription(item)}
+          isCurrentGiftCart={true}
         />
       </View>
     );
@@ -566,9 +609,9 @@ export default function GiftCard({ navigation, route }) {
     isAccept(!accept)
   }
 
-  const onChangeUserGiftText = (text, item) =>{
+  const onChangeUserGiftText = (text, item) => {
     let cloneArr = [...gitCardUserDetils]
-   let selctedItemIndex =  cloneArr.findIndex(i=> i?.id == item?.id)
+    let selctedItemIndex = cloneArr.findIndex(i => i?.id == item?.id)
     cloneArr[selctedItemIndex].value = text
     setGitCardUserDetils(cloneArr)
   }
@@ -898,18 +941,19 @@ export default function GiftCard({ navigation, route }) {
 
   //Modal main component
   const modalMainContent = () => {
+    console.log(selectedPlan,"selectedPlanselectedPlan>>");
     return (
       <>
         <View
           style={{
             justifyContent: 'center',
             paddingHorizontal: moderateScale(20),
-            marginVertical: moderateScale(20),
+            marginVertical: moderateScale(10),
           }}>
-          <Text style={styles.title}>{selectedPlan?.title}</Text>
+          <Text style={styles.title}>{ selectedPlan?.title?.gift_card?.title || selectedPlan?.title }</Text>
           <Text style={[styles.title2, { marginTop: moderateScale(10) }]}>
             {tokenConverterPlusCurrencyNumberFormater(
-              Number(selectedPlan?.price) || Number(selectedPlan?.frequency),
+              Number(selectedPlan?.amount) || Number(selectedPlan?.frequency),
               digit_after_decimal,
               additional_preferences,
               currencies?.primary_currency?.symbol,
@@ -923,40 +967,25 @@ export default function GiftCard({ navigation, route }) {
             paddingHorizontal: moderateScale(20),
             marginVertical: moderateScale(10),
           }}>
-          {/* <Text style={styles.title}>{strings.FEATURED_INCLUDED}</Text> */}
-
-          {/* <View
+          <Text style={{...styles.title, marginBottom:moderateScaleVertical(10)}}>{`Send Gift Card`}</Text>
+          {gitCardUserDetils.map((item) => {
+            return <BorderTextInput key={item?.id} value={item?.value} onChangeText={(text) => onChangeUserGiftText(text, item)} placeholder={item?.title} />
+          })}
+          <TouchableOpacity
+          onPress={()=>setIsDeliverable(!isDeliverable)}
             style={{
               flexDirection: 'row',
               //   marginHorizontal: moderateScale(10),
               marginTop: moderateScale(10),
               alignItems: 'center',
             }}>
-            <Image source={imagePath.tick2} />
+            <Image source={ isDeliverable ? imagePath?.check : imagePath.unCheck  } />
             <Text
               style={[
                 styles.title2,
                 { marginLeft: moderateScale(10) },
-              ]}>{`${selectedPlan?.features[0]}`}</Text>
-          </View> */}
-          <Text style={styles.title}>{`Send Gift Card`}</Text>
-           { gitCardUserDetils.map((item )=>{
-            return <BorderTextInput key={item?.id} value={item?.value} onChangeText={(text)=>onChangeUserGiftText(text, item)} placeholder={item?.title}/>
-           })}
-          <View
-            style={{
-              flexDirection: 'row',
-              //   marginHorizontal: moderateScale(10),
-              marginTop: moderateScale(10),
-              alignItems: 'center',
-            }}>
-            <Image source={imagePath.tick2} />
-            {/* <Text
-              style={[
-                styles.title2,
-                { marginLeft: moderateScale(10) },
-              ]}>{`${selectedPlan?.features[0]}`}</Text> */}
-          </View>
+              ]}>{"Is Deliverable"}</Text>
+          </TouchableOpacity>
         </View>
 
         <View
@@ -1130,73 +1159,73 @@ export default function GiftCard({ navigation, route }) {
         showError(err?.message)
       })
   }
-  
 
-  const onPayBtn = (item) => {
-    console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
-    updateState({ isLoading: true, planPrice: item?.price, isModalVisibleForPayment: true, selectedGiftcard: item });
-    
-    let arrayModified = gitCardUserDetils.map(detail => {
-      return { [detail.title]: detail.value };
-    });
-  
-    // let apidata = {
-    //   gift_card_id: selectedGiftcard?.id, 
-    //   senderData: arrayModified
-    // };
-  
-    // If you need to use FormData
-    let formData = new FormData();
-    formData.append('gift_card_id', selectedGiftcard?.id);
-    formData.append('senderData', JSON.stringify(arrayModified)); // If backend expects a JSON string
-    
-    actions
-      .buyGiftCard(
-        '', 
-        formData, // Use formData if backend requires it, otherwise use apidata
-        {
-          code: appData?.profile?.code,
-          currency: currencies?.primary_currency?.id,
-          language: languages?.primary_language?.id,
-        },
-      )
-      .then((res) => {
-        console.log('selectSpecificSubscriptionPlan data', res);
-        if (res && res.status === 'Success') {
-          updateState({
-            isLoadingB: false,
-            isLoading: false,
-            isModalVisibleForPayment: true,
-            selectedPlan: res?.data?.sub_plan,
-            paymentOptions: res?.payment_options || [],
-            selectedPaymentMethod: null,
-            selectedSavedListCardNumber: null,
-          });
-  
-          if (res?.data?.payment_options?.length) {
-            res.data.payment_options.forEach((option) => {
-              if (option?.id === 50) {
-                getSavedCardList();
-              }
-            });
-          }
-  
-          setYear("");
-          setDate("");
-          setCardNumber("");
-          setCvc('');
-          setExpiryDate("");
-        } else {
-          showError(res?.message);
-          updateState({
-            isLoadingB: false,
-            isLoading: false,
-          });
-        }
-      })
-      .catch(errorMethod);
-  };
-  
+
+  // const onPayBtn = (item) => {
+  //   console.log(item, '>>>>>>>>>>>>>selectSpecificSubscriptionPlan');
+  //   updateState({ isLoading: true, planPrice: item?.price, isModalVisibleForPayment: true, selectedGiftcard: item });
+
+  //   let arrayModified = gitCardUserDetils.map(detail => {
+  //     return { [detail.slug]: detail.value };
+  //   });
+
+  //   // let apidata = {
+  //   //   gift_card_id: selectedGiftcard?.id, 
+  //   //   senderData: arrayModified
+  //   // };
+
+  //   // If you need to use FormData
+  //   let formData = new FormData();
+  //   formData.append('gift_card_id', selectedGiftcard?.id);
+  //   formData.append('senderData', JSON.stringify(arrayModified)); // If backend expects a JSON string
+
+  //   actions
+  //     .buyGiftCard(
+  //       '', 
+  //       formData, // Use formData if backend requires it, otherwise use apidata
+  //       {
+  //         code: appData?.profile?.code,
+  //         currency: currencies?.primary_currency?.id,
+  //         language: languages?.primary_language?.id,
+  //       },
+  //     )
+  //     .then((res) => {
+  //       console.log('selectSpecificSubscriptionPlan data', res);
+  //       if (res && res.status === 'Success') {
+  //         updateState({
+  //           isLoadingB: false,
+  //           isLoading: false,
+  //           isModalVisibleForPayment: true,
+  //           selectedPlan: res?.data?.sub_plan,
+  //           paymentOptions: res?.payment_options || [],
+  //           selectedPaymentMethod: null,
+  //           selectedSavedListCardNumber: null,
+  //         });
+
+  //         if (res?.data?.payment_options?.length) {
+  //           res.data.payment_options.forEach((option) => {
+  //             if (option?.id === 50) {
+  //               getSavedCardList();
+  //             }
+  //           });
+  //         }
+
+  //         setYear("");
+  //         setDate("");
+  //         setCardNumber("");
+  //         setCvc('');
+  //         setExpiryDate("");
+  //       } else {
+  //         showError(res?.message);
+  //         updateState({
+  //           isLoadingB: false,
+  //           isLoading: false,
+  //         });
+  //       }
+  //     })
+  //     .catch(errorMethod);
+  // };
+
   const payAmount = () => {
     // updateState({ isModalVisibleForPayment: false });
     if (!!selectedPaymentMethod) {
@@ -1371,6 +1400,7 @@ export default function GiftCard({ navigation, route }) {
       })
         .then((res) => {
           // updateState({isLoadingB: false});
+          updateState({ isModalVisibleForPayment: false });
           console.log('_createPaymentMethod res', res);
           if (res && res?.error && res?.error?.message) {
             showError(res?.error?.message);
@@ -1409,7 +1439,7 @@ export default function GiftCard({ navigation, route }) {
                         {
                           payment_option_id: selectedPaymentMethod?.id,
                           action: 'giftcard',
-                          amount: selectedPlan?.price || selectedPlan?.amount ,
+                          amount: selectedPlan?.price || selectedPlan?.amount,
                           payment_intent_id: paymentIntent?.id,
                           // subscription_slug: selectedPlan?.id,
                           gift_card_id: selectedPlan?.id,
@@ -1437,7 +1467,7 @@ export default function GiftCard({ navigation, route }) {
                         }
                       })
                       .catch(err => {
-                        console.log(err,"jsdfkjsdbfkjsdf>>>>");
+                        console.log(err, "jsdfkjsdbfkjsdf>>>>");
                         errorMethod(err)
                       });
                   } else {
@@ -1455,44 +1485,73 @@ export default function GiftCard({ navigation, route }) {
     }
   };
 
+  const isValidData = () => {
+    const error = validations({
+      name: gitCardUserDetils?.find(i => i?.id ==1)?.value,
+      phoneNumber: gitCardUserDetils?.find(i => i?.id ==2)?.value,
+      email:gitCardUserDetils?.find(i => i?.id ==3)?.value,
+      address:gitCardUserDetils?.find(i => i?.id ==4)?.value,
+    });
+
+    if (error) {
+      alert(error)
+      return;
+    }
+    return true;
+  };
+
+
+
   const buySubscription = (token) => {
-    console.log(token,"tokentokentoken>>>>");
-    if (token) {
-            updateState({isLoading: true});
-            let selectedMethod = selectedPaymentMethod.title.toLowerCase();
-            actions
-              .buyGiftCard(
-                `/${selectedPlan?.id}`,
-                {
-                  payment_option_id: selectedPaymentMethod?.id,
-                  transaction_id: token,
-                  // amount: selectedPlan?.id,
-                },
-                {
-                  code: appData?.profile?.code,
-                  currency: currencies?.primary_currency?.id,
-                  language: languages?.primary_language?.id,
-                },
-              )
-              .then((res) => {
-                getAllSubscriptions(true);
-                updateState({
-                  isLoadingB: false,
-                  isLoading: false,
-                  isRefreshing: false,
-                });
-              })
-              .catch(errorMethod);
-          } else {
-            if (res && res?.error) {
-              updateState({
-                isLoadingB: false,
-                isLoading: false,
-                isRefreshing: false,
-              });
-              showError(res?.error?.message);
-            }
-          }
+    console.log(token, "tokentokentoken>>>>");
+    if (!!token) {
+      updateState({ isLoading: true });
+      const checkValid = isValidData();
+      if (!checkValid) {
+        return;
+      }
+      let data = {};
+      let arrayModified = gitCardUserDetils.map(detail => {
+        data[detail.slug] = detail.value;
+        return data;
+      });
+
+      actions
+        .buyGiftCard(
+          `/${selectedPlan?.id}`,
+          {
+            payment_option_id: selectedPaymentMethod?.id,
+            transaction_id: token,
+            is_delivery: isDeliverable ? 1 :0,
+            amount: selectedPlan?.amount,
+            ...data
+          },
+          {
+            code: appData?.profile?.code,
+            currency: currencies?.primary_currency?.id,
+            language: languages?.primary_language?.id,
+          },
+        )
+        .then((res) => {
+          console.log(res, "resp>>>>>>>>");
+          getAllSubscriptions(true);
+          updateState({
+            isLoadingB: false,
+            isLoading: false,
+            isRefreshing: false,
+          });
+        })
+        .catch(errorMethod);
+    } else {
+      if (res && res?.error) {
+        updateState({
+          isLoadingB: false,
+          isLoading: false,
+          isRefreshing: false,
+        });
+        showError(res?.error?.message);
+      }
+    }
   }
 
 
@@ -1618,7 +1677,8 @@ export default function GiftCard({ navigation, route }) {
                 themeColors.primary_color,
               ]}
               textStyle={styles.textStyle}
-              onPress={() => updateState({ isModalVisibleForPayment: false, selectedSavedListCardNumber: null, selectedPaymentMethod: null })}
+              // onPress={() => updateState({ isModalVisibleForPayment: false, selectedSavedListCardNumber: null, selectedPaymentMethod: null })}
+              onPress={buySubscription}
               borderRadius={moderateScale(5)}
               containerStyle={{
                 marginHorizontal: moderateScale(10),
@@ -1678,40 +1738,6 @@ export default function GiftCard({ navigation, route }) {
       .catch(errorMethod);
   };
 
-  const listHeaderComponent = useCallback(() => {
-    return (
-      <>
-        {!!currentSubscription && (
-          <>
-            <View style={{ marginVertical: moderateScale(10) }}>
-              <Text
-                style={
-                  isDarkMode
-                    ? [
-                      styles.subscriptionTitle,
-                      { color: MyDarkTheme.colors.text },
-                    ]
-                    : styles.subscriptionTitle
-                }>
-                {strings.MYSUBSCRIPTION}
-              </Text>
-            </View>
-            <SubscriptionComponent2
-              data={currentSubscription?.plan}
-              subscriptionData={currentSubscription}
-              clientCurrency={clientCurrency}
-              allSubscriptions={allSubscriptions}
-              currentSubscription={true}
-              payNowUpcoming={() =>
-                selectSpecificSubscriptionPlan(currentSubscription?.plan)
-              }
-              cancelSubscription={() => cancelSubscription(currentSubscription)}
-            />
-          </>
-        )}
-      </>
-    );
-  }, [isReloadPage, currentSubscription]);
 
   // const listHeaderComponent = () => {
   //   return (
@@ -1748,6 +1774,14 @@ export default function GiftCard({ navigation, route }) {
   //   );
   // };
 
+  const listHeaderComponent = () => {
+   return <FlatList
+    numColumns={2}
+    keyExtractor={(itm, inx) => String(inx)}
+    data={currentSubscription}
+    renderItem={renderProduct2}
+  />
+  }
   return (
     <WrapperContainer
       bgColor={
@@ -1776,10 +1810,12 @@ export default function GiftCard({ navigation, route }) {
             flex: 1,
             marginHorizontal: moderateScale(10),
           }}>
+
+         
           <FlatList
             data={(!isLoadingB && allSubscriptions) || []}
             renderItem={renderProduct}
-            // ListHeaderComponent={listHeaderComponent()}
+            ListHeaderComponent={listHeaderComponent()}
             keyExtractor={(item, index) => String(index)}
             keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
