@@ -182,7 +182,7 @@ export default function EcomLangCurrency({ route, navigation }) {
                         ...commonStyles.mediumFont12,
                         color: isDarkMode ? colors.white : colors.blackOpacity70,
                         fontFamily: fontFamily.regular
-                    }}>{item?.name || item?.value}</Text>
+                    }}>{item?.value || item?.name}</Text>
                 </View>
                 {appLanguages?.primary_language?.id == item?.id ? <Image style={{ tintColor: themeColors.primary_color }} source={imagePath.curLangCheck} /> : null}
             </TouchableOpacity>
