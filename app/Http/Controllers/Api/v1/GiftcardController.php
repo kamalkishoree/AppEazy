@@ -53,7 +53,7 @@ class GiftcardController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-     public function selectgiftCard(Request $request,$gift_card_id)
+     public function selectgiftCard(Request $request)
      {
         $langId = Session::get('customerLanguage');
         $navCategories = $this->categoryNav($langId);
