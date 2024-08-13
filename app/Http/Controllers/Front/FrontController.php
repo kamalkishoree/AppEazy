@@ -213,6 +213,7 @@ class FrontController extends Controller
 
         $preferences = session()->get('preferences');
         $vendorType = session()->get('vendorType');
+        
         $categoryTypes = getServiceTypesCategory($vendorType) ;
         $primary = ClientLanguage::orderBy('is_primary', 'desc')->first();
         $status = $this->field_status;
@@ -239,8 +240,9 @@ class FrontController extends Controller
     $cacheKey = 'categories_query_' . implode('_', $categoryTypes) . '_' . $lang_id . '_celeb_' . $celebrity_check;
     // dd($cacheKey);
     // Define the cache duration in minutes (adjust as needed)
-    $cacheDuration = 60; // Cache for 60 minutes
 
+
+    $cacheDuration = 60; // Cache for 60 minutes
     $categories = Cache::remember($cacheKey, $cacheDuration, function () use ($categoryTypes, $status, $lang_id, $primary, $celebrity_check,$only_id,$vendors,$include_categories) {
          $cat = Category::join('category_translations as cts', 'categories.id', 'cts.category_id')
             ->select('categories.id', 'categories.icon', 'categories.icon_two', 'categories.slug', 'categories.parent_id', 'cts.name', 'categories.type_id')
@@ -254,6 +256,7 @@ class FrontController extends Controller
                             });
                     });
             })
+
             ->whereIn('categories.type_id', $categoryTypes)
             ->where('categories.id', '>', 1) // Exclude categories with id <= 1
             ->whereNotNull('categories.type_id')
@@ -280,9 +283,6 @@ class FrontController extends Controller
                 return $cat = $this->buildTree($cat);
             }
     });
-
-  
-
         return $categories;
     }
 

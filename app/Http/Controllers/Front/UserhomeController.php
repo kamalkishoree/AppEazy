@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Front\FrontController;
 use Illuminate\Contracts\Session\Session as SessionSession;
-use App\Models\{Currency, Banner, MobileBanner, FaqTranslations, Category, Brand, Product, ClientLanguage, Vendor, VendorCategory, ClientCurrency,Client, ClientPreference, DriverRegistrationDocument, HomePageLabel, Page, VendorRegistrationDocument, Language, OnboardSetting, CabBookingLayout, WebStylingOption, SubscriptionInvoicesVendor, Order, VendorOrderStatus,CabBookingLayoutTranslation,ShowSubscriptionPlanOnSignup, TaxCategory, VendorCities, UserWishlist};
+use App\Models\{Type,Currency, Banner, MobileBanner, FaqTranslations, Category, Brand, Product, ClientLanguage, Vendor, VendorCategory, ClientCurrency,Client, ClientPreference, DriverRegistrationDocument, HomePageLabel, Page, VendorRegistrationDocument, Language, OnboardSetting, CabBookingLayout, WebStylingOption, SubscriptionInvoicesVendor, Order, VendorOrderStatus,CabBookingLayoutTranslation,ShowSubscriptionPlanOnSignup, TaxCategory, VendorCities, UserWishlist};
 use Illuminate\Contracts\View\View;
 use Illuminate\View\View as ViewView;
 use Redirect;
@@ -465,12 +465,9 @@ class UserhomeController extends FrontController
             $_REQUEST['request_from'] = 1;
 
             $navCategories = $this->categoryNav($langId);
-
-            
+            // pr(Type::where('service_type','car_rental')->get());
             Session::put('navCategories', $navCategories);
             $vendor_type = Session::get('vendorType') ?? "delivery";
-
-         
             $count = 0;
             if ($client_preferences) {
                 foreach(config('constants.VendorTypes') as $vendor_typ_key => $vendor_typ_value){
@@ -490,7 +487,12 @@ class UserhomeController extends FrontController
                 $categoriesSlug = $navCategories[0]->slug;
                 return redirect()->route('categoryDetail',$categoriesSlug);
             }
+                // if($vendor_type =='car_rental')
+                // {
+                //     $categoriesSlug = $navCategories[0]->slug;
+                //     return redirect()->route('categoryDetail',$categoriesSlug);
 
+                // }
             $carbon_now = Carbon::now();
 
             $banners = $this->getBannersForHomePage($client_preferences, 'banners', $latitude, $longitude);

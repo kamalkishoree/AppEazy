@@ -1636,6 +1636,7 @@ if (!function_exists('getServiceTypesCategory')) {
                 // 'car_rental'   => ['rental_services'],
             ];
             $getAdditionalPreference = getAdditionalPreference(['is_rental_weekly_monthly_price']);
+            
             if(@$getAdditionalPreference['is_rental_weekly_monthly_price']){
               
                 $alltypes['p2p'] = ['p2p', 'rental_service'];
@@ -1687,7 +1688,11 @@ if (!function_exists('getServiceTypesCategory')) {
             if ($client_preference->business_type == 'p2p') {
                 $service_types = ['p2p'];
             } */
+
+            // pr($service_types);
+
             $types =  $types->whereIn('service_type', $service_types);
+          
             $types_id = $types->pluck('id')->toArray();
             return $types_id ;
         } catch (\Throwable $th) {

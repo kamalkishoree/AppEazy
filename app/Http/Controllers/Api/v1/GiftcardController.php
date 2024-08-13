@@ -53,15 +53,15 @@ class GiftcardController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-     public function selectgiftCard(Request $request)
+     public function selectgiftCard(Request $request,$gift_card_id)
      {
-        
         $langId = Session::get('customerLanguage');
         $navCategories = $this->categoryNav($langId);
         $currency_id = Session::get('customerCurrency');
         $currencySymbol = Session::get('currencySymbol');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        $GiftCard  = GiftCard::where('id', $request->gift_card_id)->first();
+        $gift_card_id =$request->has('gift_card_id') ? $request->gift_card_id:$gift_card_id;
+        $GiftCard  = GiftCard::where('id', $gift_card_id)->first();
         $code = $this->paymentOptionArray('GiftCard');
         $ex_codes = array('cod');
         $payment_options = PaymentOption::select('id', 'code', 'title', 'credentials')->whereIn('code', $code)->where('status', 1)->get();

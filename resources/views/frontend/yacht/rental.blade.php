@@ -143,9 +143,7 @@
             </div>
         </div>
     </div>
-
-    @include('layouts.store.remove_cart_model')
-   
-     @include('layouts.store/car-rental-footer')
+    {{--@include('layouts.store.remove_cart_model')
+     @include('layouts.store.car-rental-footer') --}}
     <script src="{{ asset('js/car-rental.js') }}"></script>
 </section>

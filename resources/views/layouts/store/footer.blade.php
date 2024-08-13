@@ -75,7 +75,7 @@ $is_map_search_perticular_country = getMapConfigrationPreference();
 <script type="text/javascript" src="{{asset('front-assets/js/jquery.cookie.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('front-assets/js/jquery-ui.min.js')}}"></script>
 <script defer type="text/javascript" src="{{asset('assets/js/constants.js')}}"></script>
-<script defer type="text/javascript"src="{{asset('front-assets/js/slick.js')}}"></script>
+<script defer type="text/javascript" src="{{asset('front-assets/js/slick.js')}}"></script>
 
 <script defer type="text/javascript" src="{{asset('front-assets/js/popper.min.js')}}"></script>
 <script defer type="text/javascript" src="{{asset('front-assets/js/menu.js')}}"></script>

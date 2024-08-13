@@ -118,15 +118,11 @@ trait StripeTrait
                         ]
                     ));
 
-                   
-                    pr($request->token);
-
                     $customer_id = $customerResponse['id'];
                     $card = $stripe->customers->createSource(
                         $customer_id,
                         ['source' => $request->token]
                     );
-                    pr($customerResponse);
 
                     if ($customer_id) {
                         $saved_card = new SavedCards();
@@ -223,7 +219,6 @@ trait StripeTrait
                 $intent = $stripe->paymentIntents->create($postdata);
 
 
-                pr($intent);
                 $order = Order::where('order_number', $json_obj->order_number)->first();
                 $order->payment_intent_id = $intent->id;
                 $order->save();
