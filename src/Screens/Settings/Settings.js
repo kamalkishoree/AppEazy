@@ -145,12 +145,12 @@ export default function Settings({route, navigation}) {
             },
             {
               id: 16,
-              label: 'Tigrinya',
+              label: 'Tigrigna',
               value: 'tig',
             },
             {
               id: 17,
-              label: 'Oron',
+              label: 'Afaan Oromoo',
               value: 'oro',
             },
           ],
