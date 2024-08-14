@@ -27,13 +27,12 @@ const EcomBrandCard = ({
     curIndex = 0
 }) => {
     const navigation = useNavigation();
-    const theme = useSelector((state) => state?.initBoot?.themeColor);
+    const theme = useSelector((state) => state?.initBoot?.themeColor || {});
     const toggleTheme = useSelector((state) => state?.initBoot?.themeToggle);
     // const theme = useSelector((state) => state?.initBoot?.themeColor);
     const darkthemeusingDevice = useDarkMode();
     const isDarkMode = toggleTheme ? darkthemeusingDevice : theme;
 
-    const scaleInAnimated = new Animated.Value(0);
     const { appStyle, themeColors } = useSelector((state) => state.initBoot);
     const fontFamily = appStyle?.fontSizeData;
     const commonStyles = commonStylesFun({ fontFamily });

@@ -104,13 +104,18 @@ export default function DashBoardHeaderEcommerce({
 
 
 
+  // const imageURI = getImageUrl(
+  //   isDarkMode
+  //     ? profileInfo?.dark_logo?.image_fit
+  //     : profileInfo?.logo?.image_fit,
+  //   isDarkMode
+  //     ? profileInfo?.dark_logo?.image_path
+  //     : profileInfo?.logo?.image_path,
+  //   '200/400',
+  // );
   const imageURI = getImageUrl(
-    isDarkMode
-      ? profileInfo?.dark_logo?.image_fit
-      : profileInfo?.logo?.image_fit,
-    isDarkMode
-      ? profileInfo?.dark_logo?.image_path
-      : profileInfo?.logo?.image_path,
+    profileInfo?.dark_logo?.image_fit,
+    profileInfo?.dark_logo?.image_path,
     '200/400',
   );
 console.log(imageURI,"imageURI>>>>>");
