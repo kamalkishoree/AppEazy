@@ -825,7 +825,7 @@ function Footer(props) {
         </View>
       )}
 
-{!!cartData?.giftCardUsedAmount && (
+{!!cartData?.giftcard_used_ammount && (
         <View style={styles.bottomTabLableValue}>
           <Text
             style={
@@ -833,7 +833,7 @@ function Footer(props) {
                 ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
                 : styles.priceItemLabel
             }>
-            {strings.GIFTCARD_DISCOUNT}
+            {strings.GIFTCARD_USED_AMOUNT}
           </Text>
           <Text
             style={
@@ -841,13 +841,40 @@ function Footer(props) {
                 ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
                 : styles.priceItemLabel
             }>{`-${tokenConverterPlusCurrencyNumberFormater(
-              Number(cartData?.giftCardUsedAmount),
+              Number(cartData?.giftcard_used_ammount),
               digit_after_decimal,
               additional_preferences,
               currencies?.primary_currency?.symbol,
             )}`}</Text>
         </View>
       )}
+
+
+      {!!cartData?.giftcard_remaining_ammount && (
+        <View style={styles.bottomTabLableValue}>
+          <Text
+            style={
+              isDarkMode
+                ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
+                : styles.priceItemLabel
+            }>
+            {strings.GIFTCARD_REMAINING_AMOUNT}
+          </Text>
+          <Text
+            style={
+              isDarkMode
+                ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
+                : styles.priceItemLabel
+            }>{`-${tokenConverterPlusCurrencyNumberFormater(
+              Number(cartData?.giftcard_remaining_ammount),
+              digit_after_decimal,
+              additional_preferences,
+              currencies?.primary_currency?.symbol,
+            )}`}</Text>
+        </View>
+      )}
+
+     
 
       {(cartData?.total_tax > 0 || cartData?.total_taxable_amount > 0) && (
         <Animatable.View

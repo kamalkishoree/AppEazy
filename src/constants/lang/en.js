@@ -1190,5 +1190,6 @@ Amount`,
   DO_YOU_WANT_TO_CANCEL_BID_REQUEST:"Do you want to cancel the bid request",
   GIFTCARD:'Gift Card',
   ENTER_GIFTCODE: 'Enter a gift code to apply',
-  GIFTCARD_DISCOUNT: 'Giftcard Discount',
+  GIFTCARD_USED_AMOUNT: 'Giftcard user amount',
+  GIFTCARD_REMAINING_AMOUNT: 'Giftcard remaining amount',
 };
