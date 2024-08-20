@@ -2724,15 +2724,13 @@ function Cart({ navigation, route }) {
 
           {/* offerview */}
           <PromoCodeAvailableSection themeColors={themeColors} item={item} styles={styles} cartData={cartData} _removeCoupon={_removeCoupon} _getAllOffers={_getAllOffers} />
-
+            <View style={{height:moderateScaleVertical(10), backgroundColor:colors.white}} />
           <GiftCardAvailableSection themeColors={themeColors} item={item} styles={styles} cartData={cartData} _removeCoupon={_removeGiftCard} _getAllOffers={_getAllGiftOffers} />
-
-
 
           {/* offerview end */}
 
           {/* start amount view       */}
-          <CouponDiscount item={item} isDarkMode={isDarkMode} styles={styles} digit_after_decimal={digit_after_decimal} additional_preferences={additional_preferences} currencies={currencies} preferences={preferences} renderDropDown={renderDropDown} sel_types={sel_types} />
+          <CouponDiscount cartData={cartData} item={item} isDarkMode={isDarkMode} styles={styles} digit_after_decimal={digit_after_decimal} additional_preferences={additional_preferences} currencies={currencies} preferences={preferences} renderDropDown={renderDropDown} sel_types={sel_types} />
         </View >
       </View >
     );

@@ -30,7 +30,7 @@ function GiftCardAvailableSection(props) {
                 true
                  && (
                     <TouchableOpacity
-                        disabled={item?.couponData ? true : false}
+                        disabled={cartData?.user_gift_code ? true : false}
                         onPress={() => _getAllOffers(item.vendor, cartData)}
                         style={styles.offersViewB}>
                         {cartData?.user_gift_code? (

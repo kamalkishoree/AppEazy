@@ -25,7 +25,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 
 function CouponDiscount(props) {
 
-    const { item, isDarkMode, styles, digit_after_decimal, additional_preferences, currencies, preferences, sel_types, renderDropDown } = props;
+    const { item, isDarkMode, styles, digit_after_decimal, additional_preferences, currencies, preferences, sel_types, renderDropDown, cartData } = props;
 
     return (
         <>
@@ -61,6 +61,42 @@ function CouponDiscount(props) {
                                     : styles.priceItemLabel
                             }>{`- ${tokenConverterPlusCurrencyNumberFormater(
                                 Number(item?.discount_amount ? item?.discount_amount : 0),
+                                digit_after_decimal,
+                                additional_preferences,
+                                currencies?.primary_currency?.symbol,
+                            )}`}</Text>
+                    </View>
+                )}
+
+                {/*  for giftCode discount code added  */}
+
+                {(!!item?.giftcard_discount_amount || !!cartData?.giftcard_discount_amount)  && (
+                   <View style={{...styles.itemPriceDiscountTaxView, marginVertical:moderateScaleVertical(4)}}>
+                        <Text
+                            style={
+                                isDarkMode
+                                    ? [
+                                        styles.priceItemLabel,
+                                        {
+                                            color: MyDarkTheme.colors.text,
+                                        },
+                                    ]
+                                    : styles.priceItemLabel
+                            }>
+                            {`Giftcard ${strings.COUPON_DISCOUNT}`}
+                        </Text>
+                        <Text
+                            style={
+                                isDarkMode
+                                    ? [
+                                        styles.priceItemLabel,
+                                        {
+                                            color: MyDarkTheme.colors.text,
+                                        },
+                                    ]
+                                    : styles.priceItemLabel
+                            }>{`- ${tokenConverterPlusCurrencyNumberFormater(
+                                Number(item?.giftcard_discount_amount ? item?.giftcard_discount_amount:cartData?.giftcard_discount_amount ? cartData?.giftcard_discount_amount : 0),
                                 digit_after_decimal,
                                 additional_preferences,
                                 currencies?.primary_currency?.symbol,

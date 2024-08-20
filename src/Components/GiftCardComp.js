@@ -345,6 +345,7 @@ const GiftCardComp = ({
 console.log(data,"data>>>>>>");
     return (
         <View style={{ width: moderateScale(width / 2.2), padding: 10, 
+        flex:1,
         // backgroundColor: 'red' 
         }} >
             <FastImage
