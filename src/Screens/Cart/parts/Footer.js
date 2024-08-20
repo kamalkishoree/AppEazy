@@ -822,6 +822,30 @@ function Footer(props) {
         </View>
       )}
 
+{!!cartData?.giftCardUsedAmount && (
+        <View style={styles.bottomTabLableValue}>
+          <Text
+            style={
+              isDarkMode
+                ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
+                : styles.priceItemLabel
+            }>
+            {strings.GIFTCARD_DISCOUNT}
+          </Text>
+          <Text
+            style={
+              isDarkMode
+                ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
+                : styles.priceItemLabel
+            }>{`-${tokenConverterPlusCurrencyNumberFormater(
+              Number(cartData?.giftCardUsedAmount),
+              digit_after_decimal,
+              additional_preferences,
+              currencies?.primary_currency?.symbol,
+            )}`}</Text>
+        </View>
+      )}
+
       {(cartData?.total_tax > 0 || cartData?.total_taxable_amount > 0) && (
         <Animatable.View
           style={{

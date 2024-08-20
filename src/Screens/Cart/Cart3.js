@@ -555,7 +555,10 @@ function Cart({ navigation, route }) {
           });
         }
       })
-      .catch(errorMethod);
+      .catch(err =>{
+        console.log(err,"smzdbsb");
+        errorMethod(err)
+      });
 
     getItem('selectedTable')
       .then((res) => {

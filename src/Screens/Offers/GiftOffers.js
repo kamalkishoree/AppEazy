@@ -330,7 +330,7 @@ export default function GiftOffers({ route, navigation }) {
           }}>
           <BorderTextInput
             marginBottom={0}
-            placeholder={strings.ENTER_PROMOCODE}
+            placeholder={strings.ENTER_GIFTCODE}
             onChangeText={(txt) => updateState({ promocode: txt })}
             containerStyle={{
               height: moderateScaleVertical(40),
@@ -363,7 +363,7 @@ export default function GiftOffers({ route, navigation }) {
           flex: 1,
           marginHorizontal: moderateScale(16),
         }}>
-        <FlatList
+        {/* <FlatList
           data={isLoading ? [] : allAvailableCoupons}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={_headerComponent}
@@ -372,7 +372,7 @@ export default function GiftOffers({ route, navigation }) {
           ListEmptyComponent={<ListEmptyOffers isLoading={isLoading} />}
           ListFooterComponent={() => <View style={{ height: appStyle?.tabBarLayout == 4 ? moderateScale(80) : moderateScale(20) }} />}
           renderItem={_renderItem}
-        />
+        /> */}
       </View>
     </WrapperContainer>
   );
