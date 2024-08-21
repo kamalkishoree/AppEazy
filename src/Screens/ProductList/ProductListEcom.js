@@ -537,7 +537,7 @@ export default function Products({ route, navigation }) {
               {item?.translation[0]?.name}
             </Text>
             <TouchableOpacity onPress={() => seeAllCategory(item)}>
-              <Text>See All</Text>
+              <Text>{strings.SEE_ALL}</Text>
             </TouchableOpacity>
           </View>
 
@@ -790,7 +790,7 @@ export default function Products({ route, navigation }) {
             ...styles.filterText,
             color: themeColors?.primary_color,
           }}>
-          Sort
+          {strings.SORT}
         </Text>
         <Image
           source={imagePath.filter}
@@ -904,7 +904,7 @@ export default function Products({ route, navigation }) {
                   ...styles.filterText,
                   marginVertical: moderateScaleVertical(8),
                   color: isDarkMode ? colors.white : colors.black,
-                }}>{`Results (${totalProducts})`}</Text>
+                }}>{`${strings.RESULTS}(${totalProducts})`}</Text>
             </View>
           )}
           <View style={{ flexDirection: 'row' }}>

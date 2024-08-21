@@ -2158,7 +2158,7 @@ export default function ProductDetail({ route, navigation }) {
                       opacity: 1,
                       fontSize: textScale(10),
                     }}>
-                    All Offers
+                   {strings.ALL_OFFERS}
                   </Text>
                   <Image
                     source={imagePath.icBackb}
@@ -2343,7 +2343,7 @@ export default function ProductDetail({ route, navigation }) {
                                   ? moment(selectedDate).format(
                                     'YYYY-MM-DD hh:mm A',
                                   )
-                                  : 'Select Date'}
+                                  : strings.SELECT_DATE}
                               </Text>
                             </TouchableOpacity>
                           )}
@@ -2386,7 +2386,7 @@ export default function ProductDetail({ route, navigation }) {
                             ? MyDarkTheme.colors.text
                             : colors.black,
                         }}>
-                        Start Date
+                       {strings.START_DATE}
                       </Text>
                       <Text
                         style={{
@@ -2514,7 +2514,8 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily.regular,
                       color: isDarkMode ? MyDarkTheme.colors.text : colors.black,
                     }}>
-                    Extra duration will be charged{' '}
+                    {/* Extra duration will be charged{' '} */}
+                    {strings.EXTRA_DURATION_WILL_BE_CHANGED}{' '}
                     <Text
                       style={{
                         fontFamily: fontFamily.bold,
@@ -2594,7 +2595,7 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily?.regular,
                       color: colors.black,
                       fontSize: textScale(13)
-                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : "Select Date"}</Text></TouchableOpacity>
+                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : strings.SELECT_DATE}</Text></TouchableOpacity>
 
                   </View>
                   {(!!appointmentSelectedDate) && <View style={{
@@ -2894,7 +2895,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Frequently bought
+            {strings.FREQUENTLY_BOUGHT}
           </Text>
           <FlatList
             data={(!state.isLoading && frequently_bought) || []}
@@ -2921,7 +2922,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Similar product in {productDetailNew?.category?.category_detail?.translation[0]?.name}
+            {strings.SIMILAR_PRODUCT_IN} {productDetailNew?.category?.category_detail?.translation[0]?.name}
           </Text>
           <FlatList
             data={(!state.isLoading && suggestedCategoryProducts) || []}
@@ -2950,7 +2951,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Similar product by {productDetailNew?.vendor?.name}
+            {strings.SIMILAR_PRODUCT_BY} {productDetailNew?.vendor?.name}
           </Text>
           <FlatList
             data={(!state.isLoading && suggestedVendorProducts) || []}

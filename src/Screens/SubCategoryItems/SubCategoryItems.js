@@ -1002,7 +1002,7 @@ export default function SubcategoryVendor({ navigation, route }) {
                         fontFamily: fontFamily.regular,
                         color: i == flatIndex ? colors.white : colors.black,
                         textAlign: 'center'
-                      }}>{val?.title == 'NavCategories' ? 'Categories' : val?.title}</Text>
+                      }}>{val?.title == 'NavCategories' ? strings.CATEGORIES : val?.title}</Text>
                     </TouchableOpacity>
                   )
                 })}
@@ -1101,7 +1101,7 @@ const TitleViewHome = ({
       ...textStyle
     }}>
 
-    {item?.title == 'NavCategories' ? 'Shop By Category' : !isEmpty(item?.translations) ? (item?.translations[0]?.title || item?.title) : item?.title}
+    {item?.title == 'NavCategories' ? strings.SHOP_BY_CATEGORY : !isEmpty(item?.translations) ? (item?.translations[0]?.title || item?.title) : item?.title}
   </Text>
   );
 }

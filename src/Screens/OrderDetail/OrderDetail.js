@@ -1606,7 +1606,7 @@ export default function OrderDetail({ navigation, route }) {
                             }}>
                             <View>
                               <Text style={styles.startEndDateTitle}>
-                                Start Date
+                                {strings.START_DATE}
                               </Text>
                               <Text style={styles.startEndDateValueTxt}>
                                 {i?.start_date_time}

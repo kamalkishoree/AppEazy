@@ -541,7 +541,7 @@ export default function GiftCard({ navigation, route }) {
           justifyContent: 'space-between',
           paddingHorizontal: moderateScale(20),
         }}>
-        <Text style={styles.subscription2}>{"Gift Card"}</Text>
+        <Text style={styles.subscription2}>{strings.GIFT_CARD}</Text>
         <TouchableOpacity
           onPress={() => updateState({ isModalVisibleForPayment: false, selectedPaymentMethod: null, selectedSavedListCardNumber: null })}>
           <Image source={imagePath.cross} />
@@ -967,7 +967,7 @@ export default function GiftCard({ navigation, route }) {
             paddingHorizontal: moderateScale(20),
             marginVertical: moderateScale(10),
           }}>
-          <Text style={{...styles.title, marginBottom:moderateScaleVertical(10)}}>{`Send Gift Card`}</Text>
+          <Text style={{...styles.title, marginBottom:moderateScaleVertical(10)}}>{`${strings.SEND} ${strings.GIFT_CARD}`}</Text>
           {gitCardUserDetils.map((item) => {
             return <BorderTextInput key={item?.id} value={item?.value} onChangeText={(text) => onChangeUserGiftText(text, item)} placeholder={item?.title} />
           })}

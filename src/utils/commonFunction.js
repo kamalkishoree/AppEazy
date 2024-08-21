@@ -163,7 +163,7 @@ export const addRemoveMinutes = (numMinutes, date = new Date(), type = '+') => {
 export const getHourAndMinutes = (numMinutes) => {
   let minutes = numMinutes % 60;
   let hours = Math.floor(numMinutes / 60);
-  return `${hours} hour ${minutes} min`;
+  return `${hours} ${strings.HOUR} ${minutes} min`;
 };
 
 export const countDecimals = (value) => {

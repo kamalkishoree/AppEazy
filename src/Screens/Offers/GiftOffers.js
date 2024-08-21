@@ -311,7 +311,7 @@ export default function GiftOffers({ route, navigation }) {
       source={loaderOne}
       isLoadingB={isLoadingB}>
       <Header
-        centerTitle={"Gift Card Offers"}
+        centerTitle={`${strings.GIFT_CARD} ${strings.OFFERS}`}
         leftIcon={
           appStyle?.homePageLayout === 2
             ? imagePath.backArrow

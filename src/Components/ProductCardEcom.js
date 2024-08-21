@@ -202,7 +202,7 @@ const ProductCardEcom = ({
                             fontSize: textScale(12),
                             color: colors.green,
                             fontFamily: fontFamily.regular
-                        }}>{parseInt(((data.variant[0].compare_at_price - data?.variant[0]?.price) / data?.variant[0]?.price * 100).toFixed(3))}% OFF</Text>
+                        }}>{parseInt(((data.variant[0].compare_at_price - data?.variant[0]?.price) / data?.variant[0]?.price * 100).toFixed(3))}% {strings.OFF}</Text>
                         : null
                 }
             </View>

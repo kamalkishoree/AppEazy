@@ -283,7 +283,7 @@ const Reccuring = ({
                                     <View style={{ alignItems: 'flex-start' }}>
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={{ ...styles.dateText, marginRight: moderateScale(15) }}>
-                                                Select Start Date:
+                                                Select {strings.START_DATE}:
                                             </Text>
                                             <Text style={{
                                                 ...styles.productName, fontFamily: fontFamily.medium,
@@ -294,7 +294,7 @@ const Reccuring = ({
                                         </View>
                                         <View style={{ flexDirection: 'row', }}>
                                             <Text style={{ ...styles.dateText, marginRight: moderateScale(22) }}>
-                                                Select End Date:
+                                                Select {strings.END_DATE}:
                                             </Text>
                                             <Text style={{
                                                 ...styles.productName, textAlign: 'center', fontFamily: fontFamily.medium,

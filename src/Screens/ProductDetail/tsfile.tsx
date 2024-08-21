@@ -2402,7 +2402,7 @@ export default function ProductDetail({ route, navigation }) {
                       opacity: 1,
                       fontSize: textScale(10),
                     }}>
-                    All Offers
+                    {strings.ALL_OFFERS}
                   </Text>
                   <Image
                     source={imagePath.icBackb}
@@ -2586,7 +2586,7 @@ export default function ProductDetail({ route, navigation }) {
                                   ? moment(selectedDate).format(
                                     'YYYY-MM-DD hh:mm A',
                                   )
-                                  : 'Select Date'}
+                                  : strings.SELECT_DATE }
                               </Text>
                             </TouchableOpacity>
                           )}
@@ -2629,7 +2629,7 @@ export default function ProductDetail({ route, navigation }) {
                             ? MyDarkTheme.colors.text
                             : colors.black,
                         }}>
-                        Start Date
+                       {strings.START_DATE}
                       </Text>
                       <Text
                         style={{
@@ -2654,7 +2654,7 @@ export default function ProductDetail({ route, navigation }) {
                             ? MyDarkTheme.colors.text
                             : colors.black,
                         }}>
-                        End Date
+                      {strings.END_DATE}
                       </Text>
                       <Text
                         style={{
@@ -2742,14 +2742,14 @@ export default function ProductDetail({ route, navigation }) {
                       }}>
                       {productDetailData?.minimum_duration}
                     </Text>{' '}
-                    hour{' '}
+                    {strings.HOUR}{' '}
                     <Text
                       style={{
                         fontFamily: fontFamily.bold,
                       }}>
                       {productDetailData?.minimum_duration_min}
                     </Text>{' '}
-                    min
+                    {strings.MIN}
                   </Text>
                   <Text
                     style={{
@@ -2757,7 +2757,9 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily.regular,
                       color: isDarkMode ? MyDarkTheme.colors.text : colors.black,
                     }}>
-                    Extra duration will be charged{' '}
+                    {/* Extra duration will be charged{' '} */}
+                    {strings.EXTRA_DURATION_WILL_BE_CHANGED}{' '}
+                    
                     <Text
                       style={{
                         fontFamily: fontFamily.bold,
@@ -2769,14 +2771,14 @@ export default function ProductDetail({ route, navigation }) {
                         currencies?.primary_currency?.symbol,
                       )}
                     </Text>{' '}
-                    per{' '}
+                    {strings.PER}{' '}
                     <Text
                       style={{
                         fontFamily: fontFamily.bold,
                       }}>
                       {productDetailData?.additional_increments}
                     </Text>{' '}
-                    hour and {' '}
+                    {strings.HOUR} and {' '}
                     <Text
                       style={{
                         fontFamily: fontFamily.bold,
@@ -2786,7 +2788,7 @@ export default function ProductDetail({ route, navigation }) {
                         digit_after_decimal,
                         additional_preferences,
                         currencies?.primary_currency?.symbol,
-                      )} per
+                      )} {strings.PER}
                     </Text>
                     <Text
                       style={{
@@ -2795,7 +2797,7 @@ export default function ProductDetail({ route, navigation }) {
                       {' '}
                       {productDetailData?.additional_increments_min}
                     </Text>{' '}
-                    min
+                    {strings.MIN}
                   </Text>
                 </View>
               ) : null}
@@ -2837,7 +2839,7 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily?.regular,
                       color: colors.black,
                       fontSize: textScale(13)
-                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : "Select Date"}</Text></TouchableOpacity>
+                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : strings.SELECT_DATE }</Text></TouchableOpacity>
 
                   </View>
                   {(!!appointmentSelectedDate) && <View style={{
@@ -3136,7 +3138,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Frequently bought
+             {strings.FREQUENTLY_BOUGHT}
           </Text>
           <FlatList
             data={(!state.isLoading && frequently_bought) || []}
@@ -3163,7 +3165,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Similar product in {productDetailNew?.category?.category_detail?.translation[0]?.name}
+            {strings.SIMILAR_PRODUCT_IN} {productDetailNew?.category?.category_detail?.translation[0]?.name}
           </Text>
           <FlatList
             data={(!state.isLoading && suggestedCategoryProducts) || []}
@@ -3192,7 +3194,7 @@ export default function ProductDetail({ route, navigation }) {
               color: isDarkMode ? MyDarkTheme.colors.text : colors.textGrey,
               marginLeft: moderateScale(8),
             }}>
-            Similar product by {productDetails?.products?.vendor?.name}
+            {strings.SIMILAR_PRODUCT_BY} {productDetails?.products?.vendor?.name}
           </Text>
           <FlatList
             data={(!state.isLoading && suggestedVendorProducts) || []}
@@ -3230,7 +3232,7 @@ export default function ProductDetail({ route, navigation }) {
               />
               <Text>({parseInt(
                 Number(productDetails?.products?.averageRating).toFixed(1),
-              )} out of 5)</Text>
+              )} {strings.OUT_OF} 5)</Text>
             </View>
             <Text>{productDetails?.products?.reviews.length} global rating</Text>
           </View>

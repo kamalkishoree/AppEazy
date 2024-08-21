@@ -833,7 +833,7 @@ function Footer(props) {
                 ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
                 : styles.priceItemLabel
             }>
-            {strings.GIFTCARD_USED_AMOUNT}
+            {strings.GIFT_CARD_USER_AMOUNT}
           </Text>
           <Text
             style={
@@ -858,7 +858,7 @@ function Footer(props) {
                 ? [styles.priceItemLabel, { color: MyDarkTheme.colors.text }]
                 : styles.priceItemLabel
             }>
-            {strings.GIFTCARD_REMAINING_AMOUNT}
+            {strings.GIFT_CARD_REMAINING_AMOUNT}
           </Text>
           <Text
             style={

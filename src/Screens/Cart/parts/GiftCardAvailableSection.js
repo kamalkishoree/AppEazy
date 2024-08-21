@@ -93,8 +93,7 @@ function GiftCardAvailableSection(props) {
                                         styles.viewOffers,
                                         { marginLeft: moderateScale(10) },
                                     ]}>
-                                    {/* {strings.APPLY_PROMO_CODE} */}
-                                    {'Apply Gift Card'}
+                                    {strings.APPLY_GIFT_CARD}
                                 </Text>
                             </View>
                         )}

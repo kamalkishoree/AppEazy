@@ -1121,7 +1121,7 @@ const TitleViewHome = ({
       ...textStyle
     }}>
 
-    {item?.title == 'NavCategories' ? 'Shop By Category' : !isEmpty(item?.translations) ? (item?.translations[0]?.title || item?.title) : item?.title}
+    {item?.title == 'NavCategories' ? strings.SHOP_BY_CATEGORY : !isEmpty(item?.translations) ? (item?.translations[0]?.title || item?.title) : item?.title}
   </Text>
   );
 }

@@ -635,7 +635,7 @@ const P2pOndemandProducts = ({ route, navigation }) => {
                 ...styles.filterBtnTxt,
                 color: filterType == "sortBy" ? themeColors?.primary_color : colors.black,
 
-            }}>Sort By</Text>
+            }}>{strings.SORT_BY}</Text>
         </TouchableOpacity>
 
     </View>

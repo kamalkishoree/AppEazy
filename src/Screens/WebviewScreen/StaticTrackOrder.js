@@ -22,6 +22,8 @@ import {ScrollView} from 'react-native';
 import StepIndicators1 from '../../Components/StepIndicator1';
 import { Platform } from 'react-native';
 import { enableFreeze } from "react-native-screens";
+import strings from '../../constants/lang';
+import { string } from 'prop-types';
 enableFreeze(true);
 
 
@@ -37,7 +39,7 @@ export default function StaticTrackOrder({navigation, route}) {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA,
     },
-    labels: ['Order accepted', 'Preparing food', 'On the way', 'Delivered'],
+    labels: [ strings.ORDERACCEPTED, 'Preparing food', strings.ON_THE_WAY, strings.DELIVERED],
     currentPosition: 0,
   });
   const mapRef = useRef();
