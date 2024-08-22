@@ -177,7 +177,11 @@ class CartController extends BaseController
             }
             $already_added_product_in_cart = CartProduct::where(["product_id" => $request->product_id, 'cart_id' => $cart_detail->id])->first();
             $already_added_product_variant_in_cart = CartProduct::where(["variant_id" => $request->product_variant_id, 'cart_id' => $cart_detail->id])->first();
-
+            $totalQuantity = (!empty($already_added_product_variant_in_cart) ? $already_added_product_variant_in_cart->quantity : 0) + $request->quantity;
+ 
+            if($totalQuantity > $productVariant->quantity){
+                return response()->json(['error' => __('You can not add more product.')], 404);
+            }
 
             $additionalPreference = getAdditionalPreference(['is_service_product_price_from_dispatch']);
             if( (@$luxury_option->id == 6) && ($additionalPreference['is_service_product_price_from_dispatch'] ==1) ){
@@ -564,6 +568,17 @@ class CartController extends BaseController
         if (!$cartProduct) {
             return response()->json(['error' => __('Product not exist in cart.')], 404);
         }
+
+        $variant_id = $cartProduct->variant_id;
+        $productDetail = Product::with([
+            'variant' => function ($sel) use ($variant_id) {
+                $sel->where('id', $variant_id);
+                $sel->groupBy('product_id');
+            }
+        ])->find($cartProduct->product_id);
+        if($productDetail->variant[0]->quantity < $request->quantity){
+            return response()->json(['error' => __('You can not add more product.')], 404);
+        }
         $cartProduct->quantity = $request->quantity;
         $cartProduct->save();
         $totalProducts = CartProduct::where('cart_id', $cart->id)->sum('quantity');
@@ -752,7 +767,6 @@ class CartController extends BaseController
             'vendorProducts.product.cartRentalProtections',
             'vendorProducts.product.bookingOptions.bookingOption',
             'vendorProducts.product.cartBookingOptions.bookingOption',
-            
         ]);
 
         $cartData = $cartData->select('vendor_id','cart_id', 'vendor_dinein_table_id','dispatch_agent_id', 'is_cart_checked')->where('status', [0, 1])->where('cart_id', $cartID)->groupBy('vendor_id')->orderBy('created_at', 'asc')->get();
@@ -1461,7 +1475,7 @@ class CartController extends BaseController
                                 $dis_amt =0;
                                 if ($vendorData->coupon->promo->promo_type_id == 2) {
                                     $dis_amt = $total_discount_percent = $vendorData->coupon->promo->amount;
-                                     
+
                                    // $payable_amount -= $total_discount_percent;
                                     $discount_amount = $total_discount_percent;
                                 } else {
@@ -1476,7 +1490,6 @@ class CartController extends BaseController
                                     // $payable_amount -= $percentage_amount;
                                     $discount_amount = $percentage_amount;
                                 }
-
                                 $couponData['coupon_id'] =  $vendorData->coupon->promo->id;
                                 $couponData['name'] =  $vendorData->coupon->promo->name;
                                 $couponData['dis_amount'] =  $dis_amt;
@@ -1502,8 +1515,6 @@ class CartController extends BaseController
                                 $discount_amount = $discount_amount +  $vendorTotalDeliveryFee;
                             }
                         }
-
-                        // promo discunt also add total delivery fees;
                     }
                   /*  if($rate > 0 && $discount_amount > 0 ){
                         $discount = ($discount_amount * $rate) / 100;
@@ -1542,10 +1553,8 @@ class CartController extends BaseController
                     }
                 }
              }
-
-
                 $payable_amount = $payable_amount + $vendorTotalDeliveryFee ;
-
+                
                 $deliver_charge = $vendorTotalDeliveryFee * $clientCurrency->doller_compare;
                 $vendorData->proSum = $proSum;
                 $vendorData->addonSum = $ttAddon;
@@ -1566,7 +1575,6 @@ class CartController extends BaseController
                     $vendor_service_fee_percentage_amount = (($amount_for_service) * $vendorData->vendor->service_fee_percent) / 100 ;
                     $payable_amount = $payable_amount + $vendor_service_fee_percentage_amount;
                 }
-
                 if($vendorData->vendor->service_charge_amount > 0){
                      $vendor_service_fee_percentage_amount = $vendorData->vendor->service_charge_amount;
                      $payable_amount = $payable_amount + $vendor_service_fee_percentage_amount;
@@ -1592,6 +1600,7 @@ class CartController extends BaseController
                     unset($vendorData->coupon->promo);
                 }
 
+         
 
                 // if (in_array(1, $subscription_features)) {
                 //     $subscription_discount = $subscription_discount + $deliver_charge;
@@ -1629,6 +1638,8 @@ class CartController extends BaseController
                 if((float)($vendorData->vendor->order_min_amount) > $payable_amount){  # if any vendor total amount of order is less then minimum order amount
                     $delivery_status = 0;
                 }
+
+                
                 $promoCodeController = new PromoCodeController();
                 $promoCodeRequest = new Request();
                 $promoCodeRequest->setMethod('POST');
@@ -1867,6 +1878,10 @@ class CartController extends BaseController
         $cart->delivery_slot_amount = $delivery_slot_amount;
 
         $temp_total_paying = $total_paying  + $total_tax - $total_disc_amount;
+        $cart->total_payable_amount = $payable_amount;
+        // echo "ee";
+        // pr($cart->total_payable_amount = $payable_amount);
+
         if ($cart->user_id > 0) {
             //$loyalty_amount_saved = $this->getLoyaltyPoints($cart->user_id, $clientCurrency->doller_compare);
             $loyaltyCheck = $this->getOrderLoyalityAmount($user,$clientCurrency);
@@ -1902,10 +1917,11 @@ class CartController extends BaseController
         // if(!empty($total_container_charges)){
         //     $cart->total_payable_amount  += $total_container_charges;
         // }
+        // if(@$rental_price){
+        //     $cart->total_payable_amount = $rental_price;  
+        // }
+        
 
-        if(@$rental_price){
-            $cart->total_payable_amount = $rental_price;
-        }
         // if(!empty($total_service_fee)){
         //     $cart->total_payable_amount  += $total_service_fee;
         // }
@@ -1937,6 +1953,7 @@ class CartController extends BaseController
 
 
         $cart->total_payable_amount += ($securityAmount + $rentalProtection + $bookingOption - $total_disc_amount);
+
         //$cart->total_payable_amount= number_format((float)$cart->total_payable_amount, 2, '.', '');
 
         //mohit sir branch code updated by sohail farm meat
@@ -1992,38 +2009,26 @@ class CartController extends BaseController
             ['label' => '15%', 'value' => decimal_format(0.15 * $total_payable_amount_calc_tip)]
         );
 
-        if(@$rental_price > 0){
-            $cart->total_payable_amount = $rental_price;
-        }
+       if(!is_null($cart->gift_card_id)){
 
+        // pr($cart->gift_card_id);
+          if($cart->giftCard->amount >  $cart->total_payable_amount)
+          {
+            $cart['giftcard_remaining_ammount'] = intval($cart->giftCard->amount) - intval($cart->total_payable_amount);
+            $cart['giftcard_used_ammount']  = $cart->total_payable_amount;
+            $cart->total_payable_amount = 0;
 
-        if(@$discount_amount > 0){
-            $cart->total_payable_amount = $cart->total_payable_amount - $discount_amount;
-        }
-
-        if(@$cart->total_subscription_discount > 0){
-            $cart->total_payable_amount = $cart->total_payable_amount - $cart->total_subscription_discount;
-        }
-
-        if(!is_null($cart->gift_card_id)){
-
-            $gift_card_amount = $cart->giftCard->amount;
-            if($cart->total_payable_amount > $gift_card_amount )
-            {
-                $cart->total_payable_amount = $cart->total_payable_amount - $gift_card_amount ;
-                $cart['gift_card_amount'] = $gift_card_amount;
-                $cart['gift_card_amount_remaining'] = 0;
-
-            }
-            else{
-                $cart->total_payable_amount = 0 ;
-                $gift_card_amount_remaining =  $gift_card_amount -$cart->total_payable_amount;
-                $cart['gift_card_amount_remaining'] = $gift_card_amount_remaining;
-
-            }
-            $cart->total_discount_amount +=  $gift_card_amount;
+          }
+          else {
+            $cart->total_payable_amount = $cart->total_payable_amount - $cart->giftCard->amount ;
+            $cart['giftcard_remaining_ammount'] = 0;
+            $cart['giftcard_used_ammount']  = $cart->giftCard->amount;
+           }
 
         }
+
+
+
         return $cart;
         }catch(\Exception $ex){
             return [];
