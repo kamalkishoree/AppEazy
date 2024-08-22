@@ -98,6 +98,7 @@ export default function EcomLangCurrency({ route, navigation }) {
     //Update language
     const updateLanguage = (item) => {
         console.log(item, 'itemmmm');
+        // return
         const data = languages.all_languages.filter((x) => x.id == item.id)[0];
         // console.log(data, "setLang")
         if (data.sort_code !== languages.primary_language.sort_code) {

@@ -990,6 +990,9 @@ export default {
   TAKE_ME_OUT: 'मुझे बाहर ले जाएं',
   TERMSANDCONDITIONS: 'नियम और शर्तें',
   ORDER_COMPLETED: 'आर्डर पूरा हुआ !!',
+  FOR_MORE_OFFERS: "अधिक ऑफ़र के लिए!",
+  SUBSCRIBE_NOW: "अब सदस्यता लें",
+  GIFT_CARD: "उपहार कार्ड",
   STORES_CAHT: 'Stores Chat',
   DRIVER_CHAT: 'Driver Chat',
   USER_CHAT: 'User Chat',
@@ -1001,5 +1004,7 @@ export default {
   START_CHAT: 'Start Chat',
   MINIMUM_ORDER_VALUE: 'Minimum order value',
   ORDER: 'Orders',
-  THANKS_FOR_ORDERING_WITH_US:'Thank you For Ordering With Us'
+  THANKS_FOR_ORDERING_WITH_US:'Thank you For Ordering With Us',
+  GIFT_CARD_USER_AMOUNT: "उपहार कार्ड उपयोगकर्ता राशि",
+  GIFT_CARD_REMAINING_AMOUNT: "उपहार कार्ड की शेष राशि ",
 };

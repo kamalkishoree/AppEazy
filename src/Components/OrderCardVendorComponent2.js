@@ -172,6 +172,7 @@ const OrderCardVendorComponent2 = ({
         },
       )
       .then((res) => {
+        console.log(res, "selectedCancelReason>>");
         setCancelReasons(res?.data);
         setIsCancelOrderContentLoader(false);
       })
@@ -478,7 +479,7 @@ const OrderCardVendorComponent2 = ({
                   digit_after_decimal,
                   additional_preferences,
                   currencies?.primary_currency?.symbol,
-                  
+
                 )}
               </Text>
             </View>
@@ -911,6 +912,38 @@ const OrderCardVendorComponent2 = ({
                 </ScrollView>
 
                 {selectedCancelReason?.id == 8 ? (
+                  <View
+                    style={{
+                      // marginVertical: moderateScaleVertical(16),
+                      backgroundColor: isDarkMode
+                        ? colors.whiteOpacity15
+                        : colors.greyNew,
+                      height: moderateScale(82),
+                      borderRadius: moderateScale(4),
+                      paddingHorizontal: moderateScale(8),
+                      marginTop: reasonError
+                        ? moderateScaleVertical(8)
+                        : moderateScaleVertical(16),
+                    }}>
+                    <TextInput
+                      multiline
+                      value={reason}
+                      placeholder={strings.WRITE_YOUR_REASON_HERE}
+                      onChangeText={(val) => setReason(val)}
+                      style={{
+                        ...styles.reasonText,
+                        color: isDarkMode ? colors.textGreyB : colors.black,
+                        textAlignVertical: 'top',
+                      }}
+                      onSubmitEditing={Keyboard.dismiss}
+                      placeholderTextColor={
+                        isDarkMode ? colors.textGreyB : colors.blackOpacity40
+                      }
+                    />
+                  </View>
+                ) : null}
+
+                {selectedCancelReason?.id == 13 ? (
                   <View
                     style={{
                       // marginVertical: moderateScaleVertical(16),

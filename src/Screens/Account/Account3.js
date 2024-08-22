@@ -500,14 +500,13 @@ export default function Account3({ navigation }) {
 
           {!!userData?.auth_token &&
             !!appData &&
-            !!appData?.profile &&
-            appData?.profile?.preferences?.subscription_mode == 1 && (
+            !!appData?.profile && (
               <ListItemHorizontal
                 centerContainerStyle={{ flexDirection: 'row' }}
                 leftIconStyle={{ flex: 0.1, alignItems: 'center' }}
                 onPress={moveToNewScreen(navigationStrings.GIFTCARD)}
                 iconLeft={imagePath.subscription}
-                centerHeading={strings.GIFTCARD}
+                centerHeading={strings.GIFT_CARD}
                 containerStyle={styles.containerStyle2}
                 centerHeadingStyle={{
                   fontSize: textScale(14),

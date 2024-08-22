@@ -32,6 +32,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import DeviceCountry from 'react-native-device-country';
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import { getItem } from '../../../utils/utils';
 
 
 export default function DashBoardHeaderEcommerce({

@@ -89,8 +89,8 @@ let strings = new LocalizedStrings({
   bn:bn,
   he: heb,
   am:am,
-  tig:tig,
-  oro:oro
+  ti:tig,
+  om:oro
 });
 export const changeLaguage = (languageKey) => {
   strings.setLanguage(languageKey);
