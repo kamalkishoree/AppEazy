@@ -383,7 +383,7 @@ export default function Settings({route, navigation}) {
             fontFamily: fontFamily.bold,
             fontSize: textScale(20),
           }}>
-          Delete Account
+         {strings.DELETE_ACCOUNT}
         </Text>
       </TouchableOpacity>
       <ModalView

@@ -185,7 +185,7 @@ const TaskListCard = ({
                 fontFamily: fontFamily?.bold
               }}
             >
-              {(getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.CASH_COLLECTED : 'Cash Collected :'} {data?.order?.cash_to_be_collected}{' '}
+              {(getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.CASH_COLLECTED : `${strings.CASH_COLLECTED}:`} {data?.order?.cash_to_be_collected}{' '}
             </Text>
           ) : (
             <View />
@@ -196,7 +196,7 @@ const TaskListCard = ({
                 fontFamily: fontFamily?.bold
               }}
             >
-              {(getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.EARNING:'Earning :'} {data?.order?.status == 'completed' ? data?.order?.driver_cost : 0}
+              {(getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.EARNING: `${strings.Earning}:`} {data?.order?.status == 'completed' ? data?.order?.driver_cost : 0}
             </Text>
           ) : (
             <View />

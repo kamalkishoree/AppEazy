@@ -198,7 +198,7 @@ export default function DashBoard({ route, navigation }) {
             value: 1,
             testID: '2',
           },
-          { label: 'Pooling Suggestion', value: 2, testID: '3' },
+          { label:  strings.POOLING_SUGGESTION, value: 2, testID: '3' },
         ];
         updateState({
           isLoading: true,

@@ -165,7 +165,8 @@ const GoToHome = ({ navigation }) => {
                     <Text
                         style={styles.goToHome}
                     >
-                        Go To Home
+                      
+                        {strings.GO_TO_HOME}
                     </Text>
                 </View>
             ) : null}
@@ -294,7 +295,7 @@ const GoToHome = ({ navigation }) => {
                             width: moderateScale(180),
                             color: colors.blackOpacity86,
                         }}>
-                        {"Saved Locations"}
+                        {strings.SAVED_LOCATIONS}
                     </Text>
                     <TouchableOpacity
                         disabled={isLoading}
@@ -306,7 +307,7 @@ const GoToHome = ({ navigation }) => {
                                 fontFamily: fontFamily.medium,
                                 color: colors.themeColor,
                             }}>
-                            {" + Add New Address"}
+                              + {strings.ADD_NEW_ADDRESS}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -349,7 +350,7 @@ const GoToHome = ({ navigation }) => {
                         alignItems: "center",
                         marginTop: moderateScaleVertical(40)
                     }}>
-                        <Text>No home address found!</Text>
+                        <Text>{strings.NO_HOME_ADDRESS_FOUND}!</Text>
                     </View>
             }
 

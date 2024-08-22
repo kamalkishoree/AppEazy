@@ -372,7 +372,7 @@ export default function Wallet({ route, navigation }) {
                       ? (getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.PAYMENTCREDITED_MRVELOZ : strings.PAYMENTCREDITED
                       : (getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.PAYMENTDEBITED_MRVELOZ :strings.PAYMENTDEBITED
                     : item?.transaction_type == "payout"
-                      ? "Payout created"
+                      ? strings.PAYOUT_CREATED
                       : item?.order?.cash_to_be_collected > 0
                         ? (getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.PAYMENTCREDITED_MRVELOZ : strings.PAYMENTCREDITED
                         : (getBundleId() == appIds.mrVeloz && defaultLanguagae?.value == 'es') ? strings.PAYMENTDEBITED_MRVELOZ:strings.PAYMENTDEBITED}

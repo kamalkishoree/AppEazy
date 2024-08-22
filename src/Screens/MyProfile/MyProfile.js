@@ -86,7 +86,7 @@ export default function MyProfile({ route, navigation }) {
   const updateState = data => setState(state => ({ ...state, ...data }));
   const onShare = () => {
     let options = {
-      title: 'Driver id',
+      title: strings.DRIVER_ID,
       message: DriverUniqueId,
     }
     Share.open(options)
@@ -309,7 +309,7 @@ export default function MyProfile({ route, navigation }) {
                 <View style={{ marginBottom: moderateScale(20) }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
                     <Text style={[styles.label2, styles.textInputStyle]}>
-                      Driver id
+                      {strings.DRIVER_ID}
                     </Text>
                     <TouchableOpacity
                       onPress={onShare}
