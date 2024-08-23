@@ -1,4 +1,4 @@
-@push('script')
+ @section('script')
 {{-- <script src="{{asset('js/custom.js')}}"></script>
 <script src="{{asset('js/location.js')}}"></script>
 <script src="{{asset('assets/libs/moment/moment.min.js')}}"></script>
@@ -90,5 +90,3 @@
     }
     bindLatestCoords(userLatitude, userLongitude);
 </script> --}}
-
-@endpush
