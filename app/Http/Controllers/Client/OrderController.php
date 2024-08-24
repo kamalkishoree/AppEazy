@@ -184,8 +184,11 @@ class OrderController extends BaseController
         $del_order_count = OrderVendor::has('accounting', '<', 1)->where('order_status_option_id', 6)->count();
         $request->merge(['response' => 2, 'filter_order_status' => 'pending_orders']);
         $OrderFilterData = $this->postOrderFilter($request);
-
         $setWeekDate = $this->setWeekDate;
+        $current_vendor = Vendor::where('email',$user->email)->get();
+        // pr($current_vendor);
+        
+
         return view('backend.order.index', compact('return_requests', 'cancel_order_requests', 'pending_order_count', 'active_order_count', 'past_order_count', 'clientCurrency', 'vendors', 'fixedFee', 'accounting', 'del_order_count', 'rescheduleOrderCount', 'client_preferences', 'OrderFilterData', 'setWeekDate', 'returnFormRequestCount'));
     }
     public function geteEnabledLuxuryOptions($clientPreference)

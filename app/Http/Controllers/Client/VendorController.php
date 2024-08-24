@@ -577,6 +577,7 @@ class VendorController extends BaseController
      */
     public function update(Request $request, $domain = '', $id)
     {
+     
         if(!auth()->user()->can('vendor-add') && !auth()->user()->is_superadmin)
         {
             return redirect('client/dashboard')->with('error','You do not have permission to do this task.');
