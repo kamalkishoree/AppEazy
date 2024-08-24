@@ -291,10 +291,15 @@ export default function TaskCompleteDocument({ route, navigation }) {
   };
 
   const updateQRcodeScan = data => {
-    console.log(data, 'data>>>>>data');
-    updateState({
-      qrCode: data?.data,
-    });
+    console.log(JSON.parse(data?.data), 'data>>>>>data11',taskDetail,JSON.parse(data?.data)==taskDetail?.order?.order_number);
+    if(JSON.parse(data?.data)?.id==taskDetail?.order?.order_number){
+      updateState({
+        qrCode: JSON.parse(data?.data)?.id
+      });
+    }else{
+      showError("Order Id is not correct")
+    }
+    
   };
 
   /******On Press doc options**** */

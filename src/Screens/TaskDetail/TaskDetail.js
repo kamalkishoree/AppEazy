@@ -332,7 +332,7 @@ export default function TaskDetail({route, navigation}) {
         console.log(error, 'error error error');
       });
   };
-  console.log(taskDetail, 'taskDetail>>>>>>>>>>>>>>>>>>');
+
   const _getproductUpdateDetails = () => {
     actions
       .getProductUpdateDetails(new_dispatch_traking_url(), {})
