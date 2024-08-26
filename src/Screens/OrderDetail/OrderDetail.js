@@ -2775,7 +2775,7 @@ export default function OrderDetail({ navigation, route }) {
               marginBottom: moderateScaleVertical(12),
               color: isDarkMode
                 ? MyDarkTheme.colors.text
-                : colors.blackOpacity86,}}>Invoice</Text>
+                : colors.blackOpacity86,}}>QR Code</Text>
           <QRCode value={JSON.stringify({
                   id: `${cartData?.order_number}`,
                     })}
