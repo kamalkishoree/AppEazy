@@ -211,6 +211,25 @@ function SwipeableSection(props) {
                                                                 currencies?.primary_currency?.symbol,
                                                             )}
                                                         </Text>
+                                                        {console.log(item?.vendor_products[0]?.product_addons[0]?.price,"dklfhjk")
+                                                        }
+                                                        {(!!item?.vendor_products[0]?.product_addons[0]?.price) &&
+                                                             <Text
+                                                             style={{
+                                                                 fontFamily: fontFamily.regular,
+                                                                 color: isDarkMode
+                                                                     ? MyDarkTheme.colors.text
+                                                                     : colors.textGreyOpcaity7,
+                                                             }}>
+                                                             +
+                                                             {tokenConverterPlusCurrencyNumberFormater(
+                                                                 Number(item?.vendor_products[0]?.product_addons[0]?.price),
+                                                                 digit_after_decimal,
+                                                                 additional_preferences,
+                                                                 currencies?.primary_currency?.symbol,
+                                                             )}
+                                                         </Text>
+                                                        }
                                                         <Text> = </Text>
                                                         <Text
                                                             style={{
