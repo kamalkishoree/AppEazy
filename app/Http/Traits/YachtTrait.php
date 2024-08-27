@@ -4,7 +4,7 @@ namespace App\Http\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use App\Models\{Category, PaymentOption, Product, UserAddress, Vendor, VerificationOption};
+use App\Models\{Type,Category, PaymentOption, Product, UserAddress, Vendor, VerificationOption};
 use Illuminate\Support\Facades\Auth;
 
 trait YachtTrait
@@ -12,7 +12,7 @@ trait YachtTrait
     public function productSearch($request, $pickup, $dropOff,$category_id = null)
     {
 
-      
+
         $pickup_time = $pickup->time ?? '';
         $drop_time = $dropOff->time ?? '';
         $clientPreference = \App\Models\ClientPreference::where(['id' => 1])->first();
@@ -32,8 +32,9 @@ trait YachtTrait
                 ];
             });
         }
-        $category = Category::where('slug', $request->service)->first();
- 
+   
+        $category = Type::where('service_type', $request->service)->first();
+       
         $data['products'] = [];
         if ($category) {
             $products= Product::with([
@@ -47,6 +48,7 @@ trait YachtTrait
                 },
                 'ProductAttribute.attributeOption:id,title',
             ])
+            ->where('is_live', 1)
             ->whereDoesntHave('productBooked', function($q) use($pickup_time, $drop_time){
                 if (!empty($pickup_time) ) {
                     $q->WhereRaw("DATE(end_date_time) >= ?", [$pickup_time]);
@@ -56,6 +58,7 @@ trait YachtTrait
                 }
             })
                 ->where(function ($q) use ($request) {
+
                     if ($request->has('seats') && !empty($request->seats)) {
                         $q->whereHas('ProductAttribute', function ($q) use ($request) {
                             if ($request->service == 'rental') {
@@ -87,12 +90,12 @@ trait YachtTrait
                         // $q->distanceInMeters($clientPreference->Default_latitude, $clientPreference->Default_longitude);
                     }
                 });
-
+             
                 if($category_id)
                 {
                     $products = $products->where('category_id', $category_id);
                 } else {
-                    $products = $products->where('category_id', $category->id);
+                    $products = $products->where('type_id', $category->id);
                 }
                 $products =  $products->get();
                 $data['products'] = $products;
