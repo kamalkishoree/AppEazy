@@ -778,7 +778,13 @@ if (!function_exists('dateTimeInUserTimeZone')) {
         }
 
         $format = $dateFormat . $timeFormat;
-        return $date->isoFormat($format);
+        $date_data = $date->isoFormat($format);
+        if( str_contains($date_data,'ከሰዓት'))
+        {
+             $date_data =  str_replace('ከሰዓት','PM',$date_data);
+            
+        }
+        return $date_data;
     }
 }
 
@@ -2434,6 +2440,8 @@ if (!function_exists('recurringCalculationFunction')) {
 
     if (!function_exists('createStringQR')) {
         function createStringQR($string,$size = 0){
+            $string_data = ["id" => $string];
+            $string = json_encode($string_data);
 
             if($size != 0)
             {

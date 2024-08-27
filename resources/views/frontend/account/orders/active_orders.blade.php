@@ -645,9 +645,7 @@
 
 
                                                                                 <li class="grand_total d-flex align-items-center justify-content-between">
-                                                                         
-                                                                                {{createStringQR( 'Order Number :' .$order->order_number,$size=200);}}
-
+                                                                                 {{createStringQR($order->order_number,$size=200);}}
                                                                                 </li>
 
                                                                                 {{-- mohit sir branch code added by sohail --}}

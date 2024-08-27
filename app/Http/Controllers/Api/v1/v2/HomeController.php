@@ -1673,6 +1673,8 @@ class HomeController extends BaseController
                                 }
                             }
                             $order->converted_scheduled_date_time = dateTimeInUserTimeZone($order->scheduled_date_time, $user->timezone);
+                          
+                          
                         }
             }
         }
