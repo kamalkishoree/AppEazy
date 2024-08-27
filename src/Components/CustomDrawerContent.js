@@ -210,7 +210,7 @@ const CustomDrawerContent = (props) => {
 
           <DrawerItem
             label={strings.PRIVACY_POLICY}
-            onPress={() => onPressPrivacyPolicy(1, 4)} //id, tabIndex
+            onPress={() => onPressPrivacyPolicy(3, 4)} //id, tabIndex
             icon={({ focused }) => {
               return (
                 <Image style={{

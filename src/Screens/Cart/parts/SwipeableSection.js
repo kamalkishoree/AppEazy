@@ -64,13 +64,13 @@ function SwipeableSection(props) {
                         // overshootFriction={8}
                         >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                {showCheckBox ? <TouchableOpacity
+                                {/* {showCheckBox ? <TouchableOpacity
                                     onPress={() => selectCartItem(i)} style={{ marginHorizontal: moderateScale(5) }}>
                                     <FastImage style={{
                                         height: moderateScale(20),
                                         width: moderateScale(20)
                                     }} source={i?.is_cart_checked ? imagePath.checkBox2Active : imagePath.checkBox2InActive} />
-                                </TouchableOpacity> : null}
+                                </TouchableOpacity> : null} */}
                                 <Animated.View
                                     style={{
                                         backgroundColor: isDarkMode
