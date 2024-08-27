@@ -1367,7 +1367,7 @@ trait CartManagerV2{
                 if(isset($set_template)  && $set_template->template_id != 9){
                     if($vendorData->vendor->$action == 0){
                         $vendorData->vendot_type_not_active = 1;
-                        $vendorData->is_vendor_closed = 1;
+                       // $vendorData->is_vendor_closed = 1;
                         $delivery_status = 0;
                     }
                 }

@@ -47,7 +47,7 @@
                     <div class="tab">
                         <div class="d-flex align-items-center">
                             <div class="form-group">
-                                <input type="radio" value="rental" name="service" placeholder="" id="car" checked>
+                                <input type="radio" value="car_rental" name="service" placeholder="" id="car" checked>
                                 <label for="car">
                                     <img src="yacht-images/icons/1.png" alt="">
                                     Car Rental

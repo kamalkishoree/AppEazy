@@ -1077,7 +1077,8 @@ if($client_preference_detail->appointment_check == 1 && ($client_preference_deta
                             {!! Form::label('title', __('Live'),['class' => 'control-label']) !!}
                             <select class="selectizeInput form-control" id="is_live" name="is_live">
                                 <option value="0" @if($product->is_live == 0) selected @endif>{{ __('Draft')}}</option>
-                                @if (isset($getAdditionalPreference['is_seller_module']) && $getAdditionalPreference['is_seller_module'] == 1)
+                                <option value="1" @if($product->is_live == 1) selected @endif>{{ __('Published')}}</option>
+                                <!-- @if (isset($getAdditionalPreference['is_seller_module']) && $getAdditionalPreference['is_seller_module'] == 1)
                                     @if(Auth::user()->is_superadmin == 1)
                                         <option value="1" @if($product->is_live == 1) selected @endif>{{ __('Published')}}</option>
                                     @endif
@@ -1086,7 +1087,7 @@ if($client_preference_detail->appointment_check == 1 && ($client_preference_deta
                                     @endif
                                 @else
                                     <option value="1" @if($product->is_live == 1) selected @endif>{{ __('Published')}}</option>
-                                @endif
+                                @endif -->
                             </select>
                         </div>
 

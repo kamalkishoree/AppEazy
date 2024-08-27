@@ -145,6 +145,14 @@ class ProductController extends BaseController
             $product->vendor_id = $request->vendor_id;
             $product->captain_name = $request->captain_name ?? '';
             $product->captain_description = $request->captain_description ?? '';
+            if(!is_null($request->category))
+            {
+                $category_model = Category::find($request->category);
+                if($category_model)
+                {
+                    $product->type_id = $category_model->type_id;
+                }
+            }
             if($request->hasFile('captain_profile')){
                 $filePath = 'profile/' . \Str::random(40);
                 $file = $request->file('captain_profile');
