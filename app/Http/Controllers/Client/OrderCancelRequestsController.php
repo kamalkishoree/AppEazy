@@ -214,12 +214,15 @@ class OrderCancelRequestsController extends BaseController
             $currentOrderStatus = OrderVendor::with('orderDetail', 'vendor', 'products')->where(['id' => $order_vendor_id, 'vendor_id' => $vendor_id, 'order_id' => $order_id])->first();
             $orderVendorProduct = OrderProduct::with('addon', 'addon.option', 'variant')->where('order_vendor_id', $currentOrderStatus->id)->where('id', $order_vendor_product_id)->first();
             
+            if(!empty($orderVendorProduct)){
+                $cancelledProductPrice = $this->checkreplaceProduct($request, $orderVendorProduct) * $orderVendorProduct->quantity;
 
-            $cancelledProductPrice = $this->checkreplaceProduct($request, $orderVendorProduct) * $orderVendorProduct->quantity;
-
-            if ($currentOrderStatus->order_status_option_id == 2 && $status == 1) {
-                $this->ProductVariantStockIncrease($orderVendorProduct);
+                if ($currentOrderStatus->order_status_option_id == 2 && $status == 1) {
+                    $this->ProductVariantStockIncrease($orderVendorProduct);
+                }
             }
+          
+            
 
             // If cancel order request has been approved
             if ($status == 1) {
