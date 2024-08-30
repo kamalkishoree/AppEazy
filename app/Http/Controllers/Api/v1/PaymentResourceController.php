@@ -203,7 +203,7 @@ class PaymentResourceController extends BaseController
          $intent = \Stripe\PaymentIntent::retrieve(
            $request->payment_intent_id
         );
-      Log::info(['$intent'=>$intent]);
+          Log::info(['$intent'=>$intent]);
         if($intent->status == 'succeeded'){
             Log::info(['successs']);
 
@@ -260,56 +260,88 @@ class PaymentResourceController extends BaseController
                 // $orderController = new OrderController();
                 // $result = $orderController->postPlaceOrder($request);
                 // $returnUrl = $result;
-                // $cart = Cart::select('id')->where('status', '0')->where('user_id', $user->id)->first();
-                // $cart_id = $cart ? $cart->id : 0 ;
+                $cart = Cart::select('id')->where('status', '0')->where('user_id', $user->id)->first();
+                $cart_id = $cart ? $cart->id : 0 ;
                 $order = Order::with(['paymentOption', 'user_vendor', 'vendors:id,order_id,vendor_id'])->where('order_number', $order_number)->first();
                 if ($order) {
-                    // $order->payment_status = 1;
-                    // $order->save();
-                    // $payment_exists = Payment::where('transaction_id', $transactionId)->first();
-                    // if (!$payment_exists) {
-                    //     $payment = new Payment();
-                    //     $payment->date = date('Y-m-d');
-                    //     $payment->order_id = $order->id;
-                    //     $payment->transaction_id = $transactionId;
-                    //     $payment->balance_transaction = $amount;
-                    //     $payment->type = 'cart';
-                    //     $payment->save();
+                    $order->payment_status = 1;
+                    $order->save();
+                    $payment_exists = Payment::where('transaction_id', $transactionId)->first();
+                    if (!$payment_exists) {
+                        $payment = new Payment();
+                        $payment->date = date('Y-m-d');
+                        $payment->order_id = $order->id;
+                        $payment->transaction_id = $transactionId;
+                        $payment->balance_transaction = $amount;
+                        $payment->type = 'cart';
+                        $payment->save();
 
-                    //     // Auto accept order
-                    //     $orderController = new OrderController();
-                    //     $orderController->autoAcceptOrderIfOn($order->id);
+                        // Auto accept order
+                        $orderController = new OrderController();
+                        $orderController->autoAcceptOrderIfOn($order->id);
 
-                    //     // Remove cart
-                    //     Cart::where('id', $cart_id)->update(['schedule_type' => null, 'scheduled_date_time' => null]);
-                    //     CartAddon::where('cart_id', $cart_id)->delete();
-                    //     CartCoupon::where('cart_id', $cart_id)->delete();
-                    //     CartProduct::where('cart_id', $cart_id)->delete();
-                    //     CartProductPrescription::where('cart_id', $cart_id)->delete();
-                    //     CartDeliveryFee::where('cart_id', $cart_id)->delete();
+                        // Remove cart
+                        Cart::where('id', $cart_id)->update(['schedule_type' => null, 'scheduled_date_time' => null]);
+                        CartAddon::where('cart_id', $cart_id)->delete();
+                        CartCoupon::where('cart_id', $cart_id)->delete();
+                        CartProduct::where('cart_id', $cart_id)->delete();
+                        CartProductPrescription::where('cart_id', $cart_id)->delete();
+                        CartDeliveryFee::where('cart_id', $cart_id)->delete();
 
-                    //     // Send Notification
-                    //     if (!empty($order->vendors)) {
-                    //         foreach ($order->vendors as $vendor_value) {
-                    //             $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id, $vendor_value->vendor_id);
-                    //             $user_vendors = UserVendor::where(['vendor_id' => $vendor_value->vendor_id])->pluck('user_id');
-                    //             $orderController->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail);
-                    //         }
-                    //     }
-                    //     $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id);
-                    //     $super_admin = User::where('is_superadmin', 1)->pluck('id');
-                    //     $orderController->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
+                        // Send Notification
+                        if (!empty($order->vendors)) {
+                            foreach ($order->vendors as $vendor_value) {
+                                $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id, $vendor_value->vendor_id);
+                                $user_vendors = UserVendor::where(['vendor_id' => $vendor_value->vendor_id])->pluck('user_id');
+                                $orderController->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail);
+                            }
+                        }
+                        $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id);
+                        $super_admin = User::where('is_superadmin', 1)->pluck('id');
+                        $orderController->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
 
-                    //     $request->request->add(['user_id'=>$order->user_id,'address_id'=>$order->address_id]);
-                    //     //Send Email to customer
-                    //     $orderController->sendSuccessEmail($request, $order);
-                    //     //Send Email to Vendor
-                    //     foreach ($order->vendors->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
-                    //         $orderController->sendSuccessEmail($request, $order, $vendor_id);
-                    //     }
-                    // }
-                    // Send Email
-                    //   $this->successMail();
+                        $request->request->add(['user_id'=>$order->user_id,'address_id'=>$order->address_id]);
+                        //Send Email to customer
+                        $orderController->sendSuccessEmail($request, $order);
+                        //Send Email to Vendor
+                        foreach ($order->vendors->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
+                            $orderController->sendSuccessEmail($request, $order, $vendor_id);
+                        }
+                    }
+                    else{
+                        $orderController = new OrderController();
+                        $orderController->autoAcceptOrderIfOn($order->id);
+
+                        // Remove cart
+                        Cart::where('id', $cart_id)->update(['schedule_type' => null, 'scheduled_date_time' => null]);
+                        CartAddon::where('cart_id', $cart_id)->delete();
+                        CartCoupon::where('cart_id', $cart_id)->delete();
+                        CartProduct::where('cart_id', $cart_id)->delete();
+                        CartProductPrescription::where('cart_id', $cart_id)->delete();
+                        CartDeliveryFee::where('cart_id', $cart_id)->delete();
+
+                        // Send Notification
+                        if (!empty($order->vendors)) {
+                            foreach ($order->vendors as $vendor_value) {
+                                $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id, $vendor_value->vendor_id);
+                                $user_vendors = UserVendor::where(['vendor_id' => $vendor_value->vendor_id])->pluck('user_id');
+                                $orderController->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail);
+                            }
+                        }
+                        $vendor_order_detail = $orderController->minimize_orderDetails_for_notification($order->id);
+                        $super_admin = User::where('is_superadmin', 1)->pluck('id');
+                        $orderController->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
+
+                        $request->request->add(['user_id'=>$order->user_id,'address_id'=>$order->address_id]);
+                        //Send Email to customer
+                        $orderController->sendSuccessEmail($request, $order);
+                        //Send Email to Vendor
+                        foreach ($order->vendors->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
+                            $orderController->sendSuccessEmail($request, $order, $vendor_id);
+                        }
+                    }
+                    //Send Email
+                      $this->successMail();
                 }
                 return $this->successResponse($order, __('Order placed successfully.'), 200);
                 
