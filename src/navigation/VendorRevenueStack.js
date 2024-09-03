@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {VendorList, VendorRevenue} from '../Screens';
+import {RoyoHome, VendorList, VendorRevenue} from '../Screens';
 import navigationStrings from './navigationStrings';
 
 const Stack = createNativeStackNavigator();
@@ -10,9 +10,13 @@ export default function () {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen
+      {/* <Stack.Screen
         name={navigationStrings.VENDOR_REVENUE}
         component={VendorRevenue}
+      /> */}
+      <Stack.Screen
+        name={navigationStrings.VENDOR_REVENUE}
+        component={RoyoHome}
       />
       <Stack.Screen
         name={navigationStrings.VENDORLIST}

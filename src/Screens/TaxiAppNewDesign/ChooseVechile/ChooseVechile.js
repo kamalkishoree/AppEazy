@@ -102,6 +102,7 @@ function ChooseVechile({ navigation, route }) {
     const [pickuporderdetails, setPickuporderdetails] = useState('')
     const [issendtoall, setIssendtoall] = useState(false)
     const [locaDateTime, setLocaDateTime] =  useState(null)
+    const [selectedVehcle, setSelectedVehcle] = useState(null)
     const [state, setState] = useState({
         region: {
             latitude: paramData?.location[0]?.latitude
@@ -339,6 +340,8 @@ function ChooseVechile({ navigation, route }) {
         actions
             .getAllCarAndPrices(apiQuery, apiData, apiHeader)
             .then((res) => {
+                console.log(res, "resss>>>>>>>.");
+                
                 updateState({
                     loyalityAmount: res?.data?.loyalty_amount_saved
                         ? Number(res?.data?.loyalty_amount_saved).toFixed(
@@ -917,6 +920,7 @@ function ChooseVechile({ navigation, route }) {
         });
         if (cabBookingType !== 'bidRide') {
             setIsCabBooking(true)
+            setSelectedVehcle(item)
         }
         setBidRidePrice(Number(item?.tags_price))
     };
@@ -1618,7 +1622,8 @@ function ChooseVechile({ navigation, route }) {
                         )}
                     </Text>
                 </View>
-                {!!allListedDrivers[0]?.arrival_time &&
+                {/* allListedDrivers[0]?.arrival_time  */}
+                {!!selectedVehcle?.agent_arrival_time &&
                     <View style={{
                         flexDirection: "row",
                         alignItems: "center",
@@ -1630,7 +1635,7 @@ function ChooseVechile({ navigation, route }) {
                                 fontSize: textScale(14),
                                 color: colors.textColor
                             }}>
-                            {"  • "}{allListedDrivers[0]?.arrival_time} min away
+                            {"  • "}{selectedVehcle?.agent_arrival_time} min away
                         </Text>
                     </View>}
 

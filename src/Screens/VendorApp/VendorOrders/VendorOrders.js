@@ -148,6 +148,9 @@ export default function VendorOrders({navigation, route}) {
       )
       .then((res) => {
         console.log('vendor', res);
+        actions.savedSelectedVendor(!!storeSelectedVendor?.id
+          ? storeSelectedVendor
+          : res.data.vendor_list.find((x) => x.is_selected));
         updateState({
           activeOrders:
             pageActive == 1

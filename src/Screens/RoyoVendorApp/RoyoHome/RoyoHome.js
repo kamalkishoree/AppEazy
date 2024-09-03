@@ -42,6 +42,7 @@ import {
   customMarginLeftForBox,
 } from '../../../utils/constants/constants';
 import {showError} from '../../../utils/helperFunctions';
+import DatePickrModal from '../../../Components/DatePickrModal';
 
 let vendorLimit = 50;
 // import 'moment/locale/fr';
@@ -71,7 +72,7 @@ const RoyoHome = (props) => {
   );
   const {additional_preferences, digit_after_decimal} =
     appData?.profile?.preferences || {};
-  console.log(languages, 'languagessssssssss');
+  console.log(languages, 'languagessssssssss', storeSelectedVendor);
 
   const [state, setState] = useState({
     pageActive: 1,
@@ -119,7 +120,7 @@ const RoyoHome = (props) => {
   const [totalOrder, setTotalOrder] = useState(0);
   const vendorPage = useRef(1);
   const vendorLoadMore = useRef(true);
-
+  console.log( 'selectedVendor>>>>>>', storeSelectedVendor);
   //reset pagination values
   useEffect(() => {
     const focus = navigation.addListener('focus', () => {
@@ -148,13 +149,13 @@ const RoyoHome = (props) => {
       const res = await actions.storeVendors(query, headers);
       console.log('available vendors res', res);
       if (!!res?.data && res?.data?.data?.length > 0) {
-        let firstVendor = !!currentVendor ? currentVendor : res?.data?.data[0];
+        let firstVendor =  !isEmpty(storeSelectedVendor) ? storeSelectedVendor : !!currentVendor ? currentVendor : res?.data?.data[0];
         setAvailVendor(res.data.data);
         setCurrVendor(firstVendor);
         await availVendorCount(firstVendor?.id); //sent vendor id to fetch available vendors
         await getAllVendorOrder(firstVendor?.id); //sent vendor id to fetch selected vendor orders
         _getRevenueDashboardData(firstVendor, new Date(), 0);
-        actions.savedSelectedVendor(firstVendor);
+        // actions.savedSelectedVendor(firstVendor); 
         updateState({isRefreshing: false, isLoading: false});
         // _getVendorProfile(firstVendor);
       }
@@ -256,27 +257,29 @@ const RoyoHome = (props) => {
       showOrderDate: true,
     });
   };
-  const onChangeOrderDate = (value, newDate) => {
+  const onChangeOrderDate = (newDate) => {
+    console.log(new Date(newDate), 'newDateeee');
     if (newDate) {
+      let date = new Date(newDate);
       updateState({
-        orderDate: newDate,
+        orderDate: date,
         showOrderDate: false,
       });
-      _getRevenueDashboardData(currentVendor, newDate, 2);
+      _getRevenueDashboardData(currentVendor, date, 2);
     } else
       updateState({
         showOrderDate: false,
       });
   };
-  const onChageRevenueDate = (value, newDate) => {
-    console.log('new datae', newDate);
-
+  const onChageRevenueDate = (newDate) => {
+    console.log(new Date(newDate), 'newDateeee');
     if (newDate) {
+      let date = new Date(newDate);
       updateState({
-        revenueDate: newDate,
+        revenueDate: date,
         showRevenueDate: false,
       });
-      _getRevenueDashboardData(currentVendor, newDate, 1);
+      _getRevenueDashboardData(currentVendor, date, 0);
     } else
       updateState({
         showRevenueDate: false,
@@ -284,6 +287,7 @@ const RoyoHome = (props) => {
   };
 
   const _getRevenueDashboardData = (selectedVendorData, date, ...params) => {
+    console.log(params,"paramsparamsparams");
     let data = {};
     data['type'] = 'monthly';
     data['vendor_id'] = selectedVendorData ? selectedVendorData?.id : '';
@@ -295,7 +299,7 @@ const RoyoHome = (props) => {
     )
       .startOf('month')
       .format('MM')}-${moment(date).endOf('month').format('DD')}`;
-console.log(data,'datadatadatadata')
+
     actions
       .getRevenueDashboardData(data, {
         code: appData?.profile?.code,
@@ -303,29 +307,26 @@ console.log(data,'datadatadatadata')
         language: languages?.primary_language?.id,
       })
       .then((res) => {
-        console.log(res, 'res__getRevnueData>>>dashboard', params);
+        console.log(res.data.total_order, 'res__getRevnueData>>>dashboard');
 
         const dates = res.data.dates.map(
           (el) =>
             `${moment(el).startOf('month').format('MMM')}-${el.slice(8, 11)}`,
         );
         // console.log('checking selected vendor data', dates);
-        // let totalRevenue=res.data.total_revenue
         if (res?.data?.dates.length) {
-          // let totalRevenue = res.data.revenue.reduce(
-          //   (partial_sum, a) => parseFloat(partial_sum) + parseFloat(a),
-          //   parseFloat(0),
-          // );
-          if (params[0] == 2) {
+          let totalRevenue = res.data.revenue.reduce(
+            (partial_sum, a) => parseFloat(partial_sum) + parseFloat(a),
+            parseFloat(0),
+          );
             setTotalOrder(res.data.total_order);
-          }
+     
           updateState({
             isRefreshing: false,
             isLoading: false,
             labels: dates,
-            datasets: params[0] == 2 ? datasets : res?.data?.revenue,
-            totalRevenue:
-              params[0] == 2 ? totalRevenue : res?.data?.total_revenue,
+            datasets: params[0] == 2 ? datasets : res.data.revenue,
+            totalRevenue: totalRevenue,
             sales:
               params[0] == 1
                 ? sales
@@ -336,15 +337,17 @@ console.log(data,'datadatadatadata')
             // totalCompletedOrder: res.data.total_delivered_order,
           });
         } else {
-          if (params[0] == 2) {
+          let totalRevenue = res.data.revenue.reduce(
+            (partial_sum, a) => parseFloat(partial_sum) + parseFloat(a),
+            parseFloat(0),
+          );
             setTotalOrder(res.data.total_order);
-          }
+         
           updateState({
             isLoading: false,
             isRefreshing: false,
             labels: dates,
-            totalRevenue:
-              params[0] == 2 ? totalRevenue : res.data.total_revenue,
+            totalRevenue: totalRevenue,
             datasets: params[0] == 2 ? datasets : res.data.revenue,
             sales:
               params[0] == 1
@@ -355,6 +358,7 @@ console.log(data,'datadatadatadata')
       })
       .catch(errorMethod);
   };
+
 
   //error handling
   const errorMethod = (error) => {
@@ -515,7 +519,9 @@ console.log(data,'datadatadatadata')
     }
     console.log('end reached');
   };
-
+  const _onBackdropPress = () => {
+    updateState({showRevenueDate: false});
+  };
   return (
     <WrapperContainer
       bgColor={colors.white}
@@ -529,6 +535,7 @@ console.log(data,'datadatadatadata')
         onPressLeft={() => {
           navigation.navigate(navigationStrings.TAB_ROUTES);
         }}
+        noLeftIcon={true}
         leftIcon={imagePath.backRoyo}
         onPressCenterTitle={() => _reDirectToVendorList()}
         onPressImageAlongwithTitle={() => _reDirectToVendorList()}
@@ -725,6 +732,20 @@ console.log(data,'datadatadatadata')
         </View>
       </Modal>
 
+      {!!(showRevenueDate || showOrderDate) && (
+        <DatePickrModal
+          onBackdropPress={_onBackdropPress}
+          isVisible={showRevenueDate || showOrderDate}
+          showOrderDate={showOrderDate}
+          showRevenueDate={showRevenueDate}
+          onChangeOrderDate={onChangeOrderDate}
+          onChageRevenueDate={onChageRevenueDate}
+          revenueDate={revenueDate}
+          orderDate={orderDate}
+        />
+      )}
+
+{/* 
       <Modal
         onBackdropPress={() =>
           updateState({showRevenueDate: false, showRevenueDate: false})
@@ -754,7 +775,7 @@ console.log(data,'datadatadatadata')
             />
           )}
         </View>
-      </Modal>
+      </Modal> */}
     </WrapperContainer>
   );
 };

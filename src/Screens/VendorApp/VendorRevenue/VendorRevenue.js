@@ -1,11 +1,11 @@
 // import OrderCardComponent from './OrderCardComponent';
 import moment from 'moment';
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {processColor, View, Text, ScrollView} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { processColor, View, Text, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 import Header from '../../../Components/Header';
-import {loaderOne} from '../../../Components/Loaders/AnimatedLoaderFiles';
+import { loaderOne } from '../../../Components/Loaders/AnimatedLoaderFiles';
 import NoDataFound from '../../../Components/NoDataFound';
 import WrapperContainer from '../../../Components/WrapperContainer';
 import imagePath from '../../../constants/imagePath';
@@ -27,30 +27,32 @@ import {
   getColorCodeWithOpactiyNumber,
   showError,
 } from '../../../utils/helperFunctions';
-import {useDarkMode} from 'react-native-dynamic';
-import {MyDarkTheme} from '../../../styles/theme';
-import {useFocusEffect} from '@react-navigation/native';
+import { useDarkMode } from 'react-native-dynamic';
+import { MyDarkTheme } from '../../../styles/theme';
+import { useFocusEffect } from '@react-navigation/native';
+import { BarChart } from 'react-native-chart-kit';
+import { boxWidth } from '../../../utils/constants/constants';
 
-export default function VendorRevenue({navigation, route}) {
+export default function VendorRevenue({ navigation, route }) {
   const paramData = route.params;
   // console.log(paramData, 'paramData');
 
   const currentTheme = useSelector((state) => state.initBoot);
-  const {appData, currencies, languages} = useSelector(
+  const { appData, currencies, languages } = useSelector(
     (state) => state.initBoot,
   );
   const theme = useSelector((state) => state?.initBoot?.themeColor);
   const toggleTheme = useSelector((state) => state?.initBoot?.themeToggle);
-  const {storeSelectedVendor} = useSelector((state) => state?.order);
+  const { storeSelectedVendor } = useSelector((state) => state?.order);
 
   const darkthemeusingDevice = useDarkMode();
   const isDarkMode = toggleTheme ? darkthemeusingDevice : theme;
-  const {themeColors, themeLayouts} = currentTheme;
+  const { themeColors, themeLayouts } = currentTheme;
   const [state, setState] = useState({
     tabBarData: [
-      {title: strings.ACTIVE_ORDERS, isActive: true},
-      {title: strings.PAST_ORDERS, isActive: false},
-      {title: strings.SCHEDULED_ORDERS, isActive: false},
+      { title: strings.ACTIVE_ORDERS, isActive: true },
+      { title: strings.PAST_ORDERS, isActive: false },
+      { title: strings.SCHEDULED_ORDERS, isActive: false },
     ],
     selectedTab: strings.ACTIVE_ORDERS,
     activeOrders: [],
@@ -174,11 +176,22 @@ export default function VendorRevenue({navigation, route}) {
       ],
     },
     selectedTimeOptions: [
-      {id: 1, title: 'Weekly', type: 'weekly'},
-      {id: 2, title: 'Monthly', type: 'monthly'},
-      {id: 3, title: 'Yearly', type: 'yearly'},
+      { id: 1, title: 'Weekly', type: 'weekly' },
+      { id: 2, title: 'Monthly', type: 'monthly' },
+      { id: 3, title: 'Yearly', type: 'yearly' },
     ],
     selectedTimeOption: null,
+
+
+    //  new states added ++++++ 
+
+    isLoading: true,
+    isRefreshing: false,
+    labels: [],
+    datasets: [],
+    newOrder: [],
+    totalRevenue,
+    sales: [],
   });
 
   const {
@@ -199,13 +212,21 @@ export default function VendorRevenue({navigation, route}) {
     selectedDate,
     selectedTimeOptions,
     selectedTimeOption,
+
+
+    //  new added 
+    labels,
+    datasets,
+    newOrder,
+    totalRevenue,
+    sales,
   } = state;
 
-  const updateState = (data) => setState((state) => ({...state, ...data}));
+  const updateState = (data) => setState((state) => ({ ...state, ...data }));
 
-  const {appStyle} = useSelector((state) => state?.initBoot);
+  const { appStyle } = useSelector((state) => state?.initBoot);
   const fontFamily = appStyle?.fontSizeData;
-  const commonStyles = commonStylesFun({fontFamily});
+  const commonStyles = commonStylesFun({ fontFamily });
 
   useEffect(() => {
     // updateState({isLoading: true});
@@ -225,8 +246,8 @@ export default function VendorRevenue({navigation, route}) {
     let vendordId = !!storeSelectedVendor?.id
       ? storeSelectedVendor?.id
       : selectedVendor?.id
-      ? selectedVendor?.id
-      : '';
+        ? selectedVendor?.id
+        : '';
     actions
       ._getListOfVendorOrders(
         `?limit=${limit}&page=${pageActive}&selected_vendor_id=${vendordId}`,
@@ -244,8 +265,8 @@ export default function VendorRevenue({navigation, route}) {
           selectedVendor: !!storeSelectedVendor?.id
             ? storeSelectedVendor
             : !!selectedVendor
-            ? selectedVendor
-            : res.data.vendor_list.find((x) => x.is_selected),
+              ? selectedVendor
+              : res.data.vendor_list.find((x) => x.is_selected),
           isLoading: false,
         });
       })
@@ -278,8 +299,8 @@ export default function VendorRevenue({navigation, route}) {
                   {
                     values: res?.data?.revenue.length
                       ? res?.data?.revenue.map((i, inx) => {
-                          return Number(i);
-                        })
+                        return Number(i);
+                      })
                       : [],
                     label: 'Total Sale',
                     config: {
@@ -297,8 +318,8 @@ export default function VendorRevenue({navigation, route}) {
                   {
                     values: res?.data?.sales.length
                       ? res?.data?.sales.map((i, inx) => {
-                          return Number(i);
-                        })
+                        return Number(i);
+                      })
                       : [],
                     label: 'Total Order',
 
@@ -349,16 +370,166 @@ export default function VendorRevenue({navigation, route}) {
   }, [storeSelectedVendor]);
 
   const setDates = (dates) => {
-    updateState({...dates});
+    updateState({ ...dates });
   };
 
   const _selectTime = (item) => {
     {
       selectedTimeOption && selectedTimeOption?.id == item?.id
-        ? updateState({selectedTimeOption: null, isLoading: true})
-        : updateState({selectedTimeOption: item, isLoading: true});
+        ? updateState({ selectedTimeOption: null, isLoading: true })
+        : updateState({ selectedTimeOption: item, isLoading: true });
     }
   };
+
+
+  // ****************  apis added from royohome ***************
+
+  useEffect(() => {
+    console.log(selectedVendor, "selectedVendorselectedVendor");
+    _getRevenueDashboardData(selectedVendor, new Date(), 0);
+  }, [])
+
+  const _getRevenueDashboardData = (selectedVendorData, date, ...params) => {
+    let data = {};
+    data['type'] = 'monthly';
+    data['vendor_id'] = selectedVendorData ? selectedVendorData?.id : '';
+    data['start_date'] = `${moment(date)
+      .startOf('year')
+      .format('YYYY')}-${moment(date).startOf('month').format('MM')}-01`;
+    data['end_date'] = `${moment(date).startOf('year').format('YYYY')}-${moment(
+      date,
+    )
+      .startOf('month')
+      .format('MM')}-${moment(date).endOf('month').format('DD')}`;
+    console.log(data, 'datadatadatadata')
+    actions
+      .getRevenueDashboardData(data, {
+        code: appData?.profile?.code,
+        currency: currencies?.primary_currency?.id,
+        language: languages?.primary_language?.id,
+      })
+      .then((res) => {
+        console.log(res, 'res__getRevnueData>>>dashboard', params);
+
+        const dates = res.data.dates.map(
+          (el) =>
+            `${moment(el).startOf('month').format('MMM')}-${el.slice(8, 11)}`,
+        );
+        // console.log('checking selected vendor data', dates);
+        // let totalRevenue=res.data.total_revenue
+        if (res?.data?.dates.length) {
+          // let totalRevenue = res.data.revenue.reduce(
+          //   (partial_sum, a) => parseFloat(partial_sum) + parseFloat(a),
+          //   parseFloat(0),
+          // );
+          if (params[0] == 2) {
+            setTotalOrder(res.data.total_order);
+          }
+          updateState({
+            isRefreshing: false,
+            isLoading: false,
+            labels: dates,
+            datasets: params[0] == 2 ? datasets : res?.data?.revenue,
+            totalRevenue:
+              params[0] == 2 ? totalRevenue : res?.data?.total_revenue,
+            sales:
+              params[0] == 1
+                ? sales
+                : res.data.sales.map((el) => el.toString()),
+            // totalPendingOrder: res.data.total_pending_order,
+            // totalCancelledOrder: res.data.total_rejected_order,
+            // totalActiveOrder: res.data.total_active_order,
+            // totalCompletedOrder: res.data.total_delivered_order,
+          });
+        } else {
+          if (params[0] == 2) {
+            setTotalOrder(res.data.total_order);
+          }
+          updateState({
+            isLoading: false,
+            isRefreshing: false,
+            labels: dates,
+            totalRevenue:
+              params[0] == 2 ? totalRevenue : res.data.total_revenue,
+            datasets: params[0] == 2 ? datasets : res.data.revenue,
+            sales:
+              params[0] == 1
+                ? sales
+                : res.data.sales.map((el) => el.toString()),
+          });
+        }
+      })
+      .catch(errorMethod);
+  };
+
+
+  const barData = {
+    labels: labels,
+    datasets: [
+      {
+        data: datasets,
+        colors: [
+          (opacity = 1) => `rgba(4, 14, 22, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 44, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(7, 14, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 144, 22, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 44, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(7, 14, 242, ${opacity})`,
+        ],
+      },
+    ],
+  };
+
+  const salesBarData = {
+    labels: labels,
+    datasets: [
+      {
+        data: sales,
+        colors: [
+          (opacity = 1) => `rgba(4, 14, 22, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 44, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(7, 14, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 144, 22, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(174, 44, 242, ${opacity})`,
+          (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+          (opacity = 1) => `rgba(7, 14, 242, ${opacity})`,
+        ],
+      },
+    ],
+  };
+
+  const chartConfig = {
+    barRadius: moderateScale(2.5),
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientToOpacity: 0,
+    fillShadowGradientOpacity: 0,
+    fillShadowGradient: colors.black,
+    yAxisInterval: 2,
+    barPercentage: 0.75,
+    decimalPlaces: 0, // optional, defaults to 2dp
+    color: (opacity = 1) => `rgba(74, 144, 242, ${opacity})`,
+    labelColor: (opacity = 0.61) => `rgba(40, 62, 58, ${opacity})`,
+    propsForDots: {
+      r: '6',
+      strokeWidth: '1',
+      stroke: colors.themeColor2,
+    },
+  };
+
+
+  const BarWidth = () => moderateScale(labels.length * 65);
+
+
+
   return (
     <WrapperContainer
       bgColor={
@@ -369,7 +540,7 @@ export default function VendorRevenue({navigation, route}) {
       isLoadingB={isLoading}>
       <Header
         leftIcon={
-          appStyle?.homePageLayout === 3  || appStyle?.homePageLayout === 5? imagePath.icBackb : imagePath.back
+          appStyle?.homePageLayout === 3 || appStyle?.homePageLayout === 5 ? imagePath.icBackb : imagePath.back
         }
         centerTitle={selectedVendor?.name || ''}
         showImageAlongwithTitle={true}
@@ -378,11 +549,11 @@ export default function VendorRevenue({navigation, route}) {
         onPressImageAlongwithTitle={() => _reDirectToVendorList()}
         headerStyle={
           isDarkMode
-            ? {backgroundColor: MyDarkTheme.colors.background}
-            : {backgroundColor: colors.white}
+            ? { backgroundColor: MyDarkTheme.colors.background }
+            : { backgroundColor: colors.white }
         }
       />
-      <View style={{...commonStyles.headerTopLine}} />
+      <View style={{ ...commonStyles.headerTopLine }} />
 
       {selectedTimeOptions && selectedTimeOptions.length && (
         <View
@@ -400,11 +571,11 @@ export default function VendorRevenue({navigation, route}) {
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor:
-                    (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
+                      (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
                         ? themeColors?.primary_color
-                        :  (selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ?
-                        colors.backgroundGreyC
-                        : getColorCodeWithOpactiyNumber(
+                        : (selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ?
+                          colors.backgroundGreyC
+                          : getColorCodeWithOpactiyNumber(
                             themeColors.primary_color.substr(1),
                             60,
                           ),
@@ -423,9 +594,9 @@ export default function VendorRevenue({navigation, route}) {
                       //   selectedTimeOption && selectedTimeOption?.id == i.id
                       //     ? colors.white
                       //     : themeColors.primary_color,
-                          color: (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
-                            ? colors.white : ( selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ?  colors.black  
-                            : colors.white,
+                      color: (selectedTimeOption && selectedTimeOption?.id == i.id && !isDarkMode)
+                        ? colors.white : (selectedTimeOption && selectedTimeOption?.id == i.id && isDarkMode) ? colors.black
+                          : colors.white,
                     }}>
                     {i.title}
                   </Text>
@@ -471,6 +642,29 @@ export default function VendorRevenue({navigation, route}) {
         // <NoDataFound isLoading={isLoading} containerStyle={{flex: 0.6}} />
         <></>
       )}
+
+
+      {/*  data added for revenue from RoyoHome */}
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <BarChart
+          withCustomBarColorFromData={true}
+          style={{ margin: 0, padding: 0, flex: 1, marginLeft: 0 }}
+          // yLabelsOffset={30}
+          data={barData}
+          width={labels.length > 6 ? BarWidth() : boxWidth()}
+          height={moderateScaleVertical(250)}
+          yAxisLabel={currencies?.primary_currency?.symbol}
+          yAxisInterval={2}
+          chartConfig={chartConfig}
+          verticalLabelRotation={0}
+          horizontalLabelRotation={0}
+          withInnerLines={false}
+          showBarTops={false}
+          fromZero={true}
+          flatColor={true}
+        />
+      </ScrollView>
     </WrapperContainer>
   );
 }

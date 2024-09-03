@@ -69,6 +69,7 @@ export default function DashBoardHeaderEcommerce({
   const { userData } = useSelector((state) => state?.auth);
 
   const { countryFlag } = useSelector((state) => state?.home || {});
+  const { dineInType } = useSelector((state) => state?.home);
 
   const darkthemeusingDevice = useDarkMode();
   const isDarkMode = themeToggle ? darkthemeusingDevice : themeColor;
@@ -119,7 +120,7 @@ export default function DashBoardHeaderEcommerce({
     profileInfo?.dark_logo?.image_path,
     '200/400',
   );
-console.log(imageURI,"imageURI>>>>>");
+  console.log(imageURI, "imageURI>>>>>");
   const onPressWishList = () => {
     if (!!userData?.auth_token) {
       navigation.navigate(navigationStrings.WISHLIST)
@@ -328,23 +329,24 @@ console.log(imageURI,"imageURI>>>>>");
           </View>
         </Animated.View>
 
-<View style={{marginTop:moderateScale(12)}}></View>
+        <View style={{ marginTop: moderateScale(12) }}></View>
         <DeliveryTypeEcommerceComp
           selectedToggle={selcetedToggle}
           themeColors={{ primary_color: colors.black }}
         />
+
         <Animatable.View
           animation={'fadeIn'}
           delay={400}
         >
-          <SearchBar3
+          {(dineInType == "pick_drop") ? <View style={{ height: moderateScaleVertical(10) }} /> : <SearchBar3
             onPress={() => navigation.navigate(navigationStrings.SEARCHPRODUCTOVENDOR)}
             containerStyle={{
               marginVertical: moderateScaleVertical(8),
               marginBottom: moderateScaleVertical(12),
               height: moderateScale(38)
             }}
-          />
+          />}
         </Animatable.View>
 
 

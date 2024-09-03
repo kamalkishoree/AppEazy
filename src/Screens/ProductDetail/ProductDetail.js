@@ -2798,7 +2798,6 @@ export default function ProductDetail({ route, navigation }) {
                             ]}
                             textStyle={{
                               fontFamily: fontFamily.medium,
-                              textTransform: 'capitalize',
                               color: isDarkMode
                                 ? MyDarkTheme.colors.text
                                 : colors.white,
@@ -2826,6 +2825,7 @@ export default function ProductDetail({ route, navigation }) {
                         </View>
                       </View>
                     ) : null}
+
                     {!productDetailData?.vendor?.closed_store_order_scheduled &&
                       !!productDetailData?.vendor?.is_vendor_closed ? (
                       <Text

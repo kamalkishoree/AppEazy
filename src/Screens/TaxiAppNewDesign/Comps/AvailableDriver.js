@@ -111,13 +111,15 @@ export default function AvailableDriver({
                   currencies
                 )}
               </Text>
-              {!!allListedDrivers[0]?.arrival_time && <Text
+              {/* !!allListedDrivers[0]?.arrival_time  */}
+              {!!item?.agent_arrival_time && <Text
                 style={{
                   ...styles.vechilePriceName, color: isDarkMode
                     ? colors.whiteOpacity50
                     : colors.textColor,
                 }}>
-                Estimated Time - {allListedDrivers[0]?.arrival_time}
+                {/* Estimated Time - {allListedDrivers[0]?.arrival_time} */}
+                Estimated Time - {item?.agent_arrival_time}
               </Text>}
               {!!item?.translation[0]?.meta_description && <Text
                 style={{
