@@ -98,6 +98,13 @@ export default function AddNewRider({ navigation, route }) {
     }
     console.log(data,"data");
     actions.addRider(data, { code: appData?.profile?.code }).then((res) => {
+
+      //finding recent added rider from api response
+      const myRider = res?.riders.find((item)=>
+        item?.first_name == data?.first_name
+      )   
+      //changing selected rider on previous screen
+      paramData.changeSelectedRider(myRider);
       updateState({
         isLoading:false
       })

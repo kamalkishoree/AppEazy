@@ -11,12 +11,8 @@ import actions from './src/redux/actions';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 
-import NativeDevSettings from 'react-native/Libraries/NativeModules/specs/NativeDevSettings';
-
-
 // Register background handler
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-  NativeDevSettings.setIsDebuggingRemotely(true);
   const { data, notification } = remoteMessage;
   console.log("received in background messages", remoteMessage)
 

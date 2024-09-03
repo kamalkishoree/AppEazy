@@ -860,6 +860,13 @@ export default function Addaddress({ navigation, route }) {
       selectedLoaction: data?.address,
     });
   };
+  // callbackfunction to change state 
+  const changeSelectedRider =(item)=>{
+    updateState({
+      selectedFriendForRide: item,
+    });
+  }
+
   const _onAddRiderContact = (type) => {
     switch (type) {
       case 0:
@@ -873,7 +880,9 @@ export default function Addaddress({ navigation, route }) {
           showFriendListModal: false,
         });
         navigation.navigate(navigationStrings.ADD_NEW_RIDER, {
-          addNewRiderContact: true,
+          addNewRiderContact: true, 
+          //sending callback function to next screen
+          changeSelectedRider:changeSelectedRider
         });
         break;
       case 2:
