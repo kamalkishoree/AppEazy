@@ -611,7 +611,7 @@ export default function EcomOrderAgain(props) {
                             ? imagePath.icBackb
                             : imagePath.backArrowCourier
                 }
-                centerTitle={'Order Again'}
+                centerTitle={strings.ORDER_AGAIN}
                 headerStyle={
                     isDarkMode
                         ? { backgroundColor: MyDarkTheme.colors.background }

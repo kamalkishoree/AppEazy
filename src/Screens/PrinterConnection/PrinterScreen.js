@@ -575,9 +575,9 @@ class PrinterScreen extends Component {
           <View style={styles.main}>
             <ScrollView style={styles.container}>
               <Text style={styles.title}>
-                Connected:
+                {strings.CONNECTED}:
                 <Text style={{color: colors.themeColor}}>
-                  {!this.state.name ? ' No Devices' : this.state.name}
+                  {!this.state.name ? strings.NO_DEVICES : this.state.name}
                 </Text>
               </Text>
               {!(

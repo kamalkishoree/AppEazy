@@ -75,7 +75,7 @@ export default function Tracking({ navigation }) {
           onChangeText={_onChangeText("trackId")}
           placeholder={strings.ENTER_HERE}
           value={trackId}
-          label={'Enter Order Number'}
+          label={strings.ENTER_ORDER_NUMBER}
         />
         <GradientButton
           textStyle={styles.textStyle}

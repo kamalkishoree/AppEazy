@@ -156,7 +156,7 @@ const CustomDrawerContent = (props) => {
           />
           {!!userData && 
           <DrawerItem
-            label={'Order Again'}
+            label={strings.ORDER_AGAIN}
             onPress={() => onPressItem(navigationStrings.ORDER_AGAIN, 2)} //tabIndex
 
             icon={({ focused }) => {

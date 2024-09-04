@@ -1233,5 +1233,16 @@ Amount`,
   NO_RECORD_FOUND: "No record found.",
   GIFT_CARD_USER_AMOUNT: "gift card user amount",
   GIFT_CARD_REMAINING_AMOUNT: "gift card remaining amount",
-  SEND:"Send"
+
+  SEND:"Send",
+  ALL_GIFT_CARDS:"All gift cards",
+  MY_GIFT_CARDS:"My Gift Cards",
+  IS_DELIVERABLE:"Is Deliverable",
+  BUY:"Buy",
+  // FREE_DELIVERY: 'Free Delivery', not in other language
+  MOBILE:"Mobile",
+  NO_DEVICES:"No Devices",
+  CONNECTED:"Connected",
+  EMAIL_IS_NOT_VALID:"Email is not in valid format",
+  NAME_IS_NOT_VALID:"Name is not in valid format"
 };

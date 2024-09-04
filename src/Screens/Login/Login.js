@@ -204,7 +204,7 @@ export default function Login({ navigation }) {
         });
         console.log(error,'errrrorrr')
     if (error ) {
-      showError(!!error ?'Email is not in valid format':error);
+      showError(!!error ? strings.EMAIL_IS_NOT_VALID :error);
       return;
     }
     return true;

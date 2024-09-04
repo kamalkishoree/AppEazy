@@ -980,6 +980,7 @@ export default function SubcategoryVendor({ navigation, route }) {
                 // height: height
               }}>
               <View style={{}}>
+                {console.log(dataProvider,"dataProviderdataProvider")}
                 {dataProvider.map((val, i) => {
                   if (isEmpty(val?.data)) {
                     return (

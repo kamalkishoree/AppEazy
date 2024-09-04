@@ -132,10 +132,10 @@ export default function GiftCard({ navigation, route }) {
   const [expiryDate, setExpiryDate] = useState()
   const [isDeliverable, setIsDeliverable] = useState(false)
   const [gitCardUserDetils, setGitCardUserDetils] = useState([
-    { title: 'Name', value: '', id: 1, slug: "name" },
-    { title: 'Mobile', value: '', id: 2, slug: "mobile" },
-    { title: 'E-mail', value: '', id: 3, slug: "email" },
-    { title: 'Address', value: '', id: 4, slug: "address" },
+    { title: strings.NAME , value: '', id: 1, slug: "name" },
+    { title: strings.MOBILE , value: '', id: 2, slug: "mobile" },
+    { title: strings.EMAIL, value: '', id: 3, slug: "email" },
+    { title: strings.ADDRESS , value: '', id: 4, slug: "address" },
   ])
   const { additional_preferences, digit_after_decimal } =
     appData?.profile?.preferences || {};
@@ -449,7 +449,7 @@ export default function GiftCard({ navigation, route }) {
             }}>
 
             <Text style={{ ...styles.subscriptionTitle, color: isDarkMode ? colors.white : colors.blackC }}>
-              { " All Gift Cards"}
+              {strings.ALL_GIFT_CARDS}
             </Text>
           </View>
         )}
@@ -489,7 +489,7 @@ export default function GiftCard({ navigation, route }) {
             }}>
 
             <Text style={{ ...styles.subscriptionTitle, color: isDarkMode ? colors.white : colors.blackC }}>
-              {"My Gift Cards"}
+              {strings.MY_GIFT_CARDS}
             </Text>
           </View>
         )}
@@ -984,7 +984,7 @@ export default function GiftCard({ navigation, route }) {
               style={[
                 styles.title2,
                 { marginLeft: moderateScale(10) },
-              ]}>{"Is Deliverable"}</Text>
+              ]}>{strings.IS_DELIVERABLE}</Text>
           </TouchableOpacity>
         </View>
 
@@ -1799,7 +1799,7 @@ export default function GiftCard({ navigation, route }) {
               ? imagePath.icBackb
               : imagePath.back
         }
-        centerTitle={"Gift Cards"}
+        centerTitle={strings.GIFT_CARD}
         textStyle={{ fontSize: textScale(14) }}
       />
       <StripeProvider

@@ -399,7 +399,7 @@ console.log(data,"data>>>>>>");
                 Toast.show(strings.COPIED);
               }:()=> onPress(data)}
             btnStyle={{ height: moderateScaleVertical(30) }} 
-            btnText={isCurrentGiftCart ? data?.gift_card_code :"buy"} />
+            btnText={isCurrentGiftCart ? data?.gift_card_code : strings.BUY} />
         </View>
     )
 };

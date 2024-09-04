@@ -179,7 +179,7 @@ export default function Signup({ navigation }) {
   const emailValidation = () => {
     let EmailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if (!EmailRegex.test(email)) {
-      showError('email is not correct')
+      showError(strings.EMAIL_IS_NOT_VALID)
       return true
     }
     return false
@@ -187,7 +187,7 @@ export default function Signup({ navigation }) {
   const nameValidation = () => {
     let nameRegex = /^[a-zA-Z'’ ]{2,50}$/
     if (!nameRegex.test(name)) {
-      showError('Name is not correct')
+      showError(strings.NAME_IS_NOT_VALID)
       return true
     }
     return false
@@ -204,12 +204,12 @@ export default function Signup({ navigation }) {
     let namevalidation = nameValidation()
     let emailValidate = emailValidation()
     if (error || !!namevalidation) {
-      showError(error || 'Name is not in valid format');
+      showError(error || strings.NAME_IS_NOT_VALID);
       return;
     }
     if (error || !!emailValidate) {
       console.log(error, emailValidate, 'errrororor')
-      showError(error || 'Email is not in valid format');
+      showError(error || strings.EMAIL_IS_NOT_VALID);
       return;
     }
     

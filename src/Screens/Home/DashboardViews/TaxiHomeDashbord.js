@@ -945,6 +945,9 @@ export default function TaxiHomeDashbord({
             }}
             onConfirm={date => onDateSet(date)}
             onCancel={() => updateState({ isVisible: false })}
+            cancelText={strings.CANCEL}
+            confirmText={strings.CONFIRM}
+            title={strings.SELECT_DATE}
           />
         </View>
         <View style={{ height: moderateScaleVertical(95) }} />

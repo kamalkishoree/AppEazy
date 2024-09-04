@@ -1970,6 +1970,9 @@ function ChooseVechile({ navigation, route }) {
                 style={{ width: width - 20, height: height / 4.4 }}
                 onConfirm={date => onDateSet(date)}
                 onCancel={() => updateState({ isScheduleModalVisible: false })}
+                cancelText={strings.CANCEL}
+                confirmText={strings.CONFIRM}
+                title={strings.SELECT_DATE}
             />
 
 

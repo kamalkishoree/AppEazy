@@ -401,7 +401,7 @@ export default function EcomLangCurrency({ route, navigation }) {
                     }}
                     // showRightIcon={false}
                     showVoiceRecord={false}
-                    placeholder={`Search ${renderType}`}
+                    placeholder={`${strings.SEARCH} ${renderType}`}
                     onChangeText={(text) => filterData(text)}
                     searchValue={serachText}
                 />
