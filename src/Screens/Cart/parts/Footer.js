@@ -733,7 +733,7 @@ function Footer(props) {
                 : styles.priceItemLabel
             }
           >
-            {"Service Fee"}
+            {strings.SERVICE_FEE}
           </Text>
           <Text
             style={

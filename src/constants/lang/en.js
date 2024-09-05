@@ -1244,5 +1244,7 @@ Amount`,
   NO_DEVICES:"No Devices",
   CONNECTED:"Connected",
   EMAIL_IS_NOT_VALID:"Email is not in valid format",
-  NAME_IS_NOT_VALID:"Name is not in valid format"
+  NAME_IS_NOT_VALID:"Name is not in valid format",
+  SERVICE_FEE:"Service Fee",
+  QR_CODE:"QR Code"
 };

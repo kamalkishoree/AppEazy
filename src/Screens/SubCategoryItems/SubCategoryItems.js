@@ -982,6 +982,8 @@ export default function SubcategoryVendor({ navigation, route }) {
               <View style={{}}>
                 {console.log(dataProvider,"dataProviderdataProvider")}
                 {dataProvider.map((val, i) => {
+                  console.log(val?.translations[0]?.title ,"sdfsdfdf" );
+                  
                   if (isEmpty(val?.data)) {
                     return (
                       <></>
@@ -1003,7 +1005,7 @@ export default function SubcategoryVendor({ navigation, route }) {
                         fontFamily: fontFamily.regular,
                         color: i == flatIndex ? colors.white : colors.black,
                         textAlign: 'center'
-                      }}>{val?.title == 'NavCategories' ? strings.CATEGORIES : val?.title}</Text>
+                      }}>{val?.title == 'NavCategories' ? strings.CATEGORIES :!!val?.translations[0]?.title? val?.translations[0]?.title : val?.title}</Text>
                     </TouchableOpacity>
                   )
                 })}
