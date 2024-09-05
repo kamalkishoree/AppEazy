@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\v1\BaseController;
 use App\Http\Controllers\Front\FrontController;
-use App\Http\Controllers\Front\WalletController;
+use App\Http\Controllers\Api\v1\WalletController;
 use App\Http\Controllers\Front\UserSubscriptionController;
 use App\Models\{User, UserVendor, Cart, CartAddon, CartCoupon, CartProduct, CartProductPrescription, CartDeliveryFee, Client, ClientPreference, Order, OrderProduct, OrderProductAddon, OrderProductPrescription, VendorOrderStatus, OrderVendor, OrderTax, SavedCards, SubscriptionPlansUser};
 use Illuminate\Support\Facades\Log;
@@ -346,9 +346,9 @@ class PaymentResourceController extends BaseController
                 return $this->successResponse($order, __('Order placed successfully.'), 200);
                 
             } elseif($payment_form == 'wallet'){
-               // $walletController = new WalletController();
-                // $result  =  $this->creditMyWallet($parameters);
-                // $returnUrl = $result;
+                $walletController = new WalletController();
+                $result  =  $this->creditMyWallet($parameters);
+                $returnUrl = $result;
                 return $this->successResponse('', __('Wallet has been credited successfully'), 200);
             }
             elseif($payment_form == 'tip'){
@@ -382,40 +382,40 @@ class PaymentResourceController extends BaseController
     }
 
     // Credit My Wallet
-    // public function creditMyWallet($parameters)
-    // {   
-    //     $transactionId = $parameters['transaction_id'];
+    public function creditMyWallet($parameters)
+    {   
+        $transactionId = $parameters['transaction_id'];
 
-    //     $user = Auth::user();
-    //     if($user){
-    //         $credit_amount = $parameters['total_amount'];
-    //         $wallet = $user->wallet;
-    //         if ($credit_amount > 0) {
-    //             $wallet->depositFloat($credit_amount, ['Wallet has been <b>Credited</b> by transaction reference <b>'.$transactionId.'</b>']);
+        $user = Auth::user();
+        if($user){
+            $credit_amount = $parameters['total_amount'];
+            $wallet = $user->wallet;
+            if ($credit_amount > 0) {
+                $wallet->depositFloat($credit_amount, ['Wallet has been <b>Credited</b> by transaction reference <b>'.$transactionId.'</b>']);
 
-    //             $payment = new Payment();
-    //             $payment->date = date('Y-m-d');
-    //             $payment->user_id = $user->id;
-    //             $payment->transaction_id = $parameters['transaction_id'];
-    //             $payment->payment_option_id =  $parameters['payment_option_id'];
-    //             $payment->balance_transaction = $credit_amount;
-    //             $payment->type = 'wallet_topup';
-    //             $payment->save();
+                $payment = new Payment();
+                $payment->date = date('Y-m-d');
+                $payment->user_id = $user->id;
+                $payment->transaction_id = $parameters['transaction_id'];
+                $payment->payment_option_id =  $parameters['payment_option_id'];
+                $payment->balance_transaction = $credit_amount;
+                $payment->type = 'wallet_topup';
+                $payment->save();
 
-    //             $transactions = Transaction::where('payable_id', $user->id)->get();
-    //             $response['wallet_balance'] = $wallet->balanceFloat;
-    //             $response['transactions'] = $transactions;
-    //             $message = 'Wallet has been credited successfully';
-    //             return $this->successResponse($response, $message, 201);
-    //         }
-    //         else{
-    //             return $this->errorResponse('Amount is not sufficient', 402);
-    //         }
-    //     }
-    //     else{
-    //         return $this->errorResponse('Invalid User', 402);
-    //     }
-    // }
+                $transactions = Transaction::where('payable_id', $user->id)->get();
+                $response['wallet_balance'] = $wallet->balanceFloat;
+                $response['transactions'] = $transactions;
+                $message = 'Wallet has been credited successfully';
+                return $this->successResponse($response, $message, 201);
+            }
+            else{
+                return $this->errorResponse('Amount is not sufficient', 402);
+            }
+        }
+        else{
+            return $this->errorResponse('Invalid User', 402);
+        }
+    }
 
 
 }

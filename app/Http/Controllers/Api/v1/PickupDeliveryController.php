@@ -179,6 +179,11 @@ class PickupDeliveryController extends BaseController{
                     $product->duration = decimal_format($tags_price['duration']??0);
                     $product->min_tags_price = decimal_format($tags_price['min_delivery_fee']??0);
                     $product->max_tags_price = decimal_format($tags_price['max_delivery_fee']??0);
+                    $product->agent_distance   = $tags_price['agent_distance']??0;
+                    $product->agent_distance_type = $tags_price['agent_distance_type']??0;
+                    $product->agent_arrival_time = sprintf('%s', !empty($arrival_time = $tags_price['agent_arrival_time'] ?? '') ? $arrival_time : '');
+
+
 
                     $product->seats_for_booking = ($product->seats_for_booking > 0)?$product->seats_for_booking:1;
                     if(isset($request->is_cab_pooling) && $request->is_cab_pooling==1 && !empty($preferences) && $preferences->is_cab_pooling == 1)
@@ -585,8 +590,11 @@ class PickupDeliveryController extends BaseController{
                         ['form_params' => ($postdata)]
                     );
                     $response = json_decode($res->getBody(), true);
+                    // pr($response);
+
                     if($response && $response['message'] == 'success'){
-                        return array('delivery_fee' => $response['total'], 'toll_fee' => isset($response['toll_fee'])?((!empty($product) && $product->is_toll_tax == 1)?$response['toll_fee']:0.00):0.00, 'distance' => isset($response['total_distance']) ? $response['total_distance'] : 0, 'duration' => isset($response['total_duration']) ? $response['total_duration'] :0, 'min_delivery_fee' => isset($response['total_minimum']) ? $response['total_minimum'] : 0, 'max_delivery_fee' => isset($response['total_maximum']) ? $response['total_maximum'] : 0);
+                        return array(
+                            'agent_distance_type'=>@$response['agent_distance_type'],'agent_arrival_time'=>@$response['agent_arrival_time'],'agent_distance'=>@$agent_distance, 'delivery_fee' => $response['total'], 'toll_fee' => isset($response['toll_fee'])?((!empty($product) && $product->is_toll_tax == 1)?$response['toll_fee']:0.00):0.00, 'distance' => isset($response['total_distance']) ? $response['total_distance'] : 0, 'duration' => isset($response['total_duration']) ? $response['total_duration'] :0, 'min_delivery_fee' => isset($response['total_minimum']) ? $response['total_minimum'] : 0, 'max_delivery_fee' => isset($response['total_maximum']) ? $response['total_maximum'] : 0);
                     }else{
                         return array('delivery_fee' => 0, 'toll_fee' => 0, 'distance' => 0, 'duration' => 0, 'min_delivery_fee' => 0, 'max_delivery_fee' => 0);
                     }
@@ -615,7 +623,7 @@ class PickupDeliveryController extends BaseController{
      public function createOrder(Request $request){
 
         // \Log::info('request data');
-        // \Log::info($request->all());
+        Log::info($request->all());
         DB::beginTransaction();
         try {
             $user = Auth::user();

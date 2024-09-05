@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponser;
 use App\Models\{User, Transaction, Payment, PayoutOption, Vendor};
 use App\Http\Controllers\Controller;
-
+use Log;
 class WalletController extends Controller{
     use ApiResponser;
 
@@ -19,9 +19,33 @@ class WalletController extends Controller{
         $user = User::with('country')->find($user->id);
         $paginate = $request->has('limit') ? $request->limit : 12;
         $transactions = Transaction::where('payable_id', $user->id)->orderBy('id', 'desc')->paginate($paginate);
+        $meta = "";
         foreach($transactions as $trans){
-            $trans->meta = json_decode($trans->meta);
+            $trans->meta = json_decode($trans->meta,true);
+            $trans->meta = $trans->meta[0];
+            if(str_contains($trans->meta,'</b>'))
+            {
+                $trans->meta = str_replace('</b>','',$trans->meta);
+            }
+            if(str_contains($trans->meta,'<b>'))
+            {
+                $trans->meta = str_replace('<b>','',$trans->meta);
+            }
+            if(str_contains($trans->meta,'reference'))
+            {
+                $meta = explode('reference', $trans->meta);
+                $trans->meta = __($meta[0]) . __("reference").@$meta[1];
+
+            }
+            elseif(str_contains($trans->meta,'number'))
+            {
+                $meta = explode('number', $trans->meta);
+                $trans->meta = __($meta[0]) ." ". __("number").@$meta[1];
+
+            }
+            $trans->type = __($trans->type);
             $trans->amount = sprintf("%.2f", $trans->amount / 100);
+
         }
         $data = ['wallet_amount' => $user->balanceFloat, 'transactions' => $transactions];
         return $this->successResponse($data, '', 200);
@@ -31,6 +55,8 @@ class WalletController extends Controller{
     # credit wallet set
     public function creditMyWallet(Request $request)
     {
+        Log::info('walllet2');
+
         if($request->has('auth_token')){
             $user = User::whereHas('device',function  ($qu) use ($request){
                 $qu->where('access_token', $request->auth_token);
