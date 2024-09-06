@@ -291,13 +291,30 @@ export default function TaskCompleteDocument({ route, navigation }) {
   };
 
   const updateQRcodeScan = data => {
-    console.log(JSON.parse(data?.data), 'data>>>>>data11',taskDetail,JSON.parse(data?.data)==taskDetail?.order?.order_number);
-    if(JSON.parse(data?.data)?.id==taskDetail?.order?.order_number){
-      updateState({
-        qrCode: JSON.parse(data?.data)?.id
-      });
-    }else{
-      showError("Order Id is not correct")
+    // console.log(JSON.parse(data?.data), 'data>>>>>data11',taskDetail,JSON.parse(data?.data)==taskDetail?.order?.order_number);
+    // if(JSON.parse(data?.data)?.id==taskDetail?.order?.order_number){
+    //   updateState({
+    //     qrCode: JSON.parse(data?.data)?.id
+    //   });
+    // }else{
+    //   showError("Order Id is not correct")
+    // }
+    try {
+      const parsedData = JSON.parse(data?.data);
+      
+      if (parsedData && typeof parsedData === 'object') {
+        if (parsedData?.id === taskDetail?.order?.order_number) {
+          updateState({
+            qrCode: parsedData?.id
+          });
+        } else {
+          showError("Order Id is not correct");
+        }
+      } else {
+        showError("Invalid QR code data");
+      }
+    } catch (e) {
+      showError("Invalid QR code format");
     }
     
   };
