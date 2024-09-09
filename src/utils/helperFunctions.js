@@ -112,7 +112,7 @@ const showError = (message, duration = 1850) => {
   console.log(message, 'THIS IS MESSAGE');
 
   showMessage({
-    message: 'Error',
+    message: strings.ERROR,
     description: message,
     type: 'default',
     backgroundColor: colors.themeColor, // background color

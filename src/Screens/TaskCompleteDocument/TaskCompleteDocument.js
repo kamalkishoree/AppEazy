@@ -1161,7 +1161,7 @@ export default function TaskCompleteDocument({ route, navigation }) {
               {appIds.weTogether == getBundleId() || appIds.bumprkar == getBundleId() ? 'Miles' : ' KM'}
             </Text>
           </View>
-          <View>
+          <View >
             <Text style={styles.distanceTimeTitleTextStyle}>
               {strings.TOTALTIME}
             </Text>
@@ -1172,6 +1172,18 @@ export default function TaskCompleteDocument({ route, navigation }) {
             </Text>
           </View>
         </View>
+
+        <View  style={{paddingHorizontal:moderateScale(34)}} >
+            <Text style={styles.distanceTimeTitleTextStyle}>
+              {strings.CASHTOBECOLLECTED}
+            </Text>
+            <Text style={styles.distanceTimeTextStyle}>
+              {taskDetail?.order?.cash_to_be_collected
+                ? Number(taskDetail?.order?.cash_to_be_collected).toFixed(2)
+                : Number(totalTravelData?.order?.amount).toFixed(2)}
+            </Text>
+          </View>
+       
         <View style={styles.modealBottomContainer} />
         <View style={styles.modalBottomButtonContainer}>
           <TouchableOpacity onPress={closeModal}>
@@ -1394,8 +1406,6 @@ export default function TaskCompleteDocument({ route, navigation }) {
           <ButtonComponent buttonTitle={strings.DONE} onPress={completeAllTask} />
         </View>
       </KeyboardAwareScrollView>
-
-
 
 
       <ModalView isVisible={isModalVisible} modalMainContent={modalMainView} />

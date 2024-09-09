@@ -203,11 +203,11 @@ const AddressBottomSheet = ({
         addressTypeArray: [
           {
             id: 1,
-            lable: "Home",
+            lable:strings.HOME ,
             icon: imagePath.icHomeBlack,
           },
-          { id: 2, lable: "Work", icon: imagePath.workInActive },
-          { id: 3, lable: "Others", icon: imagePath.workInActive },
+          { id: 2, lable:strings.WORK , icon: imagePath.workInActive },
+          { id: 3, lable:strings.OTHERS , icon: imagePath.workInActive },
         ],
         address_type: updateData?.type ? updateData?.type : 1,
         houseNo: '',

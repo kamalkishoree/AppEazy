@@ -764,14 +764,14 @@ export default function DashBoard({ route, navigation }) {
                   isLoading={isLoading}
                   message={
                     selectedOption == 2
-                      ? 'No Pooling Suggestions Yet'
+                      ? strings.NO_POOLING_SUGGESTIONS_YET
                       : getBundleId() == appIds.tdc
                       ? strings.NOTRIP
                       : strings.NOTASK
                   }
                   subMessage={
                     selectedOption == 2
-                      ? 'You have no pooling suggestions . We’ll notify you when new pooling suggestion arrive.'
+                      ?  strings.YOU_HAVE_NO_POOLING_SUGGESTIONS_WE_WILL
                       : strings.NOTASKASSIGNED
                   }
                   containerStyle={{ backgroundColor: colors.backGround }}
@@ -783,14 +783,14 @@ export default function DashBoard({ route, navigation }) {
               isLoading={isLoading}
               message={
                 selectedOption == 2
-                  ? 'No Pooling Suggestions Yet'
+                  ? strings.NO_POOLING_SUGGESTIONS_YET
                   : getBundleId() == appIds.tdc
                   ? strings.NOTRIP
                   : strings.NOTASK
               }
               subMessage={
                 selectedOption == 2
-                  ? 'You have no pooling suggestions . We’ll notify you when new pooling suggestion arrive.'
+                  ? strings.YOU_HAVE_NO_POOLING_SUGGESTIONS_WE_WILL
                   : strings.NOTASKASSIGNED
               }
               containerStyle={{ backgroundColor: colors.backGround }}

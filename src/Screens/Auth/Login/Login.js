@@ -268,7 +268,10 @@ export default function Login({ navigation, route }) {
             moveToNewScreen(navigationStrings.SEND_OTP, res?.data)();
           }
         })
-        .catch(errorMethod);
+        .catch(err => {
+          console.log(err,"sdflksndf");
+          errorMethod(err)
+        });
    
     }
   };

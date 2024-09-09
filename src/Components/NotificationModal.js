@@ -790,6 +790,8 @@ const NotificationModal = () => {
     data['status'] = status;
     data['type'] = !!notifData?.batch_no ? 'B' : 'O';
 
+    console.log(data,"data>>>>>")
+
     console.log(data, clientInfo?.database_name, 'data accept reject');
     actions
       .acceptRejectTask(data, {client: clientInfo?.database_name})

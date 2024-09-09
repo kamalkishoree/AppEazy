@@ -531,4 +531,8 @@ export default {
   SERVER_ERROR: "Server Error",
   ALERT: "Alert",
   OK: "Ok",
+
+  NO_POOLING_SUGGESTIONS_YET:'No Pooling Suggestions Yet',
+  YOU_HAVE_NO_POOLING_SUGGESTIONS_WE_WILL:'You have no pooling suggestions . We\’ll notify you when new pooling suggestion arrive.'
+
 };

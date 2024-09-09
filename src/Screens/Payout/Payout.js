@@ -2,6 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   Platform,
@@ -156,7 +157,7 @@ export default function AddMoney({ navigation }) {
       <View style={styles.payoutBlockSubView}>
         <Text style={styles.payoutNumbersTxt}>
           {' '}
-          {userData?.client_preference?.currency?.symbol}
+          {userData?.client_preference?.currency?.symbol} 
 
           {numberTxt}
         </Text>
@@ -171,7 +172,13 @@ export default function AddMoney({ navigation }) {
       selectedPayoutOption: selectedPayoutOption,
     });
     if (error) {
-      alert(error);
+      Alert.alert(
+       strings.ALERT, // Title of the alert
+        error, // Message content
+        [
+          { text: strings.OK, onPress: () => console.log("OK Pressed") }
+        ]
+      );
       return;
     }
     return true;
