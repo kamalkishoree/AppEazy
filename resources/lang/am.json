@@ -1269,12 +1269,12 @@
   "No Data Found": "ዳታ አልተገኝም",
   "gift card user amount": "ከስጦታ ካርድ የተጠቀሙት መጠን",
   "gift card remaining amount": "የስጦታ ካርድ ቀሪ ሂሳብ",
-  "withdraw" : "የስጦታ",
-  "deposit" :"የስጦታ",
-  "Wallet has been Credited by transaction ":"የስጦታየስጦታ የስጦታ የስጦታየስጦታ",
-  "reference":"የስጦታ",
-  "Wallet has been debited for order ": "ዋሌት ለትዕዛዝ ቁጥር ተቀናሽ ተደርጓል",
-  "number" :"ዋሌት",
-  "Wallet has been debited cancellation charges for order " :"ሌት ለትዕዛዝ ቁጥር ተቀናሽ ተደርጓል",
-  "Wallet has been transferred with " :"ለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝለትዕዛዝ"
+  "withdraw" : "",
+  "deposit" :"",
+  "Wallet has been Credited by transaction ":"",
+  "reference":"",
+  "Wallet has been debited for order ": "",
+  "number" :"",
+  "Wallet has been debited cancellation charges for order " :"",
+  "Wallet has been transferred with " :""
 }
