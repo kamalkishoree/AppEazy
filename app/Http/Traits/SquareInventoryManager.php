@@ -45,17 +45,17 @@ trait SquareInventoryManager{
     {
       DB::beginTransaction();
       try{
-        $product = Product::with(['media.image', 'primary', 'category.cat', 'vendor','brand','variant', 'variant.set', 'variantSets', 'taxCategory.taxRate', 
+        $product = Product::with(['media.image', 'primary', 'category.cat', 'vendor','brand','variant', 'variant.set', 'variantSets', 'taxCategory.taxRate',
         'sets.addOnName'])->select('id', 'sku', 'is_live', 'has_variant', 'tax_category_id', 'square_item_id', 'square_item_version')
         ->where('id', $product_id)->where('is_live', 1)->first();
         if(!empty($product))
         {
-          
+
           //------https://developer.squareup.com/docs/catalog-api/build-with-catalog
-          
+
           $square_item_id = !empty($product->square_item_id) ? $product->square_item_id : '#ITEM_'.$product->id;
           $object_ids[] = $square_item_id;
-  
+
           $taxrate = $taxrateid = 0;
           $square_tax_id = '';
           if(!empty($product->taxCategory)){
@@ -68,32 +68,32 @@ trait SquareInventoryManager{
               }
             }
           }
-          
+
           //------get versions if items already exists
-          $object_versions = $this->getItemVersionFromSquarePos($object_ids);
-  
+          $object_versions = json_decode($this->getItemVersionFromSquarePos($object_ids)->getContent(), true);
+
           if(!isset($object_versions[$square_item_id]))
           {
             $square_item_id = '#ITEM_'.$product->id;
           }
-  
-  
+
+
           //------item variant object creation starts here
           $variations = [];
           foreach($product->variant as $proVariant){
-            
+
             $price_money = new \Square\Models\Money();
             $price_money->setAmount(($proVariant->price ?? 0.00) * 100);
             $price_money->setCurrency($this->ClientPreference->primary->currency->iso_code ?? 'USD');
-  
+
             if(isset($proVariant->set[0])){
               $setVName = $proVariant->set[0]->title;
             }else{
               $setVName = $product->primary->title ?? $product->title;
             }
-  
+
             $square_variant_id = (!empty($proVariant->square_variant_id) && isset($object_versions[$proVariant->square_variant_id])) ? $proVariant->square_variant_id : '#ITEM_VARIATION_'.$proVariant->id;
-            
+
             $item_variation_data = new \Square\Models\CatalogItemVariation();
             $item_variation_data->setItemId($square_item_id);
             $item_variation_data->setName($setVName);
@@ -106,8 +106,8 @@ trait SquareInventoryManager{
             }
             $item_variation_data->setStockable(true);
             $item_variation_data->setSellable(true);
-            
-  
+
+
             $catalog_object = new \Square\Models\CatalogObject('ITEM_VARIATION', $square_variant_id);
             if(isset($object_versions[$square_variant_id]) && $object_versions[$square_variant_id] !='')
             {
@@ -117,14 +117,14 @@ trait SquareInventoryManager{
             $variations[] = $catalog_object;
           }
           //------item variant object creation ends here
-  
-          
+
+
           //------item object creation starts here
           $item_data = new \Square\Models\CatalogItem();
           $item_data->setName($product->primary->title ?? $product->title);
           $item_data->setVariations($variations);
           $item_data->setProductType('REGULAR');//------https://developer.squareup.com/reference/square/enums/CatalogItemProductType
-  
+
           $catalog_object = new \Square\Models\CatalogObject('ITEM', $square_item_id);
           if(isset($object_versions[$square_item_id]) && $object_versions[$square_item_id]!=''){
             $catalog_object->setVersion($object_versions[$square_item_id]);
@@ -132,8 +132,8 @@ trait SquareInventoryManager{
           $catalog_object->setItemData($item_data);
           $objects[] = $catalog_object;
           //------item object creation ends here
-  
-  
+
+
           //------tax object creation starts here
           if($taxrate > 0){
               $tax_data = new \Square\Models\CatalogTax();//------https://developer.squareup.com/reference/square/objects/CatalogTax
@@ -141,7 +141,7 @@ trait SquareInventoryManager{
               $tax_data->setCalculationPhase('TAX_SUBTOTAL_PHASE');
               $tax_data->setInclusionType(($this->ClientPreference->is_tax_price_inclusive==1) ? 'INCLUSIVE' : 'ADDITIVE');
               $tax_data->setPercentage($taxrate);
-      
+
               $catalog_object3 = new \Square\Models\CatalogObject('TAX', $square_tax_id);
               if(isset($object_versions[$square_tax_id]) && $object_versions[$square_tax_id]!=''){
                 $catalog_object3->setVersion($object_versions[$square_tax_id]);
@@ -150,22 +150,22 @@ trait SquareInventoryManager{
               $objects[] = $catalog_object3;
           }
           //------tax object creation ends here
-        
-  
+
+
           $catalog_object_batch = new \Square\Models\CatalogObjectBatch($objects);
           $batches = [$catalog_object_batch];
-            
+
           $uniqueid = Uuid::uuid4();
           $body = new \Square\Models\BatchUpsertCatalogObjectsRequest($uniqueid, $batches);
           $api_response = $client->getCatalogApi()->batchUpsertCatalogObjects($body);
-  
+
           if($api_response->isSuccess()) {
             $resultObject = $api_response->getResult()->getObjects();
-            
+
             foreach($resultObject as $resultobjectdata){
               //------update squarepos item/version/tax id and version in respective table
               if($resultobjectdata->getType() == "ITEM"){
-  
+
                 Product::where('id', $product->id)->update(['square_item_id' => $resultobjectdata->getId(), 'square_item_version' => $resultobjectdata->getVersion()]);
                 if(!empty($product->sets)){
                   $modifierids = [];
@@ -174,7 +174,7 @@ trait SquareInventoryManager{
                   }
                   $modify = $this->applyModifierToItemSquare([$resultobjectdata->getId()], $modifierids);
                 }
-                
+
                 foreach($resultobjectdata->getItemData()->getVariations() as $variantData){
                   if($variantData->getType() == "ITEM_VARIATION" && $variantData->getItemVariationData()->getSku()!=''){
                     $variant = ProductVariant::where('product_id', $product->id)->where('sku', '=', $variantData->getItemVariationData()->getSku())->first();
@@ -185,11 +185,11 @@ trait SquareInventoryManager{
                   }
                 }
               }
-  
+
               if($resultobjectdata->getType() == "TAX" && $taxrateid > 0){
                 TaxRate::where('id', $taxrateid)->update(['square_tax_id' => $resultobjectdata->getId(), 'square_tax_version' => $resultobjectdata->getVersion()]);
               }
-  
+
             }
             DB::commit();
             return response()->json([
@@ -197,8 +197,8 @@ trait SquareInventoryManager{
                 'result'  => '',
                 'message' => __('product created/updated in Square.')
             ]);
-          } 
-          else 
+          }
+          else
           {
             DB::rollback();
             $errors = $api_response->getErrors();
@@ -208,7 +208,7 @@ trait SquareInventoryManager{
               'message' => __('There is some error while creating Item, tax and variant in Square.')
             ]);
           }
-          
+
         }
         else
         {
@@ -219,8 +219,8 @@ trait SquareInventoryManager{
             'message' => __('product and its variants not found.')
           ]);
         }
-      } 
-      catch (ApiException $e) 
+      }
+      catch (ApiException $e)
       {
         DB::rollback();
         return response()->json([
@@ -229,7 +229,7 @@ trait SquareInventoryManager{
           'message' => $e->getMessage()
         ]);
       }
-    } 
+    }
   }
 
   public function createOrUpdateModifiersSquare($addOnid)
@@ -242,15 +242,15 @@ trait SquareInventoryManager{
       DB::beginTransaction();
       try{
         $addOn = AddonSet::with(['primary', 'option.translation_one'])->where('id', $addOnid)->first();
-        
+
         if(!empty($addOn)){
-          
+
           //------item addon object creation starts here
           $square_modifier_id = !empty($addOn->square_modifier_id) ? $addOn->square_modifier_id : '#modifier_list';
           $object_versions = $this->getItemVersionFromSquarePos([$square_modifier_id]);
-          
+
           $modifiers = [];
-          
+
           foreach($addOn->option as $addonOptionData)
           {
             $price_money = new \Square\Models\Money();
@@ -258,7 +258,7 @@ trait SquareInventoryManager{
             $price_money->setCurrency($this->ClientPreference->primary->currency->iso_code ?? 'USD');
 
             $setVName = !empty($addonOptionData->translation_one) ? $addonOptionData->translation_one->title : $addonOptionData->title;
-            
+
             $modifier_data = new \Square\Models\CatalogModifier();
             $modifier_data->setName($setVName);
             $modifier_data->setPriceMoney($price_money);
@@ -274,7 +274,7 @@ trait SquareInventoryManager{
             $catalog_object->setModifierData($modifier_data);
             $modifiers[] = $catalog_object;
           }
-      
+
           $modifier_list_data = new \Square\Models\CatalogModifierList();
           $modifier_list_data->setName($addOn->primary->title);
           $modifier_list_data->setSelectionType(($addOn->max_select > 1) ? 'MULTIPLE' : 'SINGLE');
@@ -294,13 +294,13 @@ trait SquareInventoryManager{
 
           if($api_response->isSuccess()) {
             $result = $api_response->getResult();
-            
+
             $resultObject = $api_response->getResult()->getCatalogObject();
-            
+
             if($resultObject->getType() == "MODIFIER_LIST"){
 
               AddonSet::where('id', $addOn->id)->update(['square_modifier_id' => $resultObject->getId()]);
-              
+
               foreach($resultObject->getModifierListData()->getModifiers() as $modifierData){
                 if($modifierData->getType() == "MODIFIER"){
                   $modifierName = $modifierData->getModifierData()->getName();
@@ -337,9 +337,9 @@ trait SquareInventoryManager{
             'message' => __("Addon does not exists")
           ]);
         }
-        
-      } 
-      catch (ApiException $e) 
+
+      }
+      catch (ApiException $e)
       {
         DB::rollback();
         return response()->json([
@@ -347,10 +347,10 @@ trait SquareInventoryManager{
           'result'  => [],
           'message' => $e->getMessage()
         ]);
-      } 
+      }
     }
   }
-  
+
   //------get square pos verionas objects ids (item, tax..... etc) starts here
   public function getItemVersionFromSquarePos($object_ids)
   {
@@ -361,7 +361,7 @@ trait SquareInventoryManager{
       $body->setIncludeRelatedObjects(true);
 
       $api_response = $client->getCatalogApi()->batchRetrieveCatalogObjects($body);
-      
+
       $object_versions = array();
       if($api_response->isSuccess()) {
         $result = $api_response->getResult()->getObjects();
@@ -369,7 +369,7 @@ trait SquareInventoryManager{
         if($api_response->getResult()->getObjects()){
           $resultObject = $api_response->getResult()->getObjects();
           foreach($resultObject as $resultobjectdata){
-        
+
             if($resultobjectdata->getType() == "ITEM"){
               $object_versions[$resultobjectdata->getId()] = $resultobjectdata->getVersion();
               foreach($resultobjectdata->getItemData()->getVariations() as $variantData){
@@ -378,7 +378,7 @@ trait SquareInventoryManager{
                 }
               }
             }
-    
+
             if($resultobjectdata->getType() == "TAX"){
               $object_versions[$resultobjectdata->getId()] = $resultobjectdata->getVersion();
             }
@@ -514,14 +514,14 @@ trait SquareInventoryManager{
             ]);
         }
       }
-      catch (ApiException $e) 
+      catch (ApiException $e)
       {
         return response()->json([
           'status'  => 'error',
           'result'  => [],
           'message' => $e->getMessage()
         ]);
-      } 
+      }
     }
   }
 
