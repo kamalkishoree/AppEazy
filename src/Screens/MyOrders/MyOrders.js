@@ -2,6 +2,7 @@ import { cloneDeep, debounce } from "lodash";
 import React, { createRef, useCallback, useEffect, useState } from "react";
 import {
   Alert,
+  BackHandler,
   FlatList,
   Image,
   RefreshControl,
@@ -43,6 +44,7 @@ import { getBundleId } from 'react-native-device-info';
 
 
 import { enableFreeze } from "react-native-screens";
+import { useFocusEffect } from "@react-navigation/native";
 enableFreeze(true);
 
 export default function MyOrders(props) {
@@ -149,6 +151,20 @@ export default function MyOrders(props) {
   const styles = stylesFun({ fontFamily, themeColors });
 
 
+  function handleBackButtonClick() {
+    navigation.navigate(navigationStrings.HOME)
+    return true; // Prevents the default back action immediately
+  }
+  
+  useFocusEffect(
+    useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+      return () => backHandler.remove();
+    }, [navigation]),
+  );
 
 
   const updateLocalItem = (data) => {
@@ -261,7 +277,8 @@ export default function MyOrders(props) {
         orderStatus: item?.order_status,
         selectedVendor: { id: item?.vendor_id },
         showRating: item?.order_status?.current_status?.id != 6 ? false : true,
-        fromActive: selectedTab == "Active Orders", // this value use for useInterval
+        // fromActive: selectedTab == "Active Orders", // this value use for useInterval
+        fromActive: selectedTab.toLocaleLowerCase() == strings.ACTIVE_ORDERS.toLowerCase(),
       });
     }
   };
@@ -670,7 +687,7 @@ export default function MyOrders(props) {
       isLoading={isLoading}
     >
       <Header
-        noLeftIcon={!backIconShow}
+        noLeftIcon={false}
         leftIcon={
           appStyle?.homePageLayout === 2
             ? imagePath.backArrow

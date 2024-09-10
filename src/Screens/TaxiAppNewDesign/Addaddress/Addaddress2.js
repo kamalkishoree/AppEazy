@@ -1374,7 +1374,7 @@ export default function Addaddress({ navigation, route }) {
                         {strings.SEARCHED_RESULTS}
                       </Text>
                     </View>
-                    <ScrollView style={{ backgroundColor: 'red', }} >
+                    <ScrollView style={{ }} >
                       {searchResult?.data.map((item, i) => {
                         console.log(item, "itemm");
                         return renderSearchItem(item);

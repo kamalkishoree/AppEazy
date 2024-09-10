@@ -254,7 +254,8 @@ export default function OrderDetail({ navigation, route }) {
       : Communications.text(number.toString());
   };
   const isFocused = useIsFocused();
-
+  console.log(paramData?.fromActive,"paramData?.fromActive");
+  
   useInterval(
     () => {
       if (paramData?.fromActive) {
@@ -3621,6 +3622,9 @@ export default function OrderDetail({ navigation, route }) {
 
   const getHeader = () => {
     let showMapDriver = driverStatus?.tasks?.length == 2 ? true : driverStatus?.tasks[driverStatus?.tasks.length - 3]?.task_status == '4' ? true : false
+    
+      console.log(driverStatus, "dgdfgd",showMapDriver);
+      
     // let showMapDriver = false
     return (
       <View>
@@ -3916,7 +3920,7 @@ export default function OrderDetail({ navigation, route }) {
             </Text>
           </View>
         )}
-
+  {console.log(dispatcherStatus?.dispatch_traking_url,"dispatcherStatus?.dispatch_traking_url")}
         {!!orderStatus &&
           orderStatus?.current_status?.title != "Rejected" &&
           orderStatus?.current_status?.title != "Placed" &&

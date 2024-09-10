@@ -108,6 +108,7 @@ const StepIndicators_ = ({
   const allLables = labels.map((i, inx) => {
     return `${i.lable}\n${i.orderDate}`;
   });
+console.log(dispatcherStatus,"dispatcherStatusdispatcherStatus");
 
   return (
     <StepIndicator

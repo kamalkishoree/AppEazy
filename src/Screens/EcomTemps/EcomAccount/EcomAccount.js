@@ -2,6 +2,7 @@ import { BluetoothManager } from "@brooons/react-native-bluetooth-escpos-printer
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
     Alert,
+    BackHandler,
     I18nManager,
     Image,
     Linking,
@@ -38,6 +39,7 @@ import {
 } from "../../../utils/helperFunctions";
 import stylesFun from "./styles";
 import Header from "../../../Components/Header";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function EcomAccount({ navigation }) {
     const theme = useSelector((state) => state?.initBoot?.themeColor);
@@ -76,6 +78,21 @@ export default function EcomAccount({ navigation }) {
     console.log("appDataappData", appData)
     const userData = useSelector((state) => state.auth.userData);
     const { dineInType, appMainData, countryFlag } = useSelector((state) => state?.home || {});
+
+    function handleBackButtonClick() {
+        navigation.navigate(navigationStrings.HOME)
+        return true; // Prevents the default back action immediately
+      }
+      
+      useFocusEffect(
+        useCallback(() => {
+          const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButtonClick,
+          );
+          return () => backHandler.remove();
+        }, [navigation]),
+      );
 
     useEffect(() => {
         if (!!appMainData?.is_admin) {

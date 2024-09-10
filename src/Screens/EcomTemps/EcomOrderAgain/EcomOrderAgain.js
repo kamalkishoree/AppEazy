@@ -194,7 +194,8 @@ export default function EcomOrderAgain(props) {
                 orderStatus: item?.order_status,
                 selectedVendor: { id: item?.vendor_id },
                 showRating: item?.order_status?.current_status?.id != 6 ? false : true,
-                fromActive: selectedTab == "Active Orders", // this value use for useInterval
+                // fromActive: selectedTab == "Active Orders", // this value use for useInterval
+                fromActive: selectedTab == strings.ACTIVE_ORDERS, // this value use for useInterval
             });
         }
     };

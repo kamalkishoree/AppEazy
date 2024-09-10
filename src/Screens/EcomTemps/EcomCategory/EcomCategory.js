@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { BackHandler, FlatList, TouchableOpacity, View } from 'react-native';
 import { useDarkMode } from 'react-native-dynamic';
 import { useSelector } from 'react-redux';
 import WrapperContainer from '../../../Components/WrapperContainer';
@@ -24,6 +24,7 @@ import staticStrings from '../../../constants/staticStrings';
 import actions from '../../../redux/actions';
 import { getColorCodeWithOpactiyNumber, getImageUrl } from '../../../utils/helperFunctions';
 import stylesFunc from './styles';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function EcomCategory({ navigation, route }) {
     const { data = null } = route?.params || {};
@@ -81,6 +82,20 @@ export default function EcomCategory({ navigation, route }) {
         }
     })
 
+    function handleBackButtonClick() {
+        navigation.navigate(navigationStrings.HOME)
+        return true; // Prevents the default back action immediately
+      }
+      
+      useFocusEffect(
+        useCallback(() => {
+          const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButtonClick,
+          );
+          return () => backHandler.remove();
+        }, [navigation]),
+      );
 
 
     // useEffect(() => {

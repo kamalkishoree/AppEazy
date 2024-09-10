@@ -301,6 +301,20 @@ function Cart({ navigation, route }) {
   //   }, []),
   // );
 
+  function handleBackButtonClick() {
+    navigation.navigate(navigationStrings.HOME)
+    return true; // Prevents the default back action immediately
+  }
+  useFocusEffect(
+    useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+      return () => backHandler.remove();
+    }, [navigation]),
+  );
+
   const androidBackButtonHandler = () => {
     setPaymentModal(false)
     return true;
