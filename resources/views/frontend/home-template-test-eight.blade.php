@@ -257,8 +257,6 @@
 
 <!-- Shimmer Efferct End -->
 
-@if($vendor_type != 'car_rental')
-
 <!-- html code here -->
 <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#login_modal"> Launch demo modal </button>
 @if(count($banners))
@@ -913,9 +911,6 @@
 		</div>
 	</div>
 </div><!-- age-restriction end -->
-@else
-@include('frontend.yacht.rental');
-@endif
 
 <!-- footer code in layouts.store/footercontent-template-two -->
 @section('home-page')
@@ -928,10 +923,6 @@
 {{--<script type="text/javascript" src="{{asset('front-assets/js/jquery.exitintent.js')}}"></script>
 <script type="text/javascript" src="{{asset('front-assets/js/fly-cart.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/aos.js')}}"></script>--}}
-
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
-<script defer type="text/javascript" src="{{asset('front-assets/js/script.js')}}"></script>
 @endsection

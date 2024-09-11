@@ -350,6 +350,7 @@ class FrontController extends Controller
         if ($categories) {
             $categories = $this->buildTree($categories);
         }
+        pr($categories);
 
         return $categories;
     }

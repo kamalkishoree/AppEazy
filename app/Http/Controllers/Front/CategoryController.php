@@ -389,7 +389,7 @@ class CategoryController extends FrontController{
         }
         elseif($service_type == 'car_rental')
         {
-          return view('frontend.yacht.car-rental')->with([ 'service'=>'','pick_drop_time'=>'','pickup_time' =>'','drop_time'=>'','maxPrice'=>$maxPrice,'listData' => $listData, 'category' => $category, 'navCategories' => $navCategories, 'newProducts' => $newProducts, 'variantSets' => $variantSets, 'productAttributes'=> $productAttributes]);
+          return view('frontend.yacht.rental')->with([ 'service'=>'','pick_drop_time'=>'','pickup_time' =>'','drop_time'=>'','maxPrice'=>$maxPrice,'listData' => $listData, 'category' => $category, 'navCategories' => $navCategories, 'newProducts' => $newProducts, 'variantSets' => $variantSets, 'productAttributes'=> $productAttributes]);
         }
         else{
 

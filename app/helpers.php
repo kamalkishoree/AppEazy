@@ -1696,7 +1696,6 @@ if (!function_exists('getServiceTypesCategory')) {
             } */
 
             // pr($service_types);
-
             $types =  $types->whereIn('service_type', $service_types);
           
             $types_id = $types->pluck('id')->toArray();

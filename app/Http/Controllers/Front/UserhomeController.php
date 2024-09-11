@@ -487,12 +487,12 @@ class UserhomeController extends FrontController
                 $categoriesSlug = $navCategories[0]->slug;
                 return redirect()->route('categoryDetail',$categoriesSlug);
             }
-                // if($vendor_type =='car_rental')
-                // {
-                //     $categoriesSlug = $navCategories[0]->slug;
-                //     return redirect()->route('categoryDetail',$categoriesSlug);
+                if($vendor_type =='car_rental')
+                {
+                    $categoriesSlug = 'car_rental';
+                    return redirect()->route('categoryDetail',$categoriesSlug);
 
-                // }
+                }
             $carbon_now = Carbon::now();
 
             $banners = $this->getBannersForHomePage($client_preferences, 'banners', $latitude, $longitude);

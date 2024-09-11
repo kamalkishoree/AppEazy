@@ -1,9 +1,13 @@
-
+@extends('layouts.store', [
+'title' => 'test',
+])
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/rental.css') }}">
 <link href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+@endsection
 
-
+@section('content')
 <section class="banner">
     <div class="container">
         <div class="row">
@@ -145,6 +149,7 @@
     </div>
     @include('layouts.store.remove_cart_model')
 </section>
+@endsection
 
 @section('script')
 {{-- <script src="{{asset('js/custom.js')}}"></script>
@@ -166,7 +171,8 @@
 <script type="text/javascript" src="{{asset('front-assets/js/jquery.elevatezoom.js')}}"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
-<script defer type="text/javascript" src="{{asset('front-assets/js/script.js')}}"></script>
+<script src="{{ asset('js/car-rental.js') }}"></script>
+
 {{-- <script>
     var cart_product_url= "{{ route('getCartProducts') }}";
     var delete_cart_product_url= "{{ route('deleteCartProduct') }}";
@@ -238,5 +244,4 @@
     }
     bindLatestCoords(userLatitude, userLongitude);
 </script> --}}
-  <script src="{{ asset('js/car-rental.js') }}"></script>
 @endsection
