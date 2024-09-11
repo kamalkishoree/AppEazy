@@ -1276,5 +1276,9 @@
   "Wallet has been debited for order ": "",
   "number" :"",
   "Wallet has been debited cancellation charges for order " :"",
-  "Wallet has been transferred with " :""
+  "Wallet has been transferred with " :"",
+  "Profile image updated successfully." : "eeee",
+  "invalid password":"",
+  "you can not add more products":"",
+  "user not found" :""
 }
