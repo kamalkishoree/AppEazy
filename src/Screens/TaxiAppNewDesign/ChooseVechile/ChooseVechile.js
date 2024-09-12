@@ -151,7 +151,10 @@ function ChooseVechile({ navigation, route }) {
         pickedUpDate: paramData?.datetime?.slectedDate
             ? paramData?.datetime?.slectedDate
             : null,
-        selectedPayment: {},
+        selectedPayment: {code: "cod", credentials:"{", id: 1,
+            off_site :0,
+            title:"Cash",
+            title_lng:"Cash" },
         taskInstruction: '',
         allSubmittedAnswers: null,
         indicatorLoader: false,
@@ -919,8 +922,9 @@ function ChooseVechile({ navigation, route }) {
             showBidPriceModal: cabBookingType == 'bidRide' ? true : false
         });
         if (cabBookingType !== 'bidRide') {
-            setIsCabBooking(true)
+            // setIsCabBooking(true)
             setSelectedVehcle(item)
+            _onMoveNextToPaymentScreen()
         }
         setBidRidePrice(Number(item?.tags_price))
     };

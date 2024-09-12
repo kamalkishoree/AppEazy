@@ -51,9 +51,16 @@ const SearchPlaces = ({
   index = 0,
   isTaxiFlow = false,
 }) => {
-  const { appData, currencies, languages, themeColor, themeToggle } = useSelector(
+  const { appData, currencies,primary_country, languages, themeColor, themeToggle } = useSelector(
     (state) => state?.initBoot,
   );
+
+  let state = useSelector(
+    (state) => state?.initBoot,
+  );
+
+  console.log(state,"statestate>>>>");
+  
 
   const darkthemeusingDevice = useDarkMode();
   const isDarkMode = themeToggle ? darkthemeusingDevice : themeColor;
@@ -88,6 +95,7 @@ const SearchPlaces = ({
         data,
         mapKey,
         curLatLng,
+        primary_country,
         RNLocalize.getCountry(),
       );
       if (res && !!res.predictions) {

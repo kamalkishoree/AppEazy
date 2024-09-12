@@ -62,7 +62,7 @@ import { tokenConverterPlusCurrencyNumberFormater } from "../../../utils/commonF
 import { appIds } from "../../../utils/constants/DynamicAppKeys";
 import { mapStyleGrey } from "../../../utils/constants/MapStyle";
 import SearchDriver from "../ChooseCarTypeAndTime/SearchDriver";
-
+import QRCode from 'react-native-qrcode-svg';
 import { enableFreeze } from "react-native-screens";
 enableFreeze(true);
 
@@ -2522,6 +2522,24 @@ function PickupTaxiOrderDetail({ navigation, route }) {
               </View>
             )}
         </View>
+
+        <View style={{flexDirection:'row',
+        marginTop:moderateScaleVertical(14),
+          justifyContent:'space-between', marginHorizontal:moderateScale(10)}}>
+         <Text style={{fontSize: textScale(14),
+              marginBottom: moderateScaleVertical(12),
+              color: isDarkMode
+                ? MyDarkTheme.colors.text
+                : colors.blackOpacity86,}}>{strings.QR_CODE}</Text>
+          <QRCode value={JSON.stringify({
+                  id: `${orderFullDetail?.order?.order_number
+                    ? orderFullDetail?.order?.order_number
+                    : paramData?.orderDetail?.order_number
+                    }`,
+                    })}
+                  ecl="H"
+                  size={moderateScale(width - 300)}/>
+         </View>
       </View >
     )
   }

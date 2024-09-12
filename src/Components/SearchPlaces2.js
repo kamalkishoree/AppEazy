@@ -51,7 +51,7 @@ const SearchPlaces = ({
   index = 0,
   isTaxiFlow = false,
 }) => {
-  const { appData, currencies, languages, themeColor, themeToggle } = useSelector(
+  const { appData, currencies, languages, themeColor,primary_country, themeToggle } = useSelector(
     (state) => state?.initBoot,
   );
 
@@ -88,6 +88,7 @@ const SearchPlaces = ({
         data,
         mapKey,
         curLatLng,
+        primary_country,
         RNLocalize.getCountry(),
       );
       if (res && !!res.predictions) {

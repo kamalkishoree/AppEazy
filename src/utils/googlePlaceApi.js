@@ -5,11 +5,13 @@ import { google_map_key } from '../constants/constants';
 import { getBuildId } from 'react-native-device-info';
 import { appIds } from './constants/DynamicAppKeys';
 
-export const googlePlacesApi = async (data, key, latLng, region) => {
+export const googlePlacesApi = async (data, key, latLng, country, region ) => {
+    console.log(country?.primary_country?.code,"countrycountry>>>",region);
+    
     try {
-        let query = getBuildId() == appIds?.appi ? '&components=country:ARG' :''
+        let query = !!country?.primary_country?.code ? country?.primary_country?.code : region
         let res = await fetch(
-            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${data}&location=${latLng}&key=${key}${query}`,
+            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${data}&location=${latLng}&key=${key}&components=country:${query}`,
             {
                 method: "GET",
             }

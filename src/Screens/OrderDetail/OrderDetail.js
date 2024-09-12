@@ -254,8 +254,8 @@ export default function OrderDetail({ navigation, route }) {
       : Communications.text(number.toString());
   };
   const isFocused = useIsFocused();
-  console.log(paramData?.fromActive,"paramData?.fromActive");
-  
+  console.log(paramData?.fromActive, "paramData?.fromActive");
+
   useInterval(
     () => {
       if (paramData?.fromActive) {
@@ -2771,19 +2771,21 @@ export default function OrderDetail({ navigation, route }) {
                 : colors.blackOpacity86,
             }}
           />
-         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-         <Text style={{fontSize: textScale(14),
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{
+              fontSize: textScale(14),
               marginBottom: moderateScaleVertical(12),
               color: isDarkMode
                 ? MyDarkTheme.colors.text
-                : colors.blackOpacity86,}}>{strings.QR_CODE}</Text>
-          <QRCode value={JSON.stringify({
-                  id: `${cartData?.order_number}`,
-                    })}
-                  ecl="H"
-                  size={moderateScale(width - 300)}/>
-         </View>
-          
+                : colors.blackOpacity86,
+            }}>{strings.QR_CODE}</Text>
+            <QRCode value={JSON.stringify({
+              id: `${cartData?.order_number}`,
+            })}
+              ecl="H"
+              size={moderateScale(width - 300)} />
+          </View>
+
           {console.log(appData, "tippppppppp")}
           {console.log(appData?.profile?.preferences?.tip_after_order, "tippppppppp2222")}
           {!!(
@@ -3622,9 +3624,9 @@ export default function OrderDetail({ navigation, route }) {
 
   const getHeader = () => {
     let showMapDriver = driverStatus?.tasks?.length == 2 ? true : driverStatus?.tasks[driverStatus?.tasks.length - 3]?.task_status == '4' ? true : false
-    
-      console.log(driverStatus, "dgdfgd",showMapDriver);
-      
+
+    console.log(driverStatus, "dgdfgd", showMapDriver);
+
     // let showMapDriver = false
     return (
       <View>
@@ -3920,7 +3922,7 @@ export default function OrderDetail({ navigation, route }) {
             </Text>
           </View>
         )}
-  {console.log(dispatcherStatus?.dispatch_traking_url,"dispatcherStatus?.dispatch_traking_url")}
+        {console.log(dispatcherStatus?.dispatch_traking_url, "dispatcherStatus?.dispatch_traking_url")}
         {!!orderStatus &&
           orderStatus?.current_status?.title != "Rejected" &&
           orderStatus?.current_status?.title != "Placed" &&
