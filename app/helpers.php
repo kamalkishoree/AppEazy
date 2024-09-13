@@ -1619,8 +1619,6 @@ if (!function_exists('getServiceTypesCategory')) {
             if($client_preference ==NULL){
                 $client_preference = ClientPreference::select('business_type', 'p2p_check')->first();
             }
-            
-            
 
             $types =   Type::query();
 
@@ -1648,7 +1646,7 @@ if (!function_exists('getServiceTypesCategory')) {
                 $alltypes['p2p'] = ['p2p', 'rental_service'];
             }
             
-            if ($vendorType == 'delivery' || $vendorType == 'dine_in' || $vendorType == 'takeaway' || $vendorType == 'rental' || $vendorType == 'pick_drop' || $vendorType == 'on_demand' || $vendorType == 'laundry' || $vendorType == 'appointment' || $vendorType == 'p2p' || $vendorType == 'car_rental') {
+            if ($vendorType == 'delivery' || $vendorType == 'dine_in' || $vendorType == 'takeaway' || $vendorType == 'rental' || $vendorType == 'pick_drop' || $vendorType == 'on_demand' || $vendorType == 'laundry' || $vendorType == 'appointment' || $vendorType == 'p2p') {
                 $service_types = $alltypes[$vendorType];
             }
 
@@ -1658,6 +1656,10 @@ if (!function_exists('getServiceTypesCategory')) {
             $getAdditionalPreference = getAdditionalPreference(['is_rental_weekly_monthly_price']);
             if($client_preference->business_type == 'p2p' && @$getAdditionalPreference['is_rental_weekly_monthly_price']){
                 $service_types = $alltypes['p2p'];
+            }
+            if( $vendorType == 'car_rental')
+            {
+                $service_types = [];
             }
           
             /* if ($vendorType == "delivery" || $vendorType == "dine_in" || $vendorType == "takeaway") {
@@ -1696,6 +1698,7 @@ if (!function_exists('getServiceTypesCategory')) {
             } */
 
             // pr($service_types);
+
             $types =  $types->whereIn('service_type', $service_types);
           
             $types_id = $types->pluck('id')->toArray();

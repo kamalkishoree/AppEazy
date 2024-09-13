@@ -209,7 +209,7 @@ class FrontController extends Controller
 
     public function categoryNav($lang_id,$only_id = false)
     {
-        // return $this->categoryNavOld($lang_id,$only_id);
+        return $this->categoryNavOld($lang_id,$only_id);
 
         $preferences = session()->get('preferences');
         $vendorType = session()->get('vendorType');
@@ -339,18 +339,23 @@ class FrontController extends Controller
                                 ->where('cts.language_id', $lang_id)
                                 ->where(function ($qrt) use($lang_id,$primary){
                                     $qrt->where('cts.language_id', $lang_id)->orWhere('cts.language_id',$primary->language_id);
-                                })->whereNull('categories.vendor_id')
+                                })->whereNull('categories.vendor_id');
                               //  ->orderBy('categories.position', 'asc')
-                                ->orderBy('categories.parent_id', 'asc')->groupBy('categories.id');
+                                if($vendorType == 'dine_in')
+                                {
+                                    $categories = $categories->where('slug','Restaurant');
+                                }        
+                              
+                             $categories = $categories->orderBy('categories.parent_id', 'asc')->groupBy('categories.id');
         if($only_id){
            return $categories = $categories->select('categories.id')->pluck('id')->toArray();
         }else{
             $categories = $categories->get();
+          
         }
         if ($categories) {
             $categories = $this->buildTree($categories);
         }
-        pr($categories);
 
         return $categories;
     }

@@ -21,7 +21,7 @@ class Order extends Model implements Auditable
     }
     public function ordervendor()
     {
-        return $this->hasOne('App\Models\OrderVendor', 'order_id', 'id')->select('*', 'dispatcher_status_option_id as dispatcher_status');
+        return $this->hasOne('App\Models\OrderVendor', 'order_id', 'id');
     }
     
     public function orderVendorProduct()
@@ -30,7 +30,7 @@ class Order extends Model implements Auditable
     }
     public function vendors()
     {
-        return $this->hasMany('App\Models\OrderVendor', 'order_id', 'id')->select('*', 'dispatcher_status_option_id as dispatcher_status');
+        return $this->hasMany('App\Models\OrderVendor', 'order_id', 'id');
     }
     public function user()
     {

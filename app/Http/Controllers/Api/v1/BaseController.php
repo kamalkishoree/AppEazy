@@ -16,7 +16,7 @@ use GuzzleHttp\Client as GCLIENT;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Twilio\Rest\Client as TwilioClient;
-use App\Models\{Client, Category, Product,UserSavedPaymentMethods, ClientPreference, ClientCurrency, Wallet, UserLoyaltyPoint, LoyaltyCard, Order, Nomenclature, ProductVariant, ServiceArea, Vendor, VendorCategory};
+use App\Models\{Client, Category, Product,UserSavedPaymentMethods, ClientPreference, ClientCurrency, ClientLanguage, Wallet, UserLoyaltyPoint, LoyaltyCard, Order, Nomenclature, ProductVariant, ServiceArea, Vendor, VendorCategory};
 use Illuminate\Support\Facades\Crypt;
 use JWT\Token;
 
@@ -324,6 +324,7 @@ class BaseController extends Controller{
 
     public function categoryNav($lang_id, $vends=[],$type = 'delivery', $request = []) {
 
+        // return $this->newCategoryNav($lang_id, $vends=[],$type, $request = []);
         $categoryTypes = getServiceTypesCategory($type);
 
         // pr($categoryTypes);
@@ -406,8 +407,14 @@ class BaseController extends Controller{
                         ->where('categories.status', '!=', $status)
                         ->where('categories.is_core', 1)
                         ->where('categories.is_visible', 1)
-                        ->where('cts.language_id', $lang_id)
-                        ->orderBy('categories.parent_id', 'asc')
+                        ->where('cts.language_id', $lang_id);
+
+                        if($type == 'dine_in')
+                        {
+                            $categories = $categories->where('slug','Restaurant');
+                        }        
+                      
+                        $categories = $categories->orderBy('categories.parent_id', 'asc')
                         ->whereNull('categories.vendor_id')
                         ->withCount('products')
                         ->orderBy('categories.position', 'asc')
@@ -428,6 +435,74 @@ class BaseController extends Controller{
         }
         return $categories;
     }
+
+ public function newCategoryNav($lang_id, $vends=[],$type = 'delivery', $request = [])
+    {
+        $categoryTypes = getServiceTypesCategory($type);
+        // $getAdditionalPreference = getAdditionalPreference(['is_rental_weekly_monthly_price']);
+        $preferences = ClientPreference::select('is_hyperlocal', 'client_code', 'language_id', 'celebrity_check')->first();
+        // DB::enableQueryLog();
+        $primary     = ClientLanguage::orderBy('is_primary','desc')->first();
+
+        $categories  = Category::join('category_translations as cts', 'categories.id', 'cts.category_id')
+                                 ->select('categories.id', 'categories.icon', 'categories.icon_two' , 'categories.slug', 'categories.parent_id','cts.name','categories.type_id')
+                                 ->whereIn('categories.type_id',$categoryTypes )
+                                 ->orderBy('position')->distinct('categories.slug');
+         $status = $this->field_status;
+         $include_categories = [4,8]; // type 4 for brands
+         $celebrity_check = 0;
+         if ($preferences) {
+                if($celebrity_check == 0){
+                  $categories = $categories->where('categories.type_id', '!=', 5);
+                    }
+                 
+                 // $categories = $categories->leftJoin('vendor_categories as vct', 'categories.id', 'vct.category_id')
+                 //     ->where(function ($q1) use ($vendors , $include_categories) {
+                 //         $q1->whereIn('vct.vendor_id', $vendors)
+                 //             ->where('vct.status', 1)
+                 //             ->orWhere(function ($q2) use($include_categories) {
+                 //                 $q2->whereIn('categories.type_id', $include_categories);
+                 //             });
+                 //     });
+         }
+         $categories = $categories->leftjoin('types', 'types.id', 'categories.type_id')
+                                 ->where('categories.id', '>', '1')
+                                 ->whereNotNull('categories.type_id');
+          if($celebrity_check == 0){
+             $categories = $categories->where('categories.type_id', '!=', 5);
+         }
+         
+         $categories = $categories->where('categories.id', '>', '1')
+                                // ->whereNotNull('categories.type_id')
+                                 //->whereNotIn('categories.type_id', [7])
+                                 ->where('categories.is_visible', 1)
+                                 ->where('categories.is_core', 1)
+                                 ->where('categories.status', '!=', $status)
+                                 ->where('cts.language_id', $lang_id)
+                                 ->where(function ($qrt) use($lang_id,$primary){
+                                     $qrt->where('cts.language_id', $lang_id)->orWhere('cts.language_id',$primary->language_id);
+                                 })->whereNull('categories.vendor_id');
+                               //  ->orderBy('categories.position', 'asc')
+                                 if($type == 'dine_in')
+                                 {
+                                     $categories = $categories->where('slug','Restaurant');
+                                 }        
+                               
+                              $categories = $categories->orderBy('categories.parent_id', 'asc')->groupBy('categories.id');
+                if(@$request['category_limit'] && $request['category_limit'] > 0){
+                    $categories = $categories->take($request['category_limit'])->get();
+                }else{
+                
+                    $categories = $categories->get();
+                }
+         if ($categories) {
+             $categories = $this->buildTree($categories);
+         }
+ 
+         return $categories;
+
+    }
+
 
     public function subCategoryNav($lang_id, $vends=[],$type = 'delivery', $cid) {
 

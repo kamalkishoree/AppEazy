@@ -2583,7 +2583,7 @@ class OrderController extends BaseController
                         $q->where('vendor_id', $vendor_id)
                           ->addSelect([
                               'order_vendors.*',
-                              \DB::raw('(SELECT dispatch_traking_url FROM order_product_dispatch_routes WHERE order_product_dispatch_routes.order_id = order_vendors.order_id LIMIT 1) as dispatch_traking_url')
+                              \DB::raw('(SELECT dispatch_traking_url FROM order_product_dispatch_routes WHERE order_product_dispatch_routes.order_id = order_vendors.order_id LIMIT 1) as dispatch_traking_urls')
                           ]);
                     },
                     'vendors.dineInTable.translations' => function ($qry) use ($language_id) {
@@ -2622,6 +2622,7 @@ class OrderController extends BaseController
                             });
                         })
                         ->where('id', $order_id)->select('*', 'id as total_discount_calculate')->first();
+                        
             } else {
                 $order = Order::with(
                     [
@@ -2702,6 +2703,7 @@ class OrderController extends BaseController
                 $total_markup_Price = 0;
                 $slot_based_Price = 0;
                 foreach ($order->vendors as $vendor) {
+                    $vendor->dispatch_traking_url = $vendor->dispatch_traking_urls??$vendor->dispatch_traking_url;
                     $vendor_order_status = VendorOrderStatus::with('OrderStatusOption')->where('order_id', $order_id)->where('vendor_id', $vendor->vendor->id)->orderBy('id', 'DESC')->first();
                     if ($vendor_order_status) {
                         $vendor->order_status =  ['current_status' => ['id' => $vendor_order_status->OrderStatusOption->id, 'title' => __($vendor_order_status->OrderStatusOption->title)]];
@@ -2892,7 +2894,6 @@ class OrderController extends BaseController
             if (isset($request->new_dispatch_traking_url) && !empty($request->new_dispatch_traking_url)) {
                 try {
                     $new_dispatch_traking_url = str_replace('/order/', '/order-details/', $request->new_dispatch_traking_url);
-
                     $response = Http::get($new_dispatch_traking_url);
 
                 } catch (\Exception $ex) {
