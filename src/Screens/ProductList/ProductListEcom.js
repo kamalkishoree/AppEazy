@@ -54,7 +54,7 @@ import stylesFunc from './styles';
 let timeOut = undefined;
 
 var tempQty = 0;
-var noMoreData = false;
+var noMoreData = true;
 
 const filtersData = [
   {
@@ -694,7 +694,7 @@ export default function Products({ route, navigation }) {
   const listFooterComponent = () => {
     return (
       <>
-        {totalProducts.length !== productListData.length && (
+        {totalProducts?.length !== productListData?.length && (
           <View style={{ height: moderateScale(60) }}>
             <UIActivityIndicator color={themeColors?.primary_color} />
           </View>
@@ -930,7 +930,7 @@ export default function Products({ route, navigation }) {
     if (productListId?.vendor && routeData) {
       fetchOffers();
     }
-    return () => noMoreData = false
+    return () => noMoreData = true
   }, []);
 
   const getAllProductTags = () => {
@@ -1074,6 +1074,9 @@ export default function Products({ route, navigation }) {
 
   /****Get all list items by vendor id */
   const getAllProductsByVendor = pageNo => {
+
+    console.log(pageNo,"pageNopageNopageNo");
+    
     setLoading(true);
 
     updateState({ wrapperListLoader: true });
@@ -1113,8 +1116,9 @@ export default function Products({ route, navigation }) {
           setLoading(false);
         } else {
           if (!!res?.data) {
-            if (res?.data?.products.data.length == 0) {
+            if (res?.data?.products?.data?.length == 0  || pageNo >= res?.data?.products?.last_page ) {
               noMoreData = true;
+              setLoading(false);
             } else {
               noMoreData = false;
             }
@@ -1130,6 +1134,7 @@ export default function Products({ route, navigation }) {
               totalProducts: res?.data?.products?.total || 0,
             });
           } else {
+            alert('111111')
             setLoading(false);
             noMoreData = false;
           }
@@ -1397,6 +1402,8 @@ export default function Products({ route, navigation }) {
 
   //pagination of data
   const onEndReached = ({ distanceFromEnd }) => {
+    console.log(noMoreData,"noMoreDatanoMoreData>>>");
+    
     if (!noMoreData) {
       updateState({ pageNo: pageNo + 1 });
       getAllListItems(pageNo + 1);

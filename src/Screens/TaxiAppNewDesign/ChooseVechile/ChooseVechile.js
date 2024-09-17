@@ -1042,7 +1042,7 @@ function ChooseVechile({ navigation, route }) {
                         />
                         <Text />
                     </View>
-                    <View style={{ marginBottom: moderateScaleVertical(32) }} />
+                    {/* <View style={{ marginBottom: moderateScaleVertical(32) }} /> */}
                 </View>
             );
         }
@@ -1824,6 +1824,7 @@ function ChooseVechile({ navigation, route }) {
                         backgroundColor: isDarkMode
                             ? MyDarkTheme.colors.background
                             : colors.white,
+                            
                     }}>
                     <View
                         style={{

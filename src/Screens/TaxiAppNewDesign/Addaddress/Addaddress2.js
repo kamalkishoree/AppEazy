@@ -1,6 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
+  Alert,
   Animated,
   FlatList,
   Image,
@@ -347,7 +348,13 @@ export default function Addaddress({ navigation, route }) {
       dropLocationData[0].address == ""
     ) {
       if (selectedTab == 2) {
-        alert(strings.PLEASE_SELECT_PICKUP_LOCATION);
+        Alert.alert(strings.ALERT, strings.PLEASE_SELECT_PICKUP_LOCATION,[
+          {
+            text: strings.OK,
+            onPress: console.log('ok pressed'),
+          },
+        ]);
+        // alert(strings.PLEASE_SELECT_PICKUP_LOCATION);
       } else {
         showError(strings.PLEASE_SELECT_PICKUP_LOCATION);
       }
@@ -359,7 +366,14 @@ export default function Addaddress({ navigation, route }) {
       dropLocationData[1].address == ""
     ) {
       if (selectedTab == 2) {
-        alert(strings.PLEASE_SELECT_DROP_OFF_LOCATION);
+        Alert.alert(strings.ALERT, strings.PLEASE_SELECT_DROP_OFF_LOCATION,[
+          {
+            text: strings.OK,
+            onPress: console.log('ok pressed'),
+          },
+        ]);
+        
+        // alert(strings.PLEASE_SELECT_DROP_OFF_LOCATION);
       } else {
         showError(strings.PLEASE_SELECT_DROP_OFF_LOCATION);
       }
@@ -653,7 +667,13 @@ export default function Addaddress({ navigation, route }) {
         updateState({ dropLocationData: [...dropLocationData, ...x] });
       }
     } else {
-      alert(strings.PLEASE_FILL_ADDRESS);
+      // alert(strings.PLEASE_FILL_ADDRESS);
+      Alert.alert(strings.ALERT, strings.PLEASE_FILL_ADDRESS,[
+        {
+          text: strings.OK,
+          onPress: console.log('ok pressed'),
+        },
+      ]);
     }
   };
 
