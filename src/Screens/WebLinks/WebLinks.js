@@ -140,6 +140,12 @@ export default function WebLinks(props) {
     driverTagsAry: [],
     activeSections: [],
     isProfilePhoto: false,
+
+    laundry: false,
+    appointment: false,
+    carRental: false,
+    p2p: false,
+    rental: false,
   });
   //update your state
   const updateState = (data) => setState((state) => ({ ...state, ...data }));
@@ -199,6 +205,13 @@ export default function WebLinks(props) {
     driverTagsAry,
     activeSections,
     isProfilePhoto,
+
+    laundry,
+    appointment,
+    carRental,
+    p2p,
+    rental,
+
   } = state;
 
   const [selectedVendorType, setVendorType] = useState({});
@@ -410,6 +423,13 @@ export default function WebLinks(props) {
       formData.append('delivery', isDelivery ? 1 : 0);
       formData.append('dine_in', isDineIn ? 1 : 0);
       formData.append('takeaway', isTakeaway ? 1 : 0);
+
+      formData.append('laundry', laundry ? 1 : 0);
+      formData.append('appointment', appointment ? 1 : 0);
+      formData.append('car_rental', carRental ? 1 : 0);
+      formData.append('p2p', p2p ? 1 : 0);
+      formData.append('rental', rental ? 1 : 0);
+
       formData.append('countryData', cca2);
       formData.append('check_conditions', isTermsConditions ? 1 : 0);
       formData.append(
@@ -838,6 +858,7 @@ export default function WebLinks(props) {
   };
 
   const _onLinkPress = (route) => {
+    console.log(pageData, "pageDatapageData");
     if (route == 'terms') {
       navigation.navigate(navigationStrings.WEBVIEWSCREEN, {
         url: pageData?.terms_and_conditions,
@@ -1186,7 +1207,7 @@ export default function WebLinks(props) {
                       alignSelf: 'flex-start',
                     }}>
                     <Text style={styles.detailStyle}>
-                      {strings.STORE_DETAILS}
+                      {strings.VENDOR_DETAILS}
                     </Text>
                   </View>
                   <View style={{ marginVertical: moderateScaleVertical(20) }}>
@@ -1423,6 +1444,154 @@ export default function WebLinks(props) {
                       />
                     </View>
                   )}
+
+
+                  {!!appData?.profile?.preferences?.laundry_check  && (
+                    <View
+                      style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text
+                        style={{
+                          marginBottom: moderateScaleVertical(8),
+                          fontFamily: fontFamily.medium,
+                          color: isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.textGreyOpcaity7,
+                        }}>
+                        {strings.LAUNDRY}
+                      </Text>
+                      <ToggleSwitch
+                        isOn={isDelivery}
+                        onColor={themeColors.primary_color}
+                        offColor={
+                          isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.borderLight
+                        }
+                        size="small"
+                        onToggle={() => updateState({ laundry: !laundry })}
+                      />
+                    </View>
+                  )}
+                </View>
+
+                {/* added below new  */}
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: moderateScale(10),
+                    marginVertical: moderateScaleVertical(16),
+                  }}>
+                  {!!appData?.profile?.preferences?.appointment_check && (
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          marginBottom: moderateScaleVertical(8),
+                          fontFamily: fontFamily.medium,
+                          color: isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.textGreyOpcaity7,
+                        }}>
+                        {strings.APPOINTMENT}
+                      </Text>
+                      <ToggleSwitch
+                        isOn={isDineIn}
+                        onColor={themeColors.primary_color}
+                        offColor={
+                          isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.borderLight
+                        }
+                        size="small"
+                        onToggle={() => updateState({ appointment: !appointment })}
+                      />
+                    </View>
+                  )}
+                  {!!appData?.profile?.preferences?.car_rental_check && (
+                    <View
+                      style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text
+                        style={{
+                          marginBottom: moderateScaleVertical(8),
+                          fontFamily: fontFamily.medium,
+                          color: isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.textGreyOpcaity7,
+                        }}>
+                        {strings.CAR_RENTAL}
+                      </Text>
+                      <ToggleSwitch
+                        isOn={isTakeaway}
+                        onColor={themeColors.primary_color}
+                        offColor={
+                          isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.borderLight
+                        }
+                        size="small"
+                        onToggle={() => updateState({ carRental: !carRental })}
+                      />
+                    </View>
+                  )}
+                  {console.log(appData?.profile?.preferences, "appData?.profile?.preferences")}
+                  {!!appData?.profile?.preferences?.p2p_check && (
+                    <View
+                      style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text
+                        style={{
+                          marginBottom: moderateScaleVertical(8),
+                          fontFamily: fontFamily.medium,
+                          color: isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.textGreyOpcaity7,
+                        }}>
+                        {strings.SERVICES}
+                      </Text>
+                      <ToggleSwitch
+                        isOn={isDelivery}
+                        onColor={themeColors.primary_color}
+                        offColor={
+                          isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.borderLight
+                        }
+                        size="small"
+                        onToggle={() => updateState({ isDelivery: !isDelivery })}
+                      />
+                    </View>
+                  )}
+
+                  {!!appData?.profile?.preferences?.rental_check && (
+                    <View
+                      style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <Text
+                        style={{
+                          marginBottom: moderateScaleVertical(8),
+                          fontFamily: fontFamily.medium,
+                          color: isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.textGreyOpcaity7,
+                        }}>
+                        {strings.RENTAL}
+                      </Text>
+                      <ToggleSwitch
+                        isOn={isDelivery}
+                        onColor={themeColors.primary_color}
+                        offColor={
+                          isDarkMode
+                            ? MyDarkTheme.colors.text
+                            : colors.borderLight
+                        }
+                        size="small"
+                        onToggle={() => updateState({ rental: !rental })}
+                      />
+                    </View>
+                  )}
                 </View>
 
                 {!!pageData?.is_seller_module && (
@@ -1623,7 +1792,7 @@ export default function WebLinks(props) {
                         fontFamily: fontFamily.regular,
                         color: colors.blueColor,
                       }}>
-                      {/* {strings.TERMS_CONDITIONS} */}
+                      {strings.TERMS_CONDITIONS}
                     </Text>
                   </TouchableOpacity>
                   <Text
@@ -2207,14 +2376,14 @@ export default function WebLinks(props) {
                 keyExtractor={(itm, indx) => indx.toString()}
                 data={pageData?.driver_registration_documents}
                 renderItem={_renderFields}
-                ListFooterComponent={()=>{
-                  return(
-                    <View style={{marginBottom:moderateScaleVertical(40)}}>
-                      </View>
+                ListFooterComponent={() => {
+                  return (
+                    <View style={{ marginBottom: moderateScaleVertical(40) }}>
+                    </View>
                   )
                 }}
               />
-              
+
               <GradientButton
                 textStyle={{
                   color: isDarkMode ? MyDarkTheme.colors.text : colors.white,

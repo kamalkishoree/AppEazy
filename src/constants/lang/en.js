@@ -1246,5 +1246,12 @@ Amount`,
   EMAIL_IS_NOT_VALID:"Email is not in valid format",
   NAME_IS_NOT_VALID:"Name is not in valid format",
   SERVICE_FEE:"Service Fee",
-  QR_CODE:"QR Code"
+  QR_CODE:"QR Code",
+
+
+  VENDOR_DETAILS:'Vendor Details',
+  RENTAL:'Rental',
+  CAR_RENTAL:"Car Rental",
+  LAUNDRY:"Laundry",
+  APPOINTMENT:"Appointment"
 };
