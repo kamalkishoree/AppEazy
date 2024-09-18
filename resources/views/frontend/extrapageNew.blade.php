@@ -274,11 +274,11 @@
                                         <input type="text" class="form-control" id="city" name="city" value="">
                                         <span class="invalid-feedback" id="city_error"><strong></strong></span>
                                     </div>
-                                    <div class="col-md-3 mb-3" id="stateInput">
+                                    <!-- <div class="col-md-3 mb-3" id="stateInput">
                                         <label for="validationCustom01">{{__('State')}}</label>
                                         <input type="text" class="form-control" id="state" name="state" value="">
                                         <span class="invalid-feedback" id="state_error"><strong></strong></span>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3 mb-3" id="countryInput">
                                         <label for="validationCustom01">{{__('Country')}}</label>
                                         <input type="text" class="form-control" id="country" name="country" value="">
