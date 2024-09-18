@@ -295,7 +295,7 @@
                                                 $VendorTypesName = $vendor_typ_key == "dinein" ? 'dine_in' : $vendor_typ_key ;
                                                 $vendor_DynamicTypeName = $vendor_typ_key == "dinein" ? 'Dine-In' : $vendor_typ_value ;
                                             @endphp
-                                            @if($client_preferences->$clientVendorTypes == 1 )
+                                            @if($client_preferences->$clientVendorTypes == 1  && $vendor_typ_key !="pick_drop")
                                                 <div class="col mb-3">
                                                     <label for="">{{getDynamicTypeName($vendor_DynamicTypeName)}}</label>
                                                     <div class="mt-md-1">
