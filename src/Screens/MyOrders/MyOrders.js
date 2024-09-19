@@ -44,7 +44,8 @@ import { getBundleId } from 'react-native-device-info';
 
 
 import { enableFreeze } from "react-native-screens";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import useInterval from "../../utils/useInterval";
 enableFreeze(true);
 
 export default function MyOrders(props) {
@@ -86,7 +87,7 @@ export default function MyOrders(props) {
           title:
             appIds.mml == getBundleId()
               ? strings.PASTDELEIVERIES
-              : appIds.jiffex || appIds.parcelworks== getBundleId()
+              : appIds.jiffex || appIds.parcelworks == getBundleId()
                 ? strings.PAST_ORDERS
                 : strings.PASTRIDES,
           isActive: false,
@@ -151,11 +152,25 @@ export default function MyOrders(props) {
   const styles = stylesFun({ fontFamily, themeColors });
 
 
+
+  const isFocused = useIsFocused();
+  useInterval(
+    () => {
+      if (!!userData?.auth_token) {
+        _getListOfOrders();
+      } else {
+        actions.setAppSessionData("on_login");
+      }
+    },
+    isFocused ? 7000 : null
+  );
+
+
   function handleBackButtonClick() {
     navigation.navigate(navigationStrings.HOME)
     return true; // Prevents the default back action immediately
   }
-  
+
   useFocusEffect(
     useCallback(() => {
       const backHandler = BackHandler.addEventListener(
@@ -469,6 +484,7 @@ export default function MyOrders(props) {
   //   }
   // }, [selectedTab]);
 
+
   useEffect(() => {
     updateState({ isLoading: true });
     if (userData && userData?.auth_token) {
@@ -522,26 +538,28 @@ export default function MyOrders(props) {
 
   //pagination of data
   const onEndReached = ({ distanceFromEnd }) => {
-    if (
-      selectedTab == strings.ACTIVE_ORDERS ||
-      selectedTab == strings.ACTIVERIDES ||
-      selectedTab == strings.ACTIVEDELEIVERIES
-    ) {
-      updateState({ pageActive: pageActive + 1, tabType: staticStrings.ACTIVE });
+    if (!isLoading) {
+      if (
+        selectedTab == strings.ACTIVE_ORDERS ||
+        selectedTab == strings.ACTIVERIDES ||
+        selectedTab == strings.ACTIVEDELEIVERIES
+      ) {
+        updateState({ pageActive: pageActive + 1, tabType: staticStrings.ACTIVE });
+      }
+      if (
+        selectedTab == strings.PAST_ORDERS ||
+        selectedTab == strings.PASTRIDES ||
+        selectedTab == strings.PASTDELEIVERIES
+      ) {
+        updateState({ pageActive: pagePastOrder + 1, tabType: staticStrings.PAST });
+      }
+      // if (selectedTab == strings.SCHEDULED_ORDERS) {
+      //   updateState({
+      //     pageActive: pageScheduleOrder + 1,
+      //     tabType: staticStrings.SCHEDULE,
+      //   });
+      // }
     }
-    if (
-      selectedTab == strings.PAST_ORDERS ||
-      selectedTab == strings.PASTRIDES ||
-      selectedTab == strings.PASTDELEIVERIES
-    ) {
-      updateState({ pageActive: pagePastOrder + 1, tabType: staticStrings.PAST });
-    }
-    // if (selectedTab == strings.SCHEDULED_ORDERS) {
-    //   updateState({
-    //     pageActive: pageScheduleOrder + 1,
-    //     tabType: staticStrings.SCHEDULE,
-    //   });
-    // }
   };
 
   const onEndReachedDelayed = debounce(onEndReached, 1000, {
@@ -660,7 +678,7 @@ export default function MyOrders(props) {
               ? appIds.mml == getBundleId()
                 ? imagePath.notrcukImage
                 : imagePath.noRides
-              : getBundleId()==appIds.superApp?imagePath.nodatanew: imagePath.noDataFound2
+              : getBundleId() == appIds.superApp ? imagePath.nodatanew : imagePath.noDataFound2
           }
           isLoading={state.isLoading}
           text={
@@ -699,7 +717,7 @@ export default function MyOrders(props) {
           appStyle?.homePageLayout === 4
             ? appIds.mml == getBundleId()
               ? strings.MYDELIERIES
-              : appIds.jiffex || appIds.parcelworks== getBundleId()
+              : appIds.jiffex || appIds.parcelworks == getBundleId()
                 ? strings.MY_ORDERS
                 : strings.MYRIDES
             : strings.MY_ORDERS

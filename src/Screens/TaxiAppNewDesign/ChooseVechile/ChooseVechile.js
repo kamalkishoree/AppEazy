@@ -923,6 +923,8 @@ function ChooseVechile({ navigation, route }) {
         });
         if (cabBookingType !== 'bidRide') {
             // setIsCabBooking(true)
+            // setIsCabBooking(false)
+            setBottomSheetIndex(1)
             setSelectedVehcle(item)
             _onMoveNextToPaymentScreen()
         }
