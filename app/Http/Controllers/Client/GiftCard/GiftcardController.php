@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Storage;
 use App\Http\Traits\ApiResponser;
-use App\Models\{GiftCard,OrderStatusOption,OrderVendor};
+use App\Models\{GiftCard,OrderStatusOption,OrderVendor,ClientLanguage,GiftCardTranslation};
 
 use Exception;
 class GiftcardController extends BaseController
@@ -28,6 +28,9 @@ class GiftcardController extends BaseController
      */
     public function index(Request $request)
     {
+        $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
         if ($request->ajax()) {
         	$data = GiftCard::where('is_deleted',0);//->get();
            // pr($data->toArray());
@@ -59,7 +62,7 @@ class GiftcardController extends BaseController
                     ->rawColumns(['action','image_url'])
                     ->make(true);
         }
-        return view('backend/giftcard/index')->with(['listdata'=>'']);
+        return view('backend/giftcard/index')->with(['listdata'=>'','languages' => $langs,]);
     }
 
      /**
@@ -81,6 +84,9 @@ class GiftcardController extends BaseController
             $rules['image'] =  'image|mimes:jpeg,png,jpg,gif';
         }
         $validation  = Validator::make($request->all(), $rules)->validate();
+
+     
+       
         $giftcard = new GiftCard();
         $giftcardReturn = $this->save($request, $giftcard, 'false');
    
@@ -108,18 +114,45 @@ class GiftcardController extends BaseController
      */
     public function save(Request $request, GiftCard $GiftCard, $update = 'false'){
         try{
-            foreach ($request->only( 'amount', 'expiry_date','short_desc', 'title') as $key => $value) {
-                $GiftCard->{$key} = $value;
-            }
+        // dd($request->all());
+            // foreach ($request->only( 'amount', 'expiry_date','short_desc', 'title') as $key => $value) {
+            //     $GiftCard->{$key} = $value;
+            // }
+            $GiftCard->amount = $request->amount;
+            $GiftCard->expiry_date =$request->expiry_date;
+            $GiftCard->short_desc =$request->short_desc[0];
+            $GiftCard->title=$request->title[0];
             if ($request->hasFile('image')) {    /* upload logo file */
                 $file            = $request->file('image');
                 $GiftCard->image = Storage::disk('s3')->put('/giftcard', $file,'public');
             }
     
             $GiftCard->added_by = Auth::id()??null;
-            $GiftCard->save();
-        
+            
+               //save gift cards translation
+        if($GiftCard->save())
+        {       
+       
+            if(!empty($request->title[1])){
+                foreach ($request->title as $key => $value) {
+                    if($request->title[$key] != null)
+                    {
+                        $giftTrans = new GiftCardTranslation();
+                        $giftTrans->title = $request->title[$key];
+                        $giftTrans->description = $request->short_desc[$key];
+                        $giftTrans->language_id = $request->language_id[$key];
+                        $giftTrans->gift_card_id = $GiftCard->id;
+                        $giftTrans->save();
+                    }
+                }
+            }
             return $GiftCard;
+        }
+        else{
+            return respose()->json(['error',400]);
+        }
+        
+
         } catch (Exception $e) {
            // Log::info('add gift Card: '. $e->getCode());
             return [];

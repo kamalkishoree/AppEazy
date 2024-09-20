@@ -277,7 +277,29 @@ use app\Models\SubscriptionPlansUser;
                                 <div class="col-md-6">
                                     <div class="form-group" id="nameInput">
                                         {!! Form::label('title', __('Title'),['class' => 'control-label']) !!}
-                                        {!! Form::text('title', null, ['class'=>'form-control', 'required'=>'required']) !!}
+                                        {{-- {!! Form::text('title', null, ['class'=>'form-control', 'required'=>'required']) !!} --}}
+                                        <table class="table table-borderless table-responsive al_table_responsive_data" id="banner-datatable" >
+                                            <tr >
+                                                @foreach($languages as $langs)
+                                                    <th>{{$langs->language->name}}</th>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                @foreach($languages as $langs)
+                                                    @if($langs->is_primary == 1)
+                                                        <td >
+                                                            {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                                            {!! Form::text('title[]', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                                        </td>
+                                                    @else
+                                                        <td >
+                                                            {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                                            {!! Form::text('title[]', null, ['class' => 'form-control']) !!}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                        </table>
                                         <span class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>
@@ -412,7 +434,29 @@ use app\Models\SubscriptionPlansUser;
                                 <div class="col-md-12">
                                     <div class="form-group" id="descInput">
                                         {!! Form::label('title', __('Description'),['class' => 'control-label']) !!}
-                                        {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => '3']) !!}
+                                        <table class="table table-borderless table-responsive al_table_responsive_data" id="banner-datatable" >
+                                            <tr >
+                                                @foreach($languages as $langs)
+                                                    <th>{{$langs->language->name}}</th>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                @foreach($languages as $langs)
+                                                    @if($langs->is_primary == 1)
+                                                        <td >
+                                                            {{-- {!! Form::hidden('language_id[]', $langs->language_id) !!} --}}
+                                                            {!! Form::text('description[]', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                                        </td>
+                                                    @else
+                                                        <td >
+                                                            {{-- {!! Form::hidden('language_id[]', $langs->language_id) !!} --}}
+                                                            {!! Form::text('description[]', null, ['class' => 'form-control']) !!}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                        </table>    
+                                        {{-- {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => '3']) !!} --}}
                                     </div>
                                 </div>
                             </div>

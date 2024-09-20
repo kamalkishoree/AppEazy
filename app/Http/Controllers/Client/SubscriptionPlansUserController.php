@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Client\BaseController;
 use App\Http\Traits\StripeSubscription;
-use App\Models\{AdditionalAttribute, AdditionalAttributeProduct, Category, Client, ClientPreference, SmsProvider, Currency, Language, Country, User, SubscriptionPlansUser, SubscriptionPlanFeaturesUser, ShowSubscriptionPlanOnSignup, SubscriptionFeaturesListUser, SubscriptionInvoicesUser, Order, OrderVendor, PaymentOption, SubscriptionPlanUserCategory};
+use App\Models\{SubscriptionPlansUserTranslation,ClientLanguage,AdditionalAttribute, AdditionalAttributeProduct, Category, Client, ClientPreference, SmsProvider, Currency, Language, Country, User, SubscriptionPlansUser, SubscriptionPlanFeaturesUser, ShowSubscriptionPlanOnSignup, SubscriptionFeaturesListUser, SubscriptionInvoicesUser, Order, OrderVendor, PaymentOption, SubscriptionPlanUserCategory};
 use Carbon\Carbon;
 use App\Models\ClientCurrency;
 
@@ -99,7 +99,10 @@ class SubscriptionPlansUserController extends BaseController
                 $plan->subscriptionCategory = $category;
             }
         }
-        return view('backend/subscriptions/subscriptionPlansUser')->with(['features'=>$featuresList, 'showSubscriptionPlan'=>$showSubscriptionPlan, 'subscription_plans'=>$sub_plans, 'subscribed_users_count'=>$subscribed_users_count, 'subscribed_users_percentage'=>$subscribed_users_percentage, 'categories' => $categories,'additionalAttributes' => $additionalAttributes]);
+        $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
+        return view('backend/subscriptions/subscriptionPlansUser')->with(['features'=>$featuresList, 'showSubscriptionPlan'=>$showSubscriptionPlan, 'subscription_plans'=>$sub_plans, 'subscribed_users_count'=>$subscribed_users_count, 'subscribed_users_percentage'=>$subscribed_users_percentage, 'categories' => $categories,'additionalAttributes' => $additionalAttributes,'languages' => $langs,]);
     }
 
     /**
@@ -110,9 +113,10 @@ class SubscriptionPlansUserController extends BaseController
      */
     public function saveSubscriptionPlan(Request $request, $domain = '', $slug='')
     {
+        // dd($request->all());
         $message = 'added';
         $rules = array(
-            'title' => 'required|string|max:50',
+            'title' => 'required|max:50',
             'type_id' => 'required',
             'price' => 'required',
 //             'features' => 'required',
@@ -121,7 +125,7 @@ class SubscriptionPlansUserController extends BaseController
         );
         if(!empty($slug)){
             $plan = SubscriptionPlansUser::where('slug', $slug)->firstOrFail();
-            $rules['title'] = $rules['title'].',id,'.$plan->id;
+            $rules['title'] = $rules['title'][0].',id,'.$plan->id;
             $message = 'updated';
         }
 
@@ -150,7 +154,7 @@ class SubscriptionPlansUserController extends BaseController
             }
         }
 
-        $plan->title = $request->title;
+        $plan->title = $request->title[0];
         $plan->price = $request->price;
         // $plan->period = $request->period;
         $plan->frequency = $request->frequency;
@@ -161,7 +165,7 @@ class SubscriptionPlansUserController extends BaseController
             $plan->image = Storage::disk('s3')->put($this->folderName, $file,'public');
         }
         if( ($request->has('description')) && (!empty($request->description)) ){
-            $plan->description = $request->description;
+            $plan->description = $request->description[0];
         }
         if($request->has('order_limit') && !empty($request->order_limit)){
             $plan->order_limit = $request->order_limit;
@@ -169,6 +173,24 @@ class SubscriptionPlansUserController extends BaseController
         $plan->type_id = $request->type_id;
         $plan->save();
         $planId = $plan->id;
+
+        //save translations 
+        if($plan->save())
+        {       
+            if(!empty($request->title[1])){
+                foreach ($request->title as $key => $value) {
+                    if($request->title[$key] != null)
+                    {
+                        $userSubTrans = new SubscriptionPlansUserTranslation();
+                        $userSubTrans->title = $request->title[$key];
+                        $userSubTrans->description = $request->short_desc[$key];
+                        $userSubTrans->language_id = $request->language_id[$key];
+                        $userSubTrans->subscription_plan_user_id = $planId;
+                        $userSubTrans->save();
+                    }
+                }
+            }
+        }
         if( ($request->has('features')) && (!empty($request->features)) ){
             $plan->subFeatures()->sync($request->features);
             foreach($request->features as $key => $val){

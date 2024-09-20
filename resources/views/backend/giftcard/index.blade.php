@@ -97,6 +97,7 @@
                 <h4 class="modal-title">{{ __('Add Gift Card') }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
+
             <form id="giftCardForm" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body" id="">
@@ -119,8 +120,30 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="titleInput">
-                                        {!! Form::label('title', __('Title'),['class' => 'control-label']) !!}
-                                        {!! Form::text('title','', ['class' => 'form-control', 'placeholder'=>'Enter Title']) !!}
+                                        <h5> {!! Form::label('title', __('Title'),['class' => 'control-label']) !!} </h5>
+                                        <table class="table table-borderless table-responsive al_table_responsive_data" id="banner-datatable" >
+                                            <tr >
+                                                @foreach($languages as $langs)
+                                                    <th>{{$langs->language->name}}</th>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                @foreach($languages as $langs)
+                                                    @if($langs->is_primary == 1)
+                                                        <td >
+                                                            {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                                            {!! Form::text('title[]', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                                        </td>
+                                                    @else
+                                                        <td >
+                                                            {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                                            {!! Form::text('title[]', null, ['class' => 'form-control']) !!}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                        </table>
+                                        {{-- {!! Form::text('title','', ['class' => 'form-control', 'placeholder'=>'Enter Title']) !!} --}}
                                         <span class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>
@@ -128,8 +151,30 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group" id="short_descInput">
-                                        {!! Form::label('short_desc', __('Short Description'),['class' => 'control-label']) !!}
-                                        {!! Form::textarea('short_desc','', ['class' => 'form-control', 'placeholder'=>'Enter Short Description', 'rows' => 3]) !!}
+                                       <h5> {!! Form::label('short_desc', __('Short Description'),['class' => 'control-label']) !!} </h5>
+                                        <table class="table table-borderless table-responsive al_table_responsive_data" id="banner-datatable" >
+                                            <tr >
+                                                @foreach($languages as $langs)
+                                                    <th>{{$langs->language->name}}</th>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                @foreach($languages as $langs)
+                                                    @if($langs->is_primary == 1)
+                                                        <td >
+                                                            {{-- {!! Form::hidden('language_id[]', $langs->language_id) !!} --}}
+                                                            {!! Form::text('short_desc[]', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                                        </td>
+                                                    @else
+                                                        <td >
+                                                            {{-- {!! Form::hidden('language_id[]', $langs->language_id) !!} --}}
+                                                            {!! Form::text('short_desc[]', null, ['class' => 'form-control']) !!}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                        </table>    
+                                        {{-- {!! Form::textarea('short_desc','', ['class' => 'form-control', 'placeholder'=>'Enter Short Description', 'rows' => 3]) !!} --}}
                                         <span class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Client\BaseController;
-use App\Models\{Client, ClientPreference, SmsProvider, Currency, Language, Country, User, Vendor, SubscriptionPlansVendor, SubscriptionPlanFeaturesVendor, SubscriptionFeaturesListVendor, SubscriptionInvoicesVendor, SubscriptionInvoiceFeaturesVendor};
+use App\Models\{ClientLanguage,SubscriptionPlanVendorTranslation,Client, ClientPreference, SmsProvider, Currency, Language, Country, User, Vendor, SubscriptionPlansVendor, SubscriptionPlanFeaturesVendor, SubscriptionFeaturesListVendor, SubscriptionInvoicesVendor, SubscriptionInvoiceFeaturesVendor};
 use Carbon\Carbon;
 use App\Models\ClientCurrency;
 
@@ -77,7 +77,10 @@ class SubscriptionPlansVendorController extends BaseController
             }
         }
         $clientCurrency = ClientCurrency::where('is_primary', 1)->first();
-        return view('backend/subscriptions/subscriptionPlansVendor')->with(['features' => $featuresList, 'subscription_plans' => $sub_plans, 'subscribed_vendors_count' => $subscribed_vendors_count, 'subscribed_vendors_percentage' => $subscribed_vendors_percentage, 'awaiting_approval_subscriptions_count' => $awaiting_approval_subscriptions_count, 'rejected_subscriptions_count' => $rejected_subscriptions_count, 'approved_subscriptions_count' => $approved_subscriptions_count, 'clientCurrency' => $clientCurrency]);
+        $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
+        return view('backend/subscriptions/subscriptionPlansVendor')->with(['languages' => $langs,'features' => $featuresList, 'subscription_plans' => $sub_plans, 'subscribed_vendors_count' => $subscribed_vendors_count, 'subscribed_vendors_percentage' => $subscribed_vendors_percentage, 'awaiting_approval_subscriptions_count' => $awaiting_approval_subscriptions_count, 'rejected_subscriptions_count' => $rejected_subscriptions_count, 'approved_subscriptions_count' => $approved_subscriptions_count, 'clientCurrency' => $clientCurrency]);
     }
 
     /**
@@ -91,7 +94,7 @@ class SubscriptionPlansVendorController extends BaseController
         // dd($request->all(), $slug);
         $message = 'added';
         $rules = array(
-            'title' => 'required|string|max:50',
+            'title' => 'required|max:50',
             'features' => 'required',
             'price' => 'required',
             // 'period' => 'required',
@@ -113,7 +116,7 @@ class SubscriptionPlansVendorController extends BaseController
             $plan = new SubscriptionPlansVendor;
             $plan->slug = uniqid();
         }
-        $plan->title = $request->title;
+        $plan->title = $request->title[0];
         $plan->price = $request->price;
         $plan->order_count = $request->order_count;
         // $plan->period = $request->period;
@@ -126,11 +129,28 @@ class SubscriptionPlansVendorController extends BaseController
             $plan->image = Storage::disk('s3')->put($this->folderName, $file, 'public');
         }
         if (($request->has('description')) && (!empty($request->description))) {
-            $plan->description = $request->description;
+            $plan->description = $request->description[0];
         }
 
         $plan->save();
         $planId = $plan->id;
+        //save translations 
+        if($plan->save())
+        {       
+            if(!empty($request->title[1])){
+                foreach ($request->title as $key => $value) {
+                    if($request->title[$key] != null)
+                    {
+                        $vendorSubTrans = new SubscriptionPlanVendorTranslation();
+                        $vendorSubTrans->title = $request->title[$key];
+                        $vendorSubTrans->description = $request->short_desc[$key];
+                        $vendorSubTrans->language_id = $request->language_id[$key];
+                        $vendorSubTrans->subscription_plan_vendor_id = $planId;
+                        $vendorSubTrans->save();
+                    }
+                }
+            }
+        }
         if (($request->has('features')) && (!empty($request->features))) {
             foreach ($request->features as $key => $val) {
                 if (!empty($slug)) {

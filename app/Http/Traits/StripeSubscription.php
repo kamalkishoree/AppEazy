@@ -20,7 +20,7 @@ trait StripeSubscription{
         $currency = (isset($primaryCurrency->currency->iso_code)) ? $primaryCurrency->currency->iso_code : 'USD';
         $interval_count['interval_count'] = 0;
         $plan_arr = [
-            'product' => ['name' => $request->title],
+            'product' => ['name' => $request->title[0]],
             'amount'  =>  $request->price * 100, // Amount in cents
             'currency' => $currency,
             
