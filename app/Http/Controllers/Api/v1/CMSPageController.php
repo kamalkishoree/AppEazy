@@ -43,11 +43,12 @@ class CMSPageController extends BaseController
 
     public function getPageDetail(Request $request)
     {
+        \Log::info(json_encode($request->all()));
         $data = [];
         $page_id = $request->page_id ? $request->page_id : 3;
         $code = $request->header('code');
         $client = Client::where('code',$code)->first();
-        $server_url = "https://".$client->sub_domain.env('SUBMAINDOMAIN')."/";
+        $server_url = "https://".$client->custom_domain.env('SUBMAINDOMAIN')."/";
         $data['terms_and_conditions'] = $server_url . 'page/terms-conditions';
         $data['privacy_policy'] = $server_url . 'page/privacy-policy';
 
@@ -103,6 +104,10 @@ class CMSPageController extends BaseController
                 $driverDocs['documents'][$key]['slug'] = $name;
             }
             $data['driver_registration_documents'] = $driverDocs['documents'];
+            foreach( $data['driver_registration_documents'] as $key => $drivr_doc)
+            {
+                @$data['driver_registration_documents'][$key]['name'] = __(@$data['driver_registration_documents'][$key]['name']);
+            }
             $data['transport_types'] = $transport_types;
             $data['driver_types'] = $driver_types;
             $data['teams'] = $driverDocs['all_teams'];

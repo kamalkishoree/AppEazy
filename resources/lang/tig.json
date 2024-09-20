@@ -1268,5 +1268,21 @@
   "Choose the type of influencer you are": "ዝደልይዎ ዓይነት ፅዕንቶ ፈጣሪ ይምረፁ",
   "No Data Found": "ሰነድ ኣይተረኸበን",
   "gift card user amount": "ዝተጠቐምሉ መጠን ህያብ ካርዲ",
-  "gift card remaining amount": "ተረፍ መጠን ህያብ ካርዲ"
+  "gift card remaining amount": "ተረፍ መጠን ህያብ ካርዲ",
+  "gift card user amount": "ከስጦታ ካርድ የተጠቀሙት መጠን",
+  "gift card remaining amount": "የስጦታ ካርድ ቀሪ ሂሳብ",
+  "withdraw" : "ሊብሬሊብሬሊብሬ",
+  "deposit" :"ሊብሬሊብሬሊብሬ",
+  "Wallet has been Credited by transaction ":"ሊብሬሊብሬሊብሬ",
+  "reference":"ሊብሬሊብሬሊብሬ",
+  "Wallet has been debited for order ": "ሊብሬሊብሬሊብሬ",
+  "number" :"ሊብሬሊብሬ",
+  "Wallet has been debited cancellation charges for order " :"ሊብሬሊብሬሊብሬ",
+  "Wallet has been transferred with " :"ሊብሬሊብሬሊብሬሊብሬ",
+  "Profile image updated successfully." : "ሊብሬሊብሬሊብሬ",
+  "invalid password":"ሊብሬሊብሬሊብሬሊብሬ",
+  "you can not add more products":"ሊብሬሊብሬሊብሬሊብሬ",
+  "user not found" :"ሊብሬሊብሬሊብሬሊብሬ",
+  "Libre":"ሊብሬ"
+  
 }
