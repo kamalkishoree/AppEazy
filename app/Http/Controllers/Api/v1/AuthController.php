@@ -1505,7 +1505,6 @@ class AuthController extends BaseController
     public function driverSignup(Request $request)
     {
         try {
-            die('sss');
             $dispatch_domain = $this->checkIfLastMileDeliveryOn();
             if ($dispatch_domain && $dispatch_domain != false) {
 
