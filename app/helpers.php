@@ -1619,6 +1619,7 @@ if (!function_exists('getServiceTypesCategory')) {
             if($client_preference ==NULL){
                 $client_preference = ClientPreference::select('business_type', 'p2p_check')->first();
             }
+            
 
             $types =   Type::query();
 

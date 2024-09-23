@@ -1268,5 +1268,20 @@
   "Choose the type of influencer you are": "Gosa dhiibbaa uumuu ati taate filadhu",
   "No Data Found": "Ragaa hin argamne",
   "gift card user amount": "Kaardi keena hamma fayyadamtee",
-  "gift card remaining amount": "kaardi kenna hamma hafee"
+  "gift card remaining amount": "kaardi kenna hamma hafee",
+  "withdraw": "baasuu",
+  "deposit": "kuusuu",
+  "Wallet has been Credited by transaction ": "boorsaa daldalaan liqii galfamee jira ",
+  "reference": "wabeeffannaa",
+  "Wallet has been debited for order ": "boorsaa lakkoofsa ajajaaf kan kaffalame ",
+  "number": "lakkoofsa",
+  "Wallet has been debited cancellation charges for order ": "boorsaa ajajaaf kaffaltii haquu irraa baafameera ",
+  "Wallet has been transferred with ": "boorsaa waliin dabarfamee jira ",
+  "Profile image updated successfully.": "suuraan piroofaayilii milkaa'inaan haaromfame ",
+  "invalid password": "jecha icciitii fudhatama kan hinqabne",
+  "you can not add more products": "oomisha dabalataa itti dabaluu hin dandeessan",
+  "user not found": "fayyadamaan hin argamne",
+  "Libre": "libre",
+  "Profile updated successfully.": "piroofaayillin milkaa'inaan haaromfame",
+  "You can not add more product.": "oomisha dabalataa dabaluu hin dandeessu"
 }

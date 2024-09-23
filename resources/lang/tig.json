@@ -1268,5 +1268,20 @@
   "Choose the type of influencer you are": "ዝደልይዎ ዓይነት ፅዕንቶ ፈጣሪ ይምረፁ",
   "No Data Found": "ሰነድ ኣይተረኸበን",
   "gift card user amount": "ዝተጠቐምሉ መጠን ህያብ ካርዲ",
-  "gift card remaining amount": "ተረፍ መጠን ህያብ ካርዲ"
+  "gift card remaining amount": "ተረፍ መጠን ህያብ ካርዲ",
+  "withdraw": "ወፃኢ",
+  "deposit": "ኣታዊ",
+  "Wallet has been Credited by transaction ": "ቦርሳ ተወሲኹ፣ብዝስዕብ መፍለይ ",
+  "reference": "መጣቀሲ",
+  "Wallet has been debited for order ": "ቦርሳ ተቐኒሱ፣ንዝስዕብ ትእዛዝ ",
+  "number": "ቑፅሪ",
+  "Wallet has been debited cancellation charges for order ": "ቦርሳ ናይ መሰረዚ ክፍሊት መጠን ተቐኒሱ፣ንዝስዕብ ትእዛዝ ",
+  "Wallet has been transferred with ": "ሓወላ ተፈፂሙ፣ብዝስዕብ ",
+  "Profile image updated successfully.": "መግለፂ ፎቶ ብትኽክል ተመሓይሹ",
+  "invalid password": "ግጉይ መሕለፊ ቃል",
+  "you can not add more products": "ተወሰኽቲ ፍርያት ክትውስኽ ኣይትኽእልን ኢኻ",
+  "user not found": "ተጠቃሚ ኣይተረኽበን",
+  "Libre": "ሊብሬ",
+  "Profile updated successfully.": "መግለፂ ብትኽክል ተመሓይሹ",
+  "You can not add more product.": "ተወሳኺ ፍርያት ክትውስኽ ኣይትኽእልን ኢኻ"  
 }
