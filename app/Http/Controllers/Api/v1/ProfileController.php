@@ -269,7 +269,7 @@ class ProfileController extends BaseController
         $img = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->avatar));
         $user = User::where('id', Auth::user()->id)->first();
         if (! empty($user->image)) {
-            Storage::disk('s3')->delete($user->image);
+           // Storage::disk('s3')->delete($user->image);
         }
         $imgType = ($request->has('type')) ? $request->type : 'jpg';
         $code = Client::orderBy('id', 'asc')->value('code');

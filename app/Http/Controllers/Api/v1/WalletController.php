@@ -15,6 +15,7 @@ class WalletController extends Controller{
 
     # get my wallet details
     public function getFindMyWalletDetails(Request $request){
+        
     	$user = Auth::user();
         $user = User::with('country')->find($user->id);
         $paginate = $request->has('limit') ? $request->limit : 12;
@@ -44,6 +45,8 @@ class WalletController extends Controller{
 
             }
             $trans->type = __($trans->type);
+
+
             $trans->amount = sprintf("%.2f", $trans->amount / 100);
 
         }

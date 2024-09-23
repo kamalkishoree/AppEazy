@@ -274,11 +274,11 @@
                                         <input type="text" class="form-control" id="city" name="city" value="">
                                         <span class="invalid-feedback" id="city_error"><strong></strong></span>
                                     </div>
-                                    <div class="col-md-3 mb-3" id="stateInput">
+                                    <!-- <div class="col-md-3 mb-3" id="stateInput">
                                         <label for="validationCustom01">{{__('State')}}</label>
                                         <input type="text" class="form-control" id="state" name="state" value="">
                                         <span class="invalid-feedback" id="state_error"><strong></strong></span>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3 mb-3" id="countryInput">
                                         <label for="validationCustom01">{{__('Country')}}</label>
                                         <input type="text" class="form-control" id="country" name="country" value="">
@@ -295,7 +295,7 @@
                                                 $VendorTypesName = $vendor_typ_key == "dinein" ? 'dine_in' : $vendor_typ_key ;
                                                 $vendor_DynamicTypeName = $vendor_typ_key == "dinein" ? 'Dine-In' : $vendor_typ_value ;
                                             @endphp
-                                            @if($client_preferences->$clientVendorTypes == 1 )
+                                            @if($client_preferences->$clientVendorTypes == 1  && $vendor_typ_key !="pick_drop")
                                                 <div class="col mb-3">
                                                     <label for="">{{getDynamicTypeName($vendor_DynamicTypeName)}}</label>
                                                     <div class="mt-md-1">
