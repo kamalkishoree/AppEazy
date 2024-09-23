@@ -1283,5 +1283,7 @@
   "user not found": "ተጠቃሚ ኣይተረኽበን",
   "Libre": "ሊብሬ",
   "Profile updated successfully.": "መግለፂ ብትኽክል ተመሓይሹ",
-  "You can not add more product.": "ተወሳኺ ፍርያት ክትውስኽ ኣይትኽእልን ኢኻ"  
+  "You can not add more product.": "ተወሳኺ ፍርያት ክትውስኽ ኣይትኽእልን ኢኻ"  ,
+  "Wallet has been Credited for ":"ዋለተ ንኽብሪ ተዋሂብዎ ኣሎ።",
+  "return":"ተመለስ"
 }
