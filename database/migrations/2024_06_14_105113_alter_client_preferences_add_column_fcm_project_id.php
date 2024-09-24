@@ -27,7 +27,7 @@ class AlterClientPreferencesAddColumnFcmProjectId extends Migration
         Schema::table('client_preferences', function (Blueprint $table) {
 
           
-
+return;
             $table->string('fcm_project_id')->default(Null)->nullable();
 
         });

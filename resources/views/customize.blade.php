@@ -28,6 +28,109 @@ getAdditionalPreference(['pickup_type',
 			</div>
 		</div>
 	</div>
+
+   <!-- Localization start -->
+   <div class="col-lg-4 col-xl-6 mb-3">
+            <form method="POST" class="h-100" action="{{route('preference', Auth::user()->code)}}">
+                @csrf
+                <div class="card-box mb-0 h-100 pb-0">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h4 class="header-title mb-0">{{ __("Languages & Currencies") }}</h4>
+                        <input type="hidden" name="send_to" id="send_to" value="customize">
+                        <button class="btn btn-info d-block" type="submit"> {{ __("Save") }} </button>
+                    </div>
+                    <p class="sub-header">
+                        {{ __("Define and update the languages and currencies") }}
+                    </p>
+                    {{-- @dd($preference->primary_country->country_id) --}}
+                    @php
+                        $primary_country_id =  $preference->primary_country ? $preference->primary_country->country_id : '';
+                    @endphp
+                    <div class="row col-spacing">
+                        <div class="col-xl-4 mb-2">
+                            <label for="country">{{ __("Primary Country") }}</label>
+                            <select class="form-control al_box_height" id="primary_country" name="primary_country">
+                                @foreach($countries as $country)
+                                    <option {{(isset($preference) && ($country->id == $primary_country_id))? "selected" : "" }} value="{{$country->id}}"> {{$country->name}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xl-8 mb-2">
+                            <label for="languages">{{ __("Additional Countries") }}</label>
+                            <select class="form-control al_box_height select2-multiple" id="countries" name="countries[]" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                @foreach($countries as $country)
+                                @if($country->id != $primary_country_id)
+                                    <option value="{{$country->id}}" {{ (isset($preference) && in_array($country->id, $cli_countries))? "selected" : "" }}>{{$country->name ??''}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xl-4 mb-2">
+                            <label for="languages">{{ __("Primary Language") }}</label>
+                            <select class="form-control al_box_height" id="primary_language" name="primary_language">
+                                @php
+                                   $primary_language_id =  $preference->primarylang ? $preference->primarylang->language_id : '';
+                                @endphp
+                                @foreach($languages as $lang)
+                                    <option {{(isset($preference) && ($lang->id == $primary_language_id))? "selected" : "" }} value="{{$lang->id}}"> {{$lang->name}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xl-8 mb-2">
+                            <label for="languages">{{ __("Additional Languages") }}</label>
+                            <select class="form-control al_box_height select2-multiple" id="languages" name="languages[]" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                @foreach($languages as $lang)
+                                @if($lang->id != $primary_language_id)
+                                    <option value="{{$lang->id}}" {{ (isset($preference) && in_array($lang->id, $cli_langs))? "selected" : "" }}>{{$lang->name ??''}} ({{$lang->nativeName??''}})</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-xl-4 mb-2">
+                            <label for="primary_currency">{{ __("Primary Currency") }}</label>
+                            <select class="form-control al_box_height" id="primary_currency" name="primary_currency">
+                                @foreach($currencies as $currency)
+                                <option iso="{{$currency->iso_code.' '.$currency->symbol}}" {{ (isset($preference) && @$preference->primary->currency->id == $currency->id) ? "selected" : ""}} value="{{$currency->id}}"> {{$currency->iso_code.' '.$currency->symbol}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xl-8">
+                            <label for="currency">{{ __("Additional Currency") }}</label>
+                            <select class="form-control al_box_height select2-multiple" id="currency" name="currency_data[]" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                @foreach($currencies as $currency)
+                                @if($preference->currency_id != $currency->id)
+                                <option value="{{$currency->id}}" iso="{{$currency->iso_code}}" {{ (isset($preference) && in_array($currency->id, $cli_currs))? "selected" : "" }}> {{$currency->iso_code}} {{!empty($currency->symbol) ? $currency->symbol : ''}} </option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="row multiplierData">
+                                @if($preference->currencies)
+                                @foreach($preference->currencies as $ac)
+                                <div class="col-sm-10 offset-sm-4 col-lg-12 offset-lg-0 col-xl-8 offset-xl-4 mb-2" id="addCur-{{$ac->currency->id}}">
+                                    <label class="primaryCurText">1 {{@$preference->primary->currency->iso_code}} {{!empty(@$preference->primary->currency->symbol) ? @$preference->primary->currency->symbol : ''}} = </label>
+                                    <input class="form-control al_box_height w-50 d-inline-block" type="text" value="{{$ac->doller_compare}}" step=".0001" name="multiply_by[{{$ac->currency->id}}]" oninput="changeCurrencyValue(this)"> {{$ac->currency->iso_code}} {{!empty($ac->currency->symbol) ? $ac->currency->symbol : ''}}
+                                    <input type="hidden" name="cuid[]" class="curr_id" value="{{ $ac->currency->id }}">
+                                </div>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Localization end -->
+    </div>
+
+
+
+
+
+
+
 	<!-- end Section title -->
 	<div class="row mb-3">
 		<div class="col-md-5 col-xl-4">
@@ -392,7 +495,7 @@ getAdditionalPreference(['pickup_type',
                             </div>
                             <div class="row variant-row">
                                 <div class="col-md-12">
-
+                                    
                                     <div class="table-responsive outer-box">
                                         <table class="table table-centered table-nowrap table-striped" id="varient-datatable">
                                             <thead>
@@ -403,7 +506,7 @@ getAdditionalPreference(['pickup_type',
                                                 </tr>
                                             </thead>
                                             <tbody>
-
+                                                
                                                 @if(!empty($attributes))
                                                 @foreach($attributes as $key => $variant)
 
@@ -412,9 +515,8 @@ getAdditionalPreference(['pickup_type',
                                                             <td>
                                                                 <a class="editAttributeBtn" dataid="{{$variant->id}}" href="javascript:void(0);">{{$variant->title}}</a>
                                                             </td>
-
+                                                           
                                                             <td>
-
                                                                 @foreach($variant->option as $key => $value)
                                                                 <label style="margin-bottom: 3px;">
                                                                     @if(isset($variant) && !empty($variant->type) && $variant->type == 2)
@@ -431,9 +533,9 @@ getAdditionalPreference(['pickup_type',
                                                                 <a class="action-icon deleteAttribute" dataid="{{$variant->id}}" href="javascript:void(0);">
                                                                     <i class="mdi mdi-delete"></i>
                                                                 </a>
-                                                                <form action="{{route('attribute.delete', $variant->id)}}" method="get" style="display: none;" id="attrDeleteForm{{$variant->id}}">
+                                                                <form action="{{route('attribute.delete', $variant->id)}}" method="POST" style="display: none;" id="attrDeleteForm{{$variant->id}}">
                                                                     @csrf
-
+                                                                    @method('DELETE')
                                                                     <button type="submit" class="action-icon btn btn-primary-outline" dataid="{{$variant->id}}" onclick="return confirm('Are you sure? You want to delete the attribute.')"> <i class="mdi mdi-delete"></i></button>
                                                                 </form>
                                                                 @endif
@@ -452,7 +554,6 @@ getAdditionalPreference(['pickup_type',
                 </div>
             </div>
         </div>
-
 	<form method="POST" action="{{route('task.proof')}}">
 		@csrf
 		<div class="row">
@@ -973,8 +1074,8 @@ getAdditionalPreference(['pickup_type',
                                 </tbody>
                             </table>
                         </div> --}}
-
-
+                    
+					
 					</div>
 				</div>
 			</div>
@@ -1004,36 +1105,9 @@ getAdditionalPreference(['pickup_type',
         </div>
     </div>
 </div>
-
-{{-- edit attribute modal --}}
-
-<div id="editAttributemodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-bottom">
-                <h4 class="modal-title">{{ __("Edit Attribute") }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="outter-loader d-none"><div class="css-loader"></div></div>
-            <form id="editAttributeForm" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="modal-body" id="editAttributeBox">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info waves-effect waves-light editAttributeSubmit">{{ __("Submit") }}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
     $(document).ready(function() {
@@ -1092,6 +1166,7 @@ getAdditionalPreference(['pickup_type',
 
      // Attribute script
      $(".addAttributbtn").click(function(e) {
+        console.log('click function called');
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -1122,105 +1197,6 @@ getAdditionalPreference(['pickup_type',
 
     });
 
-        $('.editAttributeBtn').on('click', function(e) {
-            console.log("edit");
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        e.preventDefault();
-
-        var did = $(this).attr('dataid');
-        console.log(did);
-        $.ajax({
-            url: "{{url('attribute/edit')}}" + '/' + did ,
-            type: "get",
-            data: '',
-            dataType: 'json',
-            beforeSend: function() {
-                $(".loader_box").show();
-            },
-            success: function(data) {
-                console.log('AJAX successful');
-                $('#editAttributemodal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                });
-
-                $('#editAttributeForm #editAttributeBox').html(data.html);
-                $('.dropify').dropify();
-                $('.selectize-select').selectize();
-                $("#editAttributeForm .hexa-colorpicker").each(function() {
-                    var ids = $(this).attr('id');
-                    try {
-                        var picker = new jscolor('#' + ids, options);
-                    } catch (err) {
-                        console.log(err.message);
-                    }
-                });
-                document.getElementById('editAttributeForm').action = data.submitUrl;
-            },
-            error: function(data) {
-                console.log('AJAX error', data);
-            },
-            complete: function() {
-                $('.loader_box').hide();
-            }
-        });
-    });
-
-    $(document).on('click', '.deleteAttribute', function() {
-        var did = $(this).attr('dataid');
-        Swal.fire({
-            title: "{{__('Are you sure?')}}",
-            text:"{{__('You want to delete this attribute.')}}",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonText: 'Ok',
-        }).then((result) => {
-            if(result.value)
-            {
-                $('#attrDeleteForm' + did).submit();
-            }
-        });
-        return false;
-});
-
-$("#editAttributemodal").on('click', '.deleteCurRow', function() {
-    var delete_attr_id = $(this).data('delete_attr_id');
-    var closet_tr = $(this).closest('tr');
-
-    if( delete_attr_id != 'undefined' && delete_attr_id != undefined ) {
-        $.ajax({
-            type: "POST",
-            url : "{{url('attribute/delete')}}",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "id": delete_attr_id
-            },
-            beforeSend: function() {
-                $(".editAttributeSubmit").attr("disabled", true);
-            },
-            success: function (response) {
-
-                if(response.success) {
-                    closet_tr.remove();
-                } else {
-                    $('.delete_options').removeClass('d-none');
-                }
-            },
-            error: function(error) {
-                $('.delete_options').removeClass('d-none');
-            },
-            complete: function() {
-                $(".editAttributeSubmit").attr("disabled", false);
-            }
-        });
-    }
-});
-
-
     $(document).on('click', '.addOptionRow-attribute-edit', function(e) {
         var d = new Date();
         var n = d.getTime();
@@ -1237,6 +1213,47 @@ $("#editAttributemodal").on('click', '.deleteCurRow', function() {
     $("#addAttributemodal").on('click', '.deleteCurRow', function() {
         $(this).closest('tr').remove();
     });
+
+
+	var existCid = [];
+    $('#primary_currency').change(function() {
+        var pri_curr = $('#primary_currency option:selected').text();
+        console.log(pri_curr);
+        $(document).find('.primaryCurText').html('1 ' + pri_curr + '  = ');
+    });
+    $('#currency').change(function() {
+        var activeCur = [];
+        var pri_curr = $('#primary_currency option:selected').text();
+        var cidText = $('#currency').select2('data');
+        for (i = 0; i < cidText.length; i++) {
+            activeCur.push(cidText[i].id);
+        }
+        $(".curr_id").each(function() {
+            var cv = $(this).val();
+            if (existCid.indexOf(cv) === -1) {
+                existCid.push(cv);
+            }
+        });
+        for (i = 0; i < existCid.length; i++) {
+            if (activeCur.indexOf(existCid[i]) === -1) {
+                $('#addCur-' + existCid[i]).remove();
+            }
+        }
+        for (i = 0; i < cidText.length; i++) {
+            if (existCid.indexOf(cidText[i].id) === -1) {
+                var text = '<div class="col-sm-10 offset-sm-4 col-lg-12 offset-lg-0 col-xl-8 offset-xl-4 mb-2" id="addCur-' + cidText[i].id + '"><label class="primaryCurText">1 ' + pri_curr + '  = </label> <input type="number" name="multiply_by['+cidText[i].id+']"  oninput="changeCurrencyValue(this)" min="0.00000001" value="0" step=".00000001">' + cidText[i].text + '<input type="hidden" name="cuid[]" class="curr_id" value="' + cidText[i].id + '"></div>';
+                $('.multiplierData').append(text);
+            }
+        }
+    });
+    function changeCurrencyValue(obj)
+    {
+        var value = $(obj).val();
+        var new_value = value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, $1);
+        $(obj).val(new_value);
+    }
+    //for verification options
+
 
 </script>
 @endsection

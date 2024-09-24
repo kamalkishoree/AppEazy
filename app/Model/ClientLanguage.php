@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ClientLanguage extends Model
+{
+	 protected $primaryKey = null;
+    public $incrementing = false;
+    
+    protected $fillable = ['client_code', 'language_id', 'is_primary', 'is_active'];
+
+    public function language()
+    {
+      return $this->belongsTo('App\Model\Language','language_id','id')->select('id', 'name', 'sort_code','nativeName');
+    }
+
+    public function languageTrans(){
+       return $this->hasMany(ClientLanguage::class, 'client_code', 'client_code'); 
+    }
+    /*public function addon_trans(){
+       return $this->hasOne(BrandTranslation::class, 'language_id', 'language_id')->select('id', 'title', 'brand_id', 'language_id'); 
+    }*/
+
+}

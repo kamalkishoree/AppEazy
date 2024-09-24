@@ -23,7 +23,7 @@ use App\Model\TaskProof;
 use App\Model\TaskType;
 use App\Model\DriverRegistrationDocument;
 use App\Model\OrderPanelDetail;
-use App\Model\{SmtpDetail, SmsProvider, VehicleType,Agent, ClientPreferenceAdditional, FormAttribute, FormAttributeOption};
+use App\Model\{SmtpDetail, SmsProvider, VehicleType,Agent, ClientCountries, ClientCurrency, ClientLanguage, ClientPreferenceAdditional, Countries, FormAttribute, FormAttributeOption, Language, Tag};
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Session;
@@ -544,6 +544,130 @@ class ClientController extends Controller
         ], $request->all());
 
 
+
+
+
+        if($request->has('primary_currency')){
+            $oldAdditional = ClientCurrency::where('currency_id', $request->primary_currency)
+                        ->where('is_primary', 0)->delete();
+            $primaryCur = ClientCurrency::where('is_primary', 1)->update(['currency_id' => $request->primary_currency, 'doller_compare' => 1]);
+        }
+        if($request->has('primary_currency') && !$request->has('currency_data')){
+            $delete = ClientCurrency::where('client_code',Auth::user()->code)->where('is_primary', 0)->delete();
+        }
+        // Create Or Update Primary Country And Additional Country
+        if ($request->filled('primary_country')) {
+            $primaryCountryData = [
+                'is_active' => 1,
+                'is_primary' => 1,
+                'client_code' => Auth::user()->code,
+                'country_id' => $request->primary_country,
+            ];
+
+            ClientCountries::where('client_code', Auth::user()->code)->where('is_primary', 0)->delete();
+
+            ClientCountries::updateOrCreate(['is_primary' => 1], $primaryCountryData);
+        }
+
+        if ($request->filled('countries')) {
+            $existingCountryIds = [];
+            foreach ($request->countries as $country) {
+                if ($country != $request->primary_country) {
+                    $existingCountryIds[] = $country;
+                }
+            }
+            ClientCountries::where('client_code', Auth::user()->code)->where('is_primary', 0)->delete();
+            $clientCountriesData = [];
+            foreach ($existingCountryIds as $country) {
+                $clientCountriesData[] = [
+                    'is_primary' => 0,
+                    'is_active' => 1,
+                    'client_code' => Auth::user()->code,
+                    'country_id' => $country,
+                ];
+            }
+            ClientCountries::insert($clientCountriesData);
+        }
+        //  End
+// pr($request->all());
+
+
+
+if($request->has('primary_language')){
+    $deactivate_language = ClientLanguage::where('client_code',Auth::user()->code)->where('is_primary', 1)->first();
+    if($deactivate_language){
+        $deactivate_language->is_active = '0';
+        $deactivate_language->is_primary = '0';
+        $deactivate_language->save();
+    }
+    $primary_change = ClientLanguage::where('client_code', Auth::user()->code)->where('language_id', $request->primary_language)->update(['is_active' => 1, 'is_primary' => 1]);
+    if(!$primary_change){
+        ClientLanguage::insert([
+            'is_active'=> 1,
+            'is_primary'=> 1,
+            'client_code'=> Auth::user()->code,
+            'language_id'=> $request->primary_language,
+        ]);
+    }
+    $exist_language_id = array();
+    if($request->has('languages')){
+        foreach ($request->languages as $lan) {
+            if ($lan != $request->primary_language) {
+                $client_language = ClientLanguage::where('client_code', Auth::user()->code)->where('language_id', $lan)->first();
+                if (!$client_language) {
+                    $client_language = new ClientLanguage();
+                    $client_language->client_code = Auth::user()->code;
+                }
+                $client_language->is_primary = 0;
+                $client_language->language_id = $lan;
+                $client_language->is_active = 1;
+                $client_language->save();
+                $exist_language_id[] = $client_language->language_id;
+            }
+        }
+    }
+    $deactivateLanguages = ClientLanguage::where('client_code',Auth::user()->code)->whereNotIn('language_id', $exist_language_id)->where('is_primary', 0)->update(['is_active' => 0]);
+}
+
+//    pr($request->all());
+        if($request->has('primary_currency')){
+            $oldAdditional = ClientCurrency::where('currency_id', $request->primary_currency)
+                        ->where('is_primary', 0)->delete();
+            $primaryCur = ClientCurrency::where('is_primary', 1)->update(['currency_id' => $request->primary_currency, 'doller_compare' => 1]);
+        }
+        if($request->has('primary_currency') && !$request->has('currency_data')){
+            $delete = ClientCurrency::where('client_code',Auth::user()->code)->where('is_primary', 0)->delete();
+        }
+        // Create Or Update Primary Country And Additional Country
+        if($request->has('currency_data') && $request->has('multiply_by')){
+            $cur_multi = $exist_cid = array();
+            foreach ($request->currency_data as $key => $value) {
+                $exist_cid[] = $value;
+                $curr = ClientCurrency::where('currency_id', $value)->where('client_code',Auth::user()->code)->first();
+                $multiplier = $request->multiply_by[$value]??1;
+                if(!$curr){
+                    $cur_multi[] = [
+                        'currency_id'=> $value,
+                        'client_code'=> Auth::user()->code,
+                        'is_primary'=> 0,
+                        'doller_compare'=> $multiplier
+                    ];
+                }else{
+                    $curr->doller_compare =  $multiplier;
+                    $curr->save();
+                }
+            }
+            ClientCurrency::insert($cur_multi);
+             $delete = ClientCurrency::where('client_code',Auth::user()->code)->where('is_primary', 0)
+                ->whereNotIn('currency_id',$exist_cid)->delete();
+             }
+                $updatePreference = ClientPreference::updateOrCreate([
+                    'client_id' => $id
+                ], $request->all());
+
+
+
+
         if ($request->ajax()) {
             return response()->json([
                 'status' => 'success',
@@ -640,7 +764,81 @@ class ClientController extends Controller
         $client      = Client::where('code', $user->code)->first();
         $subClients  = SubClient::all();
         $order_panel_detail = OrderPanelDetail::first();
-        return view('customize')->with(['clientContact'=>$client,'attributes'=> $attributes, 'preference' => $preference, 'currencies' => $currencies,'cms'=>$cms,'task_proofs' => $task_proofs,'task_list' => $task_list,'order_panel_detail'=>$order_panel_detail]);
+
+
+
+        $curArray = [];
+        $cli_langs = [];
+        $cli_countries = [];
+        $reffer_by = "";
+        $reffer_to = "";
+        $cli_currs = [];
+        $laundry_teams = [];
+        $client = Auth::user();
+        $languages = Language::where('id', '>', '0')->get();
+        $currencies = Currency::where('id', '>', '0')->get();
+        $countries = Countries::where('id', '>', '0')->get();
+        $curtableData = array_chunk($currencies->toArray(), 2);
+        $primaryCurrency = ClientCurrency::where('is_primary', 1)->first();
+        $primaryCountry = ClientCountries::where('is_primary', 1)->first();
+
+        // $want_to_tip_nomenclature=Nomenclature::where('label','Want To Tip')->first();
+        // $fixed_fee=Nomenclature::where('label','Fixed Fee')->first();
+        $ClientPreference = ClientPreference::where('client_id', $client->code)
+        ->first();
+        if(isset($ClientPreference) && $ClientPreference->need_laundry_service == '1') {
+            $laundry_teams = $this->getLaundryTeams();
+
+        }
+        $preference = $ClientPreference ? $ClientPreference : new ClientPreference();
+
+        foreach ($preference->currencies as $value) {
+            $cli_currs[] = $value->currency_id;
+        }
+        foreach ($preference->language as $value) {
+            $cli_langs[] = $value->language_id;
+        }
+        foreach ($preference->countries as $value) {
+            $cli_countries[] = $value->country_id;
+        }
+        $tags = Tag::with('primary')->get();
+
+        if($preference->reffered_by_amount == null){
+            $reffer_by = 0;
+        }else{
+            $reffer_by = $preference->reffered_by_amount;
+        }
+        if($preference->reffered_to_amount == null){
+            $reffer_to = 0;
+        }else{
+            $reffer_to = $preference->reffered_to_amount;
+        }
+
+
+        $client_languages = ClientLanguage::join('languages as lang', 'lang.id', 'client_languages.language_id')
+        ->select('lang.id as langId', 'lang.name as langName', 'lang.sort_code', 'client_languages.client_code', 'client_languages.is_primary')
+        ->where('client_languages.client_code', Auth::user()->code)
+        ->where('client_languages.is_active', 1)
+        ->orderBy('client_languages.is_primary', 'desc')->get();
+        // return view('ting.customize', with([  ]));
+
+
+        return view('customize')->with([
+        'client' => $client,
+        'cli_langs' => $cli_langs,
+        'languages' => $languages,
+        'currencies' => $currencies,
+        'preference' => $preference,
+        'cli_currs' => $cli_currs,
+        'curtableData' => $curtableData,
+        'primaryCurrency' => $primaryCurrency,
+        'client_languages' => $client_languages,
+        'tags' => $tags,
+        'countries' => $countries,
+        'primaryCountry' => $primaryCountry,
+        'cli_countries' => $cli_countries,
+        'clientContact'=>$client,'attributes'=> $attributes, 'preference' => $preference, 'currencies' => $currencies,'cms'=>$cms,'task_proofs' => $task_proofs,'task_list' => $task_list,'order_panel_detail'=>$order_panel_detail
+        ]);
     }
 
     public function updateContactUs(Request $request){

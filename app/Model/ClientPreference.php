@@ -12,6 +12,44 @@ class ClientPreference extends Model
     public function currency(){
         return $this->hasOne('App\Model\Currency','id','currency_id');
     }
+   
 
+    public function language()
+    {
+      return $this->hasMany('App\Model\ClientLanguage','client_code','client_id')->select( 'client_code', 'language_id', 'is_primary')->where('is_active', 1);
+    }
+
+    public function primarylang()
+    {
+      return $this->hasOne('App\Model\ClientLanguage','client_code','client_id')->select( 'client_code', 'language_id')->where('is_primary', 1);
+    }
+
+    public function currencies()
+    {
+      return $this->hasMany('App\Model\ClientCurrency','client_code','client_id')->where('is_primary', 0);
+    }
+
+
+    // public function primary()
+    // {
+    //   return $this->hasone('App\Model\ClientCurrency','client_code','client_id')->select( 'client_code', 'currency_id')->where('is_primary', 1);
+    // }
+
+    public function primary()
+    {
+      return $this->hasone('App\Model\ClientCurrency','client_code','client_id')->select( 'client_code', 'currency_id')->where('is_primary', 1);
+    }
+
+
+    public function countries()
+    {
+      return $this->hasMany('App\Model\ClientCountries','client_code','client_id')->select( 'client_code', 'country_id', 'is_primary')->where('is_primary', 0);
+    }
+
+
+    public function primary_country()
+    {
+      return $this->hasone('App\Model\ClientCountries','client_code','client_id')->select( 'client_code', 'country_id')->where('is_primary', 1);
+    }
 
 }
