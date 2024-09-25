@@ -66,7 +66,7 @@ export default function Wallet({ navigation }) {
     errorRaised: null,
   });
 
-  const { appData, themeColors, currencies, themeColor, themeToggle, appStyle } =
+  const { appData, themeColors, currencies, themeColor, themeToggle, appStyle,languages } =
     useSelector((state) => state?.initBoot || {});
   const { additional_preferences, digit_after_decimal } =
     appData?.profile?.preferences || {};
@@ -114,6 +114,7 @@ export default function Wallet({ navigation }) {
         {},
         {
           code: appData?.profile?.code,
+          language: languages?.primary_language?.id,
         },
       )
       .then((res) => {
