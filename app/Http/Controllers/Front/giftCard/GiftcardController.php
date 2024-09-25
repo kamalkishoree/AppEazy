@@ -33,7 +33,7 @@ class GiftcardController extends FrontController
     }
     public function textGiftMail(){
 
-        $GiftCard       = GiftCard::first();
+        $GiftCard       = GiftCard::with('giftCardTranslation')->first();
         $code =$this->getGiftCardCode('harbans');
         $GiftCard->userCode =  $code;
         $mail_to_name = 'Harbans';
@@ -78,7 +78,7 @@ class GiftcardController extends FrontController
         $now = convertDateTimeInClientTimeZone($now);
         $currency_id = Session::get('customerCurrency');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        $GiftCard       = GiftCard::orderBy('id', 'asc')->whereDate('expiry_date', '>=', $now)->get();
+        $GiftCard       = GiftCard::with('giftCardTranslation')->orderBy('id', 'asc')->whereDate('expiry_date', '>=', $now)->get();
         $active_giftcard =$this->getUserActiveGiftCard();
         return view('frontend.account.giftcard')->with(['navCategories'=>$navCategories, 'GiftCard'=>$GiftCard, 'active_giftcards'=>$active_giftcard, 'clientCurrency'=>$clientCurrency]);
     }
@@ -95,7 +95,7 @@ class GiftcardController extends FrontController
         $currency_id    = Session::get('customerCurrency');
         $currencySymbol = Session::get('currencySymbol');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        $GiftCard       = GiftCard::where('id', $id)->first();
+        $GiftCard       = GiftCard::with('giftCardTranslation')->where('id', $id)->first();
       
         $code = array('stripe','ccavenue');
         $ex_codes = array('cod');
@@ -150,7 +150,7 @@ class GiftcardController extends FrontController
         }else{
             $user = Auth::user();
         }
-        $GiftCard       = GiftCard::where('id', $gift_card_id)->first();
+        $GiftCard       = GiftCard::with('giftCardTranslation')->where('id', $gift_card_id)->first();
         $senderData = !empty($request->senderData) ? json_decode($request->senderData) : '';
         $sendToMail = '';
         $sendToName = (isset($senderData->send_card_to_name) && !empty($senderData->send_card_to_name) ) ?  $senderData->send_card_to_name : '';

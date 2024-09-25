@@ -48,7 +48,7 @@ class SubscriptionPlansUserController extends BaseController
      */
     public function getSubscriptionPlans(Request $request, $domain = '')
     {
-        $sub_plans = SubscriptionPlansUser::with(['features.feature'])->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations'])->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 1)->get();
         $user_subscriptions = SubscriptionInvoicesUser::groupBy('user_id')->get();
         $showSubscriptionPlan = ShowSubscriptionPlanOnSignup::find(1);
@@ -183,7 +183,7 @@ class SubscriptionPlansUserController extends BaseController
                     {
                         $userSubTrans = new SubscriptionPlansUserTranslation();
                         $userSubTrans->title = $request->title[$key];
-                        $userSubTrans->description = $request->short_desc[$key];
+                        $userSubTrans->description = $request->description[$key];
                         $userSubTrans->language_id = $request->language_id[$key];
                         $userSubTrans->subscription_plan_user_id = $planId;
                         $userSubTrans->save();

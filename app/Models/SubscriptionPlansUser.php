@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SubscriptionPlansUserTranslation;
 
 class SubscriptionPlansUser extends Model
 {
@@ -73,5 +74,10 @@ class SubscriptionPlansUser extends Model
             return $days;
         }
         return isset($days[$day]) ? $days[$day] : 'Not Defined' ;
+    }
+
+    public function subscriptionPlansUsertranslations()
+    {
+        return $this->hasMany(SubscriptionPlansUserTranslation::class,'subscription_plan_user_id', 'id');
     }
 }

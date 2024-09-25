@@ -45,7 +45,7 @@ class SubscriptionPlansUserController extends BaseController
      */
     public function getSubscriptionPlans(Request $request)
     {
-        $sub_plans = SubscriptionPlansUser::with(['features.feature'])->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations'])->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 1)->get();
         $user_subscriptions = SubscriptionInvoicesUser::groupBy('user_id')->get();
         $subscribed_users_count = $user_subscriptions->count();
@@ -94,7 +94,7 @@ class SubscriptionPlansUserController extends BaseController
                 // 'sort_order' => 'required'
             );
             if(!empty($slug)){
-                $plan = SubscriptionPlansUser::where('slug', $slug)->first();
+                $plan = SubscriptionPlansUser::with('subscriptionPlansUsertranslations')->where('slug', $slug)->first();
                 if(empty($plan)){
                     return $this->errorResponse('Invalid Data', 400);
                 }
@@ -162,7 +162,7 @@ class SubscriptionPlansUserController extends BaseController
     public function editSubscriptionPlan($slug='')
     {
         try{
-            $plan = SubscriptionPlansUser::where('slug', $slug)->first();
+            $plan = SubscriptionPlansUser::with('subscriptionPlansUsertranslations')->where('slug', $slug)->first();
             if($plan){
                 $planFeatures = SubscriptionPlanFeaturesUser::select('feature_id')->where('subscription_plan_id', $plan->id)->get();
                 $featuresList = SubscriptionFeaturesListUser::where('status', 1)->get();
@@ -201,7 +201,7 @@ class SubscriptionPlansUserController extends BaseController
                 }
             }
             DB::beginTransaction();
-            $subscription = SubscriptionPlansUser::where('slug', $slug)->first();
+            $subscription = SubscriptionPlansUser::with('subscriptionPlansUsertranslations')->where('slug', $slug)->first();
             if($subscription){
                 $subscription->status = $request->status;
                 $subscription->save();
@@ -226,7 +226,7 @@ class SubscriptionPlansUserController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $subscription = SubscriptionPlansUser::where('slug', $slug)->first();
+            $subscription = SubscriptionPlansUser::with('subscriptionPlansUsertranslations')->where('slug', $slug)->first();
             if($subscription){
                 $subscription->delete();
                 DB::commit();

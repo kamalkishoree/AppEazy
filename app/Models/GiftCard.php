@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\GiftCardTranslation;
 
 class GiftCard extends Model
 {
@@ -24,5 +25,9 @@ class GiftCard extends Model
       $values['original'] = $value;
 
       return $values;
+    }
+    public function giftCardTranslation(){
+
+      return $this->hasmany(GiftCardTranslation::class);
     }
 }

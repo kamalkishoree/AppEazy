@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SubscriptionPlanVendorTranslation;
 
 class SubscriptionPlansVendor extends Model
 {
@@ -30,5 +31,10 @@ class SubscriptionPlansVendor extends Model
         $values['original'] = $value;
 
         return $values;
+    }
+
+    public function subscriptionPlanVendorTranslation()
+    {
+        return $this->hasMany(SubscriptionPlanVendorTranslation::class,'subscription_plan_vendor_id','id');
     }
 }

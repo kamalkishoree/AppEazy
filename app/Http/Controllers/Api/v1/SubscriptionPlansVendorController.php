@@ -43,7 +43,7 @@ class SubscriptionPlansVendorController extends BaseController
      */
     public function getSubscriptionPlans()
     {
-        $sub_plans = SubscriptionPlansVendor::with(['features.feature'])->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansVendor::with(['features.feature','subscriptionPlanVendorTranslation'])->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListVendor::where('status', 1)->get();
         $vendor_subscriptions = SubscriptionInvoicesVendor::where('status_id', 2)->groupBy('vendor_id')->get();
         $awaiting_approval_subscriptions_count = SubscriptionInvoicesVendor::where('status_id', 1)->count();
@@ -97,7 +97,7 @@ class SubscriptionPlansVendorController extends BaseController
                 // 'sort_order' => 'required'
             );
             if(!empty($slug)){
-                $plan = SubscriptionPlansVendor::where('slug', $slug)->firstOrFail();
+                $plan = SubscriptionPlansVendor::with('subscriptionPlanVendorTranslation')->where('slug', $slug)->firstOrFail();
                 $rules['title'] = $rules['title'].',id,'.$plan->id;
                 $message = 'updated';
             }
@@ -164,7 +164,7 @@ class SubscriptionPlansVendorController extends BaseController
     public function editSubscriptionPlan($slug='')
     {
         try{
-            $plan = SubscriptionPlansVendor::where('slug', $slug)->first();
+            $plan = SubscriptionPlansVendor::with('subscriptionPlanVendorTranslation')->where('slug', $slug)->first();
             if($plan){
                 $planFeatures = SubscriptionPlanFeaturesVendor::select('feature_id')->where('subscription_plan_id', $plan->id)->get();
                 $featuresList = SubscriptionFeaturesListVendor::where('status', 1)->get();
@@ -194,7 +194,7 @@ class SubscriptionPlansVendorController extends BaseController
       
         try{
             DB::beginTransaction();
-            $subscription = SubscriptionPlansVendor::where('slug', $slug)->first();
+            $subscription = SubscriptionPlansVendor::with('subscriptionPlanVendorTranslation')->where('slug', $slug)->first();
             if($subscription){
                 $subscription->status = $request->status;
                 $subscription->save();
@@ -221,7 +221,7 @@ class SubscriptionPlansVendorController extends BaseController
     {
         try{
             DB::beginTransaction();
-            $subscription = SubscriptionPlansVendor::where('slug', $slug)->first();
+            $subscription = SubscriptionPlansVendor::with('subscriptionPlanVendorTranslation')->where('slug', $slug)->first();
             if($subscription){
                 $subscription->on_request = $request->on_request;
                 $subscription->save();
@@ -247,7 +247,7 @@ class SubscriptionPlansVendorController extends BaseController
     {
         try {
             DB::beginTransaction();
-            $subscription = SubscriptionPlansVendor::where('slug', $slug)->first();
+            $subscription = SubscriptionPlansVendor::with('subscriptionPlanVendorTranslation')->where('slug', $slug)->first();
             if($subscription){
                 $subscription->delete();
                 DB::commit();

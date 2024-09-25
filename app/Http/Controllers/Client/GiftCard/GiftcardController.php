@@ -32,7 +32,7 @@ class GiftcardController extends BaseController
         ->where('is_active', 1)
         ->orderBy('is_primary', 'desc')->get();
         if ($request->ajax()) {
-        	$data = GiftCard::where('is_deleted',0);//->get();
+        	$data = GiftCard::with('giftCardTranslation')->where('is_deleted',0);//->get();
            // pr($data->toArray());
             return Datatables::of($data)
                     ->addIndexColumn()
