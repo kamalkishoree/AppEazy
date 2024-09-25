@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponser;
 use App\Http\Controllers\Api\v1\BaseController;
 use App\Models\{Client, ClientPreference,FaqTranslations, Page, PageTranslation, VendorRegistrationDocument};
-
+use Log;
 class CMSPageController extends BaseController
 {
 
@@ -44,6 +44,8 @@ class CMSPageController extends BaseController
     public function getPageDetail(Request $request)
     {
         \Log::info(json_encode($request->all()));
+        \Log::info(json_encode($request->header()));
+
         $data = [];
         $page_id = $request->page_id ? $request->page_id : 3;
         $code = $request->header('code');
@@ -105,8 +107,10 @@ class CMSPageController extends BaseController
             }
             $data['driver_registration_documents'] = $driverDocs['documents'];
             foreach( $data['driver_registration_documents'] as $key => $drivr_doc)
-            {
-                @$data['driver_registration_documents'][$key]['name'] = __(@$data['driver_registration_documents'][$key]['name']);
+            {   
+                Log::info($data['driver_registration_documents'][$key]['name']);
+                $data['driver_registration_documents'][$key]['name'] = __($data['driver_registration_documents'][$key]['name']);
+                // pr($data['driver_registration_documents'][$key]['name']);
             }
             $data['transport_types'] = $transport_types;
             $data['driver_types'] = $driver_types;

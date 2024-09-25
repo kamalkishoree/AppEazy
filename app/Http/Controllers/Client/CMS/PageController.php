@@ -44,6 +44,7 @@ class PageController extends BaseController{
             'edit_title' => 'required',
             'edit_description' => 'required',
         );
+
         // if($request->type_of_form == 3){
         //     $rules = array(
         //         'edit_title' => 'required',
@@ -117,9 +118,13 @@ class PageController extends BaseController{
             'edit_description' => 'required',
         );
         $validation  = Validator::make($request->all(), $rules)->validate();
-        $page_detail = Page::where('id', $request->page_id)->firstOrFail();
-        $page_detail->slug=Str::slug($request->edit_title, '-');
-        $page_detail->save();
+        // $page_detail = Page::where('slug',$request->edit_title)->first();
+        // if(!$page_detail)
+        // {
+        //     $page_detail = new page();
+        // }
+        // $page_detail->slug=Str::slug($request->edit_title, '-');
+        // $page_detail->save();
         $page_translation = PageTranslation::where('page_id', $request->page_id)->where('language_id', $request->language_id)->first();
         if(!$page_translation){
             $page_translation = new PageTranslation();

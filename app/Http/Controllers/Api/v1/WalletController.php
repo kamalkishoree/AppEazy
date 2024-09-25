@@ -44,6 +44,14 @@ class WalletController extends Controller{
                 $trans->meta = __($meta[0]) ." ". __("number").@$meta[1];
 
             }
+
+            elseif(str_contains($trans->meta,'return'))
+            {
+                $meta = explode('return', $trans->meta);
+                $trans->meta = __($meta[0]) . __("return").@$meta[1];
+
+            }
+
             $trans->type = __($trans->type);
 
 
