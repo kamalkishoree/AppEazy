@@ -32,6 +32,7 @@ import {
   hapticEffects,
   playHapticEffect,
   showError,
+  showInfo,
   showSuccess,
 } from "../../../utils/helperFunctions";
 import stylesFunc from "./styles";
@@ -89,6 +90,7 @@ import HeaderLoader from '../../../Components/Loaders/HeaderLoader';
 import CircularProfileLoader from '../../../Components/Loaders/CircularProfileLoader';
 import Header from '../../../Components/Header';
 import BidAcceptRejectCard from "../../../Components/Loaders/BidAcceptRejectCard";
+import BannerLoader from "../../../Components/Loaders/BannerLoader";
 
 function PickupTaxiOrderDetail({ navigation, route }) {
   const { themeColor, themeToggle } = useSelector((state) => state?.initBoot);
@@ -179,6 +181,14 @@ function PickupTaxiOrderDetail({ navigation, route }) {
   const [allDriversList, setAllDriversList] = useState([])
   const [bidExpiryDuration, setBidExpiryDuration] = useState(0)
   const [bidBookModalVisible, setBidBookModalVisible] = useState(false)
+  const [cancelReasons, setCancelReasons] = useState([]);
+  const [isCancelOrderContentLoader, setIsCancelOrderContentLoader] =
+    useState(false);
+  const [cancellationItem, setCancellationItem] = useState(null);
+  const [selectedCancelReason, setSelectedCancelReason] = useState({});
+  const [reasonError, setReasonError] = useState(false);
+  const [cancelLoader, setLoader] = useState(false);
+  // const [reason, setReason] = useState("");
 
   const [
     finalCollectionOfLocationsForPickAndDrop,
@@ -816,6 +826,28 @@ function PickupTaxiOrderDetail({ navigation, route }) {
       .catch(errorMethod);
   };
 
+  const onCancelOrderWithRsn = (item) => {
+    setIsCancelOrderContentLoader(true);
+    console.log(item,',sdbfmdsbgmsdf');
+    
+    setCancellationItem(item);
+    actions
+      .getCancellationReason(
+        {},
+        {
+          code: appData?.profile?.code,
+          currency: currencies?.primary_currency?.id,
+          language: languages?.primary_language?.id,
+        },
+      )
+      .then((res) => {
+        console.log(res, "selectedCancelReason>>");
+        setCancelReasons(res?.data);
+        setIsCancelOrderContentLoader(false);
+      })
+      .catch(errorMethod);
+  };
+
   const _ModalMainView = () => {
     // console.log('checking isShowRating', !!isShowRating);
     return (
@@ -1093,6 +1125,8 @@ function PickupTaxiOrderDetail({ navigation, route }) {
       orderCancelMessage: "",
       reason: "",
     });
+    setCancellationItem(null);
+    setReasonError(false);
   };
 
   const onCancelOrder = (reasonForCancle) => {
@@ -1147,6 +1181,47 @@ function PickupTaxiOrderDetail({ navigation, route }) {
         }
       })
       .catch(errorMethod);
+  };
+
+  const onCancel = async () => {
+    if (selectedCancelReason?.id == 8 && reason == '') {
+      setReasonError(true);
+      return;
+    }
+    setLoader(true);
+
+    const apiData = {
+      order_id: paramData?.orderId,
+      vendor_id: paramData?.selectedVendor?.id,
+      reject_reason: reason,
+      cancel_reason_id: selectedCancelReason?.id,
+      status_option_id: paramData?.orderDetail?.order_status?.current_status?.id,
+    };
+    console.log(paramData?.orderDetail?.order_status?.current_status?.id,"sendingapi data", apiData);
+
+    try {
+      const res = await actions.cancelOrder(apiData, {
+        code: appData?.profile?.code,
+        currency: currencies?.primary_currency?.id,
+        language: languages?.primary_language?.id,
+      });
+      setLoader(false);
+      // updateLocalItem(data);
+      if (res?.status == 403) {
+        console.log(res?.message,"res?.message>>>>");
+        updateState({orderCancelMessage:res?.message})
+      } else {
+        showInfo(res?.message)
+        hideModal();
+      }
+
+      console.log('cancellation res+++++', res);
+    } catch (error) {
+      // showError(error?.message || error?.error)
+      alert(error?.message || error?.error);
+      console.log("error raised", error);
+      setLoader(false);
+    }
   };
 
   console.log(paramData, "paramData>>");
@@ -1415,7 +1490,8 @@ function PickupTaxiOrderDetail({ navigation, route }) {
             <TouchableOpacity
               disabled={orderStatus == "cancelled" || orderStatus == "failed"}
               activeOpacity={0.7}
-              onPress={() => updateState({ isCancleModal: true })}
+              // onPress={() => updateState({ isCancleModal: true })}
+              onPress={onCancelOrderWithRsn}
             >
               <Text
                 style={{
@@ -1427,7 +1503,11 @@ function PickupTaxiOrderDetail({ navigation, route }) {
                   ? strings.ORDER_CANCELLED
                   : orderStatus == "completed"
                     ? null
-                    : strings.CANCEL_ORDER}
+                    : !isEmpty(paramData?.orderDetail?.cancel_request) ? `${strings.CANCELLATION_REQUEST} ${paramData?.orderDetail?.cancel_request?.status_id == 0
+                      ? ' pending'
+                      : paramData?.orderDetail?.cancel_request?.status_id == 2
+                        ? ' rejected'
+                        : ''} `  :  strings.CANCEL_ORDER}
               </Text>
             </TouchableOpacity>
           ) : null}
@@ -2790,6 +2870,200 @@ function PickupTaxiOrderDetail({ navigation, route }) {
           />
         </View>
       </Modal>
+
+      <Modal
+          isVisible={!!cancellationItem ? true : false}
+          onBackdropPress={hideModal}
+          // animationIn="zoomIn"
+          // animationOut="zoomOut"
+          style={{
+            margin: 0,
+            justifyContent: 'flex-end',
+            marginBottom:
+              Platform.OS == 'ios' ? moderateScale(keyboardHeight) : 0,
+          }}>
+          <View
+            style={{
+              backgroundColor: isDarkMode
+                ? MyDarkTheme.colors.lightDark
+                : colors.white,
+              borderTopLeftRadius: moderateScale(8),
+              borderTopRightRadius: moderateScale(8),
+              overflow: 'hidden',
+              paddingHorizontal: moderateScale(16),
+              paddingVertical: moderateScale(12),
+              // height: moderateScaleVertical(300),
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Text />
+              {!isCancelOrderContentLoader && (
+                <Text
+                  style={{
+                    fontSize: textScale(16),
+                    color: isDarkMode ? MyDarkTheme.colors.text : colors.black,
+                    alignSelf: 'center',
+                    fontFamily: fontFamily.medium,
+                  }}>
+                  {strings.SELECT_CANCELLATION_REASON}
+                </Text>
+              )}
+              <TouchableOpacity onPress={hideModal}>
+                <Image
+                  style={isDarkMode && { tintColor: colors.white }}
+                  source={imagePath.closeButton}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {isCancelOrderContentLoader ? (
+              <View style={{}}>
+                <BannerLoader
+                  viewStyles={{
+                    marginTop: moderateScale(8),
+                    marginBottom: moderateScale(10),
+                    marginHorizontal: moderateScale(0),
+                  }}
+                  homeLoaderHeight={moderateScaleVertical(40)}
+                />
+                <BannerLoader
+                  viewStyles={{
+                    marginBottom: moderateScale(10),
+                    marginHorizontal: moderateScale(0),
+                  }}
+                  homeLoaderHeight={moderateScaleVertical(40)}
+                />
+                <BannerLoader
+                  viewStyles={{
+                    marginBottom: moderateScale(20),
+                    marginHorizontal: moderateScale(0),
+                  }}
+                  homeLoaderHeight={moderateScaleVertical(40)}
+                />
+              </View>
+            ) : (
+              <View>
+                {!!reasonError && selectedCancelReason?.id == 8 && (
+                  <Text
+                    style={{
+                      fontSize: textScale(12),
+                      color: colors.redB,
+                      fontFamily: fontFamily.medium,
+                      marginTop: moderateScaleVertical(8),
+                    }}>
+                    {strings.PLEASE_ENTER_CANCELLATION_REASON}*{' '}
+                  </Text>
+                )}
+                <View style={{ height: moderateScaleVertical(20) }} />
+
+                <ScrollView
+                  style={{
+                    maxHeight: moderateScaleVertical(250),
+                  }}>
+                  {cancelReasons.map((item) => (
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => setSelectedCancelReason(item)}
+                      style={{
+                        height: moderateScaleVertical(40),
+                        backgroundColor: colors.blackOpacity05,
+                        paddingHorizontal: moderateScale(10),
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginBottom: 4,
+                      }}>
+                      <Text> {item?.title}</Text>
+                      {selectedCancelReason?.id == item?.id ? (
+                        <Image source={imagePath.tick2} />
+                      ) : (
+                        <></>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+
+                {selectedCancelReason?.id == 8 ? (
+                  <View
+                    style={{
+                      // marginVertical: moderateScaleVertical(16),
+                      backgroundColor: isDarkMode
+                        ? colors.whiteOpacity15
+                        : colors.greyNew,
+                      height: moderateScale(82),
+                      borderRadius: moderateScale(4),
+                      paddingHorizontal: moderateScale(8),
+                      marginTop: reasonError
+                        ? moderateScaleVertical(8)
+                        : moderateScaleVertical(16),
+                    }}>
+                    <TextInput
+                      multiline
+                      value={reason}
+                      placeholder={strings.WRITE_YOUR_REASON_HERE}
+                      onChangeText={(val) => updateState({reason:val})}
+                      style={{
+                        ...styles.reasonText,
+                        color: isDarkMode ? colors.textGreyB : colors.black,
+                        textAlignVertical: 'top',
+                      }}
+                      onSubmitEditing={Keyboard.dismiss}
+                      placeholderTextColor={
+                        isDarkMode ? colors.textGreyB : colors.blackOpacity40
+                      }
+                    />
+                  </View>
+                ) : null}
+
+                {selectedCancelReason?.id == 13 ? (
+                  <View
+                    style={{
+                      // marginVertical: moderateScaleVertical(16),
+                      backgroundColor: isDarkMode
+                        ? colors.whiteOpacity15
+                        : colors.greyNew,
+                      height: moderateScale(82),
+                      borderRadius: moderateScale(4),
+                      paddingHorizontal: moderateScale(8),
+                      marginTop: reasonError
+                        ? moderateScaleVertical(8)
+                        : moderateScaleVertical(16),
+                    }}>
+                    <TextInput
+                      multiline
+                      value={reason}
+                      placeholder={strings.WRITE_YOUR_REASON_HERE}
+                      onChangeText={(val) => updateState({reason:val})}
+                      style={{
+                        ...styles.reasonText,
+                        color: isDarkMode ? colors.textGreyB : colors.black,
+                        textAlignVertical: 'top',
+                      }}
+                      onSubmitEditing={Keyboard.dismiss}
+                      placeholderTextColor={
+                        isDarkMode ? colors.textGreyB : colors.blackOpacity40
+                      }
+                    />
+                  </View>
+                ) : null}
+                <ButtonWithLoader
+                  isLoading={cancelLoader}
+                  btnText={strings.CANCEL}
+                  btnStyle={{
+                    backgroundColor: themeColors.primary_color,
+                    borderWidth: 0,
+                  }}
+                  onPress={onCancel}
+                />
+              </View>
+            )}
+          </View>
+        </Modal>
+
       <Modal
         isVisible={isCancleModal}
         onBackdropPress={hideModal}

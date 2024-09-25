@@ -24,6 +24,7 @@ import DeviceCountry, {
 } from 'react-native-device-country';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import staticStrings from '../constants/staticStrings';
+import SunmiPrinter from '@heasy/react-native-sunmi-printer'
 
 const getCurrentLocation = (type) =>
   new Promise((resolve, reject) => {
@@ -616,6 +617,15 @@ export function redirectFromNotification(clickActionUrl = null) {
     }
   }
 }
+export const isSunmiPrinterConnected = async () => {
+  try {
+    const connectedDevices = await SunmiPrinter.hasPrinter(); // Assuming this method exists
+    return connectedDevices;
+  } catch (error) {
+    console.error('Error checking Sunmi printer connection:', error);
+    return false; 
+  }
+};
 
 export {
   showError,

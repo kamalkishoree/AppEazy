@@ -1675,7 +1675,7 @@ export default function Subscriptions2({ navigation, route }) {
   //     </>
   //   );
   // };
-
+  console.log(preferences?.stripe_publishable_key,"preferences?.stripe_publishable_key")
   return (
     <WrapperContainer
       bgColor={
@@ -1696,6 +1696,7 @@ export default function Subscriptions2({ navigation, route }) {
         centerTitle={strings.SUBSCRIPTION}
         textStyle={{ fontSize: textScale(14) }}
       />
+      {console.log(preferences?.stripe_publishable_key,"preferences?.stripe_publishable_key")}
       <StripeProvider
         publishableKey={preferences?.stripe_publishable_key}
         merchantIdentifier="merchant.identifier">
