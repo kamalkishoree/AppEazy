@@ -356,6 +356,7 @@ export default function WebLinks(props) {
       formData.append('uid', driverUID);
       formData.append('plate_number', driverLicencePlate);
       formData.append('color', driverColor);
+      formData.append('check_conditions', isTermsConditions ? 1 : 0);
       formData.append(
         'vehicle_type_id',
         !!driverTransportType ? driverTransportType?.value : '',
@@ -384,7 +385,7 @@ export default function WebLinks(props) {
         );
       });
       console.log(formData, 'formDataaaaaa');
-
+     
       updateState({ isLoading: true });
       actions
         .driverRegisteration(formData, {
@@ -2383,6 +2384,63 @@ export default function WebLinks(props) {
                   )
                 }}
               />
+
+<View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginVertical: moderateScale(10),
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      updateState({ isTermsConditions: !isTermsConditions })
+                    }>
+                    <Image
+                      source={
+                        isTermsConditions ? imagePath.check : imagePath.unCheck
+                      }
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontFamily: fontFamily.regular,
+                      marginLeft: moderateScale(3),
+                      color: isDarkMode ? colors.white : colors.black,
+                    }}>
+                    {strings.I_ACCEPT}{' '}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => _onLinkPress('terms')}>
+                    <Text
+                      style={{
+                        fontFamily: fontFamily.regular,
+                        color: colors.blueColor,
+                      }}>
+                      {strings.TERMS_CONDITIONS}
+                    </Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontFamily: fontFamily.regular,
+                      color: isDarkMode ? colors.white : colors.black,
+                    }}>
+                    {' '}
+                    {strings.HAVE_READ}{' '}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => _onLinkPress('privacy')}
+                    activeOpacity={0.7}>
+                    <Text
+                      style={{
+                        fontFamily: fontFamily.regular,
+                        color: colors.blueColor,
+                      }}>
+                      {strings.PRIVACY_POLICY}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
 
               <GradientButton
                 textStyle={{
