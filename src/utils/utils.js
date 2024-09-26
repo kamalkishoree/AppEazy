@@ -19,13 +19,18 @@ export const createAxiosInstance = () => {
 };
 
 
+
+
 export async function getHeaders() {
   let userData = await AsyncStorage.getItem('userData');
+  let defaultLanguage = await AsyncStorage.getItem('defaultLanguage');
+  console.log(defaultLanguage?.value,"defaultLanguage>>>>>>");
 
   if (userData) {
     userData = JSON.parse(userData);
     return {
       Authorization: `${userData?.access_token}`,
+      language:!!defaultLanguage?.value ? defaultLanguage?.value : 'en'
     };
   }
   return {};
