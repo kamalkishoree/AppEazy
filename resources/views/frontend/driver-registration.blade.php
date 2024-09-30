@@ -201,6 +201,12 @@
                     <p id="data-error" style="color:red;"></p>
                     <p id="data-error1" style="color:green;"></p>
 
+                    <div class="col-12 checkbox-input" id="check_conditionsCheckbox">
+                                        <input type="checkbox" id="check_conditions" name="check_conditions" value="1" required>
+                                        <label for="check_conditions">{{__('I accept the')}} <a style="color:blue !important"  href="{{url('page/terms-conditions')}}" target="_blank">{{__('Terms And Conditions')}}</a> {{__('and have read the')}} <a style="color:blue !important" href="{{url('page/privacy-policy')}}" target="_blank"> {{__('Privacy Policy.')}}</a></label>
+                        <span class="invalid-feedback" id="check_conditions_error" role="alert">
+                  </div>
+
                     <button class="btn btn-solid mt-3 w-100" dir="ltr" data-style="expand-right" id="register_btn" type="button">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="register_btn_loader" style="display:none !important;"></span>
                         <span class="ladda-label">{{__('Submit')}}</span>
@@ -537,10 +543,12 @@
             $('#dialCode').val(dial_code);
         });
         $('#register_btn').click(function() {
+            let isChecked = $('#check_conditions').is(':checked')
             $(".invalid-feedback strong").empty();
             $(" input").removeClass("is-invalid");
             var that = $(this);
             var loop_length = $('.required').length;
+            // alert(loop_length);
             var hasErrors = false;
             if(loop_length){
                 for(var i = 0; i < loop_length; i++){

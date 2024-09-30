@@ -4257,17 +4257,23 @@ class OrderController extends FrontController
     public function driverSignup(Request $request)
     {
 
+
+        pr($request->all());
+
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'phone_number' => 'required',
                 'type' => 'required',
-                'team' => 'required'
+                'team' => 'required',
+               // 'check_conditions'=>'required'
             ], [
                 "name.required" => __('The name field is required.'),
                 "phone_number.required" => __('The phone number field is required.'),
                 "type.required" => __('The type field is required.'),
-                "team.required" => __('The team field is required.')
+                "team.required" => __('The team field is required.'),
+               // "check_conditions.required"=>__('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy')
+
             ]);
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors(), 422);
@@ -4283,8 +4289,10 @@ class OrderController extends FrontController
                     'name' => 'required',
                     'phonenumber' => 'required',
                     'type' => 'required',
-                    'team' => 'required'
+                    'team' => 'required',
+                    'check_conditions' =>'required'
                 ];
+
                 foreach ($driver_registration_documents as $driver_registration_document) {
                     if ($driver_registration_document->is_required == 1) {
                         $name = str_replace(" ", "_", $driver_registration_document->name);
@@ -4306,7 +4314,9 @@ class OrderController extends FrontController
                     "uid.required" => __('The UID field is required.'),
                     "platenumber.required" => __('The licence plate field is required.'),
                     "color.required" => __('The color field is required.'),
-                    "team.required" => __('The team field is required.')
+                    "team.required" => __('The team field is required.'),
+                    "check_conditions.required"=>__('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy')
+
                 ]);
                 if ($validator->fails()) {
                     return $this->errorResponse($validator->errors(), 422);
