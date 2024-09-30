@@ -779,11 +779,18 @@ if (!function_exists('dateTimeInUserTimeZone')) {
 
         $format = $dateFormat . $timeFormat;
         $date_data = $date->isoFormat($format);
+        
         if( str_contains($date_data,'ከሰዓት'))
         {
              $date_data =  str_replace('ከሰዓት','PM',$date_data);
             
         }
+        if( str_contains($date_data,'ሓቆ ሰር ምዕል'))
+        {
+             $date_data =  str_replace('ሓቆ ሰር ምዕል','AM',$date_data);
+            
+        }
+
         return $date_data;
     }
 }

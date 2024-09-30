@@ -408,26 +408,21 @@ class BaseController extends Controller{
                         ->where('categories.is_core', 1)
                         ->where('categories.is_visible', 1)
                         ->where('cts.language_id', $lang_id);
-
                         if($type == 'dine_in')
                         {
                             $categories = $categories->where('slug','Restaurant');
                         }        
-                      
                         $categories = $categories->orderBy('categories.parent_id', 'asc')
                         ->whereNull('categories.vendor_id')
                         ->withCount('products')
                         ->orderBy('categories.position', 'asc')
                         ->groupBy('id');
-
-                           
-        if(@$request['category_limit'] && $request['category_limit'] > 0){
-            $categories = $categories->take($request['category_limit'])->get();
-        }else{
-           
-            $categories = $categories->get();
-        }
-       
+                        if(@$request['category_limit'] && $request['category_limit'] > 0){
+                            $categories = $categories->take($request['category_limit'])->get();
+                        }else{
+                        
+                            $categories = $categories->get();
+                        }
         
         // dd($categories);
         if($categories){

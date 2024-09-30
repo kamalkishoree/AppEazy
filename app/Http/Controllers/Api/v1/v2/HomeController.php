@@ -654,8 +654,15 @@ class HomeController extends BaseController
         }else{
             $vendors = $vendors->inRandomOrder();
         }
-        $vendors = $vendors->where('status', 1)->where($request->type, 1)
-            ->limit(10)->get();
+    
+        $vendors = $vendors->where('status', 1);
+
+        if(isset($request->type) &&  !is_null($request->type))
+        {
+            $vendors = $vendors->where($request->type, 1);
+        }
+        $vendors = $vendors->limit(10)->get();
+
         foreach ($vendors as $key => $value) {
             $vendor_ids[] = $value->id;
             // $value->vendorRating = $this->vendorRating($value->products);
