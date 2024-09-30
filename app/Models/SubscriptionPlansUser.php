@@ -78,6 +78,6 @@ class SubscriptionPlansUser extends Model
 
     public function subscriptionPlansUsertranslations()
     {
-        return $this->hasMany(SubscriptionPlansUserTranslation::class,'subscription_plan_user_id', 'id');
+        return $this->hasMany(SubscriptionPlansUserTranslation::class,'subsplan_userid', 'id');
     }
 }

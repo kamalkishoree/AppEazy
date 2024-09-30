@@ -35,6 +35,6 @@ class SubscriptionPlansVendor extends Model
 
     public function subscriptionPlanVendorTranslation()
     {
-        return $this->hasMany(SubscriptionPlanVendorTranslation::class,'subscription_plan_vendor_id','id');
+        return $this->hasMany(SubscriptionPlanVendorTranslation::class,'subsplan_vendor_id','id');
     }
 }

@@ -145,7 +145,7 @@ class SubscriptionPlansVendorController extends BaseController
                         $vendorSubTrans->title = $request->title[$key];
                         $vendorSubTrans->description = $request->short_desc[$key];
                         $vendorSubTrans->language_id = $request->language_id[$key];
-                        $vendorSubTrans->subscription_plan_vendor_id = $planId;
+                        $vendorSubTrans->subsplan_vendor_id = $planId;
                         $vendorSubTrans->save();
                     }
                 }

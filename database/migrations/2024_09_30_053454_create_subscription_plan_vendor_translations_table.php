@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionPlanVendorTranslations extends Migration
+class CreateSubscriptionPlanVendorTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,9 +17,9 @@ class CreateSubscriptionPlanVendorTranslations extends Migration
             $table->id();
             $table->string('title', 150)->nullable();
             $table->string('description', 255)->nullable();
-            $table->bigInteger('subscription_plan_vendor_id')->unsigned()->nullable();
+            $table->bigInteger('subsplan_vendor_id')->unsigned()->nullable();
             $table->bigInteger('language_id')->unsigned()->nullable();
-            $table->foreign('subscription_plan_vendor_id')->references('id')->on('subscription_plans_vendor')->onDelete('cascade');
+            $table->foreign('subsplan_vendor_id')->references('id')->on('subscription_plans_vendor')->onDelete('cascade');
             $table->foreign('language_id')->references('language_id')->on('client_languages')->onDelete('cascade');
             $table->timestamps();
         });

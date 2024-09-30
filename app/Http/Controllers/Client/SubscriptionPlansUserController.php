@@ -185,7 +185,7 @@ class SubscriptionPlansUserController extends BaseController
                         $userSubTrans->title = $request->title[$key];
                         $userSubTrans->description = $request->description[$key];
                         $userSubTrans->language_id = $request->language_id[$key];
-                        $userSubTrans->subscription_plan_user_id = $planId;
+                        $userSubTrans->subsplan_userid = $planId;
                         $userSubTrans->save();
                     }
                 }
