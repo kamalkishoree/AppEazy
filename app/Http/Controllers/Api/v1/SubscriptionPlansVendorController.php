@@ -207,7 +207,7 @@ class SubscriptionPlansVendorController extends BaseController
         }
         catch(\Exception $ex){
             DB::rollback();
-            return $this->errorResponse($ex->getMessage(), 400);
+            return $this-s>errorResponse($ex->getMessage(), 400);
         }
     }
 
