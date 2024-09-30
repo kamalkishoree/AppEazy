@@ -141,9 +141,10 @@ class SubscriptionPlansVendorController extends BaseController
                 foreach ($request->title as $key => $value) {
                     if($request->title[$key] != null)
                     {
+                        
                         $vendorSubTrans = new SubscriptionPlanVendorTranslation();
                         $vendorSubTrans->title = $request->title[$key];
-                        $vendorSubTrans->description = $request->short_desc[$key];
+                        $vendorSubTrans->description = $request->description[$key];
                         $vendorSubTrans->language_id = $request->language_id[$key];
                         $vendorSubTrans->subsplan_vendor_id = $planId;
                         $vendorSubTrans->save();
