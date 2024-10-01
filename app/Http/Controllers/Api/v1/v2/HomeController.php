@@ -1671,6 +1671,14 @@ class HomeController extends BaseController
                                     $order_pre_time = ($vendor->order_pre_time > 0) ? $vendor->order_pre_time : 0;
                                     $user_to_vendor_time = ($vendor->user_to_vendor_time > 0) ? $vendor->user_to_vendor_time : 0;
                                     $ETA = $order_pre_time + $user_to_vendor_time;
+
+                                    if($order->scheduled_date_time == "0000-00-00 00:00:00")
+                                    {
+                                        $order->scheduled_date_time = date('d-m-Y H:i');
+
+                                        // pr(  $order->scheduled_date_time);
+                                    }
+
                                     $vendor->ETA = ($ETA > 0) ? $this->formattedOrderETA($ETA, $vendor->created_at, $order->scheduled_date_time) : dateTimeInUserTimeZone($vendor->created_at, $user->timezone);
                                 }
                                 if ($vendor->dineInTable) {
@@ -1680,9 +1688,8 @@ class HomeController extends BaseController
                                 }
                             }
                             $order->converted_scheduled_date_time = dateTimeInUserTimeZone($order->scheduled_date_time, $user->timezone);
-                          
-                          
                         }
+
             }
         }
         /**  Recent order end */
