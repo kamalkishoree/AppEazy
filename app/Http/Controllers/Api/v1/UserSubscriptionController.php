@@ -29,7 +29,13 @@ class UserSubscriptionController extends BaseController
         $user = Auth::user();
         $currency_id = $user->currency;
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        $sub_plans = SubscriptionPlansUser::with('features.feature')->where('status', '1')->orderBy('id', 'asc')->get();
+        // $sub_plans = SubscriptionPlansUser::with('features.feature')->where('status', '1')->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations' => function($q) use ($request) {
+            $q->where('language_id', $request->header('language'));
+        }])
+        ->where('status', '1')
+        ->orderBy('id', 'asc')
+        ->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 1)->get();
         $active_subscription = SubscriptionInvoicesUser::with(['plan', 'features.feature'])
                             ->where('user_id', $user->id)
