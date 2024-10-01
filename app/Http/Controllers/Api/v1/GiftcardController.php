@@ -29,10 +29,12 @@ class GiftcardController extends BaseController
     public function getGiftCard(Request $request)
     {   
         try{
-            
             $user = Auth::user();
             $now  = Carbon::now()->toDateTimeString();
-            $GiftCard        = GiftCard::orderBy('id', 'asc')->whereDate('expiry_date', '>=', $now)->get();
+            $GiftCard        = GiftCard::orderBy('id', 'asc')->whereDate('expiry_date', '>=', $now)
+            ->with('giftCardTranslation',function($q)use($request){
+                $q->where('language_id',$request->header('language'));
+            })->get();
             $active_giftcard = $this->getUserActiveGiftCard();
             // return array
             $respons['allGiftCard']          =  $GiftCard;
