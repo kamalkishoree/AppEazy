@@ -15,7 +15,22 @@
             <div class="col-md-12">
                 <div class="form-group" id="titleInput">
                     {!! Form::label('title', __('Title'),['class' => 'control-label']) !!}
-                    {!! Form::text('title',$GiftCard->title, ['class' => 'form-control', 'placeholder'=>'Enter Title']) !!}
+                    <table class="table table-borderless table-responsive al_table_responsive_data mb-0" id="edit_brand-datatable" >
+                        <tr>
+                            @foreach($languages as $langs)
+                                <th>{{$langs->language->name}}</th>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            @foreach($languages as $langs)
+                                <td>
+                                    {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                    <input type="text" name="title[]" value="{{(isset($langs->giftcardTrans) && !empty($langs->giftcardTrans->title)) ? $langs->giftcardTrans->title : ''}}" class="form-control" @if($langs->is_primary == 1) required @endif>
+                                </td>
+                            @endforeach
+                        </tr>
+                    </table>
+                    {{-- {!! Form::text('title',$GiftCard->title, ['class' => 'form-control', 'placeholder'=>'Enter Title']) !!} --}}
                     <span class="invalid-feedback" role="alert">
                         <strong></strong>
                     </span>
@@ -23,8 +38,22 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group" id="short_descInput">
-                    {!! Form::label('short_desc', __('Short Description'),['class' => 'control-label']) !!}
-                    {!! Form::textarea('short_desc',$GiftCard->title, ['class' => 'form-control', 'placeholder'=>'Enter Short Description', 'rows' => 3]) !!}
+                    {!! Form::label('description', __('Short Description'),['class' => 'control-label']) !!}
+                    <table class="table table-borderless table-responsive al_table_responsive_data mb-0" id="edit_brand-datatable" >
+                        <tr>
+                            @foreach($languages as $langs)
+                                <th>{{$langs->language->name}}</th>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            @foreach($languages as $langs)
+                                <td>
+                                    <input type="text" name="short_desc[]" value="{{(isset($langs->giftcardTrans) && !empty($langs->giftcardTrans->description)) ? $langs->giftcardTrans->description : ''}}" class="form-control" @if($langs->is_primary == 1) required @endif>
+                                </td>
+                            @endforeach
+                        </tr>
+                    </table>
+                    {{-- {!! Form::textarea('short_desc',$GiftCard->title, ['class' => 'form-control', 'placeholder'=>'Enter Short Description', 'rows' => 3]) !!} --}}
                     <span class="invalid-feedback" role="alert">
                         <strong></strong>
                     </span>

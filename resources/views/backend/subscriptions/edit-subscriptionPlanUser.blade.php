@@ -30,7 +30,22 @@ use app\Models\SubscriptionPlansUser;
                     <div class="col-md-6">
                         <div class="form-group" id="nameInput">
                             {!! Form::label('title', __('Title'),['class' => 'control-label']) !!}
-                            {!! Form::text('title', $plan->title, ['class'=>'form-control', 'required'=>'required']) !!}
+                            <table class="table table-borderless table-responsive al_table_responsive_data mb-0" id="edit_brand-datatable" >
+                                <tr>
+                                    @foreach($languages as $langs)
+                                        <th>{{$langs->language->name}}</th>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($languages as $langs)
+                                        <td>
+                                            {!! Form::hidden('language_id[]', $langs->language_id) !!}
+                                            <input type="text" name="title[]" value="{{(isset($langs->userSubsTrans) && !empty($langs->userSubsTrans->title)) ? $langs->userSubsTrans->title : ''}}" class="form-control" @if($langs->is_primary == 1) required @endif>
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            </table>
+                            {{-- {!! Form::text('title', $plan->title, ['class'=>'form-control', 'required'=>'required']) !!} --}}
                             <span class="invalid-feedback" role="alert">
                                 <strong></strong>
                             </span>
@@ -199,7 +214,21 @@ use app\Models\SubscriptionPlansUser;
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('title', __('Description'),['class' => 'control-label']) !!}
-                            {!! Form::textarea('description', $plan->description, ['class' => 'form-control', 'rows' => '3']) !!}
+                            <table class="table table-borderless table-responsive al_table_responsive_data mb-0" id="edit_brand-datatable" >
+                                <tr>
+                                    @foreach($languages as $langs)
+                                        <th>{{$langs->language->name}}</th>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    @foreach($languages as $langs)
+                                        <td>
+                                            <input type="text" name="description[]" value="{{(isset($langs->userSubsTrans) && !empty($langs->userSubsTrans->description)) ? $langs->userSubsTrans->description : ''}}" class="form-control" @if($langs->is_primary == 1) required @endif>
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            </table>
+                            {{-- {!! Form::textarea('description', $plan->description, ['class' => 'form-control', 'rows' => '3']) !!} --}}
                         </div>
                     </div>
                 </div>

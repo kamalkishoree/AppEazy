@@ -113,7 +113,6 @@ class SubscriptionPlansUserController extends BaseController
      */
     public function saveSubscriptionPlan(Request $request, $domain = '', $slug='')
     {
-        // dd($request->all());
         $message = 'added';
         $rules = array(
             'title' => 'required|max:50',
@@ -123,16 +122,34 @@ class SubscriptionPlansUserController extends BaseController
             // 'period' => 'required',
             // 'sort_order' => 'required'
         );
-        if(!empty($slug)){
-            $plan = SubscriptionPlansUser::where('slug', $slug)->firstOrFail();
-            $rules['title'] = $rules['title'][0].',id,'.$plan->id;
-            $message = 'updated';
-        }
-
         $validation  = Validator::make($request->all(), $rules);
         if ($validation->fails()) {
             return redirect()->back()->withInput()->withErrors($validation);
         }
+        $flag=true;
+        if(!empty($slug)){
+            $plan = SubscriptionPlansUser::where('slug', $slug)->firstOrFail();
+            // $rules['title'] = $rules['title'][0].',id,'.$plan->id;
+            if($plan)
+            {
+                $flag=false;
+                SubscriptionPlansUserTranslation::where('subsplan_userid',$plan->id)->delete();
+                foreach ($request->title as $key => $value) {
+                    if($request->title[$key] != null)
+                    {
+                        $substrans = new SubscriptionPlansUserTranslation();
+                        $substrans->title = $request->title[$key];
+                        $substrans->description = $request->description[$key];
+                        $substrans->language_id = $request->language_id[$key];
+                        $substrans->subsplan_userid = $plan->id;
+                        $substrans->save();
+                    }
+                }
+            }
+            $message = 'updated';
+        }
+
+       
         $stripe_creds = PaymentOption::select('credentials', 'test_mode')->where(['code'=>'stripe','status'=>1])->whereNotNull('credentials')->first();
         
         if(!empty($slug)){
@@ -174,20 +191,18 @@ class SubscriptionPlansUserController extends BaseController
         $plan->save();
         $planId = $plan->id;
 
-        //save translations 
-        if($plan->save())
-        {       
-            if(!empty($request->title[1])){
-                foreach ($request->title as $key => $value) {
-                    if($request->title[$key] != null)
-                    {
-                        $userSubTrans = new SubscriptionPlansUserTranslation();
-                        $userSubTrans->title = $request->title[$key];
-                        $userSubTrans->description = $request->description[$key];
-                        $userSubTrans->language_id = $request->language_id[$key];
-                        $userSubTrans->subsplan_userid = $planId;
-                        $userSubTrans->save();
-                    }
+        //save translations
+        if($plan->save() && $flag)
+        {    
+            foreach ($request->title as $key => $value) {
+                if($request->title[$key] != null)
+                {
+                    $userSubTrans = new SubscriptionPlansUserTranslation();
+                    $userSubTrans->title = $request->title[$key];
+                    $userSubTrans->description = $request->description[$key];
+                    $userSubTrans->language_id = $request->language_id[$key];
+                    $userSubTrans->subsplan_userid = $planId;
+                    $userSubTrans->save();
                 }
             }
         }
@@ -304,7 +319,13 @@ class SubscriptionPlansUserController extends BaseController
         ->get();
         
         $subPlanCategoryIds = $plan->subscriptionCategory()->pluck('category_id')->toArray();
-        $returnHTML = view('backend.subscriptions.edit-subscriptionPlanUser')->with(['features'=>$featuresList, 'plan' => $plan, 'planFeatures' => $planFeatures, 'subPlanFeaturesIds'=>$subPlanFeaturesIds, 'subPlanCategoryIds' => $subPlanCategoryIds, 'categories' => $categories, 'additionalAttributes' => $additionalAttributes, 'attributeProduct' => $attributeProduct])->render();
+        $langs = ClientLanguage::with(['language', 'userSubsTrans' => function ($query) use ($plan) {
+            $query->where('subsplan_userid', $plan->id);
+        }])
+        ->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
+        $returnHTML = view('backend.subscriptions.edit-subscriptionPlanUser')->with(['languages' => $langs, 'features'=>$featuresList, 'plan' => $plan, 'planFeatures' => $planFeatures, 'subPlanFeaturesIds'=>$subPlanFeaturesIds, 'subPlanCategoryIds' => $subPlanCategoryIds, 'categories' => $categories, 'additionalAttributes' => $additionalAttributes, 'attributeProduct' => $attributeProduct])->render();
         return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
 

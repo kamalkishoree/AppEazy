@@ -132,18 +132,15 @@ class GiftcardController extends BaseController
                //save gift cards translation
         if($GiftCard->save())
         {       
-       
-            if(!empty($request->title[1])){
-                foreach ($request->title as $key => $value) {
-                    if($request->title[$key] != null)
-                    {
-                        $giftTrans = new GiftCardTranslation();
-                        $giftTrans->title = $request->title[$key];
-                        $giftTrans->description = $request->short_desc[$key];
-                        $giftTrans->language_id = $request->language_id[$key];
-                        $giftTrans->gift_card_id = $GiftCard->id;
-                        $giftTrans->save();
-                    }
+            foreach ($request->title as $key => $value) {
+                if($request->title[$key] != null)
+                {
+                    $giftTrans = new GiftCardTranslation();
+                    $giftTrans->title = $request->title[$key];
+                    $giftTrans->description = $request->short_desc[$key];
+                    $giftTrans->language_id = $request->language_id[$key];
+                    $giftTrans->gift_card_id = $GiftCard->id;
+                    $giftTrans->save();
                 }
             }
             return $GiftCard;
@@ -168,8 +165,14 @@ class GiftcardController extends BaseController
     public function edit($domain = '', $id){
       
         $GiftCard = GiftCard::where('id', $id)->first();
-      
-        $returnHTML = view('backend.giftcard.editForm')->with(['GiftCard' => $GiftCard])->render();
+        $langs = ClientLanguage::with(['language', 'giftcardTrans' => function ($query) use ($id) {
+            $query->where('gift_card_id', $id);
+        }])
+        ->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
+       
+        $returnHTML = view('backend.giftcard.editForm')->with(['GiftCard' => $GiftCard,'languages' => $langs])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
     
@@ -194,6 +197,21 @@ class GiftcardController extends BaseController
         $validation  = Validator::make($request->all(), $rules)->validate();
         $GiftCard = GiftCard::findOrFail($id);
         $giftcardReturn = $this->save($request, $GiftCard, 'false');
+        if($giftcardReturn)
+        {
+            GiftCardTranslation::where('gift_card_id', $request->editGiftCard)->delete();
+            foreach ($request->title as $key => $value) {
+                if($request->title[$key] != null)
+                {
+                    $giftTrans = new GiftCardTranslation();
+                    $giftTrans->title = $request->title[$key];
+                    $giftTrans->description = $request->short_desc[$key];
+                    $giftTrans->language_id = $request->language_id[$key];
+                    $giftTrans->gift_card_id = $request->editGiftCard;
+                    $giftTrans->save();
+                }
+            }
+        }
         if($giftcardReturn){
             return response()->json([
                 'status'=>'success',

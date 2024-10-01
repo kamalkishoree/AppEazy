@@ -100,16 +100,34 @@ class SubscriptionPlansVendorController extends BaseController
             // 'period' => 'required',
             // 'sort_order' => 'required'
         );
-        if (!empty($slug)) {
-            $plan = SubscriptionPlansVendor::where('slug', $slug)->firstOrFail();
-            $rules['title'] = $rules['title'] . ',id,' . $plan->id;
-            $message = 'updated';
-        }
-
         $validation  = Validator::make($request->all(), $rules);
         if ($validation->fails()) {
             return redirect()->back()->withInput()->withErrors($validation);
         }
+        $flag=true;
+        if (!empty($slug)) {
+            $plan = SubscriptionPlansVendor::where('slug', $slug)->firstOrFail();
+            // $rules['title'] = $rules['title'] . ',id,' . $plan->id;
+            if($plan)
+            {
+                $flag=false;
+                SubscriptionPlanVendorTranslation::where('subsplan_vendor_id',$plan->id)->delete();
+                foreach ($request->title as $key => $value) {
+                    if($request->title[$key] != null)
+                    {
+                        $substrans = new SubscriptionPlanVendorTranslation();
+                        $substrans->title = $request->title[$key];
+                        $substrans->description = $request->description[$key];
+                        $substrans->language_id = $request->language_id[$key];
+                        $substrans->subsplan_vendor_id = $plan->id;
+                        $substrans->save();
+                    }
+                }
+            }
+            $message = 'updated';
+        }
+
+       
         if (!empty($slug)) {
             $subFeatures = SubscriptionPlanFeaturesVendor::where('subscription_plan_id', $plan->id)->whereNotIn('feature_id', $request->features)->delete();
         } else {
@@ -135,22 +153,21 @@ class SubscriptionPlansVendorController extends BaseController
         $plan->save();
         $planId = $plan->id;
         //save translations 
-        if($plan->save())
+        if($plan->save() && $flag)
         {       
-            if(!empty($request->title[1])){
-                foreach ($request->title as $key => $value) {
-                    if($request->title[$key] != null)
-                    {
-                        
-                        $vendorSubTrans = new SubscriptionPlanVendorTranslation();
-                        $vendorSubTrans->title = $request->title[$key];
-                        $vendorSubTrans->description = $request->description[$key];
-                        $vendorSubTrans->language_id = $request->language_id[$key];
-                        $vendorSubTrans->subsplan_vendor_id = $planId;
-                        $vendorSubTrans->save();
-                    }
+            foreach ($request->title as $key => $value) {
+                if($request->title[$key] != null)
+                {
+                    
+                    $vendorSubTrans = new SubscriptionPlanVendorTranslation();
+                    $vendorSubTrans->title = $request->title[$key];
+                    $vendorSubTrans->description = $request->description[$key];
+                    $vendorSubTrans->language_id = $request->language_id[$key];
+                    $vendorSubTrans->subsplan_vendor_id = $planId;
+                    $vendorSubTrans->save();
                 }
             }
+          
         }
         if (($request->has('features')) && (!empty($request->features))) {
             foreach ($request->features as $key => $val) {
@@ -187,7 +204,13 @@ class SubscriptionPlansVendorController extends BaseController
         foreach ($planFeatures as $feature) {
             $subPlanFeatures[] = $feature->feature_id;
         }
-        $returnHTML = view('backend.subscriptions.edit-subscriptionPlanVendor')->with(['features' => $featuresList, 'plan' => $plan, 'subPlanFeatures' => $subPlanFeatures])->render();
+        $langs = ClientLanguage::with(['language', 'vendorSubsTrans' => function ($query) use ($plan) {
+            $query->where('subsplan_vendor_id', $plan->id);
+        }])
+        ->select('language_id', 'is_primary', 'is_active')
+        ->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();
+        $returnHTML = view('backend.subscriptions.edit-subscriptionPlanVendor')->with(['features' => $featuresList, 'plan' => $plan, 'subPlanFeatures' => $subPlanFeatures,'languages' => $langs])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
