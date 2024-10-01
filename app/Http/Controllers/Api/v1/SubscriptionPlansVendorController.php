@@ -41,9 +41,14 @@ class SubscriptionPlansVendorController extends BaseController
     /**
      * Get user subscriptions
      */
-    public function getSubscriptionPlans()
+    public function getSubscriptionPlans(Request $request)
     {
-        $sub_plans = SubscriptionPlansVendor::with(['features.feature','subscriptionPlanVendorTranslation'])->orderBy('id', 'asc')->get();
+        // $sub_plans = SubscriptionPlansVendor::with(['features.feature','subscriptionPlanVendorTranslation'])->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansVendor::with(['features.feature', 'subscriptionPlanVendorTranslation' => function($q) use ($request) {
+            $q->where('language_id', $request->header('language'));
+        }])
+        ->orderBy('id', 'asc')
+        ->get();
         $featuresList = SubscriptionFeaturesListVendor::where('status', 1)->get();
         $vendor_subscriptions = SubscriptionInvoicesVendor::where('status_id', 2)->groupBy('vendor_id')->get();
         $awaiting_approval_subscriptions_count = SubscriptionInvoicesVendor::where('status_id', 1)->count();

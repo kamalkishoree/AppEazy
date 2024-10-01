@@ -45,7 +45,12 @@ class SubscriptionPlansUserController extends BaseController
      */
     public function getSubscriptionPlans(Request $request)
     {
-        $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations'])->orderBy('id', 'asc')->get();
+        $sub_plans = SubscriptionPlansUser::with(['features.feature', 'subscriptionPlansUsertranslations' => function($q) use ($request) {
+            $q->where('language_id', $request->header('language'));
+        }])
+        ->orderBy('id', 'asc')
+        ->get();
+        // $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations'])->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 1)->get();
         $user_subscriptions = SubscriptionInvoicesUser::groupBy('user_id')->get();
         $subscribed_users_count = $user_subscriptions->count();
