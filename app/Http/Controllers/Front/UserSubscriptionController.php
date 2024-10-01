@@ -51,11 +51,18 @@ class UserSubscriptionController extends FrontController
      */
     public function getSubscriptionPlans(Request $request, $domain = '')
     {
+      
         $langId = Session::get('customerLanguage');
         $navCategories = $this->categoryNav($langId);
         $currency_id = Session::get('customerCurrency');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        $sub_plans = SubscriptionPlansUser::with('features.feature', 'subscriptionCategory.category')->where('status', '1')->orderBy('id', 'asc');
+        $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionCategory.category','subscriptionPlansUsertranslations' => function($q) use ($request) {
+            $q->where('language_id', $request->header('language'));
+        }])
+        ->where('status', '1')
+        ->orderBy('id', 'asc')
+        ->get();
+        dd($sub_plans);
         // $sub_meal_plans = SubscriptionPlansUser::with('subscriptionCategory.category')->where('status', '1')->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 2)->get();
         $active_subscription = SubscriptionInvoicesUser::with([
