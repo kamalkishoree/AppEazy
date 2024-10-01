@@ -110,6 +110,7 @@ class SubscriptionPlansVendorController extends BaseController
             // $rules['title'] = $rules['title'] . ',id,' . $plan->id;
             if($plan)
             {
+                
                 $flag=false;
                 SubscriptionPlanVendorTranslation::where('subsplan_vendor_id',$plan->id)->delete();
                 foreach ($request->title as $key => $value) {
