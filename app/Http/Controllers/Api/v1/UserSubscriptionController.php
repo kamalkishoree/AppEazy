@@ -45,7 +45,7 @@ class UserSubscriptionController extends BaseController
                 $subFeaturesList = array();
                 if($sub->features->isNotEmpty()){
                     foreach($sub->features as $feature){
-                        $subFeaturesList[] = $feature->feature->title;
+                        $subFeaturesList[] = __($feature->feature->title);
                     }
                     unset($sub->features);
                 }
@@ -79,7 +79,7 @@ class UserSubscriptionController extends BaseController
                     $subFeaturesList = array();
                     if($sub_plan->features->isNotEmpty()){
                         foreach($sub_plan->features as $feature){
-                            $subFeaturesList[] = $feature->feature->title;
+                            $subFeaturesList[] = __($feature->feature->title);
                         }
                         unset($sub_plan->features);
                     }

@@ -24,7 +24,7 @@ class VendorSubscriptionController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function getSubscriptionPlans($id)
-    {
+    {       
         try{
             $sub_plans = SubscriptionPlansVendor::with('features.feature')->where('status', '1')->orderBy('sort_order', 'asc')->get();
             $featuresList = SubscriptionFeaturesListVendor::where('status', 1)->get();
@@ -39,7 +39,7 @@ class VendorSubscriptionController extends BaseController
                     $subFeaturesList = array();
                     if($sub->features->isNotEmpty()){
                         foreach($sub->features as $feature){
-                            $subFeaturesList[] = $feature->feature->title;
+                            $subFeaturesList[] = __($feature->feature->title);
                         }
                         unset($sub->features);
                     }
@@ -70,7 +70,7 @@ class VendorSubscriptionController extends BaseController
                 $subFeaturesList = '<ul class="pl-1" style="list-style:none">';
                 if($sub_plan->features->isNotEmpty()){
                     foreach($sub_plan->features as $feature){
-                        $subFeaturesList = $subFeaturesList.'<li><i class="fa fa-check"> '.$feature->feature->title.'</li>';
+                        $subFeaturesList = $subFeaturesList.'<li><i class="fa fa-check"> '.__($feature->feature->title).'</li>';
                     }
                     unset($sub_plan->features);
                 }
@@ -347,7 +347,7 @@ class VendorSubscriptionController extends BaseController
                 if($sub->features->isNotEmpty()){
                     $subFeaturesList = array();
                     foreach($sub->features as $feature){
-                        $subFeaturesList[] = $feature->feature->title;
+                        $subFeaturesList[] = __($feature->feature->title);
                     }
                     $features = implode(', ', $subFeaturesList);
                 }
