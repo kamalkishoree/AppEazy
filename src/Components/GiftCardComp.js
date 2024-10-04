@@ -30,6 +30,7 @@ import GradientButton from './GradientButton';
 import FastImage from 'react-native-fast-image';
 import Clipboard from '@react-native-community/clipboard';
 import Toast from 'react-native-simple-toast';
+import { isEmpty } from 'lodash';
 const GiftCardComp = ({
     data = {},
     onPress = () => { },
@@ -385,10 +386,10 @@ console.log(data,"data>>>>>>");
                     fontSize: textScale(16),
                     fontFamily: fontFamily.bold,
                 }}>
-                   {data?.title}
+                   {!isEmpty(data?.gift_card_translation) ? data?.gift_card_translation[0]?.title : data?.title}
                 </Text>
                 <Text style={{...styles.updateBilling, color: colors.black}}>
-                   {data?.short_desc}
+                   {!isEmpty(data?.gift_card_translation) ? data?.gift_card_translation[0]?.short_desc : data?.short_desc}
                 </Text>
 
             </View>

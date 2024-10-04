@@ -27,23 +27,9 @@ const OrderCard = (props) => {
   let count = item.item_count - 1;
   const {
     appData,
-    allAddresss,
-    themeColors,
     currencies,
-    languages,
-    appStyle,
-    themeColor,
-    themeToggle,
   } = useSelector((state) => state?.initBoot);
-const [localTime,setLocaleTime] = useState(null)
   const {additional_preferences, digit_after_decimal} = appData?.profile?.preferences || {};
-  const darkthemeusingDevice = useDarkMode();
-  const isDarkMode = themeToggle ? darkthemeusingDevice : themeColor;
-  console.log(item,"itemm>>")
-  const date =new Date(item?.date_time)
-  var createdDateTime = moment.utc(date, 'YYYY-MM-DD HH:mm').unix()
-  var LocalTimeSelected = new Date(createdDateTime * 1000);
-  console.log(LocalTimeSelected,"createdDateTimecreatedDateTimecreatedDateTime");
 
 
 
@@ -88,7 +74,7 @@ const [localTime,setLocaleTime] = useState(null)
           <Text style={styles.font13Regular}>
             {strings.ORDER} {item?.order_number}
           </Text>
-          <Text style={styles.date}>{LocalTimeSelected.toString().slice(0,21)}
+          <Text style={styles.date}>{item?.date_time}
             </Text>
         </View>
         <View

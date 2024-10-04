@@ -27,6 +27,7 @@ import {
   getImageUrl,
 } from '../utils/helperFunctions';
 import GradientButton from './GradientButton';
+import { isEmpty } from 'lodash';
 const SubscriptionComponent2 = ({
   data = {},
   onPress = () => { },
@@ -105,7 +106,7 @@ const SubscriptionComponent2 = ({
                   ? [styles.title, { color: MyDarkTheme.colors.text }]
                   : styles.title
               }>
-              {data?.title}
+              {!isEmpty(data?.subscription_plans_usertranslations) ? data?.subscription_plans_usertranslations[0]?.title : data?.title}
             </Text>
             <Image
               source={imagePath.icBagA}
@@ -119,8 +120,10 @@ const SubscriptionComponent2 = ({
                   ? [styles.subtitle, { color: MyDarkTheme.colors.text }]
                   : [styles.subtitle]
               }>
-              {(subscriptionData && subscriptionData?.plan?.description) ||
-                data?.description}
+                {/* (subscriptionData && subscriptionData?.plan?.description) || */}
+              { !isEmpty(data?.subscription_plans_usertranslations) ?
+               data?.subscription_plans_usertranslations[0]?.description :
+                 subscriptionData?.plan?.description ? subscriptionData?.plan?.description : data?.description}
             </Text>
           </View>
 

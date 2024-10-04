@@ -927,7 +927,7 @@ export default function Subscriptions2({ navigation, route }) {
             paddingHorizontal: moderateScale(20),
             marginVertical: moderateScale(20),
           }}>
-          <Text style={styles.title}>{selectedPlan?.title}</Text>
+          <Text style={styles.title}>{!isEmpty(selectedPlan?.subscription_plans_usertranslations)?selectedPlan?.subscription_plans_usertranslations[0]?.title :selectedPlan?.title }</Text>
           <Text style={[styles.title2, { marginTop: moderateScale(10) }]}>
             {tokenConverterPlusCurrencyNumberFormater(
               Number(selectedPlan?.price) || Number(selectedPlan?.frequency),

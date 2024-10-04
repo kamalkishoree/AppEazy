@@ -70,6 +70,7 @@ export default function VendorOrders({navigation, route}) {
     acceptRejectData: '',
     status: null,
     isBleDevice: false,
+    screenLoader: false,
   });
   const {
     isLoadingB,
@@ -86,6 +87,7 @@ export default function VendorOrders({navigation, route}) {
     acceptRejectData,
     status,
     isBleDevice,
+    screenLoader
   } = state;
 
   const updateState = (data) => setState((state) => ({...state, ...data}));
@@ -98,13 +100,17 @@ export default function VendorOrders({navigation, route}) {
   const {themeColors, themeLayouts} = currentTheme;
   const fontFamily = appStyle?.fontSizeData;
   const commonStyles = commonStylesFun({fontFamily});
+  // useEffect(() => {
+  //   // updateState({isLoading: true});
+  //   if (isLoading) {
+  //     _getListOfVendorOrders();
+  //     _getBleDevice();
+  //   }
+  // }, [isLoading]);
+  
   useEffect(() => {
-    // updateState({isLoading: true});
-    if (isLoading) {
-      _getListOfVendorOrders();
-      _getBleDevice();
-    }
-  }, [isLoading]);
+    _getListOfVendorOrders(!!paramData?.selectedVendorFrom?.id ? paramData?.selectedVendorFrom : null);
+  }, [pageActive, isRefreshing, paramData?.selectedVendorFrom]);
 
   const _getBleDevice = async () => {
     const res = await getItem('BleDevice');
@@ -128,12 +134,14 @@ export default function VendorOrders({navigation, route}) {
     });
   }, [storeSelectedVendor]);
 
-  const _getListOfVendorOrders = () => {
-    let vendordId = !!storeSelectedVendor?.id
+  const _getListOfVendorOrders = (selectedVendorFromParam = null) => {
+    let vendordId = !!selectedVendorFromParam ? selectedVendorFromParam?.id : !!storeSelectedVendor?.id
       ? storeSelectedVendor?.id
       : selectedVendor?.id
       ? selectedVendor?.id
       : '';
+
+      updateState({screenLoader:true})
     actions
       ._getListOfVendorOrders(
         `?limit=${limit}&page=${pageActive}&selected_vendor_id=${vendordId}`,
@@ -148,6 +156,7 @@ export default function VendorOrders({navigation, route}) {
       )
       .then((res) => {
         console.log('vendor', res);
+        updateState({screenLoader:false})
         actions.savedSelectedVendor(!!storeSelectedVendor?.id
           ? storeSelectedVendor
           : res.data.vendor_list.find((x) => x.is_selected));
@@ -174,6 +183,7 @@ export default function VendorOrders({navigation, route}) {
       isLoadingB: false,
       isLoadingC: false,
       isRefreshing: false,
+      screenLoader:false
     });
     showError(error?.message || error?.error);
   };
@@ -270,9 +280,7 @@ export default function VendorOrders({navigation, route}) {
       }),
     });
   };
-  useEffect(() => {
-    _getListOfVendorOrders();
-  }, [pageActive, isRefreshing]);
+ 
 
   //Refresh screen
 
@@ -283,7 +291,10 @@ export default function VendorOrders({navigation, route}) {
 
   //pagination of data
   const onEndReached = ({distanceFromEnd}) => {
-    updateState({pageActive: pageActive + 1});
+    if (activeOrders.length > 0) {
+      updateState({pageActive: pageActive + 1});
+    }
+    // updateState({pageActive: pageActive + 1});
   };
 
   const onEndReachedDelayed = debounce(onEndReached, 1000, {
@@ -306,6 +317,7 @@ export default function VendorOrders({navigation, route}) {
       }
       statusBarColor={colors.white}
       source={loaderOne}
+      isLoading={!activeOrders.length ? screenLoader: false}
       isLoadingB={isLoading || isLoadingB}>
       <Header
         leftIcon={

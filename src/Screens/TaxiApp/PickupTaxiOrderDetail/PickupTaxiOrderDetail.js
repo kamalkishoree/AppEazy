@@ -1587,9 +1587,7 @@ function PickupTaxiOrderDetail({ navigation, route }) {
             <Text style={styles.datePriceText}>
               {moment(
                 new Date(orderFullDetail?.order_details?.created_at)
-              )
-                .locale(languages?.primary_language?.sort_code || "en")
-                .format("MMMM Do YYYY, h:mm a")}
+              ).format("MMMM Do YYYY, h:mm a")}
             </Text>
             <Text
               style={{

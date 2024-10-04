@@ -602,9 +602,7 @@ const RoyoHome = (props) => {
                   <Text style={{...styles.font14Regular, color: '#2E3E3A5f'}}>
                     {/* {String(revenueDate).slice(4, 7)}{' '}
                     {String(revenueDate).slice(11, 15)} */}
-                    {moment(revenueDate)
-                      .locale(languages?.primary_language?.sort_code)
-                      .format('MMMM YYYY')}
+                    {moment(revenueDate).format('MMMM YYYY')}
                   </Text>
 
                   <Image source={imagePath.dropdownTriangle} />
@@ -653,9 +651,7 @@ const RoyoHome = (props) => {
                   onPress={toggleOrderDate}
                   style={{flexDirection: 'row'}}>
                   <Text style={{...styles.font14Regular, color: '#2E3E3A5f'}}>
-                    {moment(orderDate)
-                      .locale(languages?.primary_language?.sort_code)
-                      .format('MMMM YYYY')}
+                    {moment(orderDate).format('MMMM YYYY')}
                   </Text>
                   <Image source={imagePath.dropdownTriangle} />
                 </TouchableOpacity>

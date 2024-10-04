@@ -54,6 +54,7 @@ export default function VendorList({navigation, route}) {
   const setStoreAndRedirect = (i) => {
     updateState({selectedVendorInStore: i});
     actions.savedSelectedVendor(i);
+    console.log(screenType,"dndf", i)
     navigation.navigate(
       screenType == staticStrings.ORDERS
         ? navigationStrings.VENDOR_ORDER
