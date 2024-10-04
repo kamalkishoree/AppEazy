@@ -23,10 +23,15 @@ class VendorSubscriptionController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSubscriptionPlans($id)
+    public function getSubscriptionPlans(Request $request, $id)
     {       
         try{
-            $sub_plans = SubscriptionPlansVendor::with('features.feature')->where('status', '1')->orderBy('sort_order', 'asc')->get();
+            $sub_plans = SubscriptionPlansVendor::with([
+                'features.feature',
+                'subscriptionPlanVendorTranslation' => function($q) use ($request) {
+                    $q->where('language_id', $request->header('language'));
+                }
+            ])->where('status', '1')->orderBy('sort_order', 'asc')->get();
             $featuresList = SubscriptionFeaturesListVendor::where('status', 1)->get();
             $active_subscription = SubscriptionInvoicesVendor::with(['plan', 'features.feature', 'status'])
                                 ->where('vendor_id', $id)
@@ -58,14 +63,19 @@ class VendorSubscriptionController extends BaseController
      * Required Params-
      *  slug (Subscription plan)
      */
-    public function selectSubscriptionPlan($slug = '')
+    public function selectSubscriptionPlan(Request $request, $slug = '')
     {
         try{
             $previousSubscriptionActive = $this->checkActiveSubscriptionPlan($slug)->getOriginalContent();
             if( $previousSubscriptionActive['status'] == 'Error' ){
                 return $this->errorResponse($previousSubscriptionActive['message'], 400);
             }
-            $sub_plan = SubscriptionPlansVendor::with('features.feature')->where('slug', $slug)->where('status', '1')->first();
+            $sub_plan = SubscriptionPlansVendor::with([
+                'features.feature',
+                'subscriptionPlanVendorTranslation' => function($q) use ($request) {
+                    $q->where('language_id', $request->header('language'));
+                }
+            ])->where('slug', $slug)->where('status', '1')->first();
             if($sub_plan){
                 $subFeaturesList = '<ul class="pl-1" style="list-style:none">';
                 if($sub_plan->features->isNotEmpty()){
@@ -150,7 +160,12 @@ class VendorSubscriptionController extends BaseController
             DB::beginTransaction();
             $user = Auth::user();
             $vendor = Vendor::where('id', $id)->first();
-            $subscription_plan = SubscriptionPlansVendor::with('features.feature')->where('slug', $slug)->where('status', '1')->first();
+            $subscription_plan = SubscriptionPlansVendor::with([
+                'features.feature',
+                'subscriptionPlanVendorTranslation' => function($q) use ($request) {
+                    $q->where('language_id', $request->header('language'));
+                }
+            ])->where('slug', $slug)->where('status', '1')->first();
             $last_subscription = SubscriptionInvoicesVendor::with(['plan', 'features.feature'])
                 ->where('user_id', $user->id)
                 ->where('vendor_id', $id)
