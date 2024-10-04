@@ -2021,12 +2021,17 @@ class CartController extends BaseController
             $cart['giftcard_remaining_ammount'] = intval($cart->giftCard->amount) - intval($cart->total_payable_amount);
             $cart['giftcard_used_ammount']  = $cart->total_payable_amount;
             $cart->total_payable_amount = 0;
-
+            $cart->giftCard->used_amount =  $cart['giftcard_used_ammount'];
+            $cart->giftCard->amount =  abs($cart->giftCard->amount) -  abs($cart->giftCard->used_amount);
+            $cart->giftCard->save();
           }
           else {
             $cart->total_payable_amount = $cart->total_payable_amount - $cart->giftCard->amount ;
             $cart['giftcard_remaining_ammount'] = 0;
             $cart['giftcard_used_ammount']  = $cart->giftCard->amount;
+            $cart->giftCard->used_amount =  $cart['giftcard_used_ammount'];
+            $cart->giftCard->amount =  0;
+            $cart->giftCard->save();
            }
 
         }

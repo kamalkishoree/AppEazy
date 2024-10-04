@@ -26,7 +26,7 @@ class Cart extends Model
 
     public function giftCard()
     {
-        return $this->hasOne('App\Models\GiftCard', 'id', 'gift_card_id');
+        return $this->hasOne('App\Models\UserGiftCard', 'id', 'gift_card_id');
     }
     public function product()
     {

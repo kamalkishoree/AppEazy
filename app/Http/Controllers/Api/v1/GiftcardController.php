@@ -239,11 +239,16 @@ class GiftcardController extends BaseController
                 return $this->errorResponse('Invalid Cart Id', 422);
             }
           
-            $giftcard = UserGiftCard::with('giftCard')->whereHas('giftCard',function ($query) use ($now,$request){
+            $giftcard = UserGiftCard::with('giftCard')->where('user_id',$user->id)->whereHas('giftCard',function ($query) use ($now,$request){
                 return  $query->whereDate('expiry_date', '>=', $now);
             })->where(['is_used'=>'0','gift_card_code' => $request->gift_card_code])->first(); //,'gift_card_code'=>$request->giftCardCode
           
             if($giftcard){
+
+                if($giftcard->amount == 0 ){
+                    return $this->errorResponse('Gift Card balance is used completely.', 422);
+                }
+
                 if($cart_detail->gift_card_id ==  $giftcard->id){
                     return $this->errorResponse('Gift Card already applied.', 422);
                 }
