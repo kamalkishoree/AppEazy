@@ -785,9 +785,21 @@ if (!function_exists('dateTimeInUserTimeZone')) {
              $date_data =  str_replace('ከሰዓት','PM',$date_data);
             
         }
+        if( str_contains($date_data,'ጡዋት'))
+        {
+             $date_data =  str_replace('ጡዋት','PM',$date_data);
+            
+        }
+        
         if( str_contains($date_data,'ሓቆ ሰር ምዕል'))
         {
              $date_data =  str_replace('ሓቆ ሰር ምዕል','AM',$date_data);
+            
+        }
+
+        if( str_contains($date_data,'ቀደም ሰር ምዕል'))
+        {
+             $date_data =  str_replace('ቀደም ሰር ምዕል','AM',$date_data);
             
         }
 

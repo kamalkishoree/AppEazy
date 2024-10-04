@@ -242,13 +242,12 @@ class GiftcardController extends BaseController
             $giftcard = UserGiftCard::with('giftCard')->whereHas('giftCard',function ($query) use ($now,$request){
                 return  $query->whereDate('expiry_date', '>=', $now);
             })->where(['is_used'=>'0','gift_card_code' => $request->gift_card_code])->first(); //,'gift_card_code'=>$request->giftCardCode
-
           
             if($giftcard){
-                if($cart_detail->gift_card_id ==  $giftcard->gift_card_id){
+                if($cart_detail->gift_card_id ==  $giftcard->id){
                     return $this->errorResponse('Gift Card already applied.', 422);
                 }
-                $cart_detail->gift_card_id = $giftcard->gift_card_id;
+                $cart_detail->gift_card_id = $giftcard->id;
                 $cart_detail->user_gift_code = $giftcard->gift_card_code;
                 
                 
@@ -270,17 +269,19 @@ class GiftcardController extends BaseController
              $user = Auth::user();
              
              $cart_detail = Cart::where(['id'=>$request->cart_id,'user_id'=>  $user->id ])->first();
+             \Log::info( ['cart_detail' => $cart_detail->giftCard] );
              if(!$cart_detail){
                  return $this->errorResponse('Invalid Cart Id', 422);
              }
           
             if($cart_detail){
-           
                 $cart_detail->gift_card_id = null;
                 $cart_detail->user_gift_code     = null;
-
+                $cart_detail->giftCard->amount = $cart_detail->giftCard->used_amount ;
+                $cart_detail->giftCard->used_amount = 0;
+                $cart_detail->giftCard->save();
                 $cart_detail->save();
-                return $this->successResponse('', 'Gift Card Delete Successfully.', 200);
+              return $this->successResponse('', 'Gift Card Delete Successfully.', 200);
             }
             return $this->errorResponse('Invalid gift Card Id', 422);
             
