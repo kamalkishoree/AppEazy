@@ -63,7 +63,9 @@ class GiftcardController extends BaseController
         $currencySymbol = Session::get('currencySymbol');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
         $gift_card_id =$request->has('gift_card_id') ? $request->gift_card_id:$gift_card_id;
-        $GiftCard  = GiftCard::where('id', $gift_card_id)->first();
+        $GiftCard  = GiftCard::with('giftCardTranslation',function($q)use($request){
+            $q->where('language_id',$request->header('language'));
+        })->where('id', $gift_card_id)->first();
         $code = $this->paymentOptionArray('GiftCard');
         $ex_codes = array('cod');
         $payment_options = PaymentOption::select('id', 'code', 'title', 'credentials')->whereIn('code', $code)->where('status', 1)->get();
@@ -118,7 +120,9 @@ class GiftcardController extends BaseController
         }else{
             $user = Auth::user();
         }
-        $GiftCard = GiftCard::where('id', $gift_card_id)->first();
+        $GiftCard = GiftCard::with('giftCardTranslation',function($q)use($request){
+            $q->where('language_id',$request->header('language'));
+        })->where('id', $gift_card_id)->first();
         // pr($GiftCard);
 
         $sendToMail = (isset($request->email) && !empty($request->email) ) ? $request->email : '';

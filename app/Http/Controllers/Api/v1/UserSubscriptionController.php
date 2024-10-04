@@ -29,7 +29,7 @@ class UserSubscriptionController extends BaseController
         $user = Auth::user();
         $currency_id = $user->currency;
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
-        // $sub_plans = SubscriptionPlansUser::with('features.feature')->where('status', '1')->orderBy('id', 'asc')->get();
+        
         $sub_plans = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations' => function($q) use ($request) {
             $q->where('language_id', $request->header('language'));
         }])
@@ -73,7 +73,13 @@ class UserSubscriptionController extends BaseController
             if( $previousSubscriptionActive['status'] == 'Error' ){
                 return $this->errorResponse($previousSubscriptionActive['message'], 400);
             }
-            $sub_plan = SubscriptionPlansUser::with('features.feature')->where('slug', $slug)->first();
+            $sub_plan = SubscriptionPlansUser::with([
+                'features.feature',
+                'subscriptionPlansUsertranslations' => function($q) use ($request) {
+                    $q->where('language_id', $request->header('language'));
+                }
+            ])->where('slug', $slug)->first();
+           
             if($sub_plan){
                 if($sub_plan->status == '1'){
                     $subFeaturesList = array();
@@ -193,7 +199,10 @@ class UserSubscriptionController extends BaseController
             $user = Auth::user();
 
 
-            $subscription_plan = SubscriptionPlansUser::with('features.feature')->where('slug', $slug)->where('status', '1')->first();
+            $subscription_plan = SubscriptionPlansUser::with(['features.feature','subscriptionPlansUsertranslations' => function($q) use ($request) {
+                $q->where('language_id', $request->header('language'));
+            }])
+            ->where('slug', $slug)->where('status', '1')->first();
 
             if( ($user) && ($subscription_plan) ){
                 $last_subscription = SubscriptionInvoicesUser::with(['plan', 'features.feature'])
