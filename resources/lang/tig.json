@@ -1285,5 +1285,13 @@
   "Profile updated successfully.": "መግለፂ ብትኽክል ተመሓይሹ",
   "You can not add more product.": "ተወሳኺ ፍርያት ክትውስኽ ኣይትኽእልን ኢኻ"  ,
   "Wallet has been Credited for ":"ዋለተ ንኽብሪ ተዋሂብዎ ኣሎ።",
-  "return":"ተመለስ"
+  "return":"ተመለስ",
+  "Accidental request": "ስለ ስሕተት ተደልየ",
+  "Driver asked to cancel": "ድራይቨር ምቕባል ሓቢሩ",
+  "Car has different description": "መኪና ብዝያዳ መግለጺ ኣለዋ",
+  "Long waiting time": "እዋን ረጊጕ መተሓባብያ",
+  "Driver moved to different direction": "ድራይቨር ኣብ ሓደ ንጉሆ ንቀነበለ",
+  "Wrong pickup location": "ቅኑዕ ዝተሓዘ ቦታ",
+  "Other reason": "ካልእ ምኽንያት"
+
 }

@@ -15,6 +15,11 @@ class CancelOrderController extends Controller
             $user = Auth::user();
             $lang_id = $user->language;
             $cancellation_reason = ReturnReason::where(['status' => 'Active', 'type' => 3])->get();
+
+            foreach($cancellation_reason as $cancel)
+            {
+                $cancel->title = __($cancel->title);
+            }
             
             if(isset($cancellation_reason)){
                 return $this->successResponse($cancellation_reason,'Cancellation Reason Data.');
