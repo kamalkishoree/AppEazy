@@ -24,7 +24,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.2",
-        "lcobucci/jwt": "3.3.3",
+        "lcobucci/jwt": "4.0.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/omnipay": "^3.2",
         "maatwebsite/excel": "^3.1",
@@ -43,8 +43,9 @@
         "twilio/sdk": "^6.13",
         "vonage/client": "^2.3.0",
         "yajra/laravel-datatables-oracle": "~9.0",
-        "kreait/laravel-firebase": "^2.4",
-        "google/auth": "^1.26"
+        "google/auth": "^1.26",
+        "kreait/firebase-php": "^5.26",
+        "kreait/laravel-firebase": "^3.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

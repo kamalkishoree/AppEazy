@@ -1018,12 +1018,13 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
         $(".addspan").text('Address must be between ' + 5 + ' and ' + 200 + ' characters'); // Set the error message for address length
         $(".addspan").show(); // Show the error message
         return false;
-        } else if (post.trim().length < 5 || post.trim().length > 10) {
-            err = 1;
-            $(".addspan").text('Postal code length must be between 5 and 10 characters'); 
-            $(".addspan").show(); // Show the error message
-            return false;
-        } 
+        }
+         //else if (post.trim().length < 5 || post.trim().length > 10) {
+        //     err = 1;
+        //     $(".addspan").text('Postal code length must be between 5 and 10 characters'); 
+        //     $(".addspan").show(); // Show the error message
+        //     return false;
+        // } 
         
         $(".selecttype").each(function(){
             var taskselect              = $(this).val();
@@ -1077,22 +1078,23 @@ session('preferences.map_key_1'):'kdsjhfkjsdhfsf'; $theme =
     var emailVal = $('#addHeader1-address_email').val();
     var phoneVal = $('#addHeader1-address_phone_number').val();
 
-    if (emailVal == '' || phoneVal == '') {
-        err = 1;
-        $(".email-error-message").text('Fields are required'); // Set the error message
-        $(".email-error-message").show(); // Show the error message
-        return false;
-    } else if (!isValidEmail(emailVal)) {
+    // if (emailVal == '' || phoneVal == '') {
+    //     err = 1;
+    //     $(".email-error-message").text('Fields are required'); // Set the error message
+    //     $(".email-error-message").show(); // Show the error message
+    //     return false;
+    // }
+     if (emailVal != '' && !isValidEmail(emailVal)) {
         err = 1;
         $(".email-error-message").text('Invalid email'); // Set the error message for invalid email format
         $(".email-error-message").show(); // Show the error message
         return false;
-    } else if (isNaN(phoneVal.trim())) {
+    } else if (emailVal != '' && isNaN(phoneVal.trim())) {
             err = 1;
             $(".email-error-message").text('Phone number must be numeric'); 
             $(".email-error-message").show(); // Show the error message
             return false;
-        }else if (phoneVal.trim().length < 5 || phoneVal.trim().length > 15) {
+        }else if (emailVal != '' && (phoneVal.trim().length < 5 || phoneVal.trim().length > 15)) {
             err = 1;
             $(".email-error-message").text('invalid phone number length'); 
             $(".email-error-message").show(); // Show the error message

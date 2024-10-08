@@ -5,6 +5,7 @@ use Illuminate\Support\Collection;
 use App\Model\{Client, ClientPreference, User, Agent, Order, PaymentOption, PayoutOption, AgentPayout};
 use Kawankoding\Fcm\Fcm;
 use App\Services\FirebaseService;
+
 trait sendCustomNotification{
 
     //------------------------------Function created by surendra singh--------------------------//
