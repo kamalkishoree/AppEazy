@@ -386,7 +386,7 @@
                                                                                         $newPickupClass = json_encode('pickup_'.$order->order_number);
                                                                                         $newDropoffClass = json_encode('dropoff_'.$order->order_number);
                                                                                     ?>
-                                                                                    @if ($clientPreference->business_type == 'laundry')
+                                                                                    <!-- @if ($clientPreference->business_type == 'laundry') -->
                                                                                     {{-- Model to get Slots --}}
                                                                                     <form onsubmit='checkDates({{$pkup}}, {{$dpoff}}, {{$rescheduling_charges}}, {{$pickup_cancelling_charges}}, {{$newPickupClass}}, {{$newDropoffClass}})' action="{{route('user.rescheduleOrder')}}" class="rescheduleOrder" id="rescheduleOrder" name="rescheduleOrder" method="post">
                                                                                         @csrf
@@ -411,7 +411,7 @@
                                                                                         </div>
                                                                                     </form>
                                                                                     {{-- Model to get Slots --}}
-                                                                                @endif
+                                                                                <!-- @endif -->
 
                                                                                 </div>
                                                                                 @if( isset($vendor->dispatcher_status_icons) && count($vendor->dispatcher_status_icons) > 0)
