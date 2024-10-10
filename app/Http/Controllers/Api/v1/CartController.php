@@ -128,6 +128,8 @@ class CartController extends BaseController
     public function add(Request $request)
     {
         try {
+
+            // \Log::info(json_encode($request->all()));
             $preference = ClientPreference::first();
             $luxury_option = LuxuryOption::where('title', $request->type)->first();
             $user = Auth::user();
@@ -179,12 +181,13 @@ class CartController extends BaseController
             $already_added_product_variant_in_cart = CartProduct::where(["variant_id" => $request->product_variant_id, 'cart_id' => $cart_detail->id])->first();
             $totalQuantity = (!empty($already_added_product_variant_in_cart) ? $already_added_product_variant_in_cart->quantity : 0) + $request->quantity;
  
-            if($request->has('type') && $request->type!="on_demand")
+            if($request->has('type') && $request->type!="on_demand" && $request->type != "appointment")
             {
-             
-            if($totalQuantity > $productVariant->quantity){
-                return response()->json(['error' => __('You can not add more product.')], 404);
-            }
+                pr($request->type);
+
+                if($totalQuantity > $productVariant->quantity){
+                    return response()->json(['error' => __('You can not add more product.')], 404);
+                }
            }
 
             $additionalPreference = getAdditionalPreference(['is_service_product_price_from_dispatch']);
@@ -560,6 +563,7 @@ class CartController extends BaseController
      **/
     public function updateQuantity(Request $request)
     {
+        \Log::info('sssssssssssss');
         $user = Auth::user();
         if ($request->quantity < 1) {
             return response()->json(['error' => __('Quantity should not be less than 1')], 422);
