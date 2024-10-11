@@ -131,9 +131,14 @@ class GiftcardController extends BaseController
         }else{
             $user = Auth::user();
         }
-        $GiftCard = GiftCard::with('giftCardTranslation',function($q)use($request){
-            $q->where('language_id',$request->header('language'));
-        })->where('id', $gift_card_id)->first();
+        // $GiftCard = GiftCard::with('giftCardTranslation',function($q)use($request){
+        //     $q->where('language_id',$request->header('language'));
+        // })->where('id', $gift_card_id)->first();
+        $GiftCard = GiftCard::with(['giftCardTranslation' => function($q) use ($request) {
+            $q->where('language_id', $request->header('language'));
+        }])
+        ->where('id', $gift_card_id)->first(); 
+
         // pr($GiftCard);
 
         $sendToMail = (isset($request->email) && !empty($request->email) ) ? $request->email : '';
