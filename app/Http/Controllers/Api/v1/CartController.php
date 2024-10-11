@@ -25,7 +25,7 @@ use App\Http\Controllers\Front\QuickApiController;
 use App\Http\Controllers\ShiprocketController;
 use App\Http\Controllers\D4BDunzoController;
 use App\Http\Traits\Borzoe;
-use App\Models\{AddonOption, User, Product, Cart, ProductFaq,ProductVariantSet, CartProductPrescription, ProductVariant, CartProduct, CartCoupon, ClientCurrency, Brand, CartAddon, UserDevice, AddonSet, BookingOption, CartDeliveryFee, Client as ModelsClient, UserAddress, ClientPreference, LuxuryOption, Vendor, LoyaltyCard, SubscriptionInvoicesUser, VendorDineinCategory, VendorDineinTable, VendorDineinCategoryTranslation, VendorDineinTableTranslation, OrderVendor, OrderProductAddon, OrderTax, OrderProduct, OrderProductPrescription, VendorOrderStatus, VendorSlot,CategoryKycDocuments,CaregoryKycDoc, CartBookingOption, CartRentalProtection, VerificationOption, TaxRate,VendorMinAmount, WebStylingOption, ProcessorProduct,OrderFiles, ProductBookingOption, ProductRentalProtection, RentalProtection};
+use App\Models\{SubscriptionPlanFeaturesUser,AddonOption, User, Product, Cart, ProductFaq,ProductVariantSet, CartProductPrescription, ProductVariant, CartProduct, CartCoupon, ClientCurrency, Brand, CartAddon, UserDevice, AddonSet, BookingOption, CartDeliveryFee, Client as ModelsClient, UserAddress, ClientPreference, LuxuryOption, Vendor, LoyaltyCard, SubscriptionInvoicesUser, VendorDineinCategory, VendorDineinTable, VendorDineinCategoryTranslation, VendorDineinTableTranslation, OrderVendor, OrderProductAddon, OrderTax, OrderProduct, OrderProductPrescription, VendorOrderStatus, VendorSlot,CategoryKycDocuments,CaregoryKycDoc, CartBookingOption, CartRentalProtection, VerificationOption, TaxRate,VendorMinAmount, WebStylingOption, ProcessorProduct,OrderFiles, ProductBookingOption, ProductRentalProtection, RentalProtection};
 
 use GuzzleHttp\Client as GCLIENT;
 use Log;
@@ -183,8 +183,6 @@ class CartController extends BaseController
  
             if($request->has('type') && $request->type!="on_demand" && $request->type != "appointment")
             {
-                pr($request->type);
-
                 if($totalQuantity > $productVariant->quantity){
                     return response()->json(['error' => __('You can not add more product.')], 404);
                 }
@@ -803,6 +801,8 @@ class CartController extends BaseController
             //         $subscription_features[] = $feature->feature_id;
             //     }
             // }
+
+            // pr($user_subscription->features);
             $user = User::find($cart->user_id);
             $user_timezone =  $user->timezone ?? $user_timezone;
 
@@ -1767,13 +1767,16 @@ class CartController extends BaseController
                     $subscription_discount = $subscription_discount + $total_delivery_amount;
                 }
                 elseif ($feature->feature_id == 2) {
+                    $SubscriptionPlanFeaturesUser = SubscriptionPlanFeaturesUser::where('subscription_plan_id',$user_subscription->subscription_id)->where('feature_id',$feature->feature_id)->first('percent_value');
+                    $feature->percent_value = $SubscriptionPlanFeaturesUser->percent_value ;
                     $off_percentage_discount = ($feature->percent_value * ($total_paying - $total_delivery_amount) / 100);
-                    $subscription_discount = $subscription_discount + $off_percentage_discount;
+                     $subscription_discount = $subscription_discount + $off_percentage_discount;
                 }
             }
         }
 
         $total_subscription_discount = $total_subscription_discount + $subscription_discount;
+
 
         $cart_product_luxury_id = CartProduct::where('cart_id', $cartID)->select('luxury_option_id', 'vendor_id','additional_increments_hrs_min')->first();
         if (isset($cart_product_luxury_id) && isset($cart_product_luxury_id->luxury_option_id)) {

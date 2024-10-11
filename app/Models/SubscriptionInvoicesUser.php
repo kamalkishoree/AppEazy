@@ -25,4 +25,9 @@ class SubscriptionInvoicesUser extends Model
     public function payment(){
         return $this->hasOne('App\Models\Payment', 'user_subscription_invoice_id', 'id'); 
     }
+
+    public function featuresValue(){
+        return $this->hasOne('App\Models\SubscriptionPlanFeaturesUser', 'subscription_invoice_id', 'id'); 
+    }
+
 }
