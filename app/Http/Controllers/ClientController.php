@@ -801,7 +801,7 @@ if($request->has('primary_language')){
         foreach ($preference->countries as $value) {
             $cli_countries[] = $value->country_id;
         }
-        $tags = Tag::with('primary')->get();
+        $tags = Tag::get();
 
         if($preference->reffered_by_amount == null){
             $reffer_by = 0;

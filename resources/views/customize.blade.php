@@ -105,19 +105,6 @@ getAdditionalPreference(['pickup_type',
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12 mt-2">
-                            <div class="row multiplierData">
-                                @if($preference->currencies)
-                                @foreach($preference->currencies as $ac)
-                                <div class="col-sm-10 offset-sm-4 col-lg-12 offset-lg-0 col-xl-8 offset-xl-4 mb-2" id="addCur-{{$ac->currency->id}}">
-                                    <label class="primaryCurText">1 {{@$preference->primary->currency->iso_code}} {{!empty(@$preference->primary->currency->symbol) ? @$preference->primary->currency->symbol : ''}} = </label>
-                                    <input class="form-control al_box_height w-50 d-inline-block" type="text" value="{{$ac->doller_compare}}" step=".0001" name="multiply_by[{{$ac->currency->id}}]" oninput="changeCurrencyValue(this)"> {{$ac->currency->iso_code}} {{!empty($ac->currency->symbol) ? $ac->currency->symbol : ''}}
-                                    <input type="hidden" name="cuid[]" class="curr_id" value="{{ $ac->currency->id }}">
-                                </div>
-                                @endforeach
-                                @endif
-                            </div>
-                        </div>
                     </div> -->
                 </div>
             </form>
