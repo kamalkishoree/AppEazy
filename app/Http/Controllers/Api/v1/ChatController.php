@@ -359,6 +359,7 @@ class ChatController extends BaseController
      */
     public function sendNotificationToUser(Request $request){
         try {
+            \Log::info( $notiFY);
             $notiFY = $this->sendNotification($request);
             return response()->json([ 'notiFY'=>$notiFY , 'status' => true, 'message' => __('sent!!!')]);
         } catch (\Throwable $th) {

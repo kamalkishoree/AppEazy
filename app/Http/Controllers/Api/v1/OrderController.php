@@ -1011,20 +1011,17 @@ class OrderController extends BaseController
                     $loyalty_points_earned = LoyaltyCard::getLoyaltyPoint($loyalty_points_used, $payable_amount);
 
                     // calculate subscription discount
-                    if ($user_subscription) {
-                        foreach ($user_subscription->features as $feature) {
-                            if ($feature->feature_id == 1) {
-                                $total_subscription_discount = $total_subscription_discount + $total_delivery_fee;
-                            }
-                            elseif ($feature->feature_id == 2) {
-                                $off_percentage_discount = ($feature->percent_value * $payable_amount / 100);
-                                $total_subscription_discount = $total_subscription_discount + $off_percentage_discount;
-                            }
-                        }
-                    }
-
-
-
+                    // if ($user_subscription) {
+                    //     foreach ($user_subscription->features as $feature) {
+                    //         if ($feature->feature_id == 1) {
+                    //             $total_subscription_discount = $total_subscription_discount + $total_delivery_fee;
+                    //         }
+                    //         elseif ($feature->feature_id == 2) {
+                    //             $off_percentage_discount = ($feature->percent_value * $payable_amount / 100);
+                    //             $total_subscription_discount = $total_subscription_discount + $off_percentage_discount;
+                    //         }
+                    //     }
+                    // }
                     if($vendor_cart_product->recurring_day_data && !empty($vendor_cart_product->recurring_day_data)){
                         $date       = explode(",",$vendor_cart_product->recurring_day_data);
                         if($vendor_cart_product->recurring_booking_type == 1 ||$vendor_cart_product->recurring_booking_type == 2 || $vendor_cart_product->recurring_booking_type == 3 || $vendor_cart_product->recurring_booking_type == 4){
