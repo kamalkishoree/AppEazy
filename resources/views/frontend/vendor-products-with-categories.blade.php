@@ -671,7 +671,7 @@ if($getOnDemandPricingRule['is_price_from_freelancer'] ==1 ){
                 <span>{{ Session::get('currencySymbol') }}<%= cart_details.total_payable_amount %></span>
                 <% } %>
         </div>
-        <a class="checkout-btn text-center d-block" href="{{ route('showCart') }}">{{ __('Checkout') }}</a>
+        <a class="checkout-btn text-center d-block" href="{{ route('showCart') }}">{{ __('Go To Cart') }}</a>
     </script>
     <script type="text/template" id="empty_cart_template">
         <div class="row">
