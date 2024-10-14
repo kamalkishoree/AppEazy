@@ -1285,5 +1285,12 @@
   "Profile updated successfully.": "መለያ በተሳካ ሁኔታ ተዘምኗል",
   "You can not add more product.": "ተጨማሪ ምርት ማከል አይችሉም",
   "Wallet has been Credited for ":"የኪስ ቦርሳ ክሬዲት ተደርጓል ",
-  "return" : "መመለስ"
+  "return" : "መመለስ",
+  "Accidental request": "በተስፋ ስህተት",
+  "Driver asked to cancel": "አሽከር ለማጥፋት ጠየቀ",
+  "Car has different description": "መኪናው በተለየ መግለጫ አለው",
+  "Long waiting time": "ረጅም ጊዜ መጠበቅ",
+  "Driver moved to different direction": "አሽከር በሌላ አቅጣጫ አንቀሳቀሰ",
+  "Wrong pickup location": "የተሳሳተ የማንሳት ቦታ",
+  "Other reason": "ሌላ ምክንያት"
 }

@@ -1285,6 +1285,12 @@
   "Profile updated successfully.": "piroofaayillin milkaa'inaan haaromfame",
   "You can not add more product.": "oomisha dabalataa dabaluu hin dandeessu",
   "Wallet has been Credited for":"Wallet kan jedhu Credited ta'ee jira",
-  "return":"deebisuu"
-
+  "return":"deebisuu",
+  "Accidental request": "Sodhaachisaa ta'ee dhihaate",
+  "Driver asked to cancel": "Dhaabbachuu akka godhu gaaffate",
+  "Car has different description": "Maashiniin ibsa garaagaraa qaba",
+  "Long waiting time": "Yeroo dheeraf eeggachuu",
+  "Driver moved to different direction": "Diraayiveriin gara kallattii biraatti deeme",
+  "Wrong pickup location": "Iddoo dogoggora irraa fudhachuun",
+  "Other reason": "Sababa biraa"
 }

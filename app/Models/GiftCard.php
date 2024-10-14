@@ -28,6 +28,6 @@ class GiftCard extends Model
     }
     public function giftCardTranslation(){
 
-      return $this->hasmany(GiftCardTranslation::class);
+      return $this->hasmany(GiftCardTranslation::class,'gift_card_id', 'id');
     }
 }
