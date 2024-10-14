@@ -139,6 +139,7 @@ $add_to_cart =  route('addToCart') ;
                                             @if( $is_service_product_price_from_dispatch_forOnDemand ==1)
                                                 <a class="btn btn-solid btn btn-solid view_on_demand_price"  style="display:none;" id="add_button_href{{$cartProductId}}" data-variant_id = {{$data->variant[0]->id}} data-add_to_cart_url = "{{ $add_to_cart }}" data-vendor_id="{{$data->vendor_id}}" data-product_id="{{$data->id}}" href="javascript:void(0)">{{ __('view Price') }}</a>
                                             @else
+                                            <!-- add cart icon here -->
                                                 <a class="add-cart-btn {{$class}}"
                                                     style="display:none;"
                                                     id="add_button_href{{ $cartProductId }}"
@@ -156,6 +157,7 @@ $add_to_cart =  route('addToCart') ;
                                                 </a>
                                             @endif
                                             @if(isset($data->category_type_id) && (!in_array($data->category_type_id,$category_type_idForNotShowshPlusMinus)) )
+                                           Quantity
                                             <div class="number"
                                                 id="show_plus_minus{{ $cartProductId }}">
                                                 <span
@@ -264,7 +266,7 @@ $add_to_cart =  route('addToCart') ;
                                         @endif
                                         @if ($is_customizable)
                                             <div class="customizable-text">
-                                                {{ __('customizable') }}
+                                                {{ __('customize with topping & size') }}
                                             </div>
                                         @endif
                                     @endif

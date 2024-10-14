@@ -700,7 +700,7 @@ $client_preferences = \App\Models\ClientPreference::first();
             </div>
             <div class="row">
                 <div class="col-sm-12 p-0 d-flex flex-fill">
-                    <button type="button" style="width:100%;" class="btn btn-solid ml-1 proceed_to_pay">{{__('Place Order')}}
+                    <button type="button" style="width:100%;" class="btn btn-solid ml-1 proceed_to_pay">{{__('Confirm & Finish')}}
                         <img style="width:5%; display:none;" id="proceed_to_pay_loader" src="{{asset('assets/images/loader.gif')}}"/>
                     </button>
                 </div>

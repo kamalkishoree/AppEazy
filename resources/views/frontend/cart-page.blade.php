@@ -1692,7 +1692,7 @@
                                     @if ($cart_details->wallet_amount_used > 0)
                                         @if ($cart_error_message == '')
                                             <button id="order_placed_btn" class="btn btn-solid d-none" type="button"
-                                                {{ $disablePlaceBtn}}>{{ __('Checkout') }}</button>
+                                                {{ $disablePlaceBtn}}>{{ __('Pay') }}</button>
                                         @else
                                             <div class="alert p-0" role="alert">
                                                 <div class="alert-danger p-1">{{ $cart_error_message }}</div>
@@ -1705,7 +1705,7 @@
                                 @else
                                     @if ($cart_error_message == '')
                                         <button id="order_placed_btn" class="btn btn-solid d-none" type="button"
-                                        {{ $disablePlaceBtn}}>{{ __('Checkout') }}</button>
+                                        {{ $disablePlaceBtn}}>{{ __('Pay') }}</button>
                                     @else
                                         <div class="alert p-0" role="alert">
                                             <div class="alert-danger p-1">{{ $cart_error_message }}</div>
