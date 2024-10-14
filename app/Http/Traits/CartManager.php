@@ -3,7 +3,7 @@ namespace App\Http\Traits;
 
 use App\Http\Controllers\Front\{PromoCodeController,CartController, FrontController};
 use App\Models\CaregoryKycDoc;
-use App\Models\{Cart, Nomenclature, NomenclatureTranslation, ProcessorProduct, UserGiftCard};
+use App\Models\{SubscriptionPlanFeaturesUser,Cart, Nomenclature, NomenclatureTranslation, ProcessorProduct, UserGiftCard};
 use App\Models\CartDeliveryFee;
 use App\Models\CartProduct;
 use App\Models\CartProductPrescription;
@@ -165,6 +165,8 @@ trait cartManager{
                 if($vendor_subs_disc_percent > 0){
                     $off_percent_discount_vendor_total = $off_percent_discount_vendor_total + ($vendor_subs_disc_percent * $payable_amount / 100);
                 }
+                $SubscriptionPlanFeaturesUser = SubscriptionPlanFeaturesUser::where('subscription_plan_id',$user_subscription->subscription_id)->where('feature_id',$feature->feature_id)->first('percent_value');
+                $feature->percent_value = $SubscriptionPlanFeaturesUser->percent_value ;
                 $off_percent_discount_admin = ($feature->percent_value * $payable_amount / 100);
                 $off_percent_discount_admin_total = $off_percent_discount_admin_total + $off_percent_discount_admin;
             }
