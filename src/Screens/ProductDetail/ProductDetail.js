@@ -1291,8 +1291,10 @@ export default function ProductDetail({ route, navigation }) {
   };
 
   const onDateSelected = async (date) => {
+   
     setLoadingGetSlots(true);
     if (isAppointmentPicker) {
+      setAppointmentSelectedDate(date)
       if (productDetailData?.is_slot_from_dispatch) {
         const apiData = {
           cur_date: moment(date).format("YYYY-MM-DD"),
@@ -2598,7 +2600,6 @@ export default function ProductDetail({ route, navigation }) {
                       fontSize: textScale(13)
                     }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : strings.SELECT_DATE}</Text>
                     </TouchableOpacity>
-
                   </View>
                   {(!!appointmentSelectedDate) && <View style={{
                     flex: 0.45
@@ -3134,7 +3135,8 @@ export default function ProductDetail({ route, navigation }) {
           <DatePicker
             locale={languages?.primary_language?.sort_code}
             date={isAppointmentPicker ? (appointmentSelectedDate || new Date()) : (selectedDate || new Date())}
-            textColor={isDarkMode ? colors.white : colors.blackB}
+            textColor={isDarkMode ? colors.white : "#0F0E0E"}
+            theme={isDarkMode ? 'dark':'light'}
             mode="date"
             minimumDate={new Date()}
             onDateChange={(value) => isAppointmentPicker ? setAppointmentSelectedDate(value) : setSelectedDate(value)}
