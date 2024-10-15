@@ -139,7 +139,7 @@ export default function ({
                   ...styles.DriverUnavailable,
                   color: isDarkMode ? MyDarkTheme.colors.text : colors.black,
                 }}>
-                No drivers available now!!
+               {strings.NO_DRIVER_AVAILABLE}
               </Text>
               <ButtonWithLoader
                 btnText={strings.CANCEL_ORDER}

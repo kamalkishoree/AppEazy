@@ -1253,5 +1253,10 @@ Amount`,
   RENTAL:'Rental',
   CAR_RENTAL:"Car Rental",
   LAUNDRY:"Laundry",
-  APPOINTMENT:"Appointment"
+  APPOINTMENT:"Appointment",
+  NO_DRIVER_AVAILABLE:"No drivers available now!!",
+  MINIMUM_FARE:"Minimum Fare",
+  FARE:"Fare",
+  ONLY:"only",
+  LEFT_IN_STOCK:"left in stock - order soon"
 };

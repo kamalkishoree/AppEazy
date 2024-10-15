@@ -652,7 +652,7 @@ function SelectPaymentModalView({
                 ]
                 : styles.distanceDurationDeliveryLable
             }>
-            {'Wallet'}
+            {strings.WALLET}
           </Text>
           <Text
             style={

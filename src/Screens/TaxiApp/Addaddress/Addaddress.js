@@ -1120,7 +1120,7 @@ export default function Addaddress({ navigation, route }) {
                     marginHorizontal: moderateScale(5),
                   }}
                   onPress={() => onBooking(0)}
-                  btnText={"BOOKING"}
+                  btnText={strings.BOOKING}
                   containerStyle={{ flex: 1, marginHorizontal: moderateScale(5) }}
                   btnStyle={{
                     borderRadius: moderateScale(4),
@@ -1145,7 +1145,7 @@ export default function Addaddress({ navigation, route }) {
                     marginHorizontal: moderateScale(5),
                   }}
                   onPress={() => onBooking(1)}
-                  btnText={"POOLING"}
+                  btnText={strings.POOLING}
                   containerStyle={{ flex: 1, marginHorizontal: moderateScale(5) }}
                   btnStyle={{
                     borderRadius: moderateScale(4),
@@ -1171,7 +1171,7 @@ export default function Addaddress({ navigation, route }) {
                     marginHorizontal: moderateScale(5),
                   }}
                   onPress={() => onBooking(2)}
-                  btnText={"BID & RIDE"}
+                  btnText={strings.BID_RIDE}
                   containerStyle={{ flex: 1 }}
                   btnStyle={{
                     borderRadius: moderateScale(4),

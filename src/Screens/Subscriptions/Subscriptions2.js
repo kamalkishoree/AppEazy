@@ -1177,7 +1177,11 @@ export default function Subscriptions2({ navigation, route }) {
         _webPayment();
       }
     } else {
-      alert(strings.PLEASE_SELECT_PAYMENT_METHOD);
+      Alert.alert(strings.ALERT, strings.PLEASE_SELECT_PAYMENT_METHOD,[
+        {
+          text: strings.OK,
+          onPress: console.log('ok pressed'),
+        }])
     }
   };
   const _paymentWithPlugnPayMethods = () => {

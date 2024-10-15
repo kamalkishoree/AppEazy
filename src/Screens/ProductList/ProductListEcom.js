@@ -1134,7 +1134,6 @@ export default function Products({ route, navigation }) {
               totalProducts: res?.data?.products?.total || 0,
             });
           } else {
-            alert('111111')
             setLoading(false);
             noMoreData = false;
           }

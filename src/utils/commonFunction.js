@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import { Keyboard } from 'react-native';
 import { API_BASE_URL } from '../config/urls';
 import { openCamera, openPicker } from './imagePicker';
+import strings from '../constants/lang';
 
 const cameraHandler = async (data, option) => {
   Keyboard.dismiss();

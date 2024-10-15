@@ -103,7 +103,7 @@ export default function AvailableDriver({
                     ? colors.whiteOpacity50
                     : colors.textColor,
                 }}>
-                {rideType == "bidRide" ? "Minimum Fare" : "Fare"} - {tokenConverterPlusCurrencyNumberFormater(
+                {rideType == "bidRide" ? strings.MINIMUM_FARE : strings.FARE} - {tokenConverterPlusCurrencyNumberFormater(
                   Number(item?.tags_price) + Number(item?.toll_fee ? item?.toll_fee : 0),
                   digit_after_decimal,
                   additional_preferences,

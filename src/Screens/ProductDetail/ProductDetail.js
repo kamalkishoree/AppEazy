@@ -2591,11 +2591,13 @@ export default function ProductDetail({ route, navigation }) {
                       marginVertical: moderateScale(8),
                       borderRadius: moderateScale(8)
 
-                    }}><Text style={{
+                    }}>
+                      <Text style={{
                       fontFamily: fontFamily?.regular,
                       color: colors.black,
                       fontSize: textScale(13)
-                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : strings.SELECT_DATE}</Text></TouchableOpacity>
+                    }}>{appointmentSelectedDate ? moment(appointmentSelectedDate).format("DD-MM-YYYY") : strings.SELECT_DATE}</Text>
+                    </TouchableOpacity>
 
                   </View>
                   {(!!appointmentSelectedDate) && <View style={{
@@ -2684,7 +2686,7 @@ export default function ProductDetail({ route, navigation }) {
                   ...commonStyles.mediumFont14,
                   marginBottom: moderateScaleVertical(6),
                   color: colors?.redB
-                }} >{`only ${productTotalQuantity} lef in stock - order soon`}</Text> : null}
+                }} >{`${strings.ONLY} ${productTotalQuantity} ${strings.LEFT_IN_STOCK}`}</Text> : null}
 
               {(productDetailData?.has_inventory == 0 ||
                 (!!productTotalQuantity && !!productTotalQuantity != 0) ||
