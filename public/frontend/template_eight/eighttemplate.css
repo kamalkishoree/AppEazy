@@ -916,6 +916,27 @@ body.al_body_template_eight .product_variant_quantity_wrapper {
     margin-top: 5px;
 }
 
+.product_variant_quantity_wrapper .add-cart-btn {
+	background: #000;
+	color: #fff !important;
+	padding: 6px 9px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+}
+
+.product_variant_quantity_wrapper .add-cart-btn svg path {
+	fill: #fff;
+}
+
+.checkout-btn.text-center.d-block {
+	background: #000;
+	padding: 9px;
+	color: #fff !important;
+	border-radius: 5px;
+}
+
 .add-cart-btn {
     background: #000;
     color: #fff !important;

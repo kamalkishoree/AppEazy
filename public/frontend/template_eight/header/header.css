@@ -1240,11 +1240,7 @@ body.al_body_template_eight ul#header_cart_main_ul li .total {
         padding-top: 0;
         padding-bottom: 0;
     }
-
-    body.al_body_template_eight.homeHeader .menu-navigation.alThreeMenu {
-        display: none;
-    }
-
+    
     body.al_body_template_eight .similar-prod-data {
         margin-bottom: 30px;
     }
