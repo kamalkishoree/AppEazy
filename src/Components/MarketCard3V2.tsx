@@ -179,7 +179,7 @@ const MarketCard3: FC<CompProps> = ({
                     style={{
                       ...styles.distanceTimeStyle,
                     }}>
-               {vendorDistance} Km
+               {vendorDistance} {strings.KM}
                   </Text>}
                 </View>
 

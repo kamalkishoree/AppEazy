@@ -1169,7 +1169,7 @@ export default function ProductDetail({ route, navigation }) {
             marginVertical: moderateScaleVertical(10),
           }}
         />
-        <ScrollView style={{ width: '100%' }}>
+        <ScrollView key={"_"} style={{ width: '100%' }}>
           {offersList?.length > 0 &&
             offersList.map((el, indx) => {
               // console.log(el);
