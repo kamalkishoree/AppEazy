@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Traits;
-use App\Models\{Order,OrderVendor,UserDevice,ClientPreference, Product};
+use App\Models\{Order,OrderVendor,UserDevice,ClientPreference, Product,UserVendor};
 use Auth;
 use GuzzleHttp\Client as GCLIENT;
 use Log;
@@ -71,17 +71,17 @@ trait ChatTrait{
         $data = $request->all();
         if($from=='from_dispatcher'){
             $username =  $data['username'];
-            $removeAuth = array_values(array_column($request->all()['user_ids'], 'auth_user_id'));
+            $removeAuth = (isset($request->all()['user_ids']))  ? array_values(array_column($request->all()['user_ids'], 'auth_user_id')): [];
         } else{
             $username =  Auth::user()->name;
             $auid =  Auth::user()->id;
-            $result = array_values(array_column($request->all()['user_ids'], 'auth_user_id'));
+            $result = (isset($request->all()['user_ids'])) ? array_values(array_column($request->all()['user_ids'], 'auth_user_id')):[];
             $removeAuth = $result;
             if(@$data['auth_id']==$auid){
                 $removeAuth = array_values(array_diff($result, array($auid)));
             }
              /**dispacth noti */
-             if($data['order_vendor_id']!=''){
+             if(@$data['order_vendor_id']!=''){
                 $this->getDispacthUrl($data['order_vendor_id'],$data['order_id'],$data['vendor_id'],$data);
              }
             
@@ -239,5 +239,61 @@ trait ChatTrait{
         }
     }
 
-    
+    public function sendNotificationNew($request,$from='')
+    {
+        $removeAuth = [];
+        $userVendor =[];
+        $data = $request->all();
+        if($from=='from_dispatcher'){
+            $username =  $data['username'];
+            $removeAuth = array_values(array_column($request->all()['user_ids'], 'auth_user_id'));
+        } else{
+            $username =  Auth::user()->name;
+            $auid =  Auth::user()->id;
+            $result = $request->vendor_id;
+            $removeAuth = $result;
+
+            if(@$data['vendor_id']==$auid){
+                $removeAuth = array_values(array_diff($result, array($auid)));
+            }
+
+            $UserVendor = UserVendor::where('vendor_id', $request->vendor_id)->pluck('user_id')->toArray();
+            $userVendor = $UserVendor;
+             /**dispacth noti */
+             if(@$data['order_vendor_id']!=''){
+                $this->getDispacthUrl(@$data['order_vendor_id'],$data['order_id'],$data['vendor_id'],$data);
+             }
+
+            
+            /**end */
+        }
+
+        $devices  = UserDevice::whereIn('user_id',$userVendor)->pluck('device_token','user_id') ?? [];
+        \Log::info(['devices' => $devices]);
+        $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
+     
+        if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {
+            $data = [
+                "registration_ids" => $devices,
+                "notification" => [
+                    "title" => $username,
+                    "body"  => $request->text_message,
+                    'sound' => "default",
+                    "icon"  => (!empty($client_preferences->favicon)) ? $client_preferences->favicon['proxy_url'] . '200/200' . $client_preferences->favicon['image_path'] : '',
+                    "android_channel_id" => "default-channel-id"
+                ],
+                "data" => [
+                    "title" => $username,
+                    "room_id"=>$request->roomId,
+                    "room_id_text"=>$request->roomIdText,
+                    "body"  => $request->text_message,
+                    'data'  => 'chat_text',
+                    'type'  => ""
+                ],
+                "priority" => "high"
+            ];
+            $response = sendFcmCurlRequest($data);
+            return $result;
+        }
+    }
 }
