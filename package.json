@@ -97,5 +97,18 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/super-eazy/SuperEazy_Chat.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/super-eazy/SuperEazy_Chat/issues"
+  },
+  "homepage": "https://github.com/super-eazy/SuperEazy_Chat#readme"
 }
