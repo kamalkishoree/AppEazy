@@ -68,6 +68,7 @@ trait ChatTrait{
      */
     public function sendNotification($request,$from='')
     {
+        \Log::info('yessssss');
         $data = $request->all();
         if($from=='from_dispatcher'){
             $username =  $data['username'];
@@ -241,6 +242,8 @@ trait ChatTrait{
 
     public function sendNotificationNew($request,$from='')
     {
+
+        \Log::info($request->all());
         $removeAuth = [];
         $userVendor =[];
         $data = $request->all();
@@ -269,7 +272,7 @@ trait ChatTrait{
         }
 
         $devices  = UserDevice::whereIn('user_id',$userVendor)->pluck('device_token','user_id') ?? [];
-        \Log::info(['devices' => $devices]);
+        // \Log::info(['devices' => $devices]);
         $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
      
         if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {

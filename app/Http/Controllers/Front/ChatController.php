@@ -102,7 +102,7 @@ class ChatController extends FrontController
         $navCategories = $this->categoryNav($langId);
         try {
             $user = Auth::user();
-            //$roomData = $this->getChatRoomForUser($user->id,'vendor_to_user');
+            // $roomData = $this->getChatRoomForUser($user->id,'vendor_to_user');
             $roomData['status'] = false;
             if($roomData['status']){
                 $chatroom = $roomData['roomData'];

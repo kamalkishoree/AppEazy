@@ -142,7 +142,7 @@ class ChatController extends BaseController
             $user = Auth::user();
             $data = $request->all();
             $sub_domain = $data['sub_domain'];
-            $roomData = $this->getChatRoomForUser($user->id,'vendor_to_user',$sub_domain);
+            $roomData = $this->getChatRoomForUser($user->id,'user_to_vendor',$sub_domain);
             if($roomData['status']){
                 $chatroom = $roomData['roomData'];
             } else {
@@ -283,6 +283,7 @@ class ChatController extends BaseController
      * @return void
      */
     public function fetchOrderDetail(Request $request){
+        
         try {
             $vendorImage = [];
             $order_vendor = [];
