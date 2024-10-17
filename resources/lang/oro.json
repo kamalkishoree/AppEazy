@@ -1081,7 +1081,7 @@
   "Cancelled": "Haqameera",
 
   "Wish List": "Tarree Hawwii",
-  "ETB": "ETB",
+
   "USD": "USD",
   "RECENTLY VIEWED": "DHIHEENYA KAN ILAALAME",
   "See All": "Hunda ilaali",
@@ -1292,5 +1292,8 @@
   "Long waiting time": "Yeroo dheeraf eeggachuu",
   "Driver moved to different direction": "Diraayiveriin gara kallattii biraatti deeme",
   "Wrong pickup location": "Iddoo dogoggora irraa fudhachuun",
-  "Other reason": "Sababa biraa"
+  "Other reason": "Sababa biraa",
+  "ETB" :"ETB",
+  "Address is set as primary address successfully.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera.",
+  "Product has been removed from wishlist.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera."
 }
