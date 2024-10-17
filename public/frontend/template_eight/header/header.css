@@ -67,7 +67,7 @@ html {
     color: #fff
 }
 
-header#al_new_design .main-menu .al_count_tabs_new_design.d-none.d-sm-block ul#top-tab {
+header#al_new_design .main-menu .al_count_tabs_new_design ul#top-tab {
     display: inline-block;
     max-width: 100%;
     white-space: nowrap;
@@ -1240,7 +1240,7 @@ body.al_body_template_eight ul#header_cart_main_ul li .total {
         padding-top: 0;
         padding-bottom: 0;
     }
-    
+
     body.al_body_template_eight .similar-prod-data {
         margin-bottom: 30px;
     }
@@ -1282,6 +1282,14 @@ body.al_body_template_eight ul#header_cart_main_ul li .total {
     .al_body_template_eight svg,
     span.icon-icLang.align-middle svg {
         vertical-align: inherit !important;
+    }
+
+    .al_count_tabs_new_design li a.nav-link {
+        font-size: 12px;
+    }
+
+    .al_count_tabs_new_design {
+        margin: 0;
     }
 }
 

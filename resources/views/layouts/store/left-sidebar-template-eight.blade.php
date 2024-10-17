@@ -167,7 +167,7 @@ $q->where(['is_published' => 1, 'language_id' => session()->get('customerLanguag
           <div class="row align-items-center justify-content-center position-initial">
               <div class="col-lg-12">
                   <div class="container al_mobile-header d-flex align-items-center justify-content-between position-relative">
-                      <div class="al_count_tabs_new_design d-none d-sm-block"  >
+                      <div class="al_count_tabs_new_design">
                           @if($mod_count > 1)
 
                           <ul class="nav nav-tabs navigation-tab_al nav-material tab-icons mr-lg-3 vendor_mods" id="top-tab" role="tablist">
@@ -219,7 +219,7 @@ $q->where(['is_published' => 1, 'language_id' => session()->get('customerLanguag
                           @endif
                       </div>
 
-                      <div class="al_count_tabs_new_design al_tab_mobile position-fixed d-block d-sm-none">
+                      <div class="al_count_tabs_new_design al_tab_mobile position-fixed d-none">
                           @if($mod_count > 1)
                           <ul class="nav nav-tabs navigation-tab_al nav-material tab-icons mr-lg-3 vendor_mods d-flex justify-content-around" id="top-tab" role="tablist">
                               @foreach(config('constants.VendorTypes') as $vendor_typ_key => $vendor_typ_value)
