@@ -1081,7 +1081,7 @@
   "Cancelled": "ተሰሪዙ",
 
   "Wish List": "ዝርዝር ድሌታት",
-  "ETB": "ናይ ኢትዮጵያ ብር",
+ 
   "USD": "ዶላር",
   "RECENTLY VIEWED": "ኣብ ቀረባ ዝተረኣየ",
   "See All": "ኩሎም ይርኣዩ",
@@ -1292,6 +1292,8 @@
   "Long waiting time": "እዋን ረጊጕ መተሓባብያ",
   "Driver moved to different direction": "ድራይቨር ኣብ ሓደ ንጉሆ ንቀነበለ",
   "Wrong pickup location": "ቅኑዕ ዝተሓዘ ቦታ",
-  "Other reason": "ካልእ ምኽንያት"
-
+  "Other reason": "ካልእ ምኽንያት",
+  "ETB" :"ኢቲቢ",
+  "Address is set as primary address successfully.": "ኣድራሻ ብትኽክል እቲ ዋና ኣድራሻ እንተሆነ ተቐይሩ ኣሎ።",
+  "Product has been removed from wishlist.": "ኣድራሻ ብትኽክል እቲ ዋና ኣድራሻ እንተሆነ ተቐይሩ ኣሎ።"
 }

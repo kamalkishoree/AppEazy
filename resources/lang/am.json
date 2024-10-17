@@ -1081,7 +1081,7 @@
   "Cancelled": "ተሰርዟል",
 
   "Wish List": "የምኞት ዝርዝር",
-  "ETB": "የኢትዮጵያ ብር",
+ 
   "USD": "የአሜሪካን ዶላር",
   "RECENTLY VIEWED": "በቅርብ ጊዜ የታየ",
   "See All": "ሁሉንም አሳይ",
@@ -1292,5 +1292,8 @@
   "Long waiting time": "ረጅም ጊዜ መጠበቅ",
   "Driver moved to different direction": "አሽከር በሌላ አቅጣጫ አንቀሳቀሰ",
   "Wrong pickup location": "የተሳሳተ የማንሳት ቦታ",
-  "Other reason": "ሌላ ምክንያት"
+  "Other reason": "ሌላ ምክንያት",
+  "ETB" :"ኢ.ቲ.ቢ",
+  "Address is set as primary address successfully.": "አድራሻው በተሳካ ሁኔታ እንደ ዋና አድራሻ ተመዝግቧል።",
+  "Product has been removed from wishlist.": "አድራሻው በተሳካ ሁኔታ እንደ ዋና አድራሻ ተመዝግቧል።"
 }

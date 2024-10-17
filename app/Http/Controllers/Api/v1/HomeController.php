@@ -259,7 +259,15 @@ class HomeController extends BaseController
             }
             $homeData['banners'] = $banners;
             $homeData['mobile_banners'] = $mobile_banners;
-            $homeData['currencies'] = ClientCurrency::with('currency')->select('currency_id', 'is_primary', 'doller_compare')->orderBy('is_primary', 'desc')->get();
+            
+            $clientCurrencies =ClientCurrency::with('currency')->select('currency_id', 'is_primary', 'doller_compare')->orderBy('is_primary', 'desc')->get();
+            foreach ($clientCurrencies as $clientCurrency) {
+                if ($clientCurrency->currency) {  // Check if the relation exists
+                    //$clientCurrency->currency->symbol = __($clientCurrency->currency->symbol);  // Override 'iso' property
+                    $clientCurrency->currency->iso_code = __($clientCurrency->currency->iso_code); 
+                }
+            }
+            $homeData['currencies'] = $clientCurrencies;
             $homeData['dynamic_tutorial'] = AppDynamicTutorial::orderBy('sort')->get();
 
             $payment_codes = $this->paymentOptionArray('homepage');
