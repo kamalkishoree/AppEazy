@@ -44,6 +44,7 @@ import { setUserData } from '../../utils/utils';
 import validations from '../../utils/validations';
 import stylesFun from './styles';
 import { v4 as uuidv4 } from 'uuid';
+import messaging from '@react-native-firebase/messaging';
 // import { enableFreeze } from "react-native-screens";
 import ButtonWithLoader from '../../Components/ButtonWithLoader';
 // enableFreeze(true);
@@ -273,6 +274,20 @@ export default function Signup({ navigation }) {
   /** SIGNUP API FUNCTION **/
   const onSignup = async () => {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
+
+    if (!fcmToken) {
+      try {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+          console.log(fcmToken, 'new genrated token in login page');
+          await AsyncStorage.setItem('fcmToken', fcmToken);
+          onSignup(fcmToken)
+        }
+      } catch (error) {
+        console.log(error, 'error in fcmToken in login page');
+        // showError(error.message)
+      }
+    }
     let formdata = new FormData();
 
     const checkValid = isValidData();

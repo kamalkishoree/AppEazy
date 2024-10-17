@@ -40,6 +40,7 @@ import {
 import validator from '../../utils/validations';
 import stylesFunc from './styles';
 import { isEmpty } from 'lodash';
+import messaging from '@react-native-firebase/messaging';
 
 import { enableFreeze } from "react-native-screens";
 enableFreeze(true);
@@ -228,6 +229,20 @@ export default function Login({ navigation }) {
     const checkValid = isValidData();
     if (!checkValid) {
       return;
+    }
+
+    if (!fcmToken) {
+      try {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+          console.log(fcmToken, 'new genrated token in login page');
+          await AsyncStorage.setItem('fcmToken', fcmToken);
+          _loginApi(fcmToken)
+        }
+      } catch (error) {
+        console.log(error, 'error in fcmToken in login page');
+        // showError(error.message)
+      }
     }
 
     let data = {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import { useSelector } from "react-redux";
 import BorderTextInputWithLable from "../../Components/BorderTextInputWithLable";
 import GradientButton from "../../Components/GradientButton";
@@ -43,7 +43,13 @@ export default function Tracking({ navigation }) {
      if(data){
       navigation.navigate(screenName, { data });
      }else{
-       alert('Please Enter your Order Number')
+      Alert.alert(strings.ALERT, strings.PLEASE_ENTER_YOUR_ORDER_NUMBER,[
+        {
+          text: strings.OK,
+          onPress: console.log('ok pressed'),
+        },
+      ]);
+      
      }
   
   };

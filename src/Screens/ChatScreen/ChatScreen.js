@@ -257,13 +257,14 @@ export default function ChatScreen({ route, navigation }) {
 
   const onSend = useCallback(
     async (messages = []) => {
+
       if (
         String(messages[0].text).trim().length < 1 ||
         messages[0]?.mediaUrl == ''
       ) {
         return;
       }
-
+      let to_message_check = await checkToMessage()
       let phoneNumber = !!userData.phone_number
         ? `+${userData?.dial_code} ${userData.phone_number}`
         : null;
@@ -280,7 +281,7 @@ export default function ChatScreen({ route, navigation }) {
           room_id: paramData?._id,
           message: messages[0].text,
           user_type: !!userData?.is_superadmin ? 'admin' : 'user',
-          to_message: checkToMessage(),
+          to_message: to_message_check,
           from_message: !!userData?.is_superadmin ? 'from_admin' : 'from_user',
           user_id: userData?.id,
           email: userData?.email,
@@ -332,7 +333,9 @@ export default function ChatScreen({ route, navigation }) {
     [allRoomUsersAppartFromAgent, allAgentIds],
   );
 
-  const sendToUserNotification = (id, text) => {
+  const sendToUserNotification = async (id, text) => {
+
+    let toMsg =  await checkToMessage()
     let notificaionAgentIds =
       allAgentIds.length == 0
         ? [{ auth_user_id: !!paramData?.agent_id ? paramData?.agent_id : '' }]
@@ -358,7 +361,11 @@ export default function ChatScreen({ route, navigation }) {
       vendor_id: paramData?.vendor_id,
       auth_id: userData?.id,
       web: false,
+      to_message:toMsg,
+      from_message: !!userData?.is_superadmin ? 'from_admin' : 'from_user',
     };
+    console.log(apiData,"apiData>>>>>>>");
+    
     actions
       .sendNotification(apiData, {
         code: appData?.profile?.code,

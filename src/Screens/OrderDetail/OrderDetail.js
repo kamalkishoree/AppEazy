@@ -3032,6 +3032,7 @@ export default function OrderDetail({ navigation, route }) {
     const apiData = {
       order_id: cartData?.id,
       vendor_id: cartItems[0]?.vendor_id,
+      dine_in_type: "takeaway",
     }
     const apiHeader = {
       code: appData?.profile?.code,
@@ -3039,6 +3040,8 @@ export default function OrderDetail({ navigation, route }) {
       language: languages?.primary_language?.id,
     }
     actions.sendNotification(apiData, apiHeader).then((res) => {
+      console.log(res,"resres>>>>>");
+      
       showSuccess(res?.message);
     }).catch((error) => {
       showError(error?.error || error?.message || "");
@@ -3550,6 +3553,7 @@ export default function OrderDetail({ navigation, route }) {
   };
 
   const onChat = (item) => {
+    console.log(item, "dbfkbdfxdbf>>>>>");
     navigation.navigate(navigationStrings.CHAT_SCREEN, { data: { ...item } });
   };
 

@@ -14,6 +14,7 @@ import {
   I18nManager,
   Platform,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import { useSelector } from 'react-redux';
@@ -211,7 +212,13 @@ export default function Wallet({ navigation }) {
       return false;
     }
     if (!verifiedUser) {
-      alert(strings.USER_DOES_NOT_EXIST);
+      Alert.alert(strings.ALERT, strings.USER_DOES_NOT_EXIST,[
+        {
+          text: strings.OK,
+          onPress: console.log('ok pressed'),
+        },
+      ]);
+      
       return false;
     }
     return true;

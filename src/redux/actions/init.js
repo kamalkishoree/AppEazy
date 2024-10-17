@@ -125,6 +125,7 @@ export function initApp(
         };
 
         console.log("languagesDatalanguagesData", languagesData)
+        
 
         if (reload) {
           setItem('setPrimaryCurrent', currenciesData);
@@ -133,6 +134,7 @@ export function initApp(
           const getPrimaryCurrency = await getItem('setPrimaryCurrent');
           if (getPrimaryCurrency) {
             setCurrentcy(getPrimaryCurrency);
+            setCurrentcy(currenciesData);
           } else {
             setItem('setPrimaryCurrent', currenciesData);
             setCurrentcy(currenciesData);
@@ -146,6 +148,7 @@ export function initApp(
           const getPrimaryCountry = await getItem('setPrimaryCountry');
           if (getPrimaryCountry) {
             setCountry(getPrimaryCountry);
+            setCountry(countryData);
           } else {
             setItem('setPrimaryCountry', countryData);
             setCountry(countryData);

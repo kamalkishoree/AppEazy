@@ -312,7 +312,7 @@ function SelectPaymentModalView({
             {`${selectedCarOption?.distance || '0'} ${getBundleId() === appIds?.weTogether ||
               getBundleId() === appIds?.taxiolgy
               ? 'Miles'
-              : 'km'
+              : strings.KM
               }`}
           </Text>
         </View>
