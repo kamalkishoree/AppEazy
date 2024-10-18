@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
 use App\Models\{ClientPreference, Order};
-
+use Log;
 class FirebaseService
 
 {
@@ -110,7 +110,7 @@ class FirebaseService
 
         if (!$preference) {
 
-            \Log::error('FCM Send Error: FCM project ID not found in database.');
+            //Log::error('FCM Send Error: FCM project ID not found in database.');
 
             return false;
 
@@ -118,11 +118,11 @@ class FirebaseService
 
         $projectId = $preference->fcm_project_id;
 
-        \Log::info('projectId');
+        //Log::info('projectId');
 
-        \Log::info($projectId);
+        //Log::info($projectId);
 
-        \Log::info('projectId');
+        //Log::info('projectId');
 
         //$url = "https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send";
 
@@ -134,8 +134,8 @@ class FirebaseService
 
         $accessToken = getFcmOauthToken();
 
-        \Log::info('accessToken');
-        \Log::info($accessToken);
+        //Log::info('accessToken');
+        //Log::info($accessToken);
         if (!$accessToken) {
 
             return ['error' => 'Unable to fetch access token'];
@@ -208,7 +208,7 @@ class FirebaseService
 
         // ];
 
-        // \Log::info( $data );
+        // //Log::info( $data );
 
         // $newData = [];
 
@@ -280,7 +280,7 @@ class FirebaseService
 
             $messages = [];
             $results =[];
-            \Log::info(['registration_idsregistration_idsregistration_idsregistration_ids' =>$data['registration_ids']]);
+            //Log::info(['registration_idsregistration_idsregistration_idsregistration_ids' =>$data['registration_ids']]);
             foreach ($data['registration_ids'] as $token) {
 
                 // $message = [
@@ -453,13 +453,13 @@ class FirebaseService
 
        
 
-            \Log::info('response');
+            //Log::info('response');
 
-            \Log::info($data);
+            //Log::info($data);
 
-            \Log::info($messages);
+            //Log::info($messages);
 
-            \Log::info('response');
+            //Log::info('response');
 
             // $response = $client->post($url, [
 
@@ -489,8 +489,8 @@ class FirebaseService
 
             // Handle the error appropriately
  
-            \Log::info('error');
-            \Log::info($e->getMessage());
+            //Log::info('error');
+            //Log::info($e->getMessage());
 
             return ['error' => $e->getMessage()];
 

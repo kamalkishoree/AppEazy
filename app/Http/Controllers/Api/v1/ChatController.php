@@ -261,7 +261,7 @@ class ChatController extends BaseController
 
 
             $statusCode = $response->getStatusCode();
-            
+
             if($statusCode == 200) {
                 $roomData = $response['roomData'];
                 return response()->json(['status' => true, 'roomData' => $roomData ,'product' => $product,'vendorImage' => $vendorImage, 'message' => __('Room created successfully !!!')]);

@@ -242,61 +242,103 @@ trait ChatTrait{
 
     public function sendNotificationNew($request,$from='')
     {
-
-        \Log::info($request->all());
-        $removeAuth = [];
-        $userVendor =[];
+        // \Log::info($request->all());
         $data = $request->all();
+        $message = isset($request->text_message)?$request->text_message :'';
         if($from=='from_dispatcher'){
             $username =  $data['username'];
-            $removeAuth = array_values(array_column($request->all()['user_ids'], 'auth_user_id'));
+            $removeAuth = (isset($request->all()['user_ids']))  ? array_values(array_column($request->all()['user_ids'], 'auth_user_id')): [];
         } else{
             $username =  Auth::user()->name;
             $auid =  Auth::user()->id;
-            $result = $request->vendor_id;
+            $result = (isset($request->all()['user_ids'])) ? array_values(array_column($request->all()['user_ids'], 'auth_user_id')):[];
             $removeAuth = $result;
-
-            if(@$data['vendor_id']==$auid){
+            if(@$data['auth_id']==$auid){
                 $removeAuth = array_values(array_diff($result, array($auid)));
             }
-
-            $UserVendor = UserVendor::where('vendor_id', $request->vendor_id)->pluck('user_id')->toArray();
-            $userVendor = $UserVendor;
              /**dispacth noti */
              if(@$data['order_vendor_id']!=''){
-                $this->getDispacthUrl(@$data['order_vendor_id'],$data['order_id'],$data['vendor_id'],$data);
+                $this->getDispacthUrl($data['order_vendor_id'],$data['order_id'],$data['vendor_id'],$data);
              }
 
             
             /**end */
         }
-
-        $devices  = UserDevice::whereIn('user_id',$userVendor)->pluck('device_token','user_id') ?? [];
-        // \Log::info(['devices' => $devices]);
+       
         $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
+
+
+        $devices= UserDevice::whereNotNull('device_token')->whereIn('user_id',$removeAuth)->pluck('device_token') ?? [];
      
+         if($request->has('dine_in_type') && $request->dine_in_type ==  'takeaway')
+         {         
+ 
+            if($request->has('vendor_id'))
+            {
+                $user_ids = UserVendor::where('vendor_id',$request->vendor_id)->pluck('user_id')->toArray();
+                $devices= UserDevice::whereNotNull('device_token')->whereIn('user_id',$user_ids)->pluck('device_token') ?? [];
+                \Log::info(['user_idsuser_idsuser_ids'=>$user_ids]);
+                 
+                $message = $username. ' is reached to pick his takeaway order.';
+            }
+
+         }
+
+
+        if($request->has('order_vendor_id') && $request->has('vendor_id'))
+        {
+            $order = OrderVendor::where('id',$request->order_vendor_id)->first();
+            $user_ids[] = $order->user_id;
+          
+            $UserVendor_ids = UserVendor::where('vendor_id',$order->vendor_id)->pluck('user_id')->toArray();
+
+            // \Log::info(['$user_ids_before' => $user_ids]);
+            // \Log::info(['$UserVendor_ids' => $UserVendor_ids]); 
+
+             $user_ids = array_merge($UserVendor_ids,$user_ids);
+
+            // \Log::info(['$user_ids_after' => $user_ids]);
+            // \Log::info(['$UserVendor_ids' => $UserVendor_ids]);
+
+            $login_user [] = auth()->user()->id;
+
+              //\Log::info(['$user_ids' => $user_ids]);
+
+            $removeAuth = array_diff($user_ids,$login_user);
+
+            //\Log::info(['$removeAuth' => $removeAuth]);
+            
+            $user_devices  = UserDevice::whereIn('user_id',$removeAuth)->pluck('device_token')->toArray() ?? [];
+            $devices =$user_devices;
+        }
+        // \Log::info($devices);
         if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {
-            $data = [
-                "registration_ids" => $devices,
-                "notification" => [
-                    "title" => $username,
-                    "body"  => $request->text_message,
-                    'sound' => "default",
-                    "icon"  => (!empty($client_preferences->favicon)) ? $client_preferences->favicon['proxy_url'] . '200/200' . $client_preferences->favicon['image_path'] : '',
-                    "android_channel_id" => "default-channel-id"
-                ],
-                "data" => [
-                    "title" => $username,
-                    "room_id"=>$request->roomId,
-                    "room_id_text"=>$request->roomIdText,
-                    "body"  => $request->text_message,
-                    'data'  => 'chat_text',
-                    'type'  => ""
-                ],
-                "priority" => "high"
-            ];
-            $response = sendFcmCurlRequest($data);
-            return $result;
+        
+
+            if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {
+                $data = [
+                    "registration_ids" => $devices,
+                    "notification" => [
+                        "title" => $username,
+                        "body"  => $message,
+                        'sound' => "default",
+                        "icon"  => (!empty($client_preferences->favicon)) ? $client_preferences->favicon['proxy_url'] . '200/200' . $client_preferences->favicon['image_path'] : '',
+                        "android_channel_id" => "default-channel-id"
+                    ],
+                    "data" => [
+                        "title" => $username,
+                        "room_id"=>$request->roomId,
+                        "room_id_text"=>$request->roomIdText,
+                        "body"  => $message,
+                        'data'  => 'chat_text',
+                        'type'  => ""
+                    ],
+                    "priority" => "high"
+                ];
+                $response = sendFcmCurlRequest($data);
+                return $result;
+            }
+          
         }
     }
 }
