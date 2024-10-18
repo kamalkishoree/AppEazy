@@ -709,16 +709,19 @@ const RoyoOrderDetail = (props) => {
               <Text style={{ fontFamily: fontFamily.semiBold, fontSize: 16 }}>
                 {data?.user_name}
               </Text>
-              <Text
-                style={{
-                  ...styles.font13Regular,
-                  marginTop: moderateScaleVertical(5),
-                }}>
-                {address?.street}
-              </Text>
-              <Text style={styles.font13Regular}>
-                {address?.city + ', ' + address?.country}
-              </Text>
+              {!isEmpty(address) && <>
+                <Text
+                  style={{
+                    ...styles.font13Regular,
+                    marginTop: moderateScaleVertical(5),
+                  }}>
+                  {address?.street}
+                </Text>
+                <Text style={styles.font13Regular}>
+                  {address?.city + ', ' + address?.country}
+                </Text>
+              </>
+              }
             </View>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

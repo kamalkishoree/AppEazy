@@ -5,6 +5,7 @@ import {
   OrderDetail,
   ProductDetail,
   ProductDetail2,
+  RoyoOrderDetail,
   VendorList,
   VendorOrders,
 } from '../Screens';
@@ -24,9 +25,10 @@ export default function () {
         name={navigationStrings.VENDOR_ORDER}
         component={VendorOrders}
       />
-      <Stack.Screen
+       <Stack.Screen
         name={navigationStrings.ORDER_DETAIL}
-        component={OrderDetail}
+        component={RoyoOrderDetail}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name={navigationStrings.VENDORLIST}

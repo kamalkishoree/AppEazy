@@ -939,7 +939,7 @@ export default {
   RE_SCEDULE_DROP: "Saganta ga'umsa irra deebidhan qabadha",
   PICKUP_SCHEDULE_DATE: "Saganta guyyaa ka'umsa",
   DROP_OFF_SCHEDULE_DATE: "Saganta guyyaa ga'umsa",
-  SOS: "SOS",
+  SOS: "Yeroo muddamaa",
   JOIN: "Mana nyaataa taatee jirtaa ? Har'a nu waliin ta'aa",
   ARE_YOU_SURE_YOU_WANT_TO_DELETE:
     "Dosee kee haquuf hin barbada? , haqnaan yaddanoo fi galma ibsama kee hanga dhumaatti baleessa",
@@ -1185,6 +1185,7 @@ export default {
   NO_RECORD_FOUND: "Galmeen kan hin argamne.",
   GIFT_CARD_USER_AMOUNT: "Kaardi keena hamma fayyadamtee",
   GIFT_CARD_REMAINING_AMOUNT: "kaardi kenna hamma hafee",
+
   SEND: "Erguu",
   ALL_GIFT_CARDS: "kardiwwan keena hunda",
   MY_GIFT_CARDS: "kardiwwan keena koo",
@@ -1197,4 +1198,17 @@ export default {
   NAME_IS_NOT_VALID: "Maqaan bifa sirrii ta'een hin jiru",
   SERVICE_FEE: "kaffalttii tajajilaa",
   QR_CODE: "koodii QR",
+
+  VENDOR_DETAILS: "ibsa gurguraa",
+  RENTAL: "kiraa",
+  CAR_RENTAL: "kiraa konkolaataa",
+  LAUNDRY: "Miccaa uffata",
+  APPOINTMENT: "Beellama",
+  NO_DRIVER_AVAILABLE: "Amma konkolaatachisaan hin jiru",
+  MINIMUM_FARE: "Gatii xiqqa",
+  FARE: "Gatii",
+  ONLY: "kuffamaa kessatti",
+  LEFT_IN_STOCK: "qofatuu hafee jira - dhiyootti ajaja",
+  PLEASE_ENTER_YOUR_ORDER_NUMBER: "lakkoofsa ajaja keessanii galchaa",
+  CASH: "qarshi callaa",
 };

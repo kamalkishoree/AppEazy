@@ -36,6 +36,7 @@ import BorderTextInput from '../../../Components/BorderTextInput';
 import {StartPrinting} from '../../PrinterConnection/PrinteFunc';
 import {getItem} from '../../../utils/utils';
 import * as RNLocalize from 'react-native-localize';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function VendorOrders({navigation, route}) {
   const theme = useSelector((state) => state?.initBoot?.themeColor);
@@ -108,9 +109,15 @@ export default function VendorOrders({navigation, route}) {
   //   }
   // }, [isLoading]);
   
-  useEffect(() => {
-    _getListOfVendorOrders(!!paramData?.selectedVendorFrom?.id ? paramData?.selectedVendorFrom : null);
-  }, [pageActive, isRefreshing, paramData?.selectedVendorFrom]);
+  // useEffect(() => {
+  //   _getListOfVendorOrders(!!paramData?.selectedVendorFrom?.id ? paramData?.selectedVendorFrom : null);
+  // }, [pageActive, isRefreshing, paramData?.selectedVendorFrom]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      _getListOfVendorOrders(!!paramData?.selectedVendorFrom?.id ? paramData?.selectedVendorFrom : null);
+    }, [pageActive, isRefreshing, paramData?.selectedVendorFrom, navigation]),
+  );
 
   const _getBleDevice = async () => {
     const res = await getItem('BleDevice');
@@ -189,12 +196,18 @@ export default function VendorOrders({navigation, route}) {
   };
 
   const onPressViewEditAndReplace = (item) => {
+
     navigation.navigate(navigationStrings.ORDER_DETAIL, {
-      orderId: item?.id,
-      fromVendorApp: true,
-      showRating: false,
-      selectedVendor: selectedVendor,
+      data: item,
+      selectedVendor: storeSelectedVendor,
     });
+     
+    // navigation.navigate(navigationStrings.ORDER_DETAIL, {
+    //   orderId: item?.id,
+    //   fromVendorApp: true,
+    //   showRating: false,
+    //   selectedVendor: selectedVendor,
+    // });
   };
 
   const renderOrders = ({item, index}) => {
