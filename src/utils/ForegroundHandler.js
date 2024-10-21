@@ -10,19 +10,92 @@ import { Platform } from 'react-native';
 import actions from '../redux/actions';
 import { StartPrinting } from '../Screens/PrinterConnection/PrinteFunc';
 import { redirectFromNotification } from './helperFunctions';
+import { navigate } from '../navigation/NavigationService';
+import navigationStrings from '../navigation/navigationStrings';
+import { openBrowser } from './openNativeApp';
+import * as NavigationService from "../../src/navigation/NavigationService";
 
 
 const ForegroundHandler = (props) => {
   useEffect(() => {
     return notifee.onForegroundEvent(({ type, detail }) => {
+      let notidata = detail?.notification?.data || {}
+      let clickActionUrl = detail?.pressAction
+      let clickActionUrls = detail?.notification?.data?.click_action || null;
+      let remoteMessage = detail?.notification
+      console.log(clickActionUrls,"clickActionUrls>><");
+      console.log(detail,"detail?.notification");
+      // let clickActionUrls = "Vendor/El Rinconcito Colombiano/581";
+      // let clickActionUrls = "https://testfcm.com/";
       switch (type) {
         case EventType.DISMISSED:
           console.log('User dismissed notification', detail.notification);
           break;
         case EventType.PRESS:
-          console.log('User pressed notification', detail);
-          let clickActionUrl = detail?.notification?.data?.click_action || null;
-          redirectFromNotification(clickActionUrl);
+          console.log(notidata, 'User pressed notification', detail);
+          if (!!notidata?.room_id && !!clickActionUrl) {
+            setTimeout(() => {
+              navigate(navigationStrings.CHAT_SCREEN, {
+                data: { _id: notidata?.room_id, room_id: notidata?.room_id_text, ...notidata},
+              });
+            }, 400)
+          }
+          // redirectFromNotification(clickActionUrls, data);
+        
+          const { data, messageId, notification } = detail;
+          console.log('User pressed notification', notification);
+          if (!!notification?.data && notification?.data?.redirect_type == "1") {
+            setTimeout(() => {
+              openBrowser(notification?.data?.redirect_data)
+            }, 2000)
+          } else if (!!notification?.data && notification?.data?.redirect_type == "2") {
+            if (notification?.data?.redirect_type_value == 'Subcategory') {
+              setTimeout(() => {
+                NavigationService.navigate(navigationStrings.VENDOR_DETAIL, {
+                  data: notification?.data?.redirect_data,
+                  fromNotification: true
+                })
+    
+              }, 1200);
+            }
+            else if (notification?.data?.redirect_type_value == 'Product') {
+              setTimeout(() => {
+                NavigationService.navigate(navigationStrings.PRODUCT_LIST,
+                  { data: notification?.data?.redirect_data, }
+                )
+    
+              }, 1200);
+            }
+            else if (notification?.data?.redirect_type_value == 'Vendor') {
+              setTimeout(() => {
+                NavigationService.navigate(navigationStrings.VENDOR, { data: notification?.data?.redirect_data, },)
+              }, 1200);
+            }
+          }else if (!!notification?.data && notification?.data?.redirect_type == "3") {
+            setTimeout(() => {
+              NavigationService.navigate(navigationStrings.TAB_ROUTES, {
+                screen: navigationStrings.HOMESTACK,
+                params: {
+                  screen: navigationStrings.PRODUCT_LIST,
+                  params: {
+                    data: remoteMessage?.data?.redirect_data, fromNotification: true,
+                  },
+                },
+              })
+  
+            }, 3000);
+  
+          }
+          else if (!!notification?.data && notification?.data?.redirect_type == "4") {
+            setTimeout(() => {
+              NavigationService.navigate(navigationStrings.ORDER_DETAIL,
+                {
+                  data: { order_id: notification?.data?.order_id, vendor_id: notification?.data?.vendor_id }, 
+                },
+              )
+    
+            }, 1200);
+          }
           break;
       }
     });
