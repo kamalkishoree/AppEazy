@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\UserRegistrationDocuments;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\v1\BaseController;
-use App\Models\{UserVendorWishlist, User, MobileBanner, Category, Brand, Client, ClientPreference, Cms, Order, Banner, Vendor, VendorCategory, Category_translation, ClientLanguage, PaymentOption, Product, Country, Currency, ServiceArea, ClientCurrency, ProductCategory, BrandTranslation, Celebrity, UserVendor, AppStyling, Nomenclature, AppDynamicTutorial, ClientSlot, TempCart, VerificationOption, ShowSubscriptionPlanOnSignup, ClientCountries};
+use App\Models\{Language,UserVendorWishlist, User, MobileBanner, Category, Brand, Client, ClientPreference, Cms, Order, Banner, Vendor, VendorCategory, Category_translation, ClientLanguage, PaymentOption, Product, Country, Currency, ServiceArea, ClientCurrency, ProductCategory, BrandTranslation, Celebrity, UserVendor, AppStyling, Nomenclature, AppDynamicTutorial, ClientSlot, TempCart, VerificationOption, ShowSubscriptionPlanOnSignup, ClientCountries};
 use DateTime;
 use DateInterval;
 use DateTimeZone;
@@ -384,6 +384,51 @@ class HomeController extends BaseController
                 $homeData['primary_currencies'] = $primary_currencies;
                 $homeData['primary_language'] = $primary_language;
                 $homeData['primary_country'] = $primary_country;
+            }
+            else{
+                    $prime_language =  Clientlanguage::where('is_primary',1)->first();
+                    $prime_country  = ClientCountries::where('is_primary',1)->first();
+                    $prime_currancy = ClientCurrency::where('is_primary',1)->first();;
+                   
+                       $primary_language = (object) [
+                           'language_id' => $prime_language->language->id,
+                           'is_primary' => 0,
+                           'language' => (object) [
+                               'id' => $client_language->language->id,
+                               'name' => $client_language->language->name,
+                               'sort_code' => $client_language->language->sort_code,
+                               'nativeName' => $client_language->language->nativeName,
+                               'country_code' => $client_language->language->country_code,
+                           ],
+                       ];
+   
+                       $primary_currencies = (object) [
+                           'currency_id' => $prime_currancy->currency->id,
+                           'is_primary' => 0,
+                           'currency' => (object) [
+                               'id' => $prime_currancy->currency->id,
+                               'name' => $prime_currancy->currency->name,
+                               'iso_code' => __($prime_currancy->currency->iso_code),
+                               'symbol' => $prime_currancy->currency->symbol,
+                           ],
+                       ];
+   
+                       $primary_country = (object) [
+                           'country_id' => $prime_country->country->id,
+                           'is_primary' => 0,
+                           'country' => (object) [
+                               'id' => $prime_country->country->country_id,
+                               'name' => $prime_country->country->nicename,
+                               'iso3' => $prime_country->country->iso3,
+                               'symbol' => $prime_country->country->code,
+                               'flag' => 'https://flagcdn.com/56x42/' . strtolower($prime_country->country->code) . '.png',
+                           ],
+                       ];
+
+                       $homeData['primary_currencies'] = $primary_currencies;
+                       $homeData['primary_language'] = $primary_language;
+                       $homeData['primary_country'] = $primary_country;
+                  
             }
 
 
