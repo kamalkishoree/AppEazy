@@ -3,6 +3,7 @@ namespace App\Traits;
 use App\Model\{ClientPreference,Agent,Order};
 use GuzzleHttp\Client as GCLIENT;
 use Log;
+use App\Services\FirebaseService;
 
 trait ChatTrait{
     
@@ -32,14 +33,79 @@ trait ChatTrait{
      */
     public function sendNotification_to_agent($request)
     {
-        $ag ='all_agentids';
+        // $ag ='all_agentids';
 
-        if(@$request->all()['web']=="true"){
-            $ag ='user_ids';
-        }
-        $result = array_values(array_column($request->all()[$ag], 'auth_user_id'));
-        $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
-        $devices = Agent::whereNotNull('device_token')->whereIn('id',$result)->pluck('device_token');
+        // if(@$request->all()['web']=="true"){
+        //     $ag ='user_ids';
+        // }
+        // $result = array_values(array_column($request->all()[$ag], 'auth_user_id'));
+        // $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
+        // $devices = Agent::whereNotNull('device_token')->whereIn('id',$result)->pluck('device_token');
+        //     $data = [
+        //         "registration_ids" => $devices,
+        //         "notification" => [
+        //             "title" => $request->username,
+        //             "body"  => $request->text_message,
+        //             'sound' => "default",
+        //             //"icon"  => (!empty($client_preferences->favicon)) ? $client_preferences->favicon['proxy_url'] . '200/200' . $client_preferences->favicon['image_path'] : '',
+        //             "android_channel_id" => "default-channel-id"
+        //         ],
+        //         "data" => [
+        //             "title" => $request->username,
+        //             "room_id"=>$request->roomId,
+        //             "room_id_text"=>$request->roomIdText,
+        //             "body"  => $request->text_message,
+        //             'data'  => 'chat_text',
+        //             'type'  => "",
+        //         ],
+        //         "priority" => "high"
+        //     ];
+                      
+        //     //$response = sendFcmCurlRequest($data);
+        //     $fcm_server_key = ($client_preferences->fcm_server_key !='') ? $client_preferences->fcm_server_key :  env('FCM_SERVER_KEY');
+        //     if (!empty($fcm_server_key )) {
+        //         $headers = [
+        //             'Authorization: key='.$fcm_server_key ,
+        //             'Content-Type: application/json',
+        //         ];
+        //         $ch = curl_init();
+        //         curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        //         curl_setopt($ch, CURLOPT_POST, true);
+        //         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        //         $result = curl_exec($ch);
+        //         // if ($result === FALSE) {
+        //         //     die('Oops! FCM Send Error: ' . curl_error($ch));
+        //         // }
+        //         curl_close($ch);
+        //         $result = json_decode($result); 
+        //         return $result;
+        //     }
+
+
+
+
+
+
+
+
+
+
+
+            $ag ='all_agentids';
+            if(@$request->all()['web']=="true"){
+                $ag ='user_ids';
+            }
+            $data = $request->all();
+            $order  = Order::where('order_number',$request->order_number)->first();
+            Log::info('agent_idagent_idagent_idagent_idagent_idagent_idagent_idagent_idagent_id'.$order->driver_id);
+            $agent_id = [];
+            $agent_id [] = $order->driver_id;
+            $result = $request->has('all_agentids')?array_values(array_column($request->all()[$ag], 'auth_user_id')): $agent_id;
+            $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
+            $devices = Agent::whereNotNull('device_token')->whereIn('id',$result)->pluck('device_token');
             $data = [
                 "registration_ids" => $devices,
                 "notification" => [
@@ -55,33 +121,28 @@ trait ChatTrait{
                     "room_id_text"=>$request->roomIdText,
                     "body"  => $request->text_message,
                     'data'  => 'chat_text',
-                    'type'  => "",
+                    'type'  => $request->chat_type,
                 ],
                 "priority" => "high"
             ];
-                      
-            //$response = sendFcmCurlRequest($data);
-            $fcm_server_key = ($client_preferences->fcm_server_key !='') ? $client_preferences->fcm_server_key :  env('FCM_SERVER_KEY');
-            if (!empty($fcm_server_key )) {
-                $headers = [
-                    'Authorization: key='.$fcm_server_key ,
-                    'Content-Type: application/json',
-                ];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                $result = curl_exec($ch);
-                // if ($result === FALSE) {
-                //     die('Oops! FCM Send Error: ' . curl_error($ch));
-                // }
-                curl_close($ch);
-                $result = json_decode($result); 
-                return $result;
-            }
+            $response = FirebaseService::sendNotification($data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
     
     /**

@@ -19,13 +19,9 @@ class ChatControllerOrderNotification extends BaseController
      * @return void
      */
     public function sendNotificationToAgent(Request $request){
-     
-        try {
+        \Log::info(['request_allll'=>$request->all()]);
             $notiFY = $this->sendNotification_to_agent($request);
             return response()->json([ 'notiFY'=>$notiFY , 'status' => 200, 'message' => __('sent!!!')]);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => false, 'notiFY' => [] , 'message' => __('No Data found !!!')]);
-        }
 
     }
 

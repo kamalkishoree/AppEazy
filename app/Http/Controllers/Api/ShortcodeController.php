@@ -74,7 +74,7 @@ class ShortcodeController extends BaseController
 
             DB::purge($database_name);
            
-            $client_db_data = Client::where('is_deleted', 0)->where('code',$request->shortCode)->select('id', 'code')->with('getPreference')->first();
+            $client_db_data = Client::where('is_deleted', 0)->where('code',$request->shortCode)->select('id', 'code','socket_url')->with('getPreference')->first();
             $getAdditionalPreference = getAdditionalPreference([
                 'pickup_type',
                 'drop_type',
