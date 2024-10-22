@@ -3,6 +3,12 @@ export interface initBootInterface {
   themeToggle: boolean,
   themeColor: boolean,
   deepLinkUrl: string
+  languages: {
+    primary_language: {}
+  },
+  currencies: {
+    primary_currency: {}
+  },
 }
 export interface IRootState {
   initBoot: initBootInterface;

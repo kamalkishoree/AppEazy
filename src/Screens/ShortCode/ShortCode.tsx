@@ -25,7 +25,7 @@ interface locationInterface {
 }
 
 const ShortCode: FC = () => {
-  const { deepLinkUrl, auth, themeColor, themeToggle } = useSelector(
+  const { deepLinkUrl, auth, themeColor, themeToggle, languages, currencies } = useSelector(
     (state: IRootState) => state?.initBoot || {},
   );
   const theme = themeColor;
@@ -35,6 +35,7 @@ const ShortCode: FC = () => {
   let apiRes: any = useRef(null); // we using useRef to get latest values immediately
 
   const [loadingScreen, setLoadingScreen] = useState(true);
+  
 
   useEffect(() => {
     chekLocationPermission(true)
@@ -77,9 +78,10 @@ const ShortCode: FC = () => {
         code: appCode,
       };
     }
-
+    console.log(currencies,".dfldfg",languages);
+    
     actions
-      .initApp(locData, header, false, null, null, true)
+      .initApp(locData, header, false, currencies?.primary_currency || null, languages?.primary_language || null, true)
       .then(res => {
         console.log('header response--->', res);
         actions.saveShortCode(appCode);
