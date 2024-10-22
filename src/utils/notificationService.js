@@ -237,7 +237,7 @@ export const notificationListener = async () => {
     console.log(remoteMessage, 'remoteMessageremoteMessage')
     if (!!data?.room_id) {
       setTimeout(() => {
-        NavigationService.navigate(navigationStrings.CHAT_SCREEN, {
+        NavigationService.navigate(navigationStrings.CHAT_ROOM, {
           data: { _id: data?.room_id, room_id: data?.room_id_text, ...data },
         });
 
@@ -320,7 +320,7 @@ export const notificationListener = async () => {
 
         if (!!data?.room_id) {
           setTimeout(() => {
-            NavigationService.navigate(navigationStrings.CHAT_SCREEN, {
+            NavigationService.navigate(navigationStrings.CHAT_ROOM, {
               data: { _id: data?.room_id, room_id: data?.room_id_text, ...data },
             });
           }, 3000)

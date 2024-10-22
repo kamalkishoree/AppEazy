@@ -35,8 +35,8 @@ const ForegroundHandler = (props) => {
           console.log(notidata, 'User pressed notification', detail);
           if (!!notidata?.room_id && !!clickActionUrl) {
             setTimeout(() => {
-              navigate(navigationStrings.CHAT_SCREEN, {
-                data: { _id: notidata?.room_id, room_id: notidata?.room_id_text, ...notidata},
+              navigate(navigationStrings.CHAT_ROOM, {
+                _id: notidata?.room_id, room_id: notidata?.room_id_text, ...notidata,
               });
             }, 400)
           }

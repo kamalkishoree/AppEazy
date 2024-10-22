@@ -47,6 +47,7 @@ import { cameraImgVideoHandler } from '../../utils/commonFunction';
 import { getImageUrl, showError } from '../../utils/helperFunctions';
 import { androidCameraPermission } from '../../utils/permissions';
 import socketServices from '../../utils/scoketService';
+import navigationStrings from '../../navigation/navigationStrings';
 
 export default function ChatScreen({ route, navigation }) {
   const {
@@ -335,7 +336,7 @@ export default function ChatScreen({ route, navigation }) {
 
   const sendToUserNotification = async (id, text) => {
 
-    let toMsg =  await checkToMessage()
+    let toMsg = await checkToMessage()
     let notificaionAgentIds =
       allAgentIds.length == 0
         ? [{ auth_user_id: !!paramData?.agent_id ? paramData?.agent_id : '' }]
@@ -361,11 +362,11 @@ export default function ChatScreen({ route, navigation }) {
       vendor_id: paramData?.vendor_id,
       auth_id: userData?.id,
       web: false,
-      to_message:toMsg,
+      to_message: toMsg,
       from_message: !!userData?.is_superadmin ? 'from_admin' : 'from_user',
     };
-    console.log(apiData,"apiData>>>>>>>");
-    
+    console.log(apiData, "apiData>>>>>>>");
+
     actions
       .sendNotification(apiData, {
         code: appData?.profile?.code,
@@ -789,6 +790,15 @@ export default function ChatScreen({ route, navigation }) {
             ? paramData?.product_name || productDetails?.title || ''
             : `# ${paramData?.room_id || ''}`
         }
+        onPressLeft={() => {
+          paramData?.fromNotification ?
+            navigation.reset({
+              index: 0,
+              routes: [{ name: navigationStrings.ACCOUNTS }],
+            }) :
+            navigation.goBack()
+        }}
+
         customRight={showRoomUser}
         headerStyle={{ backgroundColor: isDarkMode ? '#171717' : '#f6f6f6' }}
       // onPressLeft={onBack}

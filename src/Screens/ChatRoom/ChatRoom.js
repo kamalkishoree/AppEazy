@@ -1,5 +1,5 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { useCallback, useRef, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
@@ -65,7 +65,7 @@ export default function ChatRoom({ navigation, route }) {
       }
     }, [navigation]),
   );
-  console.log('paramDataparamData', appData);
+  console.log('paramDataparamData', paramData);
   const fetchData = async () => {
     try {
       let headerData = {
@@ -78,7 +78,7 @@ export default function ChatRoom({ navigation, route }) {
         type:
           dineInType == 'p2p'
             ? 'user_to_user'
-            : paramData?.type == 'agent_chat'
+            : (paramData?.type == 'agent_chat'||paramData?.type == 'agent_to_user')
               ? 'agent_to_user'
               : 'vendor_to_user',
         db_name: appData?.profile?.database_name,
@@ -102,8 +102,13 @@ export default function ChatRoom({ navigation, route }) {
               : await actions.fetchAgentChat(apiData, headerData);
       updateState({ isLoading: false });
       if (!!res?.roomData && !_.isEmpty(res?.roomData) && isFocused) {
+        console.log(res?.roomData,'res?.roomDatares?.roomData',paramData)
         roomDataRef.current = res.roomData;
         updateState({ roomData: res.roomData });
+        const notiItem = res?.roomData?.find((itm)=>(itm?.room_id==paramData?.room_id_text))
+        if(!isEmpty(notiItem)){
+          goToChatRoom({...notiItem,fromNotification:true})
+        }
       }
       console.log('room res++++', res);
     } catch (error) {

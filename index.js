@@ -10,6 +10,7 @@ import { StartPrinting } from './src/Screens/PrinterConnection/PrinteFunc';
 import actions from './src/redux/actions';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { navigate } from './src/navigation/NavigationService';
+import navigationStrings from './src/navigation/navigationStrings';
 
 
 // Register background handler
@@ -17,7 +18,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   const { data, notification } = remoteMessage;
   console.log("received in background messages", remoteMessage)
   if (!!data?.room_id) {
-    navigate(navigationStrings.CHAT_SCREEN, {
+    navigate(navigationStrings.CHAT_ROOM, {
       data: {_id: data?.room_id, room_id: data?.room_id_text, ...data},
     });
   }
