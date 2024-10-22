@@ -115,7 +115,6 @@ function DeliveryTypeComp({
 
   const renderItem = useCallback(
     ({ item, index }) => {
-      console.log(item,"itemitem>>>>>>");
       return (
         <TouchableOpacity
           activeOpacity={1}

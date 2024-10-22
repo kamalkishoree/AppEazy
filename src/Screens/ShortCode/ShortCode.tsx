@@ -78,7 +78,6 @@ const ShortCode: FC = () => {
         code: appCode,
       };
     }
-    console.log(currencies,".dfldfg",languages);
     
     actions
       .initApp(locData, header, false, currencies?.primary_currency || null, languages?.primary_language || null, true)

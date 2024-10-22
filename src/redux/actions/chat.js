@@ -107,8 +107,6 @@ export function getAllRoomUser(query = '', data = {}, headers = {}) {
     const getAppData = await getItem('appData');
     const socketUrl = getAppData?.appData?.profile?.socket_url;
 
-    console.log("socekt url", socketUrl + ALL_ROOM_USER + query)
-
     apiGet(socketUrl + ALL_ROOM_USER + query, data, headers)
       .then((response) => {
         console.log("room user response", response)

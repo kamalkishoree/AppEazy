@@ -165,14 +165,12 @@ export default function ChatScreenForVendor({ route, navigation }) {
 
         const allRoomUsersAppartFromAgentAry = cloneRes?.userData.filter(
           (item) => {
-            console.log('Item+++++++', item);
             if (item?.user_type == 'agent') {
               return item?.user_type !== 'agent';
             }
           },
         );
         const allAgentIdsAry = cloneRes2?.userData.filter((item) => {
-          console.log('Item+++++++', item);
           if (item?.user_type == 'agent') {
             return item?.user_type == 'agent';
           }

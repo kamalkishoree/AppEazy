@@ -17,11 +17,6 @@ import navigationStrings from './src/navigation/navigationStrings';
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   const { data, notification } = remoteMessage;
   console.log("received in background messages", remoteMessage)
-  if (!!data?.room_id) {
-    navigate(navigationStrings.CHAT_ROOM, {
-      _id: data?.room_id, room_id: data?.room_id_text, ...data
-    });
-  }
   if (
     Platform.OS == 'android' &&
     notification.android.sound == 'notification'

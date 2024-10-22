@@ -80,12 +80,10 @@ export default function DashBoardHeaderEcommerce({
 
   const [countryCode, setCountryCode] = useState('IN')
 
-  console.log("primary_countryprimary_country", primary_country)
 
   useLayoutEffect(() => {
     DeviceCountry.getCountryCode()
       .then((result) => {
-        console.log("DeviceCountry", result);
         getItem('countryFlag').then((res) => {
           if (!!res) {
             console.log("resresres", res)
@@ -120,7 +118,7 @@ export default function DashBoardHeaderEcommerce({
     profileInfo?.dark_logo?.image_path,
     '200/400',
   );
-  console.log(imageURI, "imageURI>>>>>");
+
   const onPressWishList = () => {
     if (!!userData?.auth_token) {
       navigation.navigate(navigationStrings.WISHLIST)
