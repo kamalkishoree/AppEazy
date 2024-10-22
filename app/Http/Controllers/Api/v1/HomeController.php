@@ -329,10 +329,6 @@ class HomeController extends BaseController
                 $homeData['profile']->preferences->show_subscription_plan_popup = 0;
             }
 
-
-
-
-
             // Send Primary Language And Primary Currency By Lattitude and Longitude
             $primary_currencies = new \stdClass();
             $primary_language = new \stdClass();
@@ -417,7 +413,7 @@ class HomeController extends BaseController
                            'country_id' => $prime_country->country->id,
                            'is_primary' => 0,
                            'country' => (object) [
-                               'id' => $prime_country->country->country_id,
+                               'id' => $prime_country->country->id,
                                'name' => $prime_country->country->nicename,
                                'iso3' => $prime_country->country->iso3,
                                'symbol' => $prime_country->country->code,
