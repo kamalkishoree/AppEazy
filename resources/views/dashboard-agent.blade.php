@@ -138,9 +138,10 @@
             </div>
         </div>
     </div>
-@endsection
 @include('modals.optimize-route')
 @include('modals.route-assign-agent')
+@endsection
+
 <?php   // for setting default location on map
     $agentslocations = array();
     if(!empty($agents)){
