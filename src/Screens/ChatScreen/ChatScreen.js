@@ -4,6 +4,7 @@ import _, { cloneDeep, isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  BackHandler,
   Image,
   ImageBackground,
   Linking,
@@ -102,6 +103,25 @@ export default function ChatScreen({ route, navigation }) {
 
   const isFocused = useIsFocused();
 
+  function handleBackButtonClick() {
+    paramData?.fromNotification ?
+    navigation.reset({
+      index: 0,
+      routes: [{ name: navigationStrings.ACCOUNTS }],
+    }) :
+    navigation.goBack()
+    return true; // Prevents the default back action immediately
+  }
+  
+  useFocusEffect(
+    useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+      return () => backHandler.remove();
+    }, [navigation]),
+  );
   useFocusEffect(
     useCallback(() => {
       if (dineInType == 'p2p') {

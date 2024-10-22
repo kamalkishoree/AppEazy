@@ -79,13 +79,14 @@ export const initPrinter = () => {
   canEnablePrinter = false;
 
   _getOrderDetails(arr[0])
-    .then((res) => {
+    .then(async (res) => {
       console.log('check _getOrderDetails response >>>', res);
       console.log(
         'check _getOrderDetails response >>>',
         SunmiPrinter.hasPrinter,
       );
-      if (SunmiPrinter.hasPrinter) {
+      let isSunmi = await SunmiPrinter.hasPrinter()
+      if (isSunmi) {
         console.log('printRecieptWithSunmi');
         printRecieptWithSunmi(res).then(() => {
           arr.shift();

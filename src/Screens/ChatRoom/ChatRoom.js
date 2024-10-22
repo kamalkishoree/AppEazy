@@ -90,6 +90,7 @@ export default function ChatRoom({ navigation, route }) {
         apiData['vendor_id'] = paramData?.allVendors.map((val) => val.id);
       } else {
         apiData['order_user_id'] = String(userData?.id);
+        apiData['vendor_id'] =[userData?.vendor_id]
       }
       console.log('api data+++', apiData);
       const res =
