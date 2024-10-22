@@ -51,22 +51,10 @@ const NotificationModal = () => {
     if (!!userData?.auth_token && isVendorNotification) {
       (async () => {
         try {
-          const res = await actions.allPendingOrders(
-            `?limit=${10}&page=${pageActive}`,
-            {},
-            {
-              code: appData?.profile?.code,
-              currency: currencies?.primary_currency?.id,
-              language: languages?.primary_language?.id,
-              // systemuser: DeviceInfo.getUniqueId(),
-            },
-          );
-          console.log('pending order res==>>>', res);
-          let orders =
-            pageActive == 1
-              ? res.data.order_list.data
-              : [...pendingNotifications, ...res.data.order_list.data];
-          actions.pendingNotifications(orders);
+          await getAllPendingOrder()
+          setTimeout(() => {
+            getAllPendingOrder()
+          }, 2000);
         } catch (error) {
           console.log('erro rirased', error);
         }
@@ -77,7 +65,24 @@ const NotificationModal = () => {
   const onEndReached = ({distanceFromEnd}) => {
     updateState({pageActive: pageActive + 1});
   };
-
+const getAllPendingOrder = async() =>{
+  const res = await actions.allPendingOrders(
+    `?limit=${50}&page=${1}`,
+    {},
+    {
+      code: appData?.profile?.code,
+      currency: currencies?.primary_currency?.id,
+      language: languages?.primary_language?.id,
+      // systemuser: DeviceInfo.getUniqueId(),
+    },
+  );
+  console.log('pending order res==>>>', res);
+  let orders =
+    pageActive == 1
+      ? res.data.order_list.data
+      : [...pendingNotifications, ...res.data.order_list.data];
+  actions.pendingNotifications(orders);
+}
   const onEndReachedDelayed = debounce(onEndReached, 1000, {
     leading: true,
     trailing: false,
