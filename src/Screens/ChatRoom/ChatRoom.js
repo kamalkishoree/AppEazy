@@ -78,7 +78,7 @@ export default function ChatRoom({ navigation, route }) {
         type:
           dineInType == 'p2p'
             ? 'user_to_user'
-            : (paramData?.type == 'agent_chat'||paramData?.type == 'agent_to_user')
+            : (paramData?.type == 'agent_chat'||paramData?.type == 'agent_to_user' )
               ? 'agent_to_user'
               : 'vendor_to_user',
         db_name: appData?.profile?.database_name,
@@ -97,7 +97,7 @@ export default function ChatRoom({ navigation, route }) {
           ? await actions.fetchP2pUserToUsertChat(apiData, headerData)
           : paramData?.type == 'user_chat'
             ? await actions.fetchUserChat(apiData, headerData)
-            : paramData?.type == 'vendor_chat'
+            : (paramData?.type == 'vendor_chat'||paramData?.type == 'vendor_to_user')
               ? await actions.fetchVendorChat(apiData, headerData)
               : await actions.fetchAgentChat(apiData, headerData);
       updateState({ isLoading: false });
