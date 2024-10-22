@@ -19,7 +19,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   console.log("received in background messages", remoteMessage)
   if (!!data?.room_id) {
     navigate(navigationStrings.CHAT_ROOM, {
-      data: {_id: data?.room_id, room_id: data?.room_id_text, ...data},
+      _id: data?.room_id, room_id: data?.room_id_text, ...data
     });
   }
   if (

@@ -238,7 +238,7 @@ export const notificationListener = async () => {
     if (!!data?.room_id) {
       setTimeout(() => {
         NavigationService.navigate(navigationStrings.CHAT_ROOM, {
-          data: { _id: data?.room_id, room_id: data?.room_id_text, ...data },
+          _id: data?.room_id, room_id: data?.room_id_text, ...data 
         });
 
       }, 1200);
@@ -321,7 +321,7 @@ export const notificationListener = async () => {
         if (!!data?.room_id) {
           setTimeout(() => {
             NavigationService.navigate(navigationStrings.CHAT_ROOM, {
-              data: { _id: data?.room_id, room_id: data?.room_id_text, ...data },
+               _id: data?.room_id, room_id: data?.room_id_text, ...data 
             });
           }, 3000)
         }
