@@ -346,13 +346,14 @@ trait ChatTrait{
 
                 \Log::info(['data_arrdata_arrdata_arrdata_arr'=>$data_arr]);
 
-                if(isset($data_arr['order_vendor_id']) && isset($data_arr['vendor_id'])){
-                    \Log::info(['data_arrdata_arrdata_arrdata_arr'=>$data_arr]);
-                    if(!empty($data_arr['vendor_id']) || !empty($data['order_vendor_id'])){
-                        $order = OrderVendor::select('order_id')->where('id',$data_arr['order_vendor_id'])->first();
+                if(isset($data['order_vendor_id']) && isset($data['vendor_id'])){
+                    \Log::info(['kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk'=>$data_arr]);
+
+                    if(!empty($data['vendor_id']) || !empty($data['order_vendor_id'])){
+                        $order = OrderVendor::select('order_id')->where('id',$data['order_vendor_id'])->first();
                         $data['order_number'] = !empty($order)?$order->orderDetail->order_number:'';
                         $data_arr['order_id'] = !empty($order)?$order->order_id:'';
-                        $this->getDispacthUrl($data_arr['order_vendor_id'],$order->order_id,$data_arr['vendor_id'],$data);
+                        $this->getDispacthUrl($data['order_vendor_id'],$order->order_id,$data['vendor_id'],$data);
                     }
                 }
             }
