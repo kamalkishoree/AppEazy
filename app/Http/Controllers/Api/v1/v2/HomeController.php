@@ -1094,7 +1094,7 @@ class HomeController extends BaseController
 
     public function  searchVendors($langId, $keyword, $limit, $page, $action, $latitude, $longitude)
     {
-
+        \Log::info($keyword);
         $orderBy = "";
         foreach ($keyword as $key=>$word) {
             $orderBy .= " WHEN name LIKE '$word%' THEN ".$key."  ";
@@ -1137,15 +1137,18 @@ class HomeController extends BaseController
 
         $vendors = $vendors->where(function ($q) use ($keyword) {
             foreach ($keyword as $word) {
-                $q->orwhere('name', 'LIKE', $word . '%')->orWhere('address', 'LIKE', $word . '%');
+                $q->orwhere('name', 'LIKE', '%' .$word . '%')->orWhere('address', 'LIKE', $word . '%');
             }
         })->where('status', 1);
         if(@$orderBy){
             $vendors = $vendors->orderByRaw("CASE ".$orderBy." ELSE 10 END, name");
         }
             // ->limit(5)->get();
+
+            // pr($vendors->get());
             $vendors = $vendors->paginate($limit, $page);
 
+            // pr($vendors);
         $vendor_results = [];
         foreach ($vendors as $vendor) {
             $vendor->response_type = 'vendor';
@@ -1160,8 +1163,7 @@ class HomeController extends BaseController
                 'total' =>  $vendors->total(),
             ];
         }
-
-        return 0;
+        return 0 ;
     }
     public function searchBrand($langId, $keyword, $limit, $page)
     {
@@ -1173,7 +1175,7 @@ class HomeController extends BaseController
             ->select('brands.id', 'bt.title  as dataname', 'image')
             ->where(function ($q) use ($keyword) {
                 foreach ($keyword as $word) {
-                    $q->orWhere('bt.title', 'LIKE', $word . '%');
+                    $q->orWhere('bt.title', '%' .'LIKE', $word . '%');
                 }
             })
 
@@ -1186,7 +1188,7 @@ class HomeController extends BaseController
             // ->orderBy('brands.position', 'asc')
             // ->limit(5)->get();
             $brands = $brands->paginate($limit, $page);
-        $brand_results = [];
+            $brand_results = [];
         foreach ($brands as $brand) {
             $brand->response_type = 'brand';
             $brand->image_url = $brand->image['proxy_url'] . '80/80' . $brand->image['image_path'];
@@ -1221,10 +1223,10 @@ class HomeController extends BaseController
 
             ->where(function ($q) use ($keyword) {
                 foreach ($keyword as $word) {
-                    $q->orwhere('products.sku', ' LIKE', $word . '%')->orWhere('products.url_slug', 'LIKE', $word . '%')->orWhere('pt.title', 'LIKE', $word . '%');
+                    $q->orwhere('products.sku', ' LIKE', '%'. $word . '%')->orWhere('products.url_slug', 'LIKE', '%'.$word . '%')->orWhere('pt.title', 'LIKE','%'. $word . '%');
                 }
-            })->where('products.is_live', 1)->whereNull('deleted_at')->groupBy('products.id')
-            ->whereIn('vendor_id', $allowed_vendors);
+            })->where('products.is_live', 1)->whereNull('deleted_at')->groupBy('products.id');
+            // ->whereIn('vendor_id', $allowed_vendors);
             if(@$orderBy){
                 $products = $products->orderByRaw("CASE ".$orderBy." ELSE 10 END, pt.title");
             }
@@ -1272,7 +1274,6 @@ class HomeController extends BaseController
     public function globalSearch(Request $request, $for = 'all', $dataId = 0)
     {
         // return 1;
-        try {
             $for = $request->view_type ?? 'all';
             
             $keyword = $this->createSearchKeywords($request);
@@ -1380,10 +1381,9 @@ class HomeController extends BaseController
                     $response[] = ['id' => 4, 'title' => __('Product'), 'result' => $product_results, 'lastPage' => $products->lastPage()];
                 }
             }
+            \Log::info($response);
             return $this->successResponse($response);
-        } catch (Exception $e) {
-            return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
+       
     }
 
     public function getClientPreferences(Request $request)

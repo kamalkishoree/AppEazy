@@ -1338,7 +1338,9 @@ class AuthController extends BaseController
                 }
 
                    
-                
+                $vendorUser =  UserVendor::select('vendor_id')->where('user_id', $user->id)->first();
+                $data['vendor_id'] = $vendorUser->vendor_id ?? '';
+
                     
                 $checkSystemUser = $this->checkCookies($user->id);
                 $data['id'] = $user->id;

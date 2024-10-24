@@ -66,8 +66,6 @@ class ChatController extends BaseController
         } catch (\Throwable $th) {
             return ['status' => false, 'message' => __('Something went wrong!!!')];
         }
-        
-
     }
     
     /**
@@ -238,7 +236,7 @@ class ChatController extends BaseController
                 'room_id' => $room_id,
                 'room_name' => $room_name,
                 'order_vendor_id'=> $vendor_order_id,
-                'order_id'=>$order_number,
+                'order_id'=>$order_id,
                 'vendor_id'=>$vendor_id,
                 'sub_domain' =>$server_name,
                 'vendor_user_id' =>$data['user_id'],
@@ -261,9 +259,10 @@ class ChatController extends BaseController
 
 
             $statusCode = $response->getStatusCode();
-
+            
             if($statusCode == 200) {
                 $roomData = $response['roomData'];
+                $roomData['order_id']=  empty($roomData['order_id'])?$order_id:$roomData['order_id'];      
                 return response()->json(['status' => true, 'roomData' => $roomData ,'product' => $product,'vendorImage' => $vendorImage, 'message' => __('Room created successfully !!!')]);
             } else {
               

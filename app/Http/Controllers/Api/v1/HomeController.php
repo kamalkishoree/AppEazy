@@ -265,6 +265,8 @@ class HomeController extends BaseController
                 if ($clientCurrency->currency) {  // Check if the relation exists
                     //$clientCurrency->currency->symbol = __($clientCurrency->currency->symbol);  // Override 'iso' property
                     $clientCurrency->currency->iso_code = __($clientCurrency->currency->iso_code); 
+                    $clientCurrency->currency->symbol = __($clientCurrency->currency->symbol); 
+
                 }
             }
             $homeData['currencies'] = $clientCurrencies;
@@ -360,8 +362,8 @@ class HomeController extends BaseController
                         'currency' => (object) [
                             'id' => $service_area->primary_currency,
                             'name' => $service_area->currency_name,
-                            'iso_code' => $service_area->iso_code,
-                            'symbol' => $service_area->symbol,
+                            'iso_code' => __($service_area->iso_code),
+                            'symbol' => __($service_area->symbol),
                         ],
                     ];
 

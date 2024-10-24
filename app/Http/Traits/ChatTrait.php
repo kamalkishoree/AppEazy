@@ -246,7 +246,7 @@ trait ChatTrait{
 
     public function sendNotificationNew($request,$from='')
     {
-        \Log::info($request->all());
+        \Log::info(['requestall'=>$request->all()]);
         $data = $request->all();
         $type = @$request->chat_type;
         $order_vendor_id ="";
@@ -298,6 +298,10 @@ trait ChatTrait{
             $order_vendor_id = $request->order_vendor_id;
             $vendor_id =$request->has('vendor_id')?$request->vendor_id:'';
             $order = OrderVendor::where('id',$request->order_vendor_id)->first();
+            if(empty($order))
+            {
+                $order = OrderVendor::where('order_id',$request->order_vendor_id)->first();  
+            }
             $user_ids[] = $order->user_id;
             $type = $request->chat_type;
             $UserVendor_ids = UserVendor::where('vendor_id',$order->vendor_id)->pluck('user_id')->toArray();
