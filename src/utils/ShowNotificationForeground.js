@@ -2,13 +2,43 @@ import messaging from '@react-native-firebase/messaging';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 // import PushNotification, { Importance } from 'react-native-push-notification';
-import notifee, { AndroidColor, AndroidImportance } from '@notifee/react-native';
+import notifee, { AndroidColor, AndroidImportance, EventType } from '@notifee/react-native';
 import { navigate } from '../navigation/NavigationService';
 import navigationStrings from '../navigation/navigationStrings';
 import actions from '../redux/actions';
 import { showhideNotificationModal } from './helperFunctions';
 
 const ShowNotificationForeground = props => {
+
+  useEffect(() => {
+    return notifee.onForegroundEvent(({ type, detail }) => {
+      let notidata = detail?.notification?.data || {}
+      let clickActionUrl = detail?.pressAction
+      let clickActionUrls = detail?.notification?.data?.click_action || null;
+      let remoteMessage = detail?.notification
+      console.log(clickActionUrls,"clickActionUrls>><");
+      console.log(detail,"detail?.notification");
+      // let clickActionUrls = "Vendor/El Rinconcito Colombiano/581";
+      // let clickActionUrls = "https://testfcm.com/";
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log(notidata, 'User pressed notification', detail);
+          if (!!notidata?.room_id && !!clickActionUrl) {
+            setTimeout(() => {
+              navigate(navigationStrings.CHAT_ROOM, {
+                _id: notidata?.room_id, room_id: notidata?.room_id_text, ...notidata,
+              });
+            }, 400)
+          }
+        
+          break;
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('remote message foreground', remoteMessage);

@@ -31,9 +31,11 @@ import CircularImages from '../../Components/CircularImages';
 import Modal from 'react-native-modal';
 import {ScrollView} from 'react-native-gesture-handler';
 import fontFamily from '../../styles/fontFamily';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import navigationStrings from '../../navigation/navigationStrings';
 
 export default function ChatScreen({route}) {
+  const navigation = useNavigation()
   const paramData = route.params.data;
   const clientInfo = useSelector(state => state?.initBoot?.clientInfo);
   const defaultLanguagae = useSelector(
@@ -345,7 +347,16 @@ export default function ChatScreen({route}) {
         leftIcon={imagePath.backArrow}
         centerTitle={`# ${paramData?.room_id || ''}`}
         customRight={showRoomUser}
-        // onPressLeft={onBack}
+        onPressLeft={() => {
+          console.log(paramData?.fromNotification , "sdfsd", navigation);
+          
+          paramData?.fromNotification ?
+            navigation.reset({
+              index: 0,
+              routes: [{ name: !clientInfo?.is_freelancer  ?  navigationStrings.DRAWER_ROUTES  : navigationStrings.BOTTOM_STACK }],
+            }) :
+            navigation.goBack()
+        }}
       />
 
       <ImageBackground source={imagePath.icBgLight} style={{flex: 1}}>

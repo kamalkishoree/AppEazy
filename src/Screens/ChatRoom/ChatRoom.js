@@ -25,7 +25,7 @@ export default function ChatRoom({navigation, route}) {
   );
   const userData = useSelector(state => state?.auth?.userData);
 
-  const paramData = route?.params?.data;
+  const paramData = route?.params;
 
   console.log('userDatauserDatauserData', userData);
 
@@ -68,7 +68,7 @@ export default function ChatRoom({navigation, route}) {
       socketServices.removeListener('new-app-message');
     };
   }, []);
-
+  console.log(route?.params, 'sdfnsdfg>>>');
   let fetchData = async () => {
     if (_.isEmpty(roomData)) {
       updateState({isLoading: true});
@@ -91,7 +91,14 @@ export default function ChatRoom({navigation, route}) {
       if (!!res?.roomData && isFocused) {
         roomDataRef.current = res.roomData;
         updateState({roomData: res.roomData});
-      }
+      }      
+      console.log(res?.roomData,"notiItem>>>>", route?.params);
+      const notiItem = res?.roomData?.find((itm)=>(itm?.room_id==route?.params?.room_id_text))
+          console.log(notiItem,"notiItem>>>>", paramData);
+          
+      if(!_.isEmpty(notiItem)){
+          goToChatRoom({...notiItem,fromNotification:true})
+        }
       console.log('room res++++', res);
     } catch (error) {
       console.log('error raised in start chat api', error);

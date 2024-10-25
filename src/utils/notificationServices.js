@@ -143,6 +143,15 @@ export const notificationListener = async () => {
       JSON.stringify(remoteMessage),
     );
     const { notification, data } = remoteMessage;
+    
+    if (!!data?.room_id) {
+      setTimeout(() => {
+        navigate(navigationStrings.CHAT_ROOM, {
+          _id: data?.room_id, room_id: data?.room_id_text, ...data,
+        });
+      }, 400)
+    }
+  
     let notificationType = data?.type || data?.notificationType;
     if (
       notification?.sound == 'notification.mp3' ||
@@ -178,7 +187,15 @@ export const notificationListener = async () => {
           'remote message inital notification',
           JSON.stringify(remoteMessage),
         );
-        const { notification } = remoteMessage;
+        const { notification, data } = remoteMessage;
+
+        if (!!data?.room_id) {
+          setTimeout(() => {
+            navigate(navigationStrings.CHAT_ROOM, {
+              _id: data?.room_id, room_id: data?.room_id_text, ...data,
+            });
+          }, 400)
+        }
         console.log(
           'Notification caused app to open from quit state:',
           remoteMessage.notification,
