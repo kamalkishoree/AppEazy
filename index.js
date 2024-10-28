@@ -15,13 +15,13 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   const { data, messageId, notification } = remoteMessage;
   let notificationType = data?.type ? data?.type : data?.notificationType;
 
-  // if (!!data?.room_id) {
-  //   setTimeout(() => {
-  //     navigate(navigationStrings.CHAT_ROOM, {
-  //       _id: data?.room_id, room_id: data?.room_id_text, ...data,
-  //     });
-  //   }, 400)
-  // }
+  if (!!data?.room_id) {
+    setTimeout(() => {
+      navigate(navigationStrings.CHAT_ROOM, {
+        _id: data?.room_id, room_id: data?.room_id_text, ...data,
+      });
+    }, 400)
+  }
   if (
     Platform.OS == 'android' &&
     notification?.android?.sound == 'notification'
