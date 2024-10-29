@@ -54,7 +54,7 @@ const NotificationModal = () => {
           await getAllPendingOrder()
           setTimeout(() => {
             getAllPendingOrder()
-          }, 2000);
+          }, 500);
         } catch (error) {
           console.log('erro rirased', error);
         }

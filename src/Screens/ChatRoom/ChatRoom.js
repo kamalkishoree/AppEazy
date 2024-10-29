@@ -84,19 +84,19 @@ export default function ChatRoom({ navigation, route }) {
         db_name: appData?.profile?.database_name,
         client_id: String(appData?.profile.id),
         p2p_id: String(userData?.vendor_id),
-        vendor_id: String(userData?.vendor_id),
+        vendor_id: paramData?.type == "user_chat" ? "" : String(userData?.vendor_id),
       };
       if (paramData?.allVendors) {
         apiData['vendor_id'] = paramData?.allVendors.map((val) => val.id);
       } else {
         apiData['order_user_id'] = String(userData?.id);
-        apiData['vendor_id'] =[userData?.vendor_id]
+        apiData['vendor_id'] = paramData?.type == "user_chat" ? [] : [userData?.vendor_id]
       }
       console.log('api data+++', apiData);
       const res =
         dineInType == 'p2p'
           ? await actions.fetchP2pUserToUsertChat(apiData, headerData)
-          : paramData?.type == 'user_chat'
+          : paramData?.type == 'user_chat'||paramData?.to_message == "to_vendor"
             ? await actions.fetchUserChat(apiData, headerData)
             : (paramData?.type == 'vendor_chat'||paramData?.type == 'vendor_to_user')
               ? await actions.fetchVendorChat(apiData, headerData)

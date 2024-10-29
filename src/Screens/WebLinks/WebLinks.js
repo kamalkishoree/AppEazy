@@ -1461,7 +1461,7 @@ export default function WebLinks(props) {
                         {strings.LAUNDRY}
                       </Text>
                       <ToggleSwitch
-                        isOn={isDelivery}
+                        isOn={laundry}
                         onColor={themeColors.primary_color}
                         offColor={
                           isDarkMode
@@ -1501,7 +1501,7 @@ export default function WebLinks(props) {
                         {strings.APPOINTMENT}
                       </Text>
                       <ToggleSwitch
-                        isOn={isDineIn}
+                        isOn={appointment}
                         onColor={themeColors.primary_color}
                         offColor={
                           isDarkMode
@@ -1527,7 +1527,7 @@ export default function WebLinks(props) {
                         {strings.CAR_RENTAL}
                       </Text>
                       <ToggleSwitch
-                        isOn={isTakeaway}
+                        isOn={carRental}
                         onColor={themeColors.primary_color}
                         offColor={
                           isDarkMode
@@ -1554,7 +1554,7 @@ export default function WebLinks(props) {
                         {strings.SERVICES}
                       </Text>
                       <ToggleSwitch
-                        isOn={isDelivery}
+                        isOn={p2p}
                         onColor={themeColors.primary_color}
                         offColor={
                           isDarkMode
@@ -1562,7 +1562,7 @@ export default function WebLinks(props) {
                             : colors.borderLight
                         }
                         size="small"
-                        onToggle={() => updateState({ isDelivery: !isDelivery })}
+                        onToggle={() => updateState({ p2p: !p2p })}
                       />
                     </View>
                   )}
@@ -1581,7 +1581,7 @@ export default function WebLinks(props) {
                         {strings.RENTAL}
                       </Text>
                       <ToggleSwitch
-                        isOn={isDelivery}
+                        isOn={rental}
                         onColor={themeColors.primary_color}
                         offColor={
                           isDarkMode

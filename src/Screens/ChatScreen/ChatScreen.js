@@ -742,11 +742,14 @@ export default function ChatScreen({ route, navigation }) {
               ]); // to send media info in user chat
             })
             .catch(err => {
-              showError('Something went wrong');
+              console.log(err,"err>>>>>>>>>>>> inner ");
+              
+              showError('Something went wrong inner');
             });
         })
         .catch(err => {
-          showError('Something went wrong');
+          console.log(err,"err>>>>>>>>>>>> outer ");
+          showError('Something went wrong outer ');
         });
     }
   };
