@@ -3,8 +3,8 @@ namespace App\Traits;
 use DB, Log;
 use Illuminate\Support\Collection;
 use App\Model\{Client, ClientPreference, User, Agent, Order, PaymentOption, PayoutOption, AgentPayout};
-use Kawankoding\Fcm\Fcm;
 use App\Services\FirebaseService;
+use Kawankoding\Fcm\Fcm;
 
 trait sendCustomNotification{
 
@@ -22,16 +22,18 @@ trait sendCustomNotification{
                     'sound' => 'notification.mp3',
                     "android_channel_id" => "Royo-Delivery",
                 ],
-                "data" => [
-                    'title' => 'Pickup Request',
-                    'body' => 'Check All Details For This Request In App',
-                    'data' => json_encode($item),
-                    'soundPlay' => true,
-                    'show_in_foreground' => true,
-                ],
+                // "data" => [
+                //     'title' => 'Pickup Request',
+                //     'body' => 'Check All Details For This Request In App',
+                //     'data' => json_encode($item),
+                //     'soundPlay' => true,
+                //     'show_in_foreground' => true,
+                // ],
                 "priority" => "high"
             ];
-            $response = FirebaseService::sendNotification($data);
+
+            
+            $response = FirebaseService::sendNotification($data,$item);
             // $fcm_server_key = !empty($client_preferences->fcm_server_key)? $client_preferences->fcm_server_key : 'null';
 
             // $fcmObj = new Fcm($fcm_server_key);
@@ -51,7 +53,7 @@ trait sendCustomNotification{
         }
     }
     
-    public function sendBidNotification($data, $client_preferences)
+    public function sendBidNotification($item, $client_preferences)
     {
         $new = [];
         array_push($new, $item['device_token']);
