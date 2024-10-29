@@ -2345,7 +2345,6 @@ class PickupDeliveryController extends BaseController{
     }
 
 
-    // place Request To Dispatch
     public function placeRequestForDriverBidsToDispatch($request, $product, $UserBidRideRequest){
         try
         {
@@ -2407,6 +2406,7 @@ class PickupDeliveryController extends BaseController{
             return $data;
         }
     }
+
 
     //-----function to get bids related to ride request/instant booking-----
     public function getBidsRelatedToOrderRide(Request $request)

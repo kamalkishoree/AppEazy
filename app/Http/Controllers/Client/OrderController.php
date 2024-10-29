@@ -1046,12 +1046,13 @@ class OrderController extends BaseController
             $orderVendorProductIds = $request->order_vendor_product_id ?? [];
             DB::beginTransaction();
             $client_preferences = ClientPreference::first();
-
-
+            
             $timezone = Auth::user()->timezone;
             $vendor_order_status_check = VendorOrderStatus::where('order_id', $request->order_id)->where('vendor_id', $request->vendor_id)->where('order_status_option_id', $request->status_option_id)->first();
 
             $currentOrderStatus = OrderVendor::where(['vendor_id' => $request->vendor_id, 'order_id' => $request->order_id])->first();
+           
+       
 
             if ($currentOrderStatus->order_status_option_id == 2 && $request->status_option_id == 2) { //$request->status_option_id == 3){
                 return response()->json(['status' => 'error', 'message' => __('Order has already been accepted!!!')]);
@@ -1103,7 +1104,6 @@ class OrderController extends BaseController
                         } else if ($orderData->orderDetail->recurring_booking_type == 1) {
                             $order_dispatch = $this->checkIfIsProductRecurringLastMileon($request);
                         } else {
-
                             $order_dispatch = $this->checkIfanyProductLastMileon($request);
                         }
                         if ($order_dispatch && $order_dispatch == 1) {
@@ -1566,15 +1566,26 @@ class OrderController extends BaseController
         $luxury_option_id = $checkdeliveryFeeAdded->LuxuryOption ? $checkdeliveryFeeAdded->LuxuryOption->luxury_option_id : 1;
         $is_place_order_delivery_zero = $AdditionalPreference['is_place_order_delivery_zero'];
         $is_restricted = $checkdeliveryFeeAdded->is_restricted;
+        $send_to_dispatch = true;
 
+        if($luxury_option_id == 1)
+        {
+            foreach($checkdeliveryFeeAdded->products as $orderProduct)
+            {
+                if($orderProduct->product->Requires_last_mile  == 0)
+                {
+                $send_to_dispatch= false;
+                
+                }
+
+            }
+        }
         /// luxury option 8 ( static ) for appointment you can check it on luxuryOptionSeeder
         if ($luxury_option_id == 8) { // only for appointment type
             $dispatch_domain_Appointment = $this->checkIfAppointmentOnCommon();
             if ($dispatch_domain_Appointment && $dispatch_domain_Appointment != false) {
                 $Appointment = 0;
                 foreach ($checkdeliveryFeeAdded->products as $key => $prod) {
-
-
                     if (isset($prod->product_dispatcher_tag) && !empty($prod->product_dispatcher_tag) && $prod->product->category->categoryDetail->type_id == 12) {
                         $dispatch_domain_Appointment = $this->checkIfAppointmentOnCommon();
                         //echo $Appointment . 'app';
@@ -1670,14 +1681,21 @@ class OrderController extends BaseController
 
             if ($checkdeliveryFeeAdded && ($checkdeliveryFeeAdded->delivery_fee > 0.00 || $is_place_order_delivery_zero == 1)) {
 
-                $order_dispatchs = $this->placeRequestToDispatch($request->order_id, $request->vendor_id, $dispatch_domain);
+                if($send_to_dispatch)
+                {
+                    $order_dispatchs = $this->placeRequestToDispatch($request->order_id, $request->vendor_id, $dispatch_domain);
+
+                }
+                else{
+                    $order_dispatchs = 1;
+
+                }
             }
 
 
             if ($order_dispatchs && $order_dispatchs == 1)
                 return 1;
-        }
-
+          }
 
         // $dispatch_domain_ondemand = $this->getDispatchOnDemandDomain();
         // if ($dispatch_domain_ondemand && $dispatch_domain_ondemand != false) {
