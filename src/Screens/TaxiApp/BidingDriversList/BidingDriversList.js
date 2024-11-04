@@ -59,7 +59,8 @@ export default function BidingDriversList(props) {
           showError("Bid expired!")
           onPressLeft()
         }
-      }, !!lastBidInfo ? timeDiffInSeconds * 1000 : Number(Number(bidExpiryTime) * 1000));
+      // }, !!lastBidInfo ? timeDiffInSeconds * 1000 : Number(Number(bidExpiryTime) * 1000));
+      }, 60000);
       return () => clearTimeout(timer)
     }
   }, [bidExpiryTime])
