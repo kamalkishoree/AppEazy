@@ -145,7 +145,8 @@ export default function BidingDriversList(props) {
             navigation.goBack()
           }
           else {
-            navigation.navigate(navigationStrings.TAXIHOMESCREEN)
+            navigation.goBack()
+            // navigation.navigate(navigationStrings.TAXIHOMESCREEN)
           }},
       },
     ]);
