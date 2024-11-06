@@ -63,10 +63,10 @@
                                 </div>
                                 <div class="col-md-12 mb-3" id="typeInput">
                                     <div class="form-group" id="typeInputEdit">
-                                        <label for="type" class="control-label">TYPE</label>
+                                        <label for="type" class="control-label">{{__('TYPE')}}</label>
                                         <select class="form-control required" data-style="btn-light" name="type" id="type">
-                                            <option value="Employee">Employee</option>
-                                            <option value="Freelancer">Freelancer</option>
+                                            <option value="Employee">{{__('Employee')}}</option>
+                                            <option value="Freelancer">{{__('Freelancer')}}</option>
                                         </select>
                                         <span class="invalid-feedback" id="type_error" role="alert">
                                             <strong></strong>

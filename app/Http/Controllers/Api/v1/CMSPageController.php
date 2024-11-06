@@ -86,7 +86,10 @@ class CMSPageController extends BaseController
                 $faq =   FaqTranslations::where('page_id',$page_detail->id)->where('language_id', $langId)->get();
                 $data['faq_data'] = $faq;
             }
-            $vendor_registration_documents = VendorRegistrationDocument::with('primary')->get();
+            $vendor_registration_documents = VendorRegistrationDocument::with(['primary' => function($q)use($request){
+                $q->where('cl.language_id',$request->header('language'));
+            }])->get();
+
             $data['vendor_registration_documents'] = $vendor_registration_documents;
         }else {
             $driver_types = array(
@@ -108,7 +111,6 @@ class CMSPageController extends BaseController
             $data['driver_registration_documents'] = $driverDocs['documents'];
             foreach( $data['driver_registration_documents'] as $key => $drivr_doc)
             {   
-                Log::info($data['driver_registration_documents'][$key]['name']);
                 $data['driver_registration_documents'][$key]['name'] = __($data['driver_registration_documents'][$key]['name']);
                 // pr($data['driver_registration_documents'][$key]['name']);
             }
@@ -116,9 +118,9 @@ class CMSPageController extends BaseController
             $data['driver_types'] = $driver_types;
             $data['teams'] = $driverDocs['all_teams'];
             $data['tags'] = $driverDocs['agent_tags'];
+
             
         }
-
         return $this->successResponse($data, '', 200);
     }
 }

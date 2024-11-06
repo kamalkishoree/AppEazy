@@ -60,10 +60,9 @@ class UserSubscriptionController extends FrontController
             $q->where('language_id', $request->header('language'));
         }])
         ->where('status', '1')
-        ->orderBy('id', 'asc')
-        ->get();
-        dd($sub_plans);
-        // $sub_meal_plans = SubscriptionPlansUser::with('subscriptionCategory.category')->where('status', '1')->orderBy('id', 'asc')->get();
+        ->orderBy('id', 'asc');
+        // ->get();
+        $sub_meal_plans = SubscriptionPlansUser::with('subscriptionCategory.category')->where('status', '1')->orderBy('id', 'asc')->get();
         $featuresList = SubscriptionFeaturesListUser::where('status', 2)->get();
         $active_subscription = SubscriptionInvoicesUser::with([
             'plan',

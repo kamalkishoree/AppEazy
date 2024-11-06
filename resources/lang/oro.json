@@ -1225,7 +1225,7 @@
   "MY SUBSCRIPTIONS": "galmee koo",
   "User Subscriptions": "Galmee fayyadamaa",
   "monthly": "ji'aan",
-  "Off On Order": "ajaja irratti badeera",
+  "% Off On Order": "% ajaja irratti badeera",
   "Meal Subscriptions": "Galmee nyaata",
   "No Meal Subscription found": "Galmeen nyaata hin argamnee",
   "Notification": "Beeksisa",
@@ -1295,5 +1295,6 @@
   "Other reason": "Sababa biraa",
   "ETB" :"ETB",
   "Address is set as primary address successfully.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera.",
-  "Product has been removed from wishlist.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera."
+  "Product has been removed from wishlist.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera.",
+  "Business License":"dddd"
 }

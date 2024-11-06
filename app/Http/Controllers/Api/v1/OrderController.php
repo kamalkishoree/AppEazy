@@ -1494,7 +1494,19 @@ class OrderController extends BaseController
         $checkdeliveryFeeAdded = OrderVendor::with('LuxuryOption','products')->where(['order_id' => $request->order_id, 'vendor_id' => $request->vendor_id])->first();
         $luxury_option_id      = $checkdeliveryFeeAdded->LuxuryOption ? $checkdeliveryFeeAdded->LuxuryOption->luxury_option_id : 1;
         $is_restricted         = $checkdeliveryFeeAdded->is_restricted;
+        $send_to_dispatch = true;
+        if($luxury_option_id == 1)
+        {
+            foreach($checkdeliveryFeeAdded->products as $orderProduct)
+            {
+                if($orderProduct->product->Requires_last_mile  == 0)
+                {
+                  $send_to_dispatch= false;
+                
+                }
 
+            }
+        }
         if ($luxury_option_id == 6) { // only for on_demand type
 
             $dispatch_domain_OnDemand = $this->getDispatchOnDemandDomain();
@@ -1576,20 +1588,19 @@ class OrderController extends BaseController
         $dispatch_domain = $this->getDispatchDomain();
         if ($dispatch_domain && $dispatch_domain != false) {
             if ($checkdeliveryFeeAdded && ($checkdeliveryFeeAdded->delivery_fee > 0.00 || $is_place_order_delivery_zero == 1))
-                $order_dispatchs = $this->placeRequestToDispatch($request->order_id, $request->vendor_id, $dispatch_domain);
+            //$order_dispatchs = $this->placeRequestToDispatch($request->order_id, $request->vendor_id, $dispatch_domain);
+            //new Check ---- for last mile not send to --- dispatch/
+                if($send_to_dispatch)
+                {
+                    $order_dispatchs = $this->placeRequestToDispatch($request->order_id, $request->vendor_id, $dispatch_domain);
+                }
+                else{
+                    $order_dispatchs = 1;
+                }
 
-
-            if ($order_dispatchs && $order_dispatchs == 1)
-                return 1;
-        }
-
-
-        // $dispatch_domain_ondemand = $this->getDispatchOnDemandDomain();
-        // if ($dispatch_domain_ondemand && $dispatch_domain_ondemand != false) {
-
-        //     $ondemand = 0;
-
-        //     foreach ($checkdeliveryFeeAdded->products as $key => $prod) {
+                    if ($order_dispatchs && $order_dispatchs == 1)
+                    return 1;
+                }
         //         if (isset($prod->product_dispatcher_tag) && !empty($prod->product_dispatcher_tag) && $prod->product->category->categoryDetail->type_id == 8) {
         //             $dispatch_domain_ondemand = $this->getDispatchOnDemandDomain();
         //             if ($dispatch_domain_ondemand && $dispatch_domain_ondemand != false && $ondemand == 0  && $checkdeliveryFeeAdded->delivery_fee <= 0.00) {
