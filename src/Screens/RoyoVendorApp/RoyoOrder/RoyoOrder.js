@@ -325,7 +325,7 @@ const removeItemfromData=(id)=>{
       bgColor="white"
       statusBarColor="white"
       barStyle="dark-content"
-      isLoadingB={isLoadingB}
+      isLoading={isLoadingB}
       source={loaderOne}>
       <Header
         headerStyle={{marginVertical: moderateScaleVertical(16)}}

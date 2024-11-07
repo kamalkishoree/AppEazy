@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {RoyoHome, VendorList, VendorRevenue} from '../Screens';
+import {RoyoHome, RoyoOrder, VendorList, VendorRevenue} from '../Screens';
 import navigationStrings from './navigationStrings';
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +21,10 @@ export default function () {
       <Stack.Screen
         name={navigationStrings.VENDORLIST}
         component={VendorList}
+      />
+      <Stack.Screen
+        name={navigationStrings.ROYO_VENDOR_ORDER}
+        component={RoyoOrder}
       />
     </Stack.Navigator>
   );
