@@ -1745,7 +1745,7 @@ export default function WebLinks(props) {
                       ...styles.detailStyle,
                       marginTop: moderateScale(10),
                     }}>
-                    Additional Details
+                    {strings.ADDITIONAL_DETAILS}
                   </Text>
                 )}
 

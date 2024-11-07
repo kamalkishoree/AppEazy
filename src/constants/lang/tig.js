@@ -1172,4 +1172,5 @@ export default {
   LEFT_IN_STOCK: "ጥራይ አዮም - ቅልጥፍ ኢሎም ይኣዝዙ",
   PLEASE_ENTER_YOUR_ORDER_NUMBER: "በይዝኦም ትእዛዝ ቁፅሪ የእትዉ",
   CASH: "ጥረ ገንዘብ",
+  ADDITIONAL_DETAILS: "ተወሳኺ ዝርዝር ሓበሬታ",
 };

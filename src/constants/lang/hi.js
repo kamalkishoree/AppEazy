@@ -1007,4 +1007,5 @@ export default {
   THANKS_FOR_ORDERING_WITH_US:'Thank you For Ordering With Us',
   GIFT_CARD_USER_AMOUNT: "उपहार कार्ड उपयोगकर्ता राशि",
   GIFT_CARD_REMAINING_AMOUNT: "उपहार कार्ड की शेष राशि ",
+  ADDITIONAL_DETAILS: "अतिरिक्त विवरण",
 };

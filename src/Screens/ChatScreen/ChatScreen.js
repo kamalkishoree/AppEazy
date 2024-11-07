@@ -719,10 +719,10 @@ export default function ChatScreen({ route, navigation }) {
           },
         )
         .then(async res => {
-          console.log(res, '<===uploadMediaS3');
           const response = await fetch(fileRes.path);
+          console.log(response,'responseresponse');
           const blob = await response.blob(); // converts media to blob
-          console.log(blob, '<===blob');
+          console.log(blob,'blobblob',res?.url);
           fetch(res?.url, {
             // API to upload presigned URL to AWS directly
             method: 'PUT',
@@ -965,11 +965,11 @@ export default function ChatScreen({ route, navigation }) {
         options={[
           strings.CAMERA,
           strings.GALLERY,
-          strings.DOCUMENTS,
+          // strings.DOCUMENTS,
           strings.CANCEL,
         ]}
-        cancelButtonIndex={3}
-        destructiveButtonIndex={3}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={2}
         onPress={index => cameraHandle(index)}
       />
       <Modal

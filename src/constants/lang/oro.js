@@ -1211,4 +1211,5 @@ export default {
   LEFT_IN_STOCK: "qofatuu hafee jira - dhiyootti ajaja",
   PLEASE_ENTER_YOUR_ORDER_NUMBER: "lakkoofsa ajaja keessanii galchaa",
   CASH: "qarshi callaa",
+  ADDITIONAL_DETAILS: "Bal'ina Dabalataa",
 };

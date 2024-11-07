@@ -705,5 +705,6 @@ export default {
   PLEASE_SELECT_RENTAL_DATE_RANGE:'እባክዎ የኪራይ ቀናቶች አከባቡ ይምረጡ',
   PRODUCT_IS_ADDED_BY_YOU:"ምርቱ ታክሏል!",
   CURRENT_PASSWORD:'የአሁን የይለፍ ቃል',
-  DO_YOU_WANT_TO_CANCEL_BID_REQUEST:"የጨረታ ጥያቄውን መሰረዝ ይፈልጋሉ"
+  DO_YOU_WANT_TO_CANCEL_BID_REQUEST:"የጨረታ ጥያቄውን መሰረዝ ይፈልጋሉ",
+ADDITIONAL_DETAILS: "ተጨማሪ ዝርዝሮች",
 };

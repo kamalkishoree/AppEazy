@@ -1176,4 +1176,5 @@ export default {
   LEFT_IN_STOCK: "ብቻ ነው - ቶሎ ይዘዙ",
   PLEASE_ENTER_YOUR_ORDER_NUMBER: "እባክዎ የትዕዛዝ ቁጥርዎን ያስገቡ",
   CASH: "ጥሬ ገንዘብ",
+  ADDITIONAL_DETAILS: "ተጨማሪ ዝርዝሮች",
 };
