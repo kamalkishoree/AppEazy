@@ -124,8 +124,11 @@ class StoreController extends BaseController
 						$order_status_option_id = $vendor_order_status->order_status_option_id;
 						$current_status = OrderStatusOption::select('id', 'title')->find($order_status_option_id);
 					    $current_status->title = __($current_status->title);
+
 						if ($order_status_option_id == 2) {
 							$upcoming_status = OrderStatusOption::select('id', 'title')->where('id', '>', 3)->first();
+							$upcoming_status->title = __($upcoming_status->title);
+
 						} elseif ($order_status_option_id == 3) {
 							$upcoming_status = null;
 						} elseif ($order_status_option_id == 6) {
@@ -161,6 +164,9 @@ class StoreController extends BaseController
 				$luxury_option_name = '';
 				if ($order->luxury_option_id > 0) {
 					$luxury_option = LuxuryOption::where('id', $order->luxury_option_id)->first();
+					if ($luxury_option->title == 'delivery') {
+						$luxury_option_name = $this->getNomenclatureName('delivery', $user->language, false);
+					}
 					if ($luxury_option->title == 'takeaway') {
 						$luxury_option_name = $this->getNomenclatureName('Takeaway', $user->language, false);
 					} elseif ($luxury_option->title == 'dine_in') {
@@ -168,8 +174,8 @@ class StoreController extends BaseController
 					} elseif ($luxury_option->title == 'on_demand') {
 						$luxury_option_name = $this->getNomenclatureName('Services', $user->language, false);
 					} else {
-						//$luxury_option_name = 'Delivery';
-						$luxury_option_name = getNomenclatureName($luxury_option->title);
+						$luxury_option_name = 'Delivery';
+						$luxury_option_name = $this->getNomenclatureName('Delivery',$user->language, false);
 					}
 				}
 				$order->luxury_option_name = $luxury_option_name;
