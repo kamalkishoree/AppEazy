@@ -1295,5 +1295,7 @@
   "Other reason": "ሌላ ምክንያት",
   "ETB" :"ኢ.ቲ.ቢ",
   "Address is set as primary address successfully.": "አድራሻው በተሳካ ሁኔታ እንደ ዋና አድራሻ ተመዝግቧል።",
-  "Product has been removed from wishlist.": "አድራሻው በተሳካ ሁኔታ እንደ ዋና አድራሻ ተመዝግቧል።"
+  "Product has been removed from wishlist.": "አድራሻው በተሳካ ሁኔታ እንደ ዋና አድራሻ ተመዝግቧል።",
+  "You cannot buy two subscriptions at the same time": "እርስዎ ሁለት ተመን በአንደኛው ጊዜ መግዛት አልቻሉም"
+
 }

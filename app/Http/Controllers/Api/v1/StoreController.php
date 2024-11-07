@@ -123,6 +123,7 @@ class StoreController extends BaseController
 					if ($vendor_order_status) {
 						$order_status_option_id = $vendor_order_status->order_status_option_id;
 						$current_status = OrderStatusOption::select('id', 'title')->find($order_status_option_id);
+					    $current_status->title = __($current_status->title);
 						if ($order_status_option_id == 2) {
 							$upcoming_status = OrderStatusOption::select('id', 'title')->where('id', '>', 3)->first();
 						} elseif ($order_status_option_id == 3) {
@@ -131,6 +132,8 @@ class StoreController extends BaseController
 							$upcoming_status = null;
 						} else {
 							$upcoming_status = OrderStatusOption::select('id', 'title')->where('id', '>', $order_status_option_id)->first();
+							$upcoming_status->title = __($upcoming_status->title);
+
 						}
 						$order->order_status = [
 							'current_status' => $current_status,

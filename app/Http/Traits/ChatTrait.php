@@ -205,43 +205,44 @@ trait ChatTrait{
     public function signAws(Request $request)
     {
        
-
-        $accessKeyId = \Config::get('app.AWS_ACCESS_KEY_ID_CHAT');
-        $secretAccessKey = \Config::get('app.AWS_SECRET_ACCESS_KEY_CHAT');
-        $region = \Config::get('app.AWS_DEFAULT_REGION_CHAT');
-        $bucketName = \Config::get('app.AWS_BUCKET_CHAT');
-     
-        $fileName = $request->input('filename');
-
-        $s3Client = new S3Client([
-            'version' => 'latest',
-            'region' => $region,
-            'credentials' => [
-                'key' => $accessKeyId,
-                'secret' => $secretAccessKey,
-            ],
-        ]);
-
-        try {
+            // Retrieve environment variables
+            $accessKeyId = env('AWS_ACCESS_KEY_ID_CHAT');
+            $secretAccessKey = env('AWS_SECRET_ACCESS_KEY_CHAT');
+            $region = env('AWS_DEFAULT_REGION_CHAT');
+            $bucketName = env('AWS_BUCKET_CHAT');
             
-            $cmd = $s3Client->getCommand('PutObject', [
-                'Bucket' => $bucketName,
-                'Key' => $fileName,
-                'ACL' => 'public-read',
-            ]);
-            
-            $request = $s3Client->createPresignedRequest($cmd, '+1 hour');
-            $signedUrl = (string) $request->getUri();
+            // Get the file path from the request
+            $fileName = $request->input('filename');
 
-            return response()->json([
-                'url' => $signedUrl,
-                //'thumbnail_url' => $thumbnailUrl,
+            // Initialize the S3 Client
+            $s3Client = new S3Client([
+                'region' => env('AWS_DEFAULT_REGION'),
+                'version' => 'latest',
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
             ]);
 
-            //return response()->json(['url' => $signedUrl]);
-        } catch (AwsException $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+            try {
+                // Set the file content in the 'Body' parameter
+                $cmd = $s3Client->getCommand('PutObject', [
+                    'Bucket' => $bucketName,
+                    'Key' => $fileName,
+                    'ACL' => 'public-read',
+                ]);
+                // Generate the presigned request
+                $request = $s3Client->createPresignedRequest($cmd, '+2 hour');
+                $signedUrl = (string) $request->getUri();
+                \Log::info($signedUrl);
+                return response()->json([
+                    'url' => $signedUrl,
+                ]);
+
+            } catch (AwsException $e) {
+                // Handle any errors
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
     }
 
     public function sendNotificationNew($request,$from='')
@@ -358,7 +359,7 @@ trait ChatTrait{
                 }
             }
         }
-        // \Log::info($devices);
+        \Log::info(['devicesdevicesdevicesdevicesdevicesdevicesdevicesdevicesdevicesdevices'=>$devices]);
         
         if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {
             if (!empty($devices) && !empty($client_preferences->fcm_server_key)) {
