@@ -335,8 +335,8 @@ function SelectPaymentModalView({
             ]}
           >
             {!!selectedCarOption?.duration < 60
-              ? `${selectedCarOption?.duration} mins`
-              : `${(Number(selectedCarOption?.duration) / 60).toFixed(2)} hrs`}
+              ? `${selectedCarOption?.duration} ${strings.MINS}`
+              : `${(Number(selectedCarOption?.duration) / 60).toFixed(2)} ${strings.HRS}`}
           </Text>
         </View>
         <View style={{ flex: 0.33 }}>
@@ -495,8 +495,8 @@ function SelectPaymentModalView({
               }
             >
               {!!selectedCarOption?.duration < 60
-                ? `${selectedCarOption?.duration} mins`
-                : `${(Number(selectedCarOption?.duration) / 60).toFixed(2)} hrs`}
+                ? `${selectedCarOption?.duration} ${strings.MINS}`
+                : `${(Number(selectedCarOption?.duration) / 60).toFixed(2)} ${strings.HRS}`}
             </Text>
           </View>
           <View

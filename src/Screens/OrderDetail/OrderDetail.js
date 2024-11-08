@@ -2648,7 +2648,7 @@ export default function OrderDetail({ navigation, route }) {
             )}
           {(cartData?.total_service_fee > 0) && (
             <LeftRightText
-              leftText={'Service Fee'}
+              leftText={strings.SERVICE_FEE}
               rightText={tokenConverterPlusCurrencyNumberFormater(
                 Number(cartData?.total_service_fee),
                 digit_after_decimal,
