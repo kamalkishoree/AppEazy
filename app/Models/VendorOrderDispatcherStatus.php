@@ -171,8 +171,7 @@ class VendorOrderDispatcherStatus extends Model
         $status_data['icon'] = '';
         $status_data['driver_status'] = '';
        }
-
+       $status_data['driver_status']=__( $status_data['driver_status']);
        return $status_data;
-
     }
 }

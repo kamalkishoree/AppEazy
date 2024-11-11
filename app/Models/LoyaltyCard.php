@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB, Log;
+use App\Models\{LoyaltyCardTranslation};   
+
 class LoyaltyCard extends Model
 {
     use HasFactory;
@@ -76,5 +78,10 @@ class LoyaltyCard extends Model
             return $result->name;
         }
     	return "NO";
+    }
+    public function getNameTranslation($lang_id)
+    {
+        $LoyaltyCardTranslation = LoyaltyCardTranslation::where('language_id',$lang_id)->where('loyalty_card_id',$this->id)->first('name');
+        return ($LoyaltyCardTranslation)?$LoyaltyCardTranslation->name:'';
     }
 }

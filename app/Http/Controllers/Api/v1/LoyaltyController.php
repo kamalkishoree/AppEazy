@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\v1\BaseController;
-use App\Models\{Client, ClientCurrency, ClientPreference, LoyaltyCard, Order};
+use App\Models\{Client, ClientCurrency, ClientPreference, LoyaltyCard, Order,LoyaltyCardTranslation};
 use Dotenv\Loader\Loader;
 
 class LoyaltyController extends BaseController
@@ -22,7 +22,7 @@ class LoyaltyController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try{
             $user = Auth::user();
@@ -33,9 +33,13 @@ class LoyaltyController extends BaseController
                 $loyalty_points_used = (!empty($order_loyalty_points_earned_detail->sum_of_loyalty_points_used)) ? $order_loyalty_points_earned_detail->sum_of_loyalty_points_used : 0;
             }
             $current_loyalty = LoyaltyCard::select('name', 'image')->where('minimum_points', '<=', $loyalty_points_earned)->orderBy('minimum_points', 'desc')->first();
-            $upcoming_loyalty = LoyaltyCard::select('name', 'image', 'minimum_points')->where('minimum_points', '>', $loyalty_points_earned)->get();
+            $upcoming_loyalty = LoyaltyCard::select('id','name', 'image', 'minimum_points')->where('minimum_points', '>', $loyalty_points_earned)->get();
+
+                    
             if($upcoming_loyalty){
                 foreach($upcoming_loyalty as $loyalty){
+                    $translation_name = $loyalty->getNameTranslation($request->header('language'));
+                    $loyalty->name = !empty( $translation_name) ?$translation_name: $loyalty->name ;
                     $loyalty->points_to_reach = number_format(($loyalty->minimum_points - $loyalty_points_earned), 2, '.', '');
                 }
             }

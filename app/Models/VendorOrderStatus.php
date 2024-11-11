@@ -19,7 +19,10 @@ class VendorOrderStatus extends Model
     }
 
     public function getStatusAttribute(){
-        return OrderStatusOption::where('id',$this->order_status_option_id)->first();
+        $orderStatusOption = OrderStatusOption::where('id',$this->order_status_option_id)->first();
+        $orderStatusOption->title = __($orderStatusOption->title);
+
+        return $orderStatusOption;
     }
     public function vendor(){
         return $this->belongsTo('App\Models\Vendor', 'vendor_id', 'id')->select('id', 'name', 'desc', 'logo', 'banner', 'order_pre_time', 'auto_reject_time', 'order_min_amount');

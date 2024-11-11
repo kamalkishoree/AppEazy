@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Client\BaseController;
-use App\Models\{Client, ClientCurrency, ClientPreference, LoyaltyCard};
+use App\Models\{Client, ClientCurrency, ClientPreference, LoyaltyCard,ClientLanguage,LoyaltyCardTranslation};
 
 class LoyaltyController extends BaseController
 {
@@ -25,13 +25,16 @@ class LoyaltyController extends BaseController
      */
     public function index()
     {
+        $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();;
         $status = 0;
         $client_preferences = ClientPreference::first();
         $loyaltycards = LoyaltyCard::where('status', '!=', '2')->get();
         $client_cur = ClientCurrency::where('is_primary',1)->first();
         // dd($loyaltycards->toArray());
         $status = $client_preferences ? $client_preferences->loyalty_check : 0;
-        return view('backend/loyality/index')->with(['loyaltycards' => $loyaltycards, 'status' => $status,'client_cur' => $client_cur]);
+
+        return view('backend/loyality/index')->with(['languages' => $langs,'loyaltycards' => $loyaltycards, 'status' => $status,'client_cur' => $client_cur]);
     }
 
     /**
@@ -59,7 +62,7 @@ class LoyaltyController extends BaseController
             // 'per_purchase_minimum_amount' => 'required|numeric',
             'amount_per_loyalty_point' => 'required|numeric',
         );
-
+      
         $validation  = Validator::make($request->all(), $rules)->validate();
 
         $loyaltyCard = new LoyaltyCard;
@@ -76,6 +79,24 @@ class LoyaltyController extends BaseController
         }
 
         $loyaltyCard->save();
+
+        if($request->has('name_translation') && is_array($request->name_translation))
+        { 
+                foreach($request->name_translation as $k => $v)
+                {
+                    $record = LoyaltyCardTranslation::updateOrCreate(
+                        [
+                            'loyalty_card_id' => $loyaltyCard->id,  // Condition 1
+                            'language_id' => $k  // Condition 2
+                        ],
+                        [
+                            'name' => $v,
+                            'description' => ($request->has('description_translation') && isset($request->description_translation[$k]))?$request->description_translation[$k]:''
+                        ]
+                    );
+                }
+        }
+        
         if ($loyaltyCard->id > 0) {
             return response()->json([
                 'status' => 'success',
@@ -104,8 +125,13 @@ class LoyaltyController extends BaseController
      */
     public function edit($domain = '', $id)
     {
+        $langs = ClientLanguage::with('language')->select('language_id', 'is_primary', 'is_active')->where('is_active', 1)
+        ->orderBy('is_primary', 'desc')->get();;
+        $status = 0;
         $loyaltyCard = LoyaltyCard::where('id', $id)->first();
-        $returnHTML = view('backend.loyality.form')->with(['lc' => $loyaltyCard])->render();
+        $loyaltyCardNames = LoyaltyCardTranslation::where('loyalty_card_id', $id)->pluck('name','language_id')->toArray();
+        $loyaltyCardDesc = LoyaltyCardTranslation::where('loyalty_card_id', $id)->pluck('description','language_id')->toArray();;
+        $returnHTML = view('backend.loyality.form')->with(['loyaltyCardNames'=>$loyaltyCardNames,'loyaltyCardDesc'=>$loyaltyCardDesc, 'languages' => $langs,'lc' => $loyaltyCard])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
@@ -140,6 +166,25 @@ class LoyaltyController extends BaseController
             $loyaltyCard->image = Storage::disk('s3')->put($this->folderName, $file,'public');
         }
         $loyaltyCard->save();
+
+        if($request->has('name_translation') && is_array($request->name_translation))
+        { 
+                foreach($request->name_translation as $k => $v)
+                {
+                    $record = LoyaltyCardTranslation::updateOrCreate(
+                        [
+                            'loyalty_card_id' => $loyaltyCard->id,  // Condition 1
+                            'language_id' => $k  // Condition 2
+                        ],
+                        [
+                            'name' => $v,
+                            'description' => ($request->has('description_translation') && isset($request->description_translation[$k]))?$request->description_translation[$k]:''
+                        ]
+                    );
+                }
+        }
+
+
         return response()->json([
             'status' => 'success',
             'message' => 'Loyalty Card updated Successfully!',
