@@ -118,7 +118,7 @@ class FirebaseService
 
         $projectId = $preference->fcm_project_id;
 
-        //Log::info('projectId');
+        Log::info('projectId');
 
         //Log::info($projectId);
 

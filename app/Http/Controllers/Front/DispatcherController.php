@@ -21,6 +21,7 @@ class DispatcherController extends FrontController
     /******************    ---- order status update from dispatch (Need to dispatcher_status_option_id ) -----   ******************/
     public function dispatchOrderStatusUpdate(DispatchOrderStatusUpdateRequest $request, $domain = '', $web_hook_code)
     {
+        \Log::info($request->all());
         try {
             DB::beginTransaction();
             $checkiftokenExist = OrderVendor::where('web_hook_code',$web_hook_code)->first();

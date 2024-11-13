@@ -16,8 +16,10 @@ class ApiLocalization
 
     public function handle(Request $request, Closure $next)
     {
-        \Log::info($request->fullurl());
-        \Log::info(json_encode($request->all()));
+        // \Log::info($request->fullurl());
+        // \Log::info(json_encode($request->all()));
+        // \Log::info(json_encode($request->header()));
+
         // Check header request and determine localizaton
         $local = ($request->hasHeader('language')) ? $request->header('language') : 1;
 

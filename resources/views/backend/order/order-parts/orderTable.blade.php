@@ -489,7 +489,7 @@
                             @if ($order->total_discount_calculate > 0 || $order->total_discount_calculate < 0)
                                 <li class="d-flex align-items-center justify-content-between">
                                     <label class="m-0">{{ __('Total Discount') }}</label>
-                                    <span>-{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->total_discount_calculate) }}</span>
+                                    <span>{{$order->total_discount_calculate == 0 ?"":"-"}}{{ $clientCurrency->currency->symbol }}{{ decimal_format( $order->total_discount_calculate) }}</span>
                                 </li>
                             @endif
 
@@ -525,7 +525,7 @@
                                     <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->advance_amount) }}</span>
                                 </li>
                                 <li class="grand_total d-flex align-items-center justify-content-between">
-                                    <label class="m-0">{{ __('Pending Amount') }} </label>
+                                    <label class="m-0"> {{$filter_order_status == 'orders_history' ? __('Payed Amount') : __('Pending Amount') }}</label>
                                     <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->payable_amount - $order->advance_amount) }}</span>
                                 </li>
                             @endif
