@@ -1380,7 +1380,7 @@ function ChooseVechile({ navigation, route }) {
                                         ? colors.whiteOpacity50
                                         : colors.textColor,
                                 }}>
-                                {"  Minimum Fare - "}  {tokenConverterPlusCurrencyNumberFormater(
+                                {strings.MINIMUM_FARE}  {tokenConverterPlusCurrencyNumberFormater(
                                     Number(selectedCarOption?.tags_price),
                                     digit_after_decimal,
                                     additional_preferences,

@@ -127,6 +127,7 @@ const PaymentOptions = ({ navigation, route }) => {
         {},
         {
           code: appData?.profile?.code,
+          language: languages?.primary_language?.id,
         }
       )
       .then((res) => {

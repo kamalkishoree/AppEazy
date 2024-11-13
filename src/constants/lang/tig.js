@@ -1166,7 +1166,7 @@ export default {
   LAUNDRY: "ሕፅቦ",
   APPOINTMENT: "ቆፀሮ",
   NO_DRIVER_AVAILABLE: "ንግዚኡ ኣኽከርካሪ ኣይተረኽበን!!",
-  MINIMUM_FARE: "ዝተሓተ ዋጋ",
+  MINIMUM_FARE: "ዝተሓተ ክፍሊት -",
   FARE: "ዋጋ",
   ONLY: "ዝቐረዩ",
   LEFT_IN_STOCK: "ጥራይ አዮም - ቅልጥፍ ኢሎም ይኣዝዙ",

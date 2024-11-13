@@ -1205,7 +1205,7 @@ export default {
   LAUNDRY: "Miccaa uffata",
   APPOINTMENT: "Beellama",
   NO_DRIVER_AVAILABLE: "Amma konkolaatachisaan hin jiru",
-  MINIMUM_FARE: "Gatii xiqqa",
+  MINIMUM_FARE: "Gatii Xiqqaa - .",
   FARE: "Gatii",
   ONLY: "kuffamaa kessatti",
   LEFT_IN_STOCK: "qofatuu hafee jira - dhiyootti ajaja",

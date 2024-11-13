@@ -707,4 +707,5 @@ export default {
   CURRENT_PASSWORD:'የአሁን የይለፍ ቃል',
   DO_YOU_WANT_TO_CANCEL_BID_REQUEST:"የጨረታ ጥያቄውን መሰረዝ ይፈልጋሉ",
 ADDITIONAL_DETAILS: "ተጨማሪ ዝርዝሮች",
+MINIMUM_FARE:"ዝቅተኛ ዋጋ -",
 };
