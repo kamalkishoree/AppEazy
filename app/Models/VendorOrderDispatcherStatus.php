@@ -13,6 +13,7 @@ class VendorOrderDispatcherStatus extends Model
     ];
 
     protected $appends = ['status_data'];
+
     public function getStatusDataAttribute()
     {
        $dispatcher_status_option = $this->attributes['dispatcher_status_option_id'];
@@ -172,6 +173,7 @@ class VendorOrderDispatcherStatus extends Model
         $status_data['driver_status'] = '';
        }
        $status_data['driver_status']=__( $status_data['driver_status']);
+    //    pr($status_data['driver_status']);
        return $status_data;
     }
 }

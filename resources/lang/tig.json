@@ -1296,5 +1296,16 @@
   "Rejected": "ተደነደነ",
   "Accept": "ተቐበለ",
   "Delivered": "ተልኣላ",
-  "Reject": "ንምቕራብ"
+  "Reject": "ንምቕራብ",
+  "Service Executive is nearby your location": "ኣሰርሓሪ ተጠቃሚ ብአቅራቢ እዩ",
+  "Order picked up": "ትእዛዝ ተኸፍለ",
+  "Pickup/Delivery": "ምስል/ማስተላለፊያ",
+  "Order Delivered": "ትእዛዝ ተላኸ",
+  "Ride Completed": "መንገዲ ተጠናቀቐ",
+  "Service Completed": "ኣገልግሎቱ ተከተለ",
+  "Delivery Completed": "ማስተላለፊያ ተጠናቀቐ",
+  "Service Executive arrived at the store": "ኣሰርሓሪ ተጠቃሚ በሱቅ ኣብ መንገዲ መጻበር",
+  "Delivery Executive arrived at your location": "ማስተላለፊያ ተጠቃሚ ብኣብ ማዕከል ኣሕረት ተመጡ",
+  "Ride Started": "መንገዲ ጀመረ",
+  "Order Accepted": "ትእዛዝ ተቀባ"
 }

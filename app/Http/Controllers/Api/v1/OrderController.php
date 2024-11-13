@@ -2856,6 +2856,11 @@ class OrderController extends BaseController
                     ->select('*','dispatcher_status_option_id as status_data')->where('order_id', $order_id)
                     ->where('vendor_id', $vendor->vendor->id)
                     ->get();
+
+                    //  foreach($vendor->vendor_dispatcher_status as $dispatcher_status_cus)
+                    //  {
+                    //     $dispatcher_status_cus['status_data']['ssss'] =__($dispatcher_status_cus['status_data']['driver_status']);
+                    //  }
                     $vendor->vendor_dispatcher_status_count = 6;
                     $vendor->dispatcher_status_icons = [asset('assets/icons/driver_1_1.png'),asset('assets/icons/driver_2_1.png'),asset('assets/icons/driver_3_1.png'),asset('assets/icons/driver_4_1.png'),asset('assets/icons/driver_4_2.png'),asset('assets/icons/driver_5_1.png')];
 
@@ -4780,7 +4785,7 @@ class OrderController extends BaseController
                 $order = $order->with(['OrderFiles']);
 
                 $order = $order->where(function ($q1) {
-                        $q1->where('payment_status', 1)->whereNotIn('payment_option_id', [1,38]);
+                        $q1->where('paymevendor_dispatcher_statusnt_status', 1)->whereNotIn('payment_option_id', [1,38]);
                         $q1->orWhere(function ($q2) {
                             $q2->whereIn('payment_option_id', [1,38]);
                         });

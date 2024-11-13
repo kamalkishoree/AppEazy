@@ -1297,14 +1297,16 @@
   "Address is set as primary address successfully.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera.",
   "Product has been removed from wishlist.": "Teessoon milkaa'inaan akka teessoo ijoo ta'eetti qindeessameera.",
   "You cannot buy two subscriptions at the same time": "Isin yeroo tokkoo abonii lama bituu hin dandeessan",
-  "Delivery": "Baasii",
-  "Processing": "Hojirra oolaa",
-  "Accepted": "Simatameera",
-  "Placed": "Kannee Jira",
-  "Out For Delivery": "Baasii Irra Jira",
-  "Rejected": "Gadi Fageeffameera",
-  "Accept": "Simachuu",
-  "Delivered": "Gahameera",
-  "Reject": "Fudhatama dhabuu"
+  "Service Executive is nearby your location": "Hojjetaan Tajaajilaa naannoo kee jiru",
+  "Order picked up": "Ajaja fuudhamte",
+  "Pickup/Delivery": "Fuudhi/Geessisi",
+  "Order Delivered": "Ajaja geessame",
+  "Ride Completed": "Imalii xumurame",
+  "Service Completed": "Tajaajilaan xumurame",
+  "Delivery Completed": "Geessisni xumurame",
+  "Service Executive arrived at the store": "Hojjetaan Tajaajilaa bakka gabaa gahe",
+  "Delivery Executive arrived at your location": "Hojjetaan Geessisii bakka kee gahe",
+  "Ride Started": "Imaliin jalqabe",
+  "Order Accepted": "Ajaja fudhatame"
 
 }
