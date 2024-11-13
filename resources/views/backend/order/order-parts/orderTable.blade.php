@@ -524,8 +524,8 @@
                                     <label class="m-0">{{ __('Advance Paid') }} </label>
                                     <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->advance_amount) }}</span>
                                 </li>
-                                <li class="grand_total d-flex align-items-center justify-content-between">
-                                    <label class="m-0"> {{$filter_order_status == 'orders_history' ? __('Payed Amount') : __('Pending Amount') }}</label>
+                                <li class="grand_total d-flex align-items-center justify-content-between class_paid_amount">
+                                    <label class="m-0"> {{($filter_order_status == 'orders_history' ||  $order->payment_status ==1) ? __('Paid Amount') : __('Pending Amount') }}</label>
                                     <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->payable_amount - $order->advance_amount) }}</span>
                                 </li>
                             @endif
