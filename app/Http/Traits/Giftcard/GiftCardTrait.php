@@ -13,15 +13,20 @@ trait GiftCardTrait
 {
 
 
-    public function getUserActiveGiftCard(){
+    public function getUserActiveGiftCard($request){
         $active_giftcard = [];
         try {
             $user = Auth::user();
             if( $user ){
                 $now = Carbon::now()->toDateTimeString();
-                $active_giftcard = UserGiftCard::select('*',DB::raw('count(*) as total'))->with('giftCard')->whereHas('giftCard',function ($query) use ($now){
-                    return  $query->whereDate('expiry_date', '>=', $now);
-                })->where(['is_used'=>'0','user_id'=>$user->id])->groupBy('gift_card_id')->get();
+                $active_giftcard = UserGiftCard::select('*',DB::raw('count(*) as total'))->with(['giftCard' => function ($query) use ($now, $request) {
+                    // Filter gift cards based on expiry_date and the translation based on the language header
+                    $query->whereDate('expiry_date', '>=', $now)
+                          ->with(['giftCardTranslationSingle' => function ($q) use ($request) {
+                              $q->where('language_id', $request->header('language'));
+                          }]);
+                }])
+                ->where(['is_used'=>'0','user_id'=>$user->id])->groupBy('gift_card_id')->get();
             }
             return $active_giftcard;
         } catch (Exception $e) {

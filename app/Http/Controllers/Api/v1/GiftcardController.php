@@ -36,15 +36,19 @@ class GiftcardController extends BaseController
                 $q->where('language_id',$request->header('language'));
             })->get();
             $active_giftcard = $this->getUserActiveGiftCard($request);
-        //    return $active_giftcard;
-        //     if($active_giftcard)
-        //     {
-        //         foreach($active_giftcard as $user_gift_card)
-        //         {
-        //             $user_gift_card->title = $user_gift_card->giftCard->giftCardTranslationSingle;
-        //         }
-        //     }
-           
+            if($active_giftcard)
+            {
+                foreach($active_giftcard as $user_gift_card)
+                {
+
+                    if($user_gift_card->giftCard->giftCardTranslationSingle)
+                    {
+                        $user_gift_card->giftCard->title = $user_gift_card->giftCard->giftCardTranslationSingle->title;
+                        $user_gift_card->giftCard->short_desc = $user_gift_card->giftCard->giftCardTranslationSingle->description;
+                    }
+                    
+                }
+            }
             // return array
             $respons['allGiftCard']          =  $GiftCard;
             $respons['UserActiveGiftCard']   =  $active_giftcard;
