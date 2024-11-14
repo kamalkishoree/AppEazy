@@ -708,4 +708,8 @@ export default {
   DO_YOU_WANT_TO_CANCEL_BID_REQUEST:"የጨረታ ጥያቄውን መሰረዝ ይፈልጋሉ",
 ADDITIONAL_DETAILS: "ተጨማሪ ዝርዝሮች",
 MINIMUM_FARE:"ዝቅተኛ ዋጋ -",
+NUMBER_OF_SEATS:'የመቀመጫዎች ብዛት',
+SELECTED_SLOT:'የተመረጠ ማስገቢያ',
+SLOTS: 'ቦታዎች',
+APPOINTMENT: 'ቀጠሮ',
 };

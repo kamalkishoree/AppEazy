@@ -1261,5 +1261,9 @@ Amount`,
   ONLY:"only",
   LEFT_IN_STOCK:"left in stock - order soon",
   PLEASE_ENTER_YOUR_ORDER_NUMBER:"Please Enter your Order Number",
-  CASH:"Cash"
+  CASH:"Cash",
+  NUMBER_OF_SEATS:"Number of seats",
+  SELECTED_SLOT:'Selected Slots',
+  SLOTS: 'Slots',
+  APPOINTMENT: 'Appointment',
 };

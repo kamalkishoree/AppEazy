@@ -1212,4 +1212,7 @@ export default {
   PLEASE_ENTER_YOUR_ORDER_NUMBER: "lakkoofsa ajaja keessanii galchaa",
   CASH: "qarshi callaa",
   ADDITIONAL_DETAILS: "Bal'ina Dabalataa",
+  NUMBER_OF_SEATS:"Baay'ina teessoo",
+  SELECTED_SLOT:'Bakka Filatame',
+  SLOTS: 'Slots',
 };

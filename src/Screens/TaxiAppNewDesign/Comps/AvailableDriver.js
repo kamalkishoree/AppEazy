@@ -205,7 +205,7 @@ export default function AvailableDriver({
                 fontFamily: fontFamily.medium,
                 width: width / 2.1,
               }}>
-              {'Number of seats'}
+              {strings.NUMBER_OF_SEATS}
             </Text>
 
             {/* <Text

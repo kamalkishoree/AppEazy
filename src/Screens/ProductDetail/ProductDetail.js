@@ -1635,7 +1635,7 @@ export default function ProductDetail({ route, navigation }) {
         <Text style={{
           fontFamily: fontFamily?.bold,
           fontSize: textScale(14),
-        }}>Select slot</Text>
+        }}>{strings.SELECT_SLOT}</Text>
         <TouchableOpacity onPress={() => {
           if (isEmpty(selectedAgent) && productDetailData?.is_show_dispatcher_agent) {
             alert('please select agent')
@@ -1646,7 +1646,7 @@ export default function ProductDetail({ route, navigation }) {
           <Text style={{
             fontFamily: fontFamily.bold,
             color: themeColors?.primary_color
-          }}>Done</Text>
+          }}>{strings.DONE}</Text>
         </TouchableOpacity>
       </View>
       {!isEmpty(appointmentDispatcherAgentSlots) ?
@@ -1711,7 +1711,7 @@ export default function ProductDetail({ route, navigation }) {
     </View>
   }
 
-  console.log("selectedVariant+++++", selectedVariant)
+  console.log("selectedVariant+++++","dfdfd", selectedVariant)
 
   const renderColor = useCallback((item, index, options, parentIndex) => {
     return (
@@ -1870,7 +1870,7 @@ export default function ProductDetail({ route, navigation }) {
       source={loaderOne}
     // isLoadingB={isLoadingC}
     >
-      <Header
+      {!state.isLoading && <Header
         leftIcon={
           appStyle?.homePageLayout === 3 || appStyle?.homePageLayout === 5
             ? imagePath.icBackb
@@ -1895,7 +1895,7 @@ export default function ProductDetail({ route, navigation }) {
         }}
         isShareIcon={imagePath.icShareb}
         onShare={onShare}
-      />
+      />}
 
       <KeyboardAwareScrollView ref={myRef} showsVerticalScrollIndicator={false}>
         <View style={{ marginHorizontal: moderateScale(16) }}>
@@ -2585,7 +2585,7 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily?.bold,
                       color: colors.black,
                       fontSize: textScale(14)
-                    }}>Appointment</Text>
+                    }}>{strings.APPOINTMENT}</Text>
                     <TouchableOpacity onPress={() => setAppointmentPicker(true)} style={{
                       backgroundColor: colors.backGroundGreyD,
                       paddingVertical: moderateScaleVertical(8),
@@ -2608,7 +2608,7 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily?.bold,
                       color: colors.black,
                       fontSize: textScale(14)
-                    }}>Slots</Text>
+                    }}>{strings.SLOTS}</Text>
                     <TouchableOpacity onPress={() => setAppointmentSlotsModal(true)} style={{
                       backgroundColor: colors.backGroundGreyD,
                       paddingVertical: moderateScaleVertical(8),
@@ -2619,7 +2619,7 @@ export default function ProductDetail({ route, navigation }) {
                       fontFamily: fontFamily?.regular,
                       color: colors.black,
                       fontSize: textScale(13)
-                    }}>{(!isEmpty(selectedAppointmentSlot)) ? selectedAppointmentSlot?.name : "Select Slot"}</Text></TouchableOpacity>
+                    }}>{(!isEmpty(selectedAppointmentSlot)) ? selectedAppointmentSlot?.name : strings.SELECTED_SLOT}</Text></TouchableOpacity>
                   </View>}
                 </View>
 
