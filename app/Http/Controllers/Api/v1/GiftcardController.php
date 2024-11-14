@@ -35,7 +35,16 @@ class GiftcardController extends BaseController
             ->with('giftCardTranslation',function($q)use($request){
                 $q->where('language_id',$request->header('language'));
             })->get();
-            $active_giftcard = $this->getUserActiveGiftCard();
+            $active_giftcard = $this->getUserActiveGiftCard($request);
+        //    return $active_giftcard;
+        //     if($active_giftcard)
+        //     {
+        //         foreach($active_giftcard as $user_gift_card)
+        //         {
+        //             $user_gift_card->title = $user_gift_card->giftCard->giftCardTranslationSingle;
+        //         }
+        //     }
+           
             // return array
             $respons['allGiftCard']          =  $GiftCard;
             $respons['UserActiveGiftCard']   =  $active_giftcard;
@@ -68,12 +77,17 @@ class GiftcardController extends BaseController
         //     $q->where('language_id',$request->header('language'));
         // })->where('id', $gift_card_id)->first();
 
-        $GiftCard = GiftCard::with(['giftCardTranslation' => function($q) use ($request) {
+        $GiftCard = GiftCard::with(['giftCardTranslationSingle' => function($q) use ($request) {
             $q->where('language_id', $request->header('language'));
         }])
         ->where('id', $gift_card_id)->first(); 
 
+        if($GiftCard->giftCardTranslationSingle)
+        {
+            $GiftCard->title = $GiftCard->giftCardTranslationSingle->title;
+            $GiftCard->short_desc = $GiftCard->giftCardTranslationSingle->description;
 
+        }
 
            // Retrieve only the first matching record
 

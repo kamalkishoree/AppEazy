@@ -30,4 +30,9 @@ class GiftCard extends Model
 
       return $this->hasmany(GiftCardTranslation::class,'gift_card_id', 'id');
     }
+
+    public function giftCardTranslationSingle(){
+
+      return $this->hasOne(GiftCardTranslation::class,'gift_card_id', 'id');
+    }
 }
