@@ -1175,24 +1175,27 @@ class OrderController extends BaseController
                     if (in_array($request->payment_option_id, $ex_gateways)) {
 
                         //Send Email to customer
-                        $res = $this->sendSuccessEmail($request, $order);
+                        $res =   _defer(fn () => $this->sendSuccessEmail($request, $order));
                         //Send Email to Vendor
                         foreach ($cart_products->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
-                            $this->sendSuccessEmail($request, $order, $vendor_id);
+                            _defer(fn () => $this->sendSuccessEmail($request, $order, $vendor_id));
+                                // Some computationally expensive operation...
+                                // $this->sendSuccessEmail($request, $order, $vendor_id);
                         }
+                        _defer(function () {
+                            Cart::where('id', $cart->id)->update(['schedule_type' => NULL, 'scheduled_date_time' => NULL, 'order_id' => NULL]);
 
-                        CaregoryKycDoc::where('cart_id',$cart->id)->update(['ordre_id'=> $order->id,'cart_id'=>'' ]);
-
-                        Cart::where('id', $cart->id)->update(['schedule_type' => NULL, 'scheduled_date_time' => NULL, 'order_id' => NULL]);
-
-                        CartCoupon::where('cart_id', $cart->id)->delete();
-                        // CartProduct::where('cart_id', $cart->id)->delete();
-                        $cart_product_ids = $cart_products->pluck('id');
-                        CartProduct::query()->whereIn('id', $cart_product_ids)->delete();
-                        CartProductPrescription::where('cart_id', $cart->id)->delete();
-                        CartDeliveryFee::where('cart_id', $cart->id)->delete();
-                        CartRentalProtection::where('cart_id', $cart->id)->delete();
-                        CartBookingOption::where('cart_id', $cart->id)->delete();
+                            CartCoupon::where('cart_id', $cart->id)->delete();
+                            // CartProduct::where('cart_id', $cart->id)->delete();
+                            $cart_product_ids = $cart_products->pluck('id');
+                            CartProduct::query()->whereIn('id', $cart_product_ids)->delete();
+                            CartProductPrescription::where('cart_id', $cart->id)->delete();
+                            CartDeliveryFee::where('cart_id', $cart->id)->delete();
+                            CartRentalProtection::where('cart_id', $cart->id)->delete();
+                            CartBookingOption::where('cart_id', $cart->id)->delete();                       
+                           CaregoryKycDoc::where('cart_id',$cart->id)->update(['ordre_id'=> $order->id,'cart_id'=>'' ]);
+                         });
+                 
                     }
                     if (count($tax_category_ids)) {
                         foreach ($tax_category_ids as $tax_category_id) {
@@ -1223,11 +1226,11 @@ class OrderController extends BaseController
                                     $clientDetail = Client::on('mysql')->where(['code' => $client_preference->client_code])->first();
                                     AutoRejectOrderCron::on('mysql')->create(['database_host' => $clientDetail->database_path, 'database_name' => $clientDetail->database_name, 'database_username' => $clientDetail->database_username, 'database_password' => $clientDetail->database_password, 'order_vendor_id' => $vendor_value->id, 'auto_reject_time' => Carbon::now()->addMinute($vendorDetail->auto_reject_time)]);
                                 }
-                                $this->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail, $code);
+                                _defer(fn () =>$this->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail, $code));
                             }
                             $vendor_order_detail = $this->minimize_orderDetails_for_notification($order->id);
                             $super_admin = User::where('is_superadmin', 1)->pluck('id');
-                            $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail, $code);
+                            _defer(fn () =>$this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail, $code));
                         }else{
                             $vendor_order_detail = $this->minimize_orderDetails_for_notification($order->id);
 
@@ -1243,9 +1246,9 @@ class OrderController extends BaseController
                                 $super_admin = $admins->all();
                             }
 
-                            $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
+                            _defer(fn () =>$this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail));
                         }
-                        $this->sendSuccessSMS($request, $order);
+                        _defer(fn () =>$this->sendSuccessSMS($request, $order));
                     }
                     DB::commit();
 
@@ -1486,7 +1489,6 @@ class OrderController extends BaseController
 
     public function checkIfanyProductLastMileon($request)
     {
-
         $order_dispatchs = 2;
         $AdditionalPreference = getAdditionalPreference(['is_place_order_delivery_zero']);
         $is_place_order_delivery_zero =  $AdditionalPreference['is_place_order_delivery_zero'];

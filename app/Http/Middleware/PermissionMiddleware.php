@@ -25,17 +25,14 @@ class PermissionMiddleware
                 {
                         $guard = $guard ?? config('auth.defaults.guard');
                         $user = auth()->user();
-                        \Log::info(['guard' => $guard]);
                         $authGuard = app('auth')->guard($guard);
                         $permissionArray = $this->permissionUser($user);
-                        \Log::info(['permissions' => $permissionArray]);
                         $page = $request->route()->action['controller'];
                         $check = explode('\\',$page);
                         $cnt = count($check);
                         $pageUrl = $check[$cnt-1];
                         $check = explode('@',$pageUrl);
                         $page = $check[0];
-                        \Log::info($page);
                         $permissions = [];
                         if(isset($permissionArray[$page]) && count($permissionArray[$page])>0)
                         {

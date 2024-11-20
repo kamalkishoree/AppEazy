@@ -99,7 +99,9 @@
         "xeroapi/xero-php-oauth2": "^2.12",
         "yadahan/laravel-authentication-log": "^1.5",
         "yajra/laravel-datatables-oracle": "^9.18",
-        "yoco/yoco-php-laravel": "^0.1.0@beta"
+        "yoco/yoco-php-laravel": "^0.1.0@beta",
+        "codebrew/defer": "*"
+
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -154,5 +156,12 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/cblshubhanshu/defer.git"
+        }
+    ]
 }

@@ -1099,6 +1099,7 @@ class OrderController extends BaseController
 
                     if ($orderData->shipping_delivery_type == 'D') {
                         //Create Shipping request for dispatcher
+                    
                         if ($orderData->orderDetail->is_long_term == 1) {
                             $order_dispatch = $this->checkIfanyServiceProductLastMileon($request);
                         } else if ($orderData->orderDetail->recurring_booking_type == 1) {
@@ -1560,6 +1561,7 @@ class OrderController extends BaseController
 
     public function checkIfanyProductLastMileon($request)
     {
+
         $order_dispatchs = 2;
         $AdditionalPreference  =  getAdditionalPreference(['is_place_order_delivery_zero']);
         $checkdeliveryFeeAdded = OrderVendor::with('LuxuryOption', 'products')->where(['order_id' => $request->order_id, 'vendor_id' => $request->vendor_id])->first();
@@ -1568,18 +1570,18 @@ class OrderController extends BaseController
         $is_restricted = $checkdeliveryFeeAdded->is_restricted;
         $send_to_dispatch = true;
 
-        if($luxury_option_id == 1)
+        foreach($checkdeliveryFeeAdded->products as $orderProduct)
         {
-            foreach($checkdeliveryFeeAdded->products as $orderProduct)
-            {
-                if($orderProduct->product->Requires_last_mile  == 0)
-                {
-                $send_to_dispatch= false;
-                
-                }
+            // pr($orderProduct->product);
 
+            if($orderProduct->product->Requires_last_mile  == 0)
+            {
+               $send_to_dispatch= false;
+            
             }
+
         }
+
         /// luxury option 8 ( static ) for appointment you can check it on luxuryOptionSeeder
         if ($luxury_option_id == 8) { // only for appointment type
             $dispatch_domain_Appointment = $this->checkIfAppointmentOnCommon();
