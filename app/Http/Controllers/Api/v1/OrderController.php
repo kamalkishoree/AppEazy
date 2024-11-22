@@ -1186,7 +1186,7 @@ class OrderController extends BaseController
                             Cart::where('id', $cart->id)->update(['schedule_type' => NULL, 'scheduled_date_time' => NULL, 'order_id' => NULL]);
 
                             CartCoupon::where('cart_id', $cart->id)->delete();
-                            // CartProduct::where('cart_id', $cart->id)->delete();
+                            CartProduct::where('cart_id', $cart->id)->delete();
                             $cart_product_ids = $cart_products->pluck('id');
                             CartProduct::query()->whereIn('id', $cart_product_ids)->delete();
                             CartProductPrescription::where('cart_id', $cart->id)->delete();
@@ -1497,18 +1497,18 @@ class OrderController extends BaseController
         $luxury_option_id      = $checkdeliveryFeeAdded->LuxuryOption ? $checkdeliveryFeeAdded->LuxuryOption->luxury_option_id : 1;
         $is_restricted         = $checkdeliveryFeeAdded->is_restricted;
         $send_to_dispatch = true;
-        if($luxury_option_id == 1)
-        {
-            foreach($checkdeliveryFeeAdded->products as $orderProduct)
-            {
-                if($orderProduct->product->Requires_last_mile  == 0)
-                {
-                  $send_to_dispatch= false;
-                
-                }
 
+        foreach($checkdeliveryFeeAdded->products as $orderProduct)
+        {
+            if($orderProduct->product->Requires_last_mile  == 0)
+            {
+                \Log::warning('last-mile is offfffff');
+              $send_to_dispatch= false;
+            
             }
+
         }
+
         if ($luxury_option_id == 6) { // only for on_demand type
 
             $dispatch_domain_OnDemand = $this->getDispatchOnDemandDomain();
@@ -1528,7 +1528,11 @@ class OrderController extends BaseController
 
                         $dispatch_domain['rejectable_order'] = 1;
 
-                        $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                        if($send_to_dispatch)
+                        {
+                            $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+
+                        }
                         if ($order_dispatchs && $order_dispatchs == 1) {
                             $OnDemand = 1;
                             return 1;
@@ -1539,9 +1543,11 @@ class OrderController extends BaseController
 
 
                         if ($dispatch_domain_OnDemand && $dispatch_domain_OnDemand != false && $OnDemand == 0  && $checkdeliveryFeeAdded->delivery_fee > 0) {
-
-
-                            $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                            if($send_to_dispatch)
+                            {
+                                $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+    
+                            }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $OnDemand = 1;
                                 return 1;
@@ -1574,7 +1580,12 @@ class OrderController extends BaseController
                                 'service_type'     => 'appointment'
                             ];
                             //pr($checkdeliveryFeeAdded);
+                            if($send_to_dispatch)
+                             {
+
+                             
                             $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                             }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $Appointment = 1;
                                 return 1;

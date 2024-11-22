@@ -1602,7 +1602,13 @@ class OrderController extends BaseController
                                 'service_type'     => 'appointment'
                             ];
                             //pr($checkdeliveryFeeAdded);
+                            if($send_to_dispatch)
+                            {
+
+                       
                             $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                          
+                        }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $Appointment = 1;
                                 return 1;
@@ -1633,7 +1639,11 @@ class OrderController extends BaseController
                     if (($prod->is_price_buy_driver == 1)  && ($prod->product->category->categoryDetail->type_id == 8)) {
 
                         $dispatch_domain['rejectable_order'] = 1;
+                        if($send_to_dispatch)
+                        {
+
                         $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                        }
                         if ($order_dispatchs && $order_dispatchs == 1) {
                             $OnDemand = 1;
                             return 1;
@@ -1642,8 +1652,11 @@ class OrderController extends BaseController
 
                         if ($dispatch_domain_OnDemand && $dispatch_domain_OnDemand != false && $OnDemand == 0  && $checkdeliveryFeeAdded->delivery_fee > 0) {
 
+                            if($send_to_dispatch)
+                            {
 
                             $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                            }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $OnDemand = 1;
                                 return 1;
@@ -1667,8 +1680,11 @@ class OrderController extends BaseController
                             'service_key_url'  => $dispatch_domain->delivery_service_key_url,
                             'service_type'     => 'rental'
                         ];
+                        if($send_to_dispatch)
+                        {
 
                         $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                        }
                         if ($order_dispatchs && $order_dispatchs == 1) {
                             // $OnDemand = 1;
                             return 1;
