@@ -1381,7 +1381,13 @@ span.icon-icLang.align-middle svg {
     left: 15px;
     font-size: 12px !important;
 }
-
+#top-tab {
+	display: flex !important;
+	flex-wrap: inherit;
+}
+.al_count_tabs_new_design {
+	overflow-y: auto;
+}
 /* navbar scroll css
 
 .navscroll {
