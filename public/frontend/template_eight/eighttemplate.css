@@ -3986,3 +3986,25 @@ body.dark .alSpaListBox{background-color: #000; }
 .alSpaListBox{background-color: #fff;overflow: hidden;border: 1px solid #e8e8e8;box-shadow: rgb(28 28 28 / 3%) 0 .4rem 0.8rem!important;border-radius: 15px;}
 .login-with-username div#password-wrapper{position: relative;}
 body.al_body_template_eight .main-login-page .toggle-password{top: 24px;}
+#main-menu::before {
+	width: 100%;
+	content: "";
+	position: absolute;
+	width: 26%;
+	height: 100%;
+	background-image: linear-gradient(to right, #fff , #ffffffc4);
+	z-index: 1;
+	top: 0;
+	left: -27%;
+}
+#main-menu::after {
+	width: 100%;
+	content: "";
+	position: absolute;
+	width: 26%;
+	height: 100%;
+	background-image: linear-gradient(to right, #ffffffc4 , #fff);
+	z-index: 1;
+	top: 0;
+	right: -27%;
+}

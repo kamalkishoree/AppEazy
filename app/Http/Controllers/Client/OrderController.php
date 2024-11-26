@@ -1570,6 +1570,7 @@ class OrderController extends BaseController
         $is_restricted = $checkdeliveryFeeAdded->is_restricted;
         $send_to_dispatch = true;
 
+        \Log::info('$luxury_option_id : '.$luxury_option_id);
         foreach($checkdeliveryFeeAdded->products as $orderProduct)
         {
             // pr($orderProduct->product);
@@ -1608,7 +1609,10 @@ class OrderController extends BaseController
                        
                             $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
                           
-                        }
+                           }
+                           else{
+                            $order_dispatchs =1;
+                           }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $Appointment = 1;
                                 return 1;
@@ -1657,6 +1661,9 @@ class OrderController extends BaseController
 
                             $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
                             }
+                            else{
+                                $order_dispatchs=1;
+                            }
                             if ($order_dispatchs && $order_dispatchs == 1) {
                                 $OnDemand = 1;
                                 return 1;
@@ -1684,6 +1691,9 @@ class OrderController extends BaseController
                         {
 
                         $order_dispatchs = $this->placeRequestToDispatchSingleProduct($request->order_id, $request->vendor_id, $dispatch_domain, $request);
+                        }
+                        else{
+                            $order_dispatchs= 1;
                         }
                         if ($order_dispatchs && $order_dispatchs == 1) {
                             // $OnDemand = 1;

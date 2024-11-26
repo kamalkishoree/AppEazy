@@ -1175,14 +1175,14 @@ class OrderController extends BaseController
                     if (in_array($request->payment_option_id, $ex_gateways)) {
 
                         //Send Email to customer
-                        $res =   _defer(fn () => $this->sendSuccessEmail($request, $order));
+                        $res =   _defer(fn ()  => $this->sendSuccessEmail($request, $order));
                         //Send Email to Vendor
                         foreach ($cart_products->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
                             _defer(fn () => $this->sendSuccessEmail($request, $order, $vendor_id));
                                 // Some computationally expensive operation...
                                 // $this->sendSuccessEmail($request, $order, $vendor_id);
                         }
-                        _defer(function () {
+                        _defer(function ()use($cart){
                             Cart::where('id', $cart->id)->update(['schedule_type' => NULL, 'scheduled_date_time' => NULL, 'order_id' => NULL]);
 
                             CartCoupon::where('cart_id', $cart->id)->delete();
@@ -1256,7 +1256,7 @@ class OrderController extends BaseController
                     if (( ($order->payment_option_id == 1 || $order->payment_option_id == 38 )) || (($order->payment_option_id != 1) && ($order->payment_status == 1))) {
                         # if vendor selected auto accept
 
-                        $autoaccept = $this->autoAcceptOrderIfOn($order->id);
+                        _defer(fn () => $autoaccept = $this->autoAcceptOrderIfOn($order->id));
                     }
                     // $hub_key = @getAdditionalPreference(['marg_access_token','is_marg_enable','marg_decrypt_key', 'marg_company_code','marg_date_time']);
                     // $hub_key = VendorMargConfig::where('vendor_id',$order->ordervendor->vendor_id ?? 0)->first();
