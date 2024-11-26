@@ -1388,6 +1388,9 @@ span.icon-icLang.align-middle svg {
 .al_count_tabs_new_design {
 	overflow-y: auto;
 }
+#top-tab .slick-arrow {
+	display: none !important;
+}
 /* navbar scroll css
 
 .navscroll {

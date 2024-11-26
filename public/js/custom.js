@@ -8470,3 +8470,29 @@ if (typeof action_type !== "undefined" && action_type === "p2p") {
     const initReadMore = new readMore();
     initReadMore.bootstrap();
 }
+$('.autoplay').slick({
+    slidesToShow: 6,
+    slidesToScroll: 3,
+    arrow:false,
+    infinite: false,
+    loop:false,
+    dots: false,
+    responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 2,
+         
+          }
+        },
+        {
+          breakpoint: 567,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 2
+          }
+        }
+        
+      ]
+  });

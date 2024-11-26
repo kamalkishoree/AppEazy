@@ -170,7 +170,7 @@ $q->where(['is_published' => 1, 'language_id' => session()->get('customerLanguag
                       <div class="al_count_tabs_new_design">
                           @if($mod_count > 1)
 
-                          <ul class="nav nav-tabs navigation-tab_al nav-material tab-icons mr-lg-3 vendor_mods" id="top-tab" role="tablist">
+                          <ul class="nav nav-tabs navigation-tab_al nav-material tab-icons mr-lg-3 vendor_mods autoplay" id="top-tab" role="tablist">
                               @foreach(config('constants.VendorTypes') as $vendor_typ_key => $vendor_typ_value)
                                   @php
                                   $clientVendorTypes = $vendor_typ_key.'_check';
