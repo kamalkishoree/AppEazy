@@ -20,7 +20,7 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
       navigate(navigationStrings.CHAT_ROOM, {
         _id: data?.room_id, room_id: data?.room_id_text, ...data,
       });
-    }, 400)
+    }, 5000)
   }
   if (
     Platform.OS == 'android' &&
