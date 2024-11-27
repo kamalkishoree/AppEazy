@@ -27,7 +27,7 @@ export default function ChatRoom({navigation, route}) {
 
   const paramData = route?.params;
 
-  console.log('userDatauserDatauserData', userData);
+  console.log('userDatauserDatauserData', userData, paramData);
 
   const styles = stylesFun({fontFamily});
 

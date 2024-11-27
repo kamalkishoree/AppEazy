@@ -127,6 +127,7 @@ export default {
   icProfileActive: require('../assets/images/ic_account_red.png'),
   icServiceStatus: require('../assets/images/ic_service.png'),
   share: require('../assets/images/ic_share_b.png'),
+  icAttachments: require('../assets/images/ic_attachment.png'),
   autoactive: require('../assets/images/autoactive.png'),
   autoInactive: require('../assets/images/autoInactive.png'),
   //mp4 videos

@@ -141,7 +141,8 @@ export async function apiReq(
             error: 'Request was canceled please try again later',
           });
         } else if (error && error.response && error.response.status === 401) {
-          sessionHandler(error.response.data.message);
+          sessionHandler('Session expired. Please login again.');
+          return;
           // return rej(error);
         } else {
           console.log(error?.response, 'all error++++');

@@ -106,6 +106,7 @@ export default function () {
       <Stack.Screen
         name={navigationStrings.CHAT_SCREEN}
         component={ChatScreen}
+        unmountOnBlur={true}
         options={{headerShown: false}}
       />
         <Stack.Screen
