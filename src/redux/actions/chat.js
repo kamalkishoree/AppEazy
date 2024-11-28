@@ -1,4 +1,4 @@
-import { AGENT_CHAT_ROOM, ALL_ROOM_USER, GET_ALL_MESSAGES, SEND_MESSAGE, SEND_NOTIFCATION, START_CHAT } from "../../config/urls";
+import { AGENT_CHAT_ROOM, ALL_ROOM_USER, GET_ALL_MESSAGES, SEND_MESSAGE, SEND_NOTIFCATION, START_CHAT, UPLOAD_FILE_S3 } from "../../config/urls";
 import { apiGet, apiPost, getItem } from "../../utils/utils";
 
 export function onStartChat(data = {}, headers = {}) {
@@ -94,3 +94,6 @@ export function sendNotification(data = {}, headers = {}) {
   });
 }
 
+export function uploadMediaS3(uri = '', data = {}, headers = {}) {
+  return apiGet(UPLOAD_FILE_S3 + uri, data, headers);
+}

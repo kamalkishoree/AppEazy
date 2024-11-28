@@ -28,7 +28,7 @@ import {
 } from '../../styles/responsiveSize';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
-import _ from 'lodash';
+import _,{ cloneDeep, isEmpty }from 'lodash';
 import CircularImages from '../../Components/CircularImages';
 import Modal from 'react-native-modal';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -40,6 +40,11 @@ import ButtonImage from '../../Components/ImageComp';
 import ActionSheet from 'react-native-actionsheet';
 import strings from '../../constants/lang';
 import { androidCameraPermission } from '../../utils/permissions';
+import DocumentPicker from 'react-native-document-picker';
+import { createThumbnail } from 'react-native-create-thumbnail';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import { getAppCode } from '../ShortCode/getAppCode';
 
 export default function ChatScreen({ route }) {
   const navigation = useNavigation()
@@ -48,6 +53,9 @@ export default function ChatScreen({ route }) {
   const defaultLanguagae = useSelector(
     state => state?.initBoot?.defaultLanguage,
   );
+  const {
+    appData,
+  } = useSelector(state => state.initBoot);
   let actionSheet = useRef();
 
   const userData = useSelector(state => state?.auth?.userData);
@@ -157,8 +165,25 @@ export default function ChatScreen({ route }) {
       if (String(messages[0].text).trim().length < 1) {
         return;
       }
+      console.log(userData,"dfkjksjdfk");
+      
+      if (
+        String(messages[0].text).trim().length < 1 ||
+        messages[0]?.mediaUrl == ''
+      ) {
+        return;
+      }
+
+      let userImage = !!userData?.source
+        ? getImageUrl(
+          userData?.source?.proxy_url,
+          userData?.source?.image_path,
+          '200/200',
+        )
+        : null;
+        var apiData
       try {
-        const apiData = {
+         apiData = {
           room_id: paramData?._id,
           message: messages[0].text,
           user_type: 'agent',
@@ -173,7 +198,16 @@ export default function ChatScreen({ route }) {
           //'room_name' =>$data->name,
           chat_type: 'agent_to_user',
         };
-        console.log('sending api data', apiData);
+        if (!!messages[0]?.isMedia) {
+          apiData = {
+            ...apiData,
+            is_media: true,
+            mediaUrl: messages[0]?.mediaUrl,
+            thumbnailUrl: messages[0]?.mediaUrl,
+            mediaType: messages[0]?.type,
+          };
+        }
+        console.log('sending api data111111', apiData);
         const res = await actions.sendMessage(apiData, {
           client: clientInfo?.database_name,
           language: defaultLanguagae?.value ? defaultLanguagae?.value : 'en',
@@ -226,6 +260,174 @@ export default function ChatScreen({ route }) {
     }
   };
 
+  const appendMediaPreview = (media, thumbnail = '') => { // to set preview/thumbnail of image/video/document while uploading video
+    let allMessages = cloneDeep(messages);
+    let newMsg = {
+      ...allMessages[0], // Copy properties from the first item
+      mediaType: media?.mime,
+      is_media: true,
+      mediaUrl: media?.path,
+      _id: allMessages[0]?._id + uuidv4(),
+      isLoading: true,
+      auth_user_id: userData?.id,
+      name: media?.modificationDate,
+    };
+    if (media?.mime == 'video/mp4') {
+      newMsg.thumbnailUrl = thumbnail;
+    }
+    allMessages.unshift(newMsg);
+    console.log(newMsg,'newMsgnewMsg');
+    
+    setMessages(allMessages);
+  };
+
+  const uploadMedia = (fileRes = [], fileName = '') => { // To upload media filed to S3 server
+    console.log(fileRes, '<====fileRes');
+    if (!isEmpty(fileRes)) {
+      let encodedData = encodeURIComponent(
+        `uploads/${userData?.id}/${paramData?._id}/${fileName}`,
+      ); //encoded media data for AWS-S3
+      console.log(encodedData, '<====encodedData');
+
+      actions
+        .uploadMediaS3(
+          encodedData,
+          {},
+          {
+            // API to get presigned URL from S3
+            code: getAppCode(),
+            // currency: currencies?.primary_currency?.id,
+            language: defaultLanguagae?.value? defaultLanguagae?.value : 'en' ,
+            client: clientInfo?.database_name
+          },
+        )
+        .then(async res => {
+          const response = await fetch(fileRes.path);
+          console.log(response,'responseresponse');
+          const blob = await response.blob(); // converts media to blob
+          console.log(blob,'blobblob',res?.url);
+          fetch(res?.url, {
+            // API to upload presigned URL to AWS directly
+            method: 'PUT',
+            body: blob,
+          })
+            .then(data => {
+              console.log(data, '<===afterputS3');
+              const hostname = data?.url.match(/^(https?:\/\/)([^:/\n]+)/)[0];
+              let mediaUrl = hostname + `/${encodedData}`;
+
+              onSend([
+                {
+                  mediaUrl: mediaUrl,
+                  type: fileRes?.mime || fileRes?.type,
+                  isMedia: true,
+                },
+              ]); // to send media info in user chat
+            })
+            .catch(err => {
+              console.log(err,"err>>>>>>>>>>>> inner ");
+              
+              showError('Something went wrong inner');
+            });
+        })
+        .catch(err => {
+          console.log(err,"err>>>>>>>>>>>> outer ");
+          showError('Something went wrong outer ');
+        });
+    }
+  };
+
+  const cameraHandle = async (index = 0) => {
+    if (index === 2) { // to open device's document gallary
+      try {
+        const granted = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        ]);
+        if (
+          granted['android.permission.READ_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+          granted['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          try {
+            const res = await DocumentPicker.pick({
+              type: [
+                DocumentPicker.types.pdf,
+                DocumentPicker.types.zip,
+                DocumentPicker.types.doc,
+                DocumentPicker.types.docx,
+                DocumentPicker.types.ppt,
+                DocumentPicker.types.pptx,
+                DocumentPicker.types.xls,
+                DocumentPicker.types.xlsx,
+              ],
+            });
+
+            if (!!res) {
+              let fileObj = {
+                path: res[0]?.uri,
+                mime: 'docs',
+                name: res[0]?.name,
+              };
+              uploadMedia(fileObj, (name = res[0]?.name));
+              // appendMediaPreview(fileObj);
+            }
+          } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+              // User cancelled the picker, exit any dialogs or menus and move on
+            } else {
+              throw err;
+            }
+          }
+        } else {
+          // Permission denied, handle accordingly
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    const permissionStatus = await androidCameraPermission();
+
+    if (permissionStatus) { // to open device's image / video gallary
+      cameraImgVideoHandler(index, {
+        mediaType: 'any',
+      })
+        .then(async res => {
+          if (!!res?.path) {
+            console.log(res, '<====cameraImgVideoHandler');
+            var thumbnailPath = {};
+            if (res?.mime == 'video/mp4') {
+              thumbnailPath = await createThumbnail({
+                url: res?.path,
+                timeStamp: 10000, // Specify the timestamp for the desired thumbnail (in milliseconds)
+              });
+              // setThumbnail(thumbnailPath);
+            }
+            
+            // return;
+            // appendMediaPreview(res, thumbnailPath);
+            uploadMedia(res, res.path.split('/').pop()); // upload media directly from gallary
+          }
+        })
+        .catch(err => { });
+    }
+  };
+
+  const onPressMedia = currentMessage => {
+    if (
+      currentMessage?.mediaType == 'application/pdf' ||
+      currentMessage?.mediaType == 'docs'
+    ) {
+      Linking.openURL(currentMessage?.mediaUrl);
+      return;
+    }
+
+    setisVisible(true);
+    setCurrentMsg(currentMessage);
+  };
+
   const showRoomUser = useCallback(
     props => {
       if (_.isEmpty(roomUsers)) {
@@ -250,6 +452,7 @@ export default function ChatScreen({ route }) {
         <ChatMedia
           currentMessage={currentMessage}
           isRight
+          onPressMedia={() => onPressMedia(currentMessage)}
           containerStyle={{
             borderTopLeftRadius: moderateScale(12),
           }}
@@ -411,7 +614,7 @@ export default function ChatScreen({ route }) {
           renderSend={props => {
             return (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {/* <ButtonImage //Send attachements button
+                <ButtonImage //Send attachements button
                   onPress={() => actionSheet.current.show()}
                   image={imagePath.icAttachments}
                   btnStyle={{
@@ -421,7 +624,7 @@ export default function ChatScreen({ route }) {
                     height: moderateScale(25),
                     width: moderateScale(25),
                   }}
-                /> */}
+                />
                 <Send
                   alwaysShowSend
                   containerStyle={{ backgroundColor: 'red' }}
@@ -434,6 +637,21 @@ export default function ChatScreen({ route }) {
         />
       </ImageBackground>
 
+      <ActionSheet
+        ref={actionSheet}
+        // title={'Choose one option'}
+        options={[
+          strings.CAMERA,
+          strings.GALLERY,
+          // strings.DOCUMENTS,
+          strings.CANCEL,
+        ]}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={2}
+        onPress={index => cameraHandle(index)}
+      />
+
+      
       <Modal
         isVisible={showParticipant}
         style={{

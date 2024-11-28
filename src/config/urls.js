@@ -131,3 +131,7 @@ export const GET_FILTERED_TASK_LIST = getApiUrl('api/filter_task_list');
 export const BLOCK_UNBLOCK_AGENT_DATES = getApiUrl(
   'api/agent/add_delete_block_slot',
 );
+
+export const UPLOAD_FILE_S3 = getApiUrl(
+  'api/chat/s3-sign?filename=',
+);
