@@ -1215,4 +1215,12 @@ export default {
   NUMBER_OF_SEATS:"Baay'ina teessoo",
   SELECTED_SLOT:'Bakka Filatame',
   SLOTS: 'Slots',
+
+  ACCIDENTAL_REQUEST: "Gaaffii akka tasaa",
+  DRIVER_ASKED_TO_CANCEL: "Konkolachisaan akka haqamu gaafate",
+  CAR_HAS_DIFFERENT_DESCRIPTION: "Konkolataan ibsa gara bira qaba",
+  LONG_WAITING_TIME: "Yeroo dheera eeguu",
+  DRIVER_MOVED_TO_DIFFERENT_DIRECTION: "Konkolaachisaan gara kallattii birratti deeme",
+  WRONG_PICKUP_LOCATION: "Bakka ka'uumsa dogoggoraa",
+  OTHER_REASON: "Sababa bira"
 };

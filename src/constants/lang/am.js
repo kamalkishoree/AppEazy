@@ -1177,4 +1177,12 @@ export default {
   PLEASE_ENTER_YOUR_ORDER_NUMBER: "እባክዎ የትዕዛዝ ቁጥርዎን ያስገቡ",
   CASH: "ጥሬ ገንዘብ",
   ADDITIONAL_DETAILS: "ተጨማሪ ዝርዝሮች",
+
+  ACCIDENTAL_REQUEST: "በስህተት ስለታዘዘ",
+  DRIVER_ASKED_TO_CANCEL: "አሽከርካሪው እንድሰርዝ ስለጠየቀ",
+  CAR_HAS_DIFFERENT_DESCRIPTION: "መኪናው የተለየ መግለጫ ስላለው",
+  LONG_WAITING_TIME: "አሽከርካሪው ስለዘገየ",
+  DRIVER_MOVED_TO_DIFFERENT_DIRECTION: "አሽከርካሪው ወደተለየ አቅጣጫ ስለተጓዘ",
+  WRONG_PICKUP_LOCATION: "መነሻ ቦታ ስለተሳሳትኩኝ",
+  OTHER_REASON: "ሌላ ምክንያት"
 };

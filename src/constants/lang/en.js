@@ -1266,4 +1266,12 @@ Amount`,
   SELECTED_SLOT:'Selected Slots',
   SLOTS: 'Slots',
   APPOINTMENT: 'Appointment',
+
+  ACCIDENTAL_REQUEST: "Accidental request",
+  DRIVER_ASKED_TO_CANCEL: "Driver asked to cancel",
+  CAR_HAS_DIFFERENT_DESCRIPTION: "Car has different description",
+  LONG_WAITING_TIME: "Long waiting time",
+  DRIVER_MOVED_TO_DIFFERENT_DIRECTION: "Driver moved to different direction",
+  WRONG_PICKUP_LOCATION: "Wrong pickup location",
+  OTHER_REASON: "Other reason"
 };

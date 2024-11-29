@@ -1176,4 +1176,12 @@ export default {
   NUMBER_OF_SEATS:'ብዝሒ መንበር',
   SELECTED_SLOT:'ዝተመርጸ ስሎት',
   SLOTS: 'ስሎት',
+
+  ACCIDENTAL_REQUEST: "ብስሕተት ስለዝተኣዘዘ",
+  DRIVER_ASKED_TO_CANCEL: "ኣሽከርካሪ ንኽስርዞ ስለዝሓተተ",
+  CAR_HAS_DIFFERENT_DESCRIPTION: "መኪና ዝተፈለየ መግለፂ ስለዘለዋ",
+  LONG_WAITING_TIME: "ኣሽከርካሪ ስለዝደንጎየ",
+  DRIVER_MOVED_TO_DIFFERENT_DIRECTION: "ኣሽከርካሪ ናብ ካልእ ኣንፈት ስለዝተጓዓዘ",
+  WRONG_PICKUP_LOCATION: "መበገሲ ቦታ ስለዝተሰሓሓትኩ",
+  OTHER_REASON: "ካልእ መኽንያት"
 };
