@@ -8,6 +8,7 @@ import {
   Platform,
   ImageBackground,
   PermissionsAndroid,
+  Modal
 } from 'react-native';
 import { GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 import socketServices from '../../utils/scoketService';
@@ -30,7 +31,7 @@ import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import _,{ cloneDeep, isEmpty }from 'lodash';
 import CircularImages from '../../Components/CircularImages';
-import Modal from 'react-native-modal';
+import ReactModal from 'react-native-modal';
 import { ScrollView } from 'react-native-gesture-handler';
 import fontFamily from '../../styles/fontFamily';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -80,6 +81,9 @@ export default function ChatScreen({ route }) {
     allRoomUsersAppartFromAgent,
     allAgentIds,
   } = state;
+
+  const [isVisible, setisVisible] = useState(false);
+  const [currentMsg, setCurrentMsg] = useState({});
 
   const updateState = data => setState(state => ({ ...state, ...data }));
 
@@ -501,6 +505,10 @@ export default function ChatScreen({ route }) {
         {!!currentMessage?.is_media ? (
           <ChatMedia
             currentMessage={currentMessage}
+            onPressMedia={() => {
+              setCurrentMsg(currentMessage);
+              setisVisible(true);
+            }}
             containerStyle={{
               borderTopRightRadius: moderateScale(12),
             }}
@@ -652,7 +660,7 @@ export default function ChatScreen({ route }) {
       />
 
       
-      <Modal
+      <ReactModal
         isVisible={showParticipant}
         style={{
           margin: 0,
@@ -711,6 +719,65 @@ export default function ChatScreen({ route }) {
               );
             })}
           </ScrollView>
+        </View>
+      </ReactModal>
+
+      <Modal
+        style={{}}
+        animationType="slide"
+        transparent={false}
+        visible={isVisible}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.black,
+          }}>
+          <View
+            style={{
+              margin: moderateScale(20),
+            }}>
+            <ButtonImage
+              onPress={() => setisVisible(false)}
+              image={imagePath.backArrow}
+              imgStyle={{
+                tintColor: colors.white,
+              }}
+            />
+          </View>
+
+          <View
+            style={{
+              flex: 1,
+            }}>
+            {currentMsg?.mediaType === 'application/pdf' ||
+              currentMsg?.mediaType === 'docs' ? (
+              <></>
+            ) : currentMsg?.mediaType === 'video/mp4' ? (
+              <VideoPlayer
+                pause={false}
+                source={{
+                  uri: currentMsg?.mediaUrl,
+                }}
+                containerStyle={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              />
+            ) : (
+              <FastImage
+                source={{ uri: currentMsg?.mediaUrl }}
+                style={{
+                  flex: 1,
+                }}
+                resizeMode="contain"
+              />
+            )}
+          </View>
         </View>
       </Modal>
 
