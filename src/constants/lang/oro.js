@@ -47,7 +47,7 @@ export default {
   TASKTIMINGS: "Yeroo hojii",
   RECIPIENT: "Yaadannoo Fudhataa",
   CASHTOBECOLLECTED: "Qarshii sasabamuu qabu",
-  CANCELMESSAGE: "Ajaja haquu akka barbaaddu mirkaneeffattee?",
+  CANCELMESSAGE: "Ajaja haquu akka barbadu mirkaneffatee?",
   DONE: "Raawwatame",
   PLEASEINPUTSOMEREADY: "Sababa galtee galchi",
   SELECTREASON: "Sababa kamiyyuu filadhaa",
@@ -480,4 +480,8 @@ export default {
   SERVER_ERROR: "Dogoggora sarvarii",
   ALERT: "Akeekkachiisaa",
   OK: "Tole",
+
+  PLEASE_ENTER_YOUR_NAME: "Maqa Galchaa",
+  OTP_VERIFICATION: "OTP Mirkaneessituu",
+  PLEASE_ENTER_A_VALID_OTP: "OTP sirrii ta'e galcha",
 };
