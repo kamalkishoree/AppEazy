@@ -16,7 +16,7 @@ $orderTitles = [
     'Rejected/Cancel' => "Rejected/Cancel "
 ];
 
-$clientData = \App\Models\Client::select('socket_url')->first();
+$clientData = \App\Models\Client::select('socket_url','code')->first();
 
 if($is_service_product_price_from_dispatch_forOnDemand == 1){
     $hidereturn = 1;
@@ -202,6 +202,7 @@ $timezone = Auth::user()->timezone;
         font-weight: 400;
     }
 </style>
+<input type="hidden" class="client_code" data-client-code="{{$clientData->code}}">
 <section class="section-b-space order-page">
     <div class="container">
         <div class="row">
@@ -1182,4 +1183,6 @@ $(document).delegate(".order_placed_btn_pending", "click", function() {
 @endif
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="{{asset('assets/js/chat/user_vendor_chat.js')}}"></script>
+<script src="{{asset('assets/js/chat/chatback/user_driver_chat.js')}}"></script>
+
 @endsection

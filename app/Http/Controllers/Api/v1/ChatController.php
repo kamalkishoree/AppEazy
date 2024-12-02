@@ -254,12 +254,10 @@ class ChatController extends BaseController
                 'isRaiseIssue'=> $isRaiseIssue
             ];
           
-
             $response =   Http::post($url,$params);
-
-
             $statusCode = $response->getStatusCode();
-            
+            print_r($params);
+            pr($response->json());
             if($statusCode == 200) {
                 $roomData = $response['roomData'];
                 $roomData['order_id']=  empty($roomData['order_id'])?$order_id:$roomData['order_id'];      

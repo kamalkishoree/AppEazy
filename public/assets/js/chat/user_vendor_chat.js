@@ -17,7 +17,7 @@
   
     async function startChat(vendor_order_id,vendor_id,order_id){
 
-        axios.post(`/client/chat/startChat`, {
+        axios.post(`/user/chat/startChat`, {
             sub_domain: window.location.origin,
             client_id:  1,
             db_name:Auth.database_name,

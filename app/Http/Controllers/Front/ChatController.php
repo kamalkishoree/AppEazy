@@ -163,36 +163,73 @@ class ChatController extends FrontController
      */
     public function startChat(Request $request)
     {
+
+        // pr($request->all());
         try {
             $data = $request->all();
             $vendor_id = $data['vendor_id'];
-            $vendor_order_id = $data['order_vendor_id'];
-            $order_id = $data['order_id'];
+            $order_number = $data['order_number'] ?? null;
+            $vendor_order_id = $data['order_vendor_id'] ?? '';
+            $order_id = $data['order_id'] ?? '';
+            $isRaiseIssue = $data['isRaiseIssue'] ?? 0 ;
             $server_name = $_SERVER['SERVER_NAME'];
+            $product_id = $data['product_id'] ?? null;
+            $agent_db = $data['agent_db'] ?? null;
+            $agent_id = $data['agent_id'] ?? null;
+            $socket_url = $this->client_data->socket_url;
+            $c_type = $data['type'] ?? null;
+            $p2p_id = null;
+            $vendor_name = null;
+            $product_name = null;
+            $product_price = null;
+
+            $user_id = Auth::id();
+
             $order = $this->OrderVendorDetail($request);
             if($order){
                 $socket_url = $this->client_data->socket_url;
                 $room_id = $order->order_number;
-                $room_name = 'OrderNo-'.$order->order_number.'-orderId-'.$order->id.'-oderVendor-'.$vendor_id;
+                $room_name = '';
+
+                if(isset($data['agent_id'])) {
+                    $room_name = 'OrderNo-'.$order->order_number.'-orderId-'.$order->id.'-oderVendor-'.$vendor_id.'-agentId-'.$data['agent_id'];
+                    $agent_db = $data['agent_db'];
+                    $agent_id = $data['agent_id'];
+                } else {
+
+                    $room_name = 'OrderNo-'.$order->order_number.'-orderId-'.$order->id.'-oderVendor-'.$vendor_id;
+                    $agent_db = '';
+                    $agent_id = '';
+                }
+
                 $order_vendor_id = $vendor_order_id;
                 $order_id = $order->id;
                 $vendor_id = $vendor_id;
                 $orderby_user_id = $order->user_id;
 
                 $request_data = [
-                    'room_id' => $room_id, 
-                    'room_name' => $room_name,
-                    'order_vendor_id'=>$order_vendor_id,
-                    'order_id'=>$order_id,
-                    'vendor_id'=>$vendor_id,
-                    'sub_domain' =>$server_name,
-                    'vendor_user_id' =>$data['user_id'],
-                    'order_user_id' =>$orderby_user_id,
-                    'agent_id'=>$data['agent_id'],
-                    'type'=>$data['type'],
-                    'db_name'=>$this->client_data->database_name,
-                    'client_id'=>$this->client_data->id
-                ];
+                        'room_id' => $room_id,
+                        'room_name' => $room_name,
+                        'order_vendor_id'=> $vendor_order_id,
+                        'order_id'=>$order_id,
+                        'vendor_id'=>$vendor_id,
+                        'sub_domain' =>$server_name,
+                        'vendor_user_id' =>$data['user_id'],
+                        'order_user_id' =>$orderby_user_id,
+                        'type'=>$data['type'],
+                        'db_name'=>$this->client_data->database_name,
+                        'client_id'=>$this->client_data->id,
+                        'p2p_id'=>$p2p_id,
+                        'product_id'=>$product_id,
+                        'vendor_name' => $vendor_name,
+                        'product_name' => $product_name,
+                        'product_price' => $product_price,
+                        'agent_id'=>$agent_id,
+                        'agent_db'=>$agent_db,
+                        'isRaiseIssue'=> $isRaiseIssue
+                ]; 
+            
+
                 $response =   Http::post($socket_url.'/api/room/createRoom', $request_data);
                 $statusCode = $response->getStatusCode();
                 if($statusCode == 200) {

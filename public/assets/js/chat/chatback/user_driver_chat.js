@@ -1,21 +1,73 @@
 
 
     //await getALLchat();
+    // $(document).on('click','.start_chat_driver',async function(){
+    //     var vendor_order_id = $(this).attr('data-vendor_order_id');
+    //     var vendor_id = $(this).attr('data-vendor_id');
+    //     var order_id = $(this).attr('data-order_id');
+    //     var dispatch_url = $(this).attr('data-driver_details_api');
+        
+    //     if(!vendor_order_id && !vendor_id && !order_id && dispatch_url){
+    //         return;
+    //     }
+    //     var driverData = await driverDetails(dispatch_url);
+    //     console.log(driverData);
+    //     return;
+    //     $('#order_list_order').show();
+    //     await startChat(vendor_order_id,vendor_id,order_id);
+    // });
+  
+  
     $(document).on('click','.start_chat_driver',async function(){
         var vendor_order_id = $(this).attr('data-vendor_order_id');
         var vendor_id = $(this).attr('data-vendor_id');
         var order_id = $(this).attr('data-order_id');
         var dispatch_url = $(this).attr('data-driver_details_api');
-        
-        if(!vendor_order_id && !vendor_id && !order_id && dispatch_url){
-            return;
+        var order_number = $(this).attr('data-order-number');
+        var order_client_code = $('.client_code').attr('data-client-code');
+        if(!vendor_order_id && !vendor_id && !order_id && !dispatch_url){
+            // alert();    return;
         }
-        var driverData = await driverDetails(dispatch_url);
-        console.log(driverData);
-        return;
-        $('#order_list_order').show();
-        await startChat(vendor_order_id,vendor_id,order_id);
-    });
+    
+        let driverDataDetails = [];
+
+        if(order_number)
+        {
+            // alert(order_number);
+               $.ajax({
+                    type: "POST",
+                    url: "/api/v1/order-tracking",
+                    contentType: 'application/json',  // This specifies that the request body is JSON
+                    data: JSON.stringify({ 
+                        order_number: order_number,
+                        custom_output: 'true' 
+                    }),  // Convert the data object to a JSON string
+                    headers: {
+                        'code': order_client_code  // Custom header
+                    },
+                    success: function(response) {
+                        $('#order_list_order').show();
+                        startChatDiver(vendor_order_id,vendor_id,order_id,response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);  // Log errors if the request fails
+                    }
+                });
+             }
+             else{
+                  alert('error in fetch order number.');
+             }
+      
+       });
+
+  
+    // var driverData =   '' ;      
+        // var driverData =   await driverDetails(dispatch_url);
+        // $('#order_list_order').show();
+        // await startChat(vendor_order_id,vendor_id,order_id,driverData);
+  
+  
+  
     async function driverDetails(dispatch_url){
         // $.ajax({
         //     type:"GET",
@@ -73,24 +125,28 @@
         await sendMessage(message,room_id);
     }); 
 
-    async function startChat(vendor_order_id,vendor_id,order_id){
+    async function startChatDiver(vendor_order_id,vendor_id,order_id,driverData){
 
         axios.post(`/user/chat/startChat`, {
             sub_domain: window.location.origin,
             client_id:  1,
             db_name:Auth.database_name,
             user_id:  Auth.auth_id,   
-            type:'vendor_to_user',
-            vendor_order_id:vendor_order_id,
+            type:'agent_to_user',
+            agent_id:driverData.agent_id,
+            order_vendor_id:vendor_order_id,
             vendor_id:vendor_id,
-            order_id:order_id      
+            order_id:order_id   ,
+            agent_db: Auth.database_name  
         })
         .then(async response => {
+            console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+
              console.log(response.data.status);
              $('#order_list_order').hide();
              if(response.data.status === true) {
                 var data = response.data;
-                window.location.href = `/user/chat/userVendor/${data.roomData._id}`;
+               window.location.href = `/user/chat/userAgent/${data.roomData._id}`;
                 
              } else {
                 Swal.fire(

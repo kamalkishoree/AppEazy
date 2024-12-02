@@ -1,3 +1,4 @@
+
 <div class="tab-pane fade {{ Request::query('pageType') === null || Request::query('pageType') == 'activeOrders' ? 'active show' : '' }}"
                                                 id="active-orders" role="tabpanel" aria-labelledby="active-orders-tab">
                                                 <div class="row">
@@ -143,8 +144,8 @@
                                                                                         @endif
                                                                                         @if($clientData->socket_url !='' )
                                                                                             <a class="start_chat chat-icon btn btn-solid"  data-vendor_order_id="{{$vendor->id}}" data-vendor_id="{{$vendor->vendor_id}}" data-orderid="" data-order_id="{{$order->id}}">{{__('Chat')}}</a>
-                                                                                            @if(isset($vendor->driver_chat) && ($vendor->driver_chat == 1) && ($vendor->dispatch_traking_url != ''))
-                                                                                            <a class="start_chat_driver chat-icon btn btn-solid" data-driver_details_api="{{$vendor->dispatch_traking_url}}" data-vendor_order_id="{{$vendor->id}}" data-vendor_id="{{$vendor->vendor_id}}" data-orderid="" data-order_id="{{$order->id}}">{{__('Driver Chat')}}</a>
+                                                                                            @if($vendor->dispatch_traking_url != '')
+                                                                                            <a class="start_chat_driver chat-icon btn btn-solid" data-driver_details_api="{{$vendor->dispatch_traking_url}}" data-vendor_order_id="{{$vendor->id}}" data-vendor_id="{{$vendor->vendor_id}}" data-orderid="" data-order_id="{{$order->id}}"  data-order-number="{{$order->order_number}}">{{__('Driver Chat')}}</a>
                                                                                             @endif
                                                                                         @endif
 

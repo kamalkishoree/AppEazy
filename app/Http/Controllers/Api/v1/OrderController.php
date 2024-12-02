@@ -4182,7 +4182,6 @@ class OrderController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function OrderTracking(Request $request){
-        try {
 
             $order      = Order::with('ordervendor','orderStatusVendor','address','orderLocation')->where('order_number',$request->order_number)->first();
 
@@ -4219,15 +4218,19 @@ class OrderController extends BaseController
                    $tasks = $response['tasks'];
                    $agent_location = $response['agent_location'];
                    $order['agent_location']  = $agent_location;
+                   if($request->has('custom_output'))
+                   {
+                        return $agent_location;
+                   }
+
                 }
+              
 
             }
 
             $order['user']  = $customer;
             return $this->successResponse($order, null, 201);
-        } catch (Exception $e) {
-            return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
+       
 
     }
 
