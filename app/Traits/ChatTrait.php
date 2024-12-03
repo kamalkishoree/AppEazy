@@ -4,6 +4,9 @@ use App\Model\{ClientPreference,Agent,Order};
 use GuzzleHttp\Client as GCLIENT;
 use Log;
 use App\Services\FirebaseService;
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+use Illuminate\Http\Request;
 
 trait ChatTrait{
     
@@ -103,9 +106,14 @@ trait ChatTrait{
             Log::info('agent_idagent_idagent_idagent_idagent_idagent_idagent_idagent_idagent_id'.$order->driver_id);
             $agent_id = [];
             $agent_id [] = $order->driver_id;
-            $result = $request->has('all_agentids')?array_values(array_column($request->all()[$ag], 'auth_user_id')): $agent_id;
+            Log::info(['agent_id'=> $agent_id]);
+
+            $result =  $agent_id;
+            Log::info(['resultresult'=> $result]);
+
             $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
             $devices = Agent::whereNotNull('device_token')->whereIn('id',$result)->pluck('device_token');
+            Log::info(['devicesdevicesdevices'=> $devices]);
             $data = [
                 "registration_ids" => $devices,
                 "notification" => [
@@ -193,6 +201,51 @@ trait ChatTrait{
         );
         $response = json_decode($res->getBody(), true);
         return response()->json([ 'notiFY'=>$response , 'status' => 200, 'message' => __('sent!!!')]);
+    }
+
+
+
+
+    public function signAws(Request $request)
+    {
+            // Retrieve environment variables
+            $accessKeyId = env('AWS_ACCESS_KEY_ID');
+            $secretAccessKey = env('AWS_SECRET_ACCESS_KEY');
+            $region = env('AWS_DEFAULT_REGION');
+            $bucketName = env('AWS_BUCKET');
+            
+            // Get the file path from the request
+            $fileName = $request->input('filename');
+
+            // Initialize the S3 Client
+            $s3Client = new S3Client([
+                'region' => env('AWS_DEFAULT_REGION'),
+                'version' => 'latest',
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+            ]);
+
+            try {
+                // Set the file content in the 'Body' parameter
+                $cmd = $s3Client->getCommand('PutObject', [
+                    'Bucket' => $bucketName,
+                    'Key' => $fileName,
+                    'ACL' => 'public-read',
+                ]);
+                // Generate the presigned request
+                $request = $s3Client->createPresignedRequest($cmd, '+2 hour');
+                $signedUrl = (string) $request->getUri();
+                \Log::info($signedUrl);
+                return response()->json([
+                    'url' => $signedUrl,
+                ]);
+
+            } catch (AwsException $e) {
+                // Handle any errors
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
     }
 
     

@@ -84,7 +84,7 @@ class FirebaseService
         }
 
         try {
-
+            $results = [];
             $messages = [];
             foreach ($data['registration_ids'] as $token) {
 
