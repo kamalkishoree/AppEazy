@@ -68,7 +68,10 @@ import {
   EcomLangCurrency,
   DeveloperMode,
   P2pOndemandProductDetail,
-  GiftCard
+  GiftCard,
+  ChatScreen,
+  P2pChatScreen,
+  P2pChatRoom
 } from '../Screens';
 
 import navigationStrings from './navigationStrings';
@@ -295,6 +298,14 @@ export default function ({ navigation }) {
         name={navigationStrings.DEVELOPER_MODE}
         component={DeveloperMode}
       />
+              <Stack.Screen
+          name={navigationStrings.CHAT_SCREEN}
+          component={!!appData?.profile?.preferences?.is_rental_weekly_monthly_price ? P2pChatScreen : ChatScreen}
+        />
+          <Stack.Screen
+            name={navigationStrings.CHAT_ROOM}
+            component={!!appData?.profile?.preferences?.is_rental_weekly_monthly_price ? P2pChatRoom : ChatRoom}
+          />
     </Stack.Navigator>
   );
 }

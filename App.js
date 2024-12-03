@@ -44,6 +44,7 @@ import {
 } from './src/styles/responsiveSize';
 import { clearLastBidData } from './src/redux/actions/home';
 import { setCountry } from './src/redux/actions/init';
+import socketServices from './src/utils/scoketService';
 
 let CodePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 
@@ -67,6 +68,13 @@ const App = () => {
     });
     AsyncStorage.removeItem('BleDevice2');
   };
+
+
+  useEffect(() => {
+     
+      socketServices.initializeSocket('https://chat.super-eazy.com');
+    
+  }, []);
 
 
   if (!__DEV__) {

@@ -815,7 +815,7 @@ export default function ChatScreen({ route, navigation }) {
           paramData?.fromNotification ?
             navigation.reset({
               index: 0,
-              routes: [{ name: navigationStrings.ACCOUNTS }],
+              routes: [{ name: navigationStrings.ACCOUNTS}],
             }) :
             navigation.goBack()
         }}
