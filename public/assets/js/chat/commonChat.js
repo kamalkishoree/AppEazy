@@ -717,7 +717,7 @@
     }
 
     function sendNotification(user_ids,message,roomId,roomIdText,OrdervendorID='',order_id='',vendoridC=''){
-        axios.post(`/common/chat/sendNotificationToUser`, {
+        axios.post(`/common/chat/sendNotificationToDriver`, {
             user_ids: user_ids,
             text_message:message,
             roomId:roomId,
@@ -726,7 +726,8 @@
             order_vendor_id:OrdervendorID,
             order_id:order_id,
             vendor_id:vendoridC,
-            web:'true'
+            web:'true',
+            chat_type:'user_to_vendor'
         })
         .then(async response => {
         })

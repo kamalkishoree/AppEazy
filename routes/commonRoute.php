@@ -4,4 +4,6 @@
 Route::group(['middleware' => ['domain', 'webAuth'], 'prefix' => '/common'], function () {
     Route::post('chat/sendNotificationToUser', 'Front\ChatDispatcherNotificationController@sendNotificationToUser')->name('chat.sendNotificationToUser');
     Route::get('/s3-sign', 'Front\ChatDispatcherNotificationController@signAws');
+    Route::post('chat/sendNotificationToDriver', 'Front\ChatDispatcherNotificationController@sendNotificationToDriver')->name('chat.sendNotificationToDriver');
+
 });

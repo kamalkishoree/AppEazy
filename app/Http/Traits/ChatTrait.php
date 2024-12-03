@@ -130,9 +130,8 @@ trait ChatTrait{
      */
     public function getDispacthUrl($order_vendor_id,$order_id,$vendor_id,$postdata)
     {
-        \Log::info('entereeeeeeeeeeeeeeeeeeee');
+
      $checkdeliveryFeeAdded = OrderVendor::with('LuxuryOption')->where(['order_id' => $order_id, 'vendor_id' => $vendor_id])->first();      
-     
         $luxury_option_id = isset($checkdeliveryFeeAdded) ? @$checkdeliveryFeeAdded->LuxuryOption->luxury_option_id : 1;
         $dispatchDomain = $this->getDispatchDomain();
       
@@ -176,7 +175,6 @@ trait ChatTrait{
     public function hitDispacthHook($dispatch_domain,$postdata){
       \Log::info(['postdata'=>$postdata]);
         if ($dispatch_domain && $dispatch_domain != false) {
-            \Log::info('3333333333333333333333333');
                 $client = new GClient([
                     'headers' => [
                         'personaltoken' => $dispatch_domain['service_key'],

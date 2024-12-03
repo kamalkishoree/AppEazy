@@ -428,6 +428,7 @@
                // }
                 socket.emit('save-message', response.data)
                 $('#message_box').val('');
+
              }
              
         })
@@ -599,13 +600,16 @@
 
     }
     function sendNotification(user_ids,message,roomId,roomIdText){
-        axios.post(`/common/chat/sendNotificationToUser`, {
+        axios.post(`/common/chat/sendNotificationToDriver`, {
             user_ids: user_ids,
             text_message:message,
             roomId:roomId,
-            roomIdText:roomIdText
+            roomIdText:roomIdText,
+            chat_type:'user_to_agent',
+            from : 'user'
         })
         .then(async response => {
+
         })
         .catch(e => {
             
