@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import 'react-native-screens'
 
-import { AppRegistry, Platform } from 'react-native';
+import { AppRegistry, LogBox, Platform } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 console.disableYellowBox = true;
@@ -11,7 +11,7 @@ import actions from './src/redux/actions';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { navigate } from './src/navigation/NavigationService';
 import navigationStrings from './src/navigation/navigationStrings';
-
+LogBox.ignoreAllLogs()
 
 // Register background handler
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {

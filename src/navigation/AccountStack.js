@@ -12,23 +12,26 @@ import {
   AllinonePyments,
   BrandProducts,
   BuyProduct,
+  CMSLinks,
   ChatRoom,
   ChatRoomForVendor,
-  CMSLinks,
   ContactUs,
 
   Delivery,
+  DeveloperMode,
+  EcomAccount,
+  EcomLangCurrency,
+  GiftCard,
   Location,
   Loyalty2,
   //Pyament Screens
   Mobbex,
   MyOrders,
   MyP2pPosts,
-  MyProfile,
-  MyProfile2,
   MyProfile3,
   Notifications,
   OrderDetail,
+  P2pOndemandProductDetail,
   P2pProductDetail,
   Payfast,
   Paylink,
@@ -63,15 +66,7 @@ import {
   WebviewScreen,
   Wishlist,
   Wishlist2,
-  Yoco,
-  EcomAccount,
-  EcomLangCurrency,
-  DeveloperMode,
-  P2pOndemandProductDetail,
-  GiftCard,
-  ChatScreen,
-  P2pChatScreen,
-  P2pChatRoom
+  Yoco
 } from '../Screens';
 
 import navigationStrings from './navigationStrings';
@@ -298,14 +293,7 @@ export default function ({ navigation }) {
         name={navigationStrings.DEVELOPER_MODE}
         component={DeveloperMode}
       />
-              <Stack.Screen
-          name={navigationStrings.CHAT_SCREEN}
-          component={!!appData?.profile?.preferences?.is_rental_weekly_monthly_price ? P2pChatScreen : ChatScreen}
-        />
-          <Stack.Screen
-            name={navigationStrings.CHAT_ROOM}
-            component={!!appData?.profile?.preferences?.is_rental_weekly_monthly_price ? P2pChatRoom : ChatRoom}
-          />
+      
     </Stack.Navigator>
   );
 }

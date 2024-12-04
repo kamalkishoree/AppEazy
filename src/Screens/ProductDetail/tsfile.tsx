@@ -85,7 +85,6 @@ const touchableHitSlopProp = {
 }
 
 export default function ProductDetail({ route, navigation }) {
-  console.log('my route', route.params.data);
   const theme = useSelector((state) => state?.initBoot?.themeColor);
   const toggleTheme = useSelector((state) => state?.initBoot?.themeToggle);
   const cartData = useSelector((state) => state?.cart?.cartItemCount);
@@ -334,7 +333,6 @@ export default function ProductDetail({ route, navigation }) {
   };
 
   const getProductDetail = () => {
-    console.log('api hit getProductDetail', state.productId);
     actions
       .getProductDetailByProductId(
         `/${state.productId}`,
@@ -418,7 +416,6 @@ export default function ProductDetail({ route, navigation }) {
     data['variants'] = variantSetData.map((i) => i.variant_id);
     data['options'] = variantSetData.map((i) => i.optionId);
 
-    console.log('api hit getProductDetailBasedOnFilter', data);
 
     actions
       .getProductDetailByVariants(`/${productDetails.products.sku}`, data, {

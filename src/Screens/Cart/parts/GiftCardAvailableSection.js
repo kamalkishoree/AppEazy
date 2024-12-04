@@ -21,7 +21,6 @@ import strings from '../../../constants/lang';
 
 function GiftCardAvailableSection(props) {
     const { item, styles, cartData, themeColors, _getAllOffers, _removeCoupon } = props;
-    console.log(cartData?.user_gift_code,"cartDatacartData>>><<");
     return (
         <>
             {/* offerview */}

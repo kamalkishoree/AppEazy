@@ -504,7 +504,6 @@ export function deleteProductImage(data = {}, headers = {}) {
 }
 
 export function getVendorFilters(query = '', data = {}, headers = {}) {
-  console.log(query, data, headers, 'query,data,dataquery,data,data');
   return new Promise((resolve, reject) => {
     apiGet(VENDOR_OPTIMIZE_FILTERS + query, data, headers)
       .then((res) => {

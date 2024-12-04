@@ -211,8 +211,7 @@ function SwipeableSection(props) {
                                                                 currencies?.primary_currency?.symbol,
                                                             )}
                                                         </Text>
-                                                        {console.log(item?.vendor_products[0]?.product_addons[0]?.price,"dklfhjk")
-                                                        }
+
                                                         {(!!item?.vendor_products[0]?.product_addons[0]?.price) &&
                                                              <Text
                                                              style={{

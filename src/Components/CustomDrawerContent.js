@@ -36,7 +36,6 @@ const CustomDrawerContent = (props) => {
 
   const currentTab = useRef(1)
 
-  console.log("userDatauserData", userData)
 
   const imageStyle = {
     height: moderateScale(30),

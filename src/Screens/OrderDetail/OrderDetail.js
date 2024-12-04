@@ -254,7 +254,6 @@ export default function OrderDetail({ navigation, route }) {
       : Communications.text(number.toString());
   };
   const isFocused = useIsFocused();
-  console.log(paramData?.fromActive, "paramData?.fromActive");
 
   useInterval(
     () => {
@@ -2786,8 +2785,6 @@ export default function OrderDetail({ navigation, route }) {
               size={moderateScale(width - 300)} />
           </View>
 
-          {console.log(appData, "tippppppppp")}
-          {console.log(appData?.profile?.preferences?.tip_after_order, "tippppppppp2222")}
           {!!(
             paramData?.orderStatus?.current_status?.title ===
             strings.DELIVERED &&
@@ -3566,7 +3563,6 @@ export default function OrderDetail({ navigation, route }) {
 
 
 
-  console.log("driverStatus?.tasks", driverStatus?.tasks)
 
   const onStarRatingForDriverPress = (rating) => {
     const data = {
@@ -3629,7 +3625,6 @@ export default function OrderDetail({ navigation, route }) {
   const getHeader = () => {
     let showMapDriver = driverStatus?.tasks?.length == 2 ? true : driverStatus?.tasks[driverStatus?.tasks.length - 3]?.task_status == '4' ? true : false
 
-    console.log(driverStatus, "dgdfgd", showMapDriver);
 
     // let showMapDriver = false
     return (
@@ -3926,7 +3921,6 @@ export default function OrderDetail({ navigation, route }) {
             </Text>
           </View>
         )}
-        {console.log(dispatcherStatus?.dispatch_traking_url, "dispatcherStatus?.dispatch_traking_url")}
         {!!orderStatus &&
           orderStatus?.current_status?.title != "Rejected" &&
           orderStatus?.current_status?.title != "Placed" &&

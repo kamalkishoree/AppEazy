@@ -42,7 +42,7 @@ export default function ChatRoom({ navigation, route }) {
       if (userData?.auth_token) {
         fetchData();
       }
-    }, [navigation]),
+    }, [navigation,paramData]),
   );
   useFocusEffect(
     useCallback(() => {

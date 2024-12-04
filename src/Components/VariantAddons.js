@@ -156,7 +156,6 @@ const VariantAddons = ({
   );
   
   const getProductDetailBasedOnFilter = (variantSetData) => {
-    console.log('api hit getProductDetailBasedOnFilter', variantSetData);
     let data = {};
     data['variants'] = variantSetData?.map((i) => i.variant_id);
     data['options'] = variantSetData?.map((i) => i.optionId);
@@ -192,7 +191,6 @@ const VariantAddons = ({
   }, [productDetailNew]);
 
   const getProductDetail = () => {
-    console.log('api hit getProductDetail');
     actions
       .getProductDetailByProductId(
         `/${productdetail?.id}`,

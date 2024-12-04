@@ -997,7 +997,6 @@ export default function Products({ route, navigation }) {
         },
       )
       .then(res => {
-        console.log('getAllVendorFiltersgetAllVendorFilters', res);
         if (!!res.data.filterData?.length) {
           let filterDataNew = res.data.filterData.map((i, inx) => {
             return {
@@ -1102,13 +1101,11 @@ export default function Products({ route, navigation }) {
         },
       )
       .then(async res => {
-        console.log('get all products by vendor res without filter', res?.data);
         setLoading(false);
         updateState({ wrapperListLoader: false });
 
         if (res?.data?.vendor?.is_show_products_with_category) {
           let resData = res?.data?.categories || [];
-          console.log('resDataresDataresData', resData);
           setSectionListData(resData);
           // setFilterData(res?.data?.filterData)
           setCategoryInfo(res?.data?.vendor);
@@ -1401,7 +1398,6 @@ export default function Products({ route, navigation }) {
 
   //pagination of data
   const onEndReached = ({ distanceFromEnd }) => {
-    console.log(noMoreData,"noMoreDatanoMoreData>>>");
     
     if (!noMoreData) {
       updateState({ pageNo: pageNo + 1 });

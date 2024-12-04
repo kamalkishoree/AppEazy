@@ -70,7 +70,7 @@ function ChooseCarTypeAndTime({ navigation, route }) {
   const paramData = route?.params?.promocodeDetail
     ? route?.params?.promocodeDetail
     : route?.params;
-  console.log('my route', paramData);
+
   const bottomSheetRef = useRef(null);
   const mapRef = useRef();
 

@@ -25,6 +25,7 @@ import TabRoutesP2pOnDemand from './TabRoutesP2pOnDemand';
 import TabRoutes from './TabRoutes';
 import TaxiTabRoutes from './TaxiTabRoutes';
 import TabRoutesP2p from './TabRoutesP2p';
+import TabRoutesEcommerce from './TabRoutesEcommerce';
 
 
 const Stack = createNativeStackNavigator();

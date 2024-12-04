@@ -19,7 +19,6 @@ const StepIndicators_ = ({
     (state) => state.initBoot,
   );
   const fontFamily = appStyle?.fontSizeData;
-  console.log('dispatcher status', dispatcherStatus);
 
   const thirdIndicatorStyles = {
     stepIndicatorSize: 30,
@@ -108,7 +107,6 @@ const StepIndicators_ = ({
   const allLables = labels.map((i, inx) => {
     return `${i.lable}\n${i.orderDate}`;
   });
-console.log(dispatcherStatus,"dispatcherStatusdispatcherStatus");
 
   return (
     <StepIndicator

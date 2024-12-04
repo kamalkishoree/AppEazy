@@ -25,7 +25,6 @@ const Ecomheader = ({
 
     const userData = useSelector((state) => state?.auth?.userData || {});
 
-    console.log("userDatauserData",userData)
 
     return (
         <LinearGradient

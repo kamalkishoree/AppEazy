@@ -106,7 +106,6 @@ enableFreeze(true);
 
 function Cart({ navigation, route }) {
   let paramsData = route?.params;
-  console.log(paramsData, 'paramsDataparamsData')
   let actionSheet = useRef(null);
   const bottomSheetRef = useRef(null);
   const checkCartItem = useSelector((state) => state?.cart?.cartItemCount);
@@ -236,7 +235,6 @@ function Cart({ navigation, route }) {
     orderAmount,
     codMinAmount,
   } = state;
-  console.log(laundrySelectedDropOffDate, availableTimeSlots, 'laundrySelectedPickupDatelaundrySelectedPickupDate')
   //Redux store data
   const userData = useSelector((state) => state?.auth?.userData);
   const {
@@ -260,7 +258,6 @@ function Cart({ navigation, route }) {
   });
 
   const { preferences } = appData?.profile;
-  console.log(preferences, cartData, 'perferences-------')
   const { additional_preferences, digit_after_decimal } = preferences;
 
   const selectedAddressData = useSelector(
@@ -270,7 +267,6 @@ function Cart({ navigation, route }) {
   const { dineInType, appMainData, location } = useSelector(
     (state) => state?.home,
   );
-  console.log(localeSheduledOrderDate, 'localeSheduledOrderDate')
   //Update states on screens
   const updateState = (data) => setState((state) => ({ ...state, ...data }));
 
@@ -581,7 +577,6 @@ function Cart({ navigation, route }) {
       .catch(errorMethod);
   };
 
-  console.log('cart data_++++++++', cartData, businessType, dineInType);
   //add /delete products from cart
   const addDeleteCartItems = (item, index, type) => {
     let quanitity = null;
@@ -766,7 +761,6 @@ function Cart({ navigation, route }) {
       _directOrderPlace();
     }
   }, [paramsData?.transactionId]);
-  console.log(selectedPayment, 'selectedPaymentselectedPayment')
   //Verify your promo code
   const _removeCoupon = (item, cartData) => {
     // updateState({ isLoadingB: true });
@@ -818,7 +812,6 @@ function Cart({ navigation, route }) {
       .catch(errorMethod);
   };
 
-  console.log('cart data++++', cartData);
 
   //flutter wave
   var redirectTimeout;
@@ -1494,7 +1487,6 @@ function Cart({ navigation, route }) {
       data['specific_instructions'] = instruction;
       data['slot'] = selectedTimeSlots;
     }
-    console.log(data, 'schedule api data');
 
     // updateState({isLoading: false});
 
@@ -1506,7 +1498,6 @@ function Cart({ navigation, route }) {
         // systemuser: DeviceInfo.getUniqueId(),
       })
       .then((res) => {
-        console.log(res, 'schedulte api res res>>>');
         if (res && res?.status == 'Success') {
           if (toHitApiForPlaceOrder && businessType == 'laundry') {
             _finalPayment();
@@ -1559,7 +1550,6 @@ function Cart({ navigation, route }) {
     return moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss').format();
   };
 
-  console.log(vendorAddress, 'vendorAddress....');
 
   //Clear cart
   const placeOrder = () => {
@@ -2597,7 +2587,6 @@ function Cart({ navigation, route }) {
   };
 
   const _renderItem = ({ item, index }) => {
-    console.log("cart itemitem",item)
     return (
       <View>
         {index === 0 && (
@@ -2797,7 +2786,6 @@ function Cart({ navigation, route }) {
   const _onGiftBoxSelection = () => {
     updateState({ isGiftBoxSelected: !isGiftBoxSelected });
   };
-  console.log(kycImages, 'kycImageskycImages');
   //get footer start
   const getFooter = () => {
     return (
@@ -2868,7 +2856,6 @@ function Cart({ navigation, route }) {
 
   //Header section of cart screen
 
-  console.log("cartDatacartData", cartData)
 
   const homeType = (data) => {
     let value = strings.HOME;
@@ -4755,8 +4742,7 @@ function Cart({ navigation, route }) {
   }
 
 
-  // Category KYC end
-  console.log(cartItems, "cartItemscartItems");
+  // Category KYC enddklfhjk
   return (
     <WrapperContainer
       bgColor={

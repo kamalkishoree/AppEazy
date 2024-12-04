@@ -84,7 +84,7 @@ const touchableHitSlopProp = {
 }
 
 export default function ProductDetail({ route, navigation }) {
-  console.log('my route', route.params.data);
+
   const theme = useSelector((state) => state?.initBoot?.themeColor);
   const toggleTheme = useSelector((state) => state?.initBoot?.themeToggle);
   const cartData = useSelector((state) => state?.cart?.cartItemCount);
@@ -327,7 +327,6 @@ export default function ProductDetail({ route, navigation }) {
 
 
   const getProductDetail = () => {
-    console.log('api hit getProductDetail', state.productId);
     actions.getProductDetailByProductId(
       `/${state.productId}`,
       {},
@@ -338,7 +337,6 @@ export default function ProductDetail({ route, navigation }) {
       },
     )
       .then((res) => {
-        console.log('res getProductDetail', res?.data?.products);
 
 
         updateState({
@@ -411,8 +409,6 @@ export default function ProductDetail({ route, navigation }) {
       language: languages.primary_language.id,
     })
       .then((res) => {
-        console.log(res?.data, 'api hit getProductDetailBasedOnFilter res ');
-
         // return;
         if (!!res?.data) {
           let cloneArry = _.cloneDeep(variantSet)
@@ -1666,7 +1662,7 @@ export default function ProductDetail({ route, navigation }) {
     </View>
   }
 
-  console.log("selectedVariant+++++", selectedVariant)
+
 
   const renderColor = useCallback((item, index, options) => {
     return (

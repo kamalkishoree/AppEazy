@@ -84,7 +84,6 @@ const touchableHitSlopProp = {
 }
 
 export default function ProductDetail({ route, navigation }) {
-  console.log('my route', route.params);
   const theme = useSelector((state) => state?.initBoot?.themeColor);
   const toggleTheme = useSelector((state) => state?.initBoot?.themeToggle);
   const cartData = useSelector((state) => state?.cart?.cartItemCount);
@@ -300,7 +299,6 @@ export default function ProductDetail({ route, navigation }) {
 
 
   const getProductDetail = () => {
-    console.log('api hit getProductDetail', state.productId);
     actions.getProductDetailByProductId(
       `/${state.productId}`,
       {},
@@ -311,7 +309,6 @@ export default function ProductDetail({ route, navigation }) {
       },
     )
       .then((res) => {
-        console.log('res getProductDetail', res?.data?.products);
 
 
         updateState({
@@ -357,7 +354,6 @@ export default function ProductDetail({ route, navigation }) {
           variantSet &&
           !variantSet.length
         ) {
-          console.log('res getProductDetail my vairants', res.data.products.variant_set);
           setDefaultValue(res.data.products.variant_set, res?.data?.products.sku)
         }
       })
@@ -434,7 +430,6 @@ export default function ProductDetail({ route, navigation }) {
       language: languages.primary_language.id,
     })
       .then((res) => {
-        console.log(res, 'api hit getProductDetailBasedOnFilter res 2');
 
 
         const modifyres = compareAndReplaceOptions(variantSetData, res?.data?.availableSets, selectedOption)
@@ -1711,7 +1706,7 @@ export default function ProductDetail({ route, navigation }) {
     </View>
   }
 
-  console.log("selectedVariant+++++","dfdfd", selectedVariant)
+
 
   const renderColor = useCallback((item, index, options, parentIndex) => {
     return (
@@ -1745,7 +1740,6 @@ export default function ProductDetail({ route, navigation }) {
   }, [variantSet, isDarkMode])
 
 
-  console.log("variantSetvariantSetvariantSet", variantSet)
 
   const renderSize = useCallback((item, index, options, parentIndex) => {
     return (

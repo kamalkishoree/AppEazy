@@ -7,6 +7,7 @@ import {
   BackHandler,
   Image,
   ImageBackground,
+  Keyboard,
   Linking,
   Modal,
   PermissionsAndroid,
@@ -62,6 +63,7 @@ export default function ChatScreen({ route, navigation }) {
   } = useSelector(state => state.initBoot);
   const darkthemeusingDevice = useDarkMode();
   let actionSheet = useRef();
+  const businessType = appStyle?.homePageLayout;
 
   const isDarkMode = themeToggle ? darkthemeusingDevice : themeColor;
   const paramData = route.params.data;
@@ -107,11 +109,18 @@ export default function ChatScreen({ route, navigation }) {
     paramData?.fromNotification ?
     navigation.reset({
       index: 0,
-      routes: [{ name: navigationStrings.ACCOUNTS }],
+      routes: [{ name: businessType === 10 ?  navigationStrings.DRAWER_ROUTES:navigationStrings.TAB_ROUTES}],
     }) :
     navigation.goBack()
     return true; // Prevents the default back action immediately
   }
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      Keyboard.dismiss();
+      console.log('keyboard dismissed')
+    });
+    return unsubscribe;
+  }, [navigation]);
   
   useFocusEffect(
     useCallback(() => {
@@ -232,7 +241,6 @@ export default function ChatScreen({ route, navigation }) {
         let cloneRes = _.cloneDeep(res);
         let cloneRes2 = _.cloneDeep(res);
 
-        console.log('cloneRescloneRes', res);
 
         const allRoomUsersAppartFromAgentAry = cloneRes?.userData.filter(
           item => {
@@ -815,7 +823,7 @@ export default function ChatScreen({ route, navigation }) {
           paramData?.fromNotification ?
             navigation.reset({
               index: 0,
-              routes: [{ name: navigationStrings.ACCOUNTS}],
+              routes: [{ name: businessType === 10 ?  navigationStrings.DRAWER_ROUTES:navigationStrings.TAB_ROUTES}],
             }) :
             navigation.goBack()
         }}

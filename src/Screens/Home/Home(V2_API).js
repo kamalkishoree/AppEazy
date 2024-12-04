@@ -140,7 +140,12 @@ export default function Home({ route, navigation }) {
   const memorizedTempCartData = useMemo(() => tempCartData, [tempCartData])
 
   const { profile } = memorizedAppData;
-
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+    updateState({isSubscription:false})
+    });
+    return unsubscribe;
+  }, [navigation]);
   useLayoutEffect(() => {
     Geocoder.init(profile?.preferences?.map_key, { language: 'en' }); // set the language
   }, []);
