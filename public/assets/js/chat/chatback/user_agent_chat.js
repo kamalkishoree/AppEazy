@@ -1,18 +1,48 @@
 
 
     //await getALLchat();
-    $(document).on('click','.start_chat',async function(){
+    $(document).on('click','.start_chat_driver',async function(){
         var vendor_order_id = $(this).attr('data-vendor_order_id');
         var vendor_id = $(this).attr('data-vendor_id');
         var order_id = $(this).attr('data-order_id');
-       
-        if(!vendor_order_id && !vendor_id && !order_id){
-            return;
-            
+        var dispatch_url = $(this).attr('data-driver_details_api');
+        var order_number = $(this).attr('data-order-number');
+        var order_client_code = $('.client_code').attr('data-client-code');
+        if(!vendor_order_id && !vendor_id && !order_id && !dispatch_url){
+            // alert();    return;
         }
-        $('#order_list_order').show();
-        await startChat(vendor_order_id,vendor_id,order_id);
-    });
+    
+        let driverDataDetails = [];
+
+        if(order_number)
+        {
+            // alert(order_number);
+               $.ajax({
+                    type: "POST",
+                    url: "/api/v1/order-tracking",
+                    contentType: 'application/json',  // This specifies that the request body is JSON
+                    data: JSON.stringify({ 
+                        order_number: order_number,
+                        custom_output: 'true' 
+                    }),  // Convert the data object to a JSON string
+                    headers: {
+                        'code': order_client_code  // Custom header
+                    },
+                    success: function(response) {
+                        $('#order_list_order').show();
+                        startChatDiver(vendor_order_id,vendor_id,order_id,response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);  // Log errors if the request fails
+                    }
+                });
+             }
+             else{
+                  alert('error in fetch order number.');
+             }
+      
+       });
+
 
     $(document).on('click','.fetchChat',async function(){
         var roomId = $(this).attr('data-id');
@@ -49,10 +79,9 @@
     $(document).on('click','.send_message',async function(){
         var room_id = $(this).attr('data-id');
         var roomIdText = $(`#room_${room_id}`).attr('data-roomid');
-
          var message = $('#message_box').val();
-        // var vendor_id = $(this).attr('data-vendor_id');
-        // var order_id = $(this).attr('data-order_id');
+        var vendor_id = $(this).attr('data-vendor_id');
+        var order_id = $(this).attr('data-order_id');
        
         if(!room_id || !message){
             return;
@@ -71,24 +100,64 @@
         })
     });
 
-    async function startChat(vendor_order_id,vendor_id,order_id){
+    // async function startChat(vendor_order_id,vendor_id,order_id){
 
-        axios.post(`/client/chat/startChat`, {
+    //     axios.post(`/user/chat/startChat`, {
+    //         sub_domain: window.location.origin,
+    //         client_id:  1,
+    //         db_name:Auth.database_name,
+    //         user_id:  Auth.auth_id,   
+    //         type:'vendor_to_user',
+    //         vendor_order_id:vendor_order_id,
+    //         vendor_id:vendor_id,
+    //         order_id:order_id      
+    //     })
+    //     .then(async response => {
+    //          console.log(response.data.status);
+    //          $('#order_list_order').hide();
+    //          if(response.data.status === true) {
+    //             var data = response.data;
+    //             window.location.href = `/client/chat/user/${data.roomData._id}`;
+                
+    //          } else {
+    //             Swal.fire(
+    //                 'error',
+    //                 'Something went wrong, try again later!',                                    
+                    
+    //             )
+    //          }
+
+            
+    //     })
+    //     .catch(e => {
+    //         Swal.fire(
+    //             'Something went wrong, try again later!',                                    
+    //             'error'
+    //         )
+    //     })
+    // }
+
+
+    async function startChatDiver(vendor_order_id,vendor_id,order_id,driverData){
+
+        axios.post(`/user/chat/startChat`, {
             sub_domain: window.location.origin,
             client_id:  1,
             db_name:Auth.database_name,
             user_id:  Auth.auth_id,   
-            type:'vendor_to_user',
-            vendor_order_id:vendor_order_id,
+            type:'user_to_agent',
+            agent_id:driverData.agent_id,
+            order_vendor_id:vendor_order_id,
             vendor_id:vendor_id,
-            order_id:order_id      
+            order_id:order_id   ,
+            agent_db: Auth.database_name  
         })
         .then(async response => {
              console.log(response.data.status);
              $('#order_list_order').hide();
              if(response.data.status === true) {
                 var data = response.data;
-                window.location.href = `/client/chat/user/${data.roomData._id}`;
+               window.location.href = `/user/chat/userAgent/${data.roomData._id}`;
                 
              } else {
                 Swal.fire(
@@ -97,7 +166,6 @@
                     
                 )
              }
-
             
         })
         .catch(e => {
@@ -107,6 +175,8 @@
             )
         })
     }
+
+
     function convertDateTime(cdate){
         return cdate.toDateString() +' '+ cdate.toLocaleTimeString();
     }
@@ -118,7 +188,7 @@
         // return cdate.toDateString() +' '+ cdate.toLocaleTimeString();
     }
     async function fetchOderVendorDetails(order_vendor_id,order_id){
-        axios.post(`/client/chat/fetchOrderDetail`, {
+        axios.post(`/user/chat/fetchOrderDetail`, {
             order_vendor_id: order_vendor_id,
             order_id:order_id
         })
@@ -396,17 +466,13 @@
 
 
     function sendMessage(message,room_id,roomIdText){
-        // if($data['from'] == 'vendor') {
-        //     $messageData = $this->sendSocketMessage($data,$user,'to_user','vendor','from_vendor','vendor_to_user');
-        // } else {
-        //     $messageData = $this->sendSocketMessage($data,$user,'to_vendor','user','from_user','vendor_to_user');
-        // }
+     
         var authDataParseData = JSON.parse(authData);
         var dImage = authDataParseData.image.image_fit+'500/500'+authDataParseData.image.image_path;
         axios.post(`${SocketConstants.Socket_url}/api/chat/sendMessageJoin`, {
             'room_id' : room_id,
             'message': message,
-            'user_type': 'user',
+            'user_type': 'agent',
             'to_message': 'to_agent',
             'from_message': 'from_user',
             'user_id': Auth.auth_id,
@@ -415,7 +481,6 @@
             'phone_num': '+'+authDataParseData.dial_code+ ' ' +authDataParseData.phone_number,
             'display_image': dImage,
             'sub_domain' : window.location.host,
-            //'room_name' =>$data->name,
             'chat_type': 'agent_to_user',
         })
         .then(async response => {

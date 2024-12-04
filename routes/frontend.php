@@ -722,6 +722,7 @@ Route::group(['middleware' => ['domain', 'webAuth']], function () {
 
 	Route::post('user/chat/fetchOrderDetail', 'Front\ChatController@fetchOrderDetail')->name('userChat.fetchOrderDetail');
 	Route::post('user/chat/startChat', 'Front\ChatController@startChat')->name('userChat.startChat');
+	Route::post('user/chat/joinChatRoom', 'Client\ChatController@JoinRoom')->name('chat.joinChatRoom');
 
 	//Route::get('azulpay', 'Front\AzulPaymentController@beforePayment')->name('beforePayment');
     //bidding system

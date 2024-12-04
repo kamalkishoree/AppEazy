@@ -107,7 +107,6 @@ $fetchDe = 'fetchRoomByUserId';
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="{{asset('assets/js/chat/chatback/user_agent_chat.js')}}"></script>
 <!-- <script src="{{asset('assets/js/chat/commonChat.js')}}"></script> -->
-
 <script src="{{asset('assets/js/chat/socket_chat.js')}}"></script>
 <script>
     var client_data = `<?php echo $authData; ?>`;
