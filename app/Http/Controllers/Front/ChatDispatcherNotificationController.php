@@ -59,6 +59,7 @@ class ChatDispatcherNotificationController extends FrontController
     {
 
 
+        // pr($request->all());
         $data = $request->all();
         $type = @$request->chat_type;
         $order_vendor_id ="";
@@ -68,7 +69,13 @@ class ChatDispatcherNotificationController extends FrontController
         $vendor_id = $request->has('vendor_id')?$request->vendor_id:"N/A";
         $message = isset($request->text_message)?$request->text_message :'';
         $devices = [];
-
+        $username= '';
+        $user = auth()->user();
+        if( !$username)
+        {
+            $username=  $user->name;
+        }
+        $client_preferences = ClientPreference::select('fcm_server_key','favicon')->first();
             $data['all_agentids'] =[];
             if(isset($data['user_ids']))
             {
@@ -90,6 +97,7 @@ class ChatDispatcherNotificationController extends FrontController
                 $UserVendor_ids = UserVendor::where('vendor_id',$data['vendor_id'])->pluck('user_id')->toArray();
                 $user_devices  = UserDevice::whereIn('user_id',$UserVendor_ids)->pluck('device_token')->toArray() ?? [];
                 $devices =$user_devices;
+
             }
             
             if(isset($data['chat_type']) && $data['chat_type']== 'user_to_agent')

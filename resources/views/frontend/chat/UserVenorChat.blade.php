@@ -112,10 +112,10 @@ $fetchDe = 'fetchRoomByUserId';
     var fetchDe = `<?php echo $fetchDe; ?>`;
 </script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-{{-- <script src="{{asset('assets/js/chat/user_vendor_chat.js')}}"></script> --}}
+ <script src="{{asset('assets/js/chat/chatback/user_vendor_chat.js')}}">
 <script src="{{asset('assets/js/chat/commonChat.js')}}"></script>
 
-<script src="{{asset('assets/js/chat/socket_chat.js')}}"></script>
+// <script src="{{asset('assets/js/chat/socket_chat.js')}}"></script>
 <script src="{{asset('assets/js/chat/chatNotifications.js')}}"></script>
 <script>
     var client_data = `<?php echo $authData; ?>`;
