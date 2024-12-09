@@ -79,7 +79,7 @@ class GiftcardController extends FrontController
         $currency_id = Session::get('customerCurrency');
         $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
         $GiftCard       = GiftCard::with('giftCardTranslation')->orderBy('id', 'asc')->whereDate('expiry_date', '>=', $now)->get();
-        $active_giftcard =$this->getUserActiveGiftCard();
+        $active_giftcard =$this->getUserActiveGiftCard($request);
         return view('frontend.account.giftcard')->with(['navCategories'=>$navCategories, 'GiftCard'=>$GiftCard, 'active_giftcards'=>$active_giftcard, 'clientCurrency'=>$clientCurrency]);
     }
     

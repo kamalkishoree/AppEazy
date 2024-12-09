@@ -26,25 +26,7 @@ $order_is_long_term = $order->is_long_term;
 .product_slot{    color: var(--theme-deafult); font-weight: 400;margin-left: 15px;};
 </style>
 @endsection
-<section class="section-b-space light-layout_alFour">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 my-1">
-                <div class="success-text al">
-                	<i class="fa fa-check-circle" aria-hidden="true"></i>
-                    <h2>{{__('Thank You')}}</h2>
-                    {{-- <p>{{__('Payment is successfully processsed and your order is on the way')}}</p> --}}
-                    <p>{{__("Your order has been placed")}}</p>
-                    @if(($order->payment_method != 1) && ($order->payment_method != 2))
-                    	<p>{{__('Transaction ID')}}: {{$order->payment ? $order->payment->transaction_id : ''}}</p>
-                    @endif
-                    <div class="col-md-6 m-auto">
-                    <a href="{{ route('order.details', ['order_id' => $order->id]) }}" class="btn checkout-btn text-center d-block">See Your Order Details</a>                </div>
-                    </div>
-                </div>
-        </div>
-    </div>
-</section>
+
 <section class="section-b-space_al p-0 mt-2">
     <div class="container position-relative alFourTemplateOrderSucces">
         <div class="card">

@@ -1359,6 +1359,60 @@ class OrderController extends FrontController
         return view('frontend.order.success', compact('order', 'navCategories', 'clientCurrency', 'fixedFeeNomenclatures'));
     }
 
+
+    public function getOrderDetails(Request $request)
+    {
+        $currency_id = Session::get('customerCurrency');
+        $langId = Session::get('customerLanguage');
+        $navCategories = $this->categoryNav($langId);
+
+        $order = Order::with([
+            'products.vendor',
+            'products.pvariant.vset.option2',
+            'products.product.productcategory',
+            'products.pvariant.translation' => function ($q) use ($langId) {
+                $q->select('product_id', 'title', 'body_html', 'meta_title', 'meta_keyword', 'meta_description');
+                $q->where('language_id', $langId);
+            },
+            'address'
+        ]);
+        if (checkTableExists('order_long_term_services')) {
+            $order = $order->with([
+                'products.LongTermService.product',
+                'products.LongTermService.product.translation_one' => function ($q) use ($langId) {
+                    $q->select('product_id', 'title', 'body_html', 'meta_title', 'meta_keyword', 'meta_description');
+                    $q->where('language_id', $langId);
+                }
+            ]);
+        }
+        $order = $order->findOrfail($request->order_id);
+
+        $fixedFeeNomenclatures = $this->fixedFee($langId);
+        $order_vendors = OrderVendor::where('order_id', $request->order_id)->whereNotNull('dispatch_traking_url')->get();
+        if (count($order_vendors)) {
+            $home_service = ClientPreference::where('business_type', 'home_service')->where('id', '>', 0)->first();
+            if ($home_service) {
+                return Redirect::route('front.booking.details', $order->order_number);
+            }
+        }
+        $total_other_taxes = 0.00;
+        foreach (explode(":", $order->total_other_taxes) as $row) {
+            $total_other_taxes += (float) $row;
+        }
+
+        $order->total_other_taxes_amount=$total_other_taxes;
+
+        $slot_delivery_fees = 0;
+        foreach ($order->products as $product) {
+            $slot_delivery_fees += $product->slot_price;
+        }
+
+        $order->slot_delivery_fees = $slot_delivery_fees;
+
+        $clientCurrency = ClientCurrency::where('currency_id', $currency_id)->first();
+        return view('frontend.order.order-details', compact('order', 'navCategories', 'clientCurrency', 'fixedFeeNomenclatures'));
+    }
+
     // public function getOrderToyyibPaySuccessPage(Request $request)
     // {
     // $currency_id = Session::get('customerCurrency');
@@ -2998,11 +3052,12 @@ class OrderController extends FrontController
                 // Send Email to customer
                 //Send Email to customer
                 $request->request->add(['type' => $action]);
-                $this->sendSuccessEmail($request, $order);
+                _defer(fn () => $this->sendSuccessEmail($request, $order));
                 // Send Email to Vendor
                 foreach ($cart_products->groupBy('vendor_id') as $vendor_id => $vendor_cart_products) {
-                    $this->sendSuccessEmail($request, $order, $vendor_id);
+                    _defer(fn () => $this->sendSuccessEmail($request, $order, $vendor_id));
                 }
+
 
 
                 Cart::where('id', $cart->id)->update([
@@ -3021,7 +3076,7 @@ class OrderController extends FrontController
                     'ordre_id' => $order->id,
                     'cart_id' => ''
                 ]);
-
+                _defer(function ()use($cart){
                 CartAddon::where('cart_id', $cart->id)->delete();
                 CartCoupon::where('cart_id', $cart->id)->delete();
                 CartProduct::where('cart_id', $cart->id)->delete();
@@ -3029,6 +3084,7 @@ class OrderController extends FrontController
                 CartDeliveryFee::where('cart_id', $cart->id)->delete();
                 // send sms
                 // $this->sendSuccessSMS($request, $order);
+                });
             }
 
             if (count($tax_category_ids)) {
@@ -3078,14 +3134,13 @@ class OrderController extends FrontController
                         $user_vendors = UserVendor::where([
                             'vendor_id' => $vendor_value->vendor_id
                         ])->pluck('user_id');
-                        $this->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail);
+                        _defer(fn () => $this->sendOrderPushNotificationVendors($user_vendors, $vendor_order_detail));
                     }
                     $vendor_order_detail = $this->minimize_orderDetails_for_notification($order->id);
                     $super_admin = User::where('is_superadmin', 1)->pluck('id');
-                    $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
+                    _defer(fn () => $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail));
                 } else {
                     $vendor_order_detail = $this->minimize_orderDetails_for_notification($order->id);
-
                     $getAllVendorAdmin = Order::join('order_vendors as ov', 'ov.order_id', 'orders.id')->leftjoin('user_vendors as uv', 'uv.vendor_id', 'ov.vendor_id')
                         ->where('order_number', $order->order_number)
                         ->pluck('uv.user_id');
@@ -3097,7 +3152,7 @@ class OrderController extends FrontController
                         $super_admin = $admins->all();
                     }
 
-                    $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail);
+                    _defer(fn () => $this->sendOrderPushNotificationVendors($super_admin, $vendor_order_detail));
 
                     // $user_admins = User::where(function ($query) {
                     // $query->where(['is_superadmin' => 1]);
@@ -3116,7 +3171,7 @@ class OrderController extends FrontController
             // }
 
             DB::commit();
-            $this->sendSuccessSMS($request, $order);
+            _defer(fn () =>$this->sendSuccessSMS($request, $order));
 
             return $this->successResponse($order);
         } catch (Exception $e) {

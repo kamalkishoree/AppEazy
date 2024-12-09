@@ -622,6 +622,7 @@ Route::group(['middleware' => ['domain', 'webAuth']], function () {
 	Route::post('remove/promocode', 'Front\PromoCodeController@postRemovePromoCode')->name('remove.promocode');
 	Route::get('order/success/{order_id}', 'Front\OrderController@getOrderSuccessPage')->name('order.success');
 	Route::get('order/return/success', 'Front\OrderController@getOrderSuccessReturnPage')->name('order.return.success');
+	Route::get('order/details/{order_id}', 'Front\OrderController@getOrderDetails')->name('order.details');
 
 	Route::post('user/editorder', 'Front\OrderController@editOrderByUser')->name('user.editorder');
 	Route::post('user/discardeditorder', 'Front\OrderController@discardEditOrderByUser')->name('user.discardeditorder');
