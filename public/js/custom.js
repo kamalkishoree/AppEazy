@@ -7110,8 +7110,8 @@ function subscriptionPaymentOPtions(payment_option_id) {
                 if (result.error) {
                     alert("as");
                     $("#stripe_card_error").html(result.error.message);
-                    $("#subscription_confirm_btn").attr("disabled", false);
                 } else {
+                    $("#subscription_confirm_btn").attr("disabled", false);
                     paymentAjaxData.payment_option_id = payment_option_id;
                     var three_d_secure = result.source.card.three_d_secure;
                     // if(three_d_secure == 'required'){
@@ -7137,17 +7137,17 @@ function subscriptionPaymentOPtions(payment_option_id) {
                 }
             });
 
-            // stripe.createToken(card).then(function (result) {
-            // if (result.error) {
-            //     $('#stripe_card_error').html(result.error.message);
-            //     _this.attr("disabled", false);
-            // } else {
-            //     $("#card_last_four_digit").val(result.token.card.last4);
-            //     $("#card_expiry_month").val(result.token.card.exp_month);
-            //     $("#card_expiry_year").val(result.token.card.exp_year);
-            //     paymentViaStripe(result.token.id, '', payment_option_id, '', '');
-            // }
-            // });
+            stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                $('#stripe_card_error').html(result.error.message);
+                _this.attr("disabled", false);
+            } else {
+                $("#card_last_four_digit").val(result.token.card.last4);
+                $("#card_expiry_month").val(result.token.card.exp_month);
+                $("#card_expiry_year").val(result.token.card.exp_year);
+                paymentViaStripe(result.token.id, '', payment_option_id, '', '');
+            }
+            });
 
             break;
 
