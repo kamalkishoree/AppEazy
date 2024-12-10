@@ -85,7 +85,7 @@ form#giftCard_payment_form input.form-control {
                           
                             @if(!empty($active_giftcards))
                             @forelse ($active_giftcards  as $active_giftcard)
-                            
+                            @if($active_giftcard->giftCard)
                             <div class="col-12 mb-4">
                                 <div class="card subscript-box">
                                     
@@ -121,6 +121,7 @@ form#giftCard_payment_form input.form-control {
                                     
                                 </div>
                             </div>
+                            @endif
                             @empty
                             <div class="no_gift text-center py-3 col-12">
                                 <h4>{{ __('You dont have Gift Card') }}</h4>
