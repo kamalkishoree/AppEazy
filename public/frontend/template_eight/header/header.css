@@ -1389,7 +1389,7 @@ span.icon-icLang.align-middle svg {
 	overflow-y: auto;
 }
 #top-tab .slick-arrow {
-	display: none !important;
+	display: block !important;
 }
 /* navbar scroll css
 
