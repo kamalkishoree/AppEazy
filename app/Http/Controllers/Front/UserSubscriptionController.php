@@ -68,9 +68,20 @@ class UserSubscriptionController extends FrontController
             'plan',
             'features.feature'
         ])->where('user_id', Auth::user()->id)
-            ->where('status_id', 2)
+            // ->where('status_id', 2)
             ->orderBy('end_date', 'desc')
             ->first();
+
+
+            // $active_subscription = SubscriptionInvoicesUser::with([
+            //     'plan',
+            //     'features.feature'
+            // ])  ->where('user_id', Auth::user()->id)
+            // ->where('end_date', '>', now())
+            // ->orderBy('end_date', 'desc')->first();
+
+
+
         // $active_subscription_plan_ids = array();
         // foreach($active_subscription as $subscription){
         // $active_subscription_plan_ids[] = $active_subscription->subscription_id;

@@ -69,7 +69,7 @@ ul li {margin: 0 0 10px;color: #6c757d;}
                         </div>
 
                         <div class="row">
-
+      
                             @if(!empty($subscription))
 
                             <div class="col-12 mb-4">
@@ -117,10 +117,15 @@ ul li {margin: 0 0 10px;color: #6c757d;}
                                                 <div class="col-sm-6 mb-0 text-center text-sm-right">
                                                     @if( $subscription->end_date >= $now )
                                                         @if($subscription->plan->status == 1)
-                                                            <a class="btn btn-solid subscribe_btn" href="javascript:void(0)" data-toggle="modal" data-id="{{ $subscription->plan->slug }}">{{ __('Pay now') }} ({{ Session::get('currencySymbol') . ($subscription->plan->price * $clientCurrency->doller_compare) }})</a>
+                                                        <div class="col-md-3">    
+                                                        <a class="btn btn-solid subscribe_btn" href="javascript:void(0)" data-toggle="modal" data-id="{{ $subscription->plan->slug }}">{{ __('Pay now') }} ({{ Session::get('currencySymbol') . ($subscription->plan->price * $clientCurrency->doller_compare) }})</a>
+                                                        </div>
                                                         @endif
                                                         @if(empty($subscription->cancelled_at))
-                                                            <a class="cancel-subscription-link btn btn-solid" href="#cancel-subscription" data-toggle="modal" data-id="{{ $subscription->slug }}">{{ __('Cancel') }}</a>
+                                                        <div class="col-md-3 mt-4">    
+                                                                                                                        <a class="cancel-subscription-link btn btn-solid" href="#cancel-subscription" data-toggle="modal" data-id="{{ $subscription->slug }}">{{ __('Cancel') }}</a>
+                                                        </div>    
+
                                                         @endif
                                                     @else
                                                         @if($subscription->plan->status == 1)
