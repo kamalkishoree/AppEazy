@@ -740,6 +740,7 @@ class OrderController extends BaseController
 
     public function getOrderDetail($domain = '', $order_id, $vendor_id)
     {
+        
 
         $langId = Session::has('adminLanguage') ? Session::get('adminLanguage') : 1;
         $clientCurrency = ClientCurrency::where('is_primary', 1)->first();

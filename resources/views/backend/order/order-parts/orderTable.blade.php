@@ -512,17 +512,23 @@
                                     <span>{{Session::get('currencySymbol').decimal_format($order->security_amount)}}</span>
                                 </li>
                             @endif
+                            @if($order->payment_status == 0 && $filter_order_status != 'orders_history')
                             <li class="grand_total d-flex align-items-center justify-content-between">
                                 <label class="m-0">{{ __('Payable') }} </label>
                                 <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->payable_amount) }}</span>
                             </li>
+                            @endif
 
                             {{-- mohit sir branch code added by sohail --}}
 
                             @if ($order->advance_amount > 0 || $order->advance_amount == 0)
                                 <li class="grand_total d-flex align-items-center justify-content-between">
                                     <label class="m-0">{{ __('Advance Paid') }} </label>
+                                    @if($order->payment_status == 1)
+                                    <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->payable_amount) }}</span>
+                                    @else
                                     <span>{{ $clientCurrency->currency->symbol }}{{ decimal_format($order->advance_amount) }}</span>
+                                    @endif
                                 </li>
                                 <li class="grand_total d-flex align-items-center justify-content-between class_paid_amount">
                                     <label class="m-0"> {{($filter_order_status == 'orders_history' ||  $order->payment_status ==1) ? __('Paid Amount') : __('Pending Amount') }}</label>

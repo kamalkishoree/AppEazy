@@ -85,7 +85,6 @@ class OrderController extends BaseController
     public function postPlaceOrder(Request $request)
     {
 
-       try {
             $action = ($request->has('type')) ? $request->type : 'delivery';
 
             $set_template = WebStylingOption::where('web_styling_id', 1)->where('is_selected', 1)->first();
@@ -967,9 +966,13 @@ class OrderController extends BaseController
                         $vendor_subs_disc_percent       = isset($vendor_cart_product->vendor->subscription_discount_percent) ? $vendor_cart_product->vendor->subscription_discount_percent : 0;
                         $deliveryfee_ifnot_discounted   = ($deliveryfeeOnCoupon == 0) ? $delivery_fee : 0;
                         $subs_discount_arr              = $this->calCulateSubscriptionDiscount($user->id, $deliveryfee_ifnot_discounted, ($vendor_payable_amount - $deliveryfee_ifnot_discounted), $vendor_subs_disc_percent);
+                        
+                        pr($subs_discount_arr);
+
                         $subs_discount_admin            = $subs_discount_arr['admin'] + $subs_discount_arr['delivery_discount'];
                         $subs_discount_vendor           = $subs_discount_arr['vendor'];
 
+                        pr($subs_discount_arr);
 
                         $order_vendor->subscription_discount_admin  = $subs_discount_admin;
                         $order_vendor->subscription_discount_vendor = $subs_discount_vendor;
@@ -1271,10 +1274,10 @@ class OrderController extends BaseController
             } else {
                 return $this->errorResponse(['error' => __('Empty cart.')], 404);
             }
-        } catch (Exception $e) {
-            DB::rollback();
-            return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
+        // } catch (Exception $e) {
+        //     DB::rollback();
+        //     return $this->errorResponse($e->getMessage(), $e->getCode());
+        // }
     }
 
     # if vendor selected auto accepted order

@@ -757,8 +757,10 @@ $timezone = Auth::user()->timezone;
                                 $vendorDiscount = 0;
                             }
                             ?>
+
+                   
                             <th scope="row" colspan="4" class="text-end">{{__('Total Discount')}} {{$couponFrom}}:</th>
-                            <td>-{{$clientCurrency->currency->symbol}}{{decimal_format($vendor->discount_amount)}}</td>
+                            <td>{{($vendor->orderDetail->total_discount>0)?"-":""}}{{$clientCurrency->currency->symbol}}{{decimal_format($vendor->orderDetail->total_discount)}}</td>
                         </tr>
 
 
@@ -844,15 +846,19 @@ $timezone = Auth::user()->timezone;
                             <div class="fw-bold">{{$clientCurrency->currency->symbol}}{{decimal_format($order->payable_amount)}}</div>
                         </td>
                     </tr>
-                    @if(@$order->advance_amount > 0 || @$order->advance_amount == 0)
+                    <!-- @if(@$order->advance_amount > 0 || @$order->advance_amount == 0)
                     <tr>
                         <th scope="row" colspan="4" class="text-end">{{ __("Advance Paid") }} :</th>
                         <td>
                             <div class="fw-bold">{{$clientCurrency->currency->symbol}}{{decimal_format(@$order->advance_amount)}}</div>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
+                    @if(@$order->payment_status == 0)
                         <th scope="row" colspan="4" class="text-end">{{ __("Pending Amount") }} :</th>
+                    @else
+                    <th scope="row" colspan="4" class="text-end">{{ __("Paid Amount") }} :</th>
+                     @endif   
                         <td>
                             <div class="fw-bold">{{$clientCurrency->currency->symbol}}{{decimal_format($order->payable_amount) - decimal_format(@$order->advance_amount)}}</div>
                         </td>

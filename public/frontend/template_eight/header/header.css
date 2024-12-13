@@ -1419,3 +1419,7 @@ span.icon-icLang.align-middle svg {
 }
 
 */
+
+.main-menu ul#top-tab {
+    padding: 0 31px 0 31px;
+}

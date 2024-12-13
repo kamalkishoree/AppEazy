@@ -116,7 +116,7 @@
                                                         @if($vendor->cancelled_by == Auth::id())
                                                             {{ __(ucfirst('cancelled')) }} </label>
                                                         @else
-                                                            {{ __(ucfirst($vendor->order_status)) }} </label>
+                                                            {{ __(ucfirst(($vendor->order_status == "rejected" ?"cancelled" :$vendor->order_status))) }} </label>
                                                         @endif
                                                         <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{$vendor->reject_reason}}" aria-hidden="true"></i>
                                                     </li>

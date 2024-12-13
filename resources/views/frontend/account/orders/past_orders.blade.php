@@ -394,8 +394,8 @@
                                     @if ($order->total_discount_calculate > 0)
                                         <li class="d-flex align-items-center justify-content-between">
                                             <label class="m-0">{{ __('Discount') }}</label>
-                                            <span>{{ Session::get('currencySymbol') }}{{ decimal_format($order->total_discount_calculate * $clientCurrency->doller_compare) }}</span>
-                                        </li>
+                                            <span>{{$order->total_discount_calculate == 0 ?"":"-"}}{{ $clientCurrency->currency->symbol }}{{ decimal_format( $order->total_discount_calculate) }}</span>
+                                            </li>
                                     @endif
                                     @if ($order->total_delivery_fee > 0)
                                         <li class="d-flex align-items-center justify-content-between">
@@ -416,8 +416,8 @@
                                         </li>
                                     @endif
                                     <li class="grand_total d-flex align-items-center justify-content-between">
-                                        <label class="m-0">{{ __('Total Payable') }}</label>
-                                        <span>{{ Session::get('currencySymbol') }}{{ decimal_format($order->payable_amount - $order->total_discount_calculate * $clientCurrency->doller_compare) }}</span>
+                                        <label class="m-0">{{ __('Paid Amount') }}</label>
+                                        <span>{{ Session::get('currencySymbol') }}{{ decimal_format($order->payable_amount  * $clientCurrency->doller_compare) }}</span>
                                     </li>
                                     <li class="grand_total d-flex align-items-center justify-content-between">
                                     {{createStringQR($order->order_number,$size=200);}}

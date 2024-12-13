@@ -101,7 +101,7 @@ class PaymentResourceController extends BaseController
             $postdata = array(
                 'payment_method'       => $savedPaymentMethod->card_id ?? $request->payment_method_id,
                 'amount'               => $request->amount *100,
-                'currency'             => 'USD',
+                'currency'             => 'ETB',
                 'confirmation_method'  => 'automatic',
                 'confirm'              => true,
                 'customer'             => $customer_id,
@@ -185,10 +185,16 @@ class PaymentResourceController extends BaseController
         $postdata['return_url']  = 'https://super-eazy.com/';
 
         Log::info($postdata);
-        $intent = \Stripe\PaymentIntent::create($postdata);
-        Log::info(['intent' =>$intent]);
+        try{
+            $intent = \Stripe\PaymentIntent::create($postdata);
+            Log::info(['intent' =>$intent]);
+            return $intent;
 
-        return $intent;
+        }catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 400);
+        }
+       
+
     }
 
     // Confirm Payment Intent For Stripe

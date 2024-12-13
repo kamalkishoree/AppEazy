@@ -155,7 +155,9 @@ trait cartManager{
   public function calCulateSubscriptionDiscount($userId, $deliveryCharges=0, $payable_amount=0, $vendor_subs_disc_percent)
   {
     $user_subscription = $this->userSubscription($userId);
+
     $off_percent_discount_vendor_total = $off_percent_discount_admin_total = $delivery_discount_total = 0;
+    
     if ($user_subscription) {
         foreach ($user_subscription->features as $feature) {
             if ($feature->feature_id == 1) {
