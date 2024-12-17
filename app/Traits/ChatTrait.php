@@ -93,10 +93,6 @@ trait ChatTrait{
 
 
 
-
-
-
-
             $ag ='all_agentids';
             if(@$request->all()['web']=="true"){
                 $ag ='user_ids';
